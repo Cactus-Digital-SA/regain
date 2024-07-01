@@ -25,7 +25,7 @@ class CreateQuestionFromJob implements ShouldQueue
      *
      * @var int
      */
-    public int $tries = 1;
+    public int $tries = 5;
 
 
     /**
