@@ -7,6 +7,11 @@ use App\Repositories\RepositoryInterface;
 
 interface ReferenceRepositoryInterface extends RepositoryInterface
 {
+    /**
+     * @return Reference[]|null
+     */
+    public function get(): ?array;
+
     public function findOrCreate(string $title, string $type, string $group): Reference;
 
     /**

@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('tests')->name('tests.')->group(function () {
     Route::prefix('questions')->name('questions.')->group(function () {
         Route::get('/', [QuestionController::class, 'index'])->name('index')->middleware('permission:admin.tests.view');
+        Route::get('create', [QuestionController::class, 'create'])->name('create')->middleware('permission:admin.tests.create');
+        Route::post('store', [QuestionController::class, 'store'])->name('store')->middleware('permission:admin.tests.create');
+
     });
 
     Route::prefix('instructions')->name('instructions.')->group(function () {

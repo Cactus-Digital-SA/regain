@@ -3,11 +3,17 @@
 namespace App\Domains\Tests\Repositories;
 
 use App\Domains\Tests\Models\Subscale;
+
 use App\Models\CactusEntity;
 use App\Repositories\RepositoryInterface;
 
 interface SubscaleRepositoryInterface extends RepositoryInterface
 {
+
+    /**
+     * @return Subscale[]|null
+     */
+    public function get(): ?array;
 
     public function store(Subscale|CactusEntity $entity): ?Subscale;
 

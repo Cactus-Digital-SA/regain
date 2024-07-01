@@ -18,6 +18,16 @@ class EloqSubscaleRepository implements SubscaleRepositoryInterface
         $this->model = $subscale;
     }
 
+    public function get(): ?array
+    {
+        $subscales =  $this->model->all();
+
+        if($subscales){
+            return ObjectSerializer::deserialize($subscales->toJson() ?? "{}", 'array<' . Subscale::class . '>', 'json');
+        }
+        return ObjectSerializer::deserialize("{}", 'array<' . Subscale::class . '>', 'json');
+    }
+
     public function getById(string $id): ?CactusEntity
     {
         // TODO: Implement getById() method.
@@ -66,4 +76,5 @@ class EloqSubscaleRepository implements SubscaleRepositoryInterface
     {
         // TODO: Implement dataTable() method.
     }
+
 }

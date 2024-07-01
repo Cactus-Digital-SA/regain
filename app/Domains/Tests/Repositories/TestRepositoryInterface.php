@@ -10,7 +10,10 @@ use Illuminate\Support\Collection;
 interface TestRepositoryInterface extends RepositoryInterface
 {
 
-    public function get():array;
+    /**
+     * @return Test[]|null
+     */
+    public function get(): ?array;
 
     public function store(Test|CactusEntity $entity): ?Test;
 

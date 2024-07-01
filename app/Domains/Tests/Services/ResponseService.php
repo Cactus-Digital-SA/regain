@@ -19,6 +19,14 @@ class ResponseService
 
 
     /**
+     * @return Response[]
+     */
+    public function get():array
+    {
+        return $this->repository->get();
+    }
+
+    /**
      * @param string $title
      * @param int $language_id
      * @return Response

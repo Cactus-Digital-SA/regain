@@ -19,6 +19,15 @@ class EloqReferenceRepository implements ReferenceRepositoryInterface
         $this->model = $model;
     }
 
+    public function get(): ?array
+    {
+        $data =  $this->model->all();
+
+        if($data){
+            return ObjectSerializer::deserialize($data->toJson() ?? "{}", 'array<' . Reference::class . '>', 'json');
+        }
+        return ObjectSerializer::deserialize("{}", 'array<' . Reference::class . '>', 'json');
+    }
 
     public function findOrCreate(string $title, string $type, string $group): Reference
     {

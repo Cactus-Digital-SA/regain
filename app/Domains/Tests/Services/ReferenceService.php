@@ -19,6 +19,14 @@ class ReferenceService
     }
 
     /**
+     * @return Reference[]
+     */
+    public function get():array
+    {
+        return $this->repository->get();
+    }
+
+    /**
      * @param string $title
      * @param string $type
      * @param string $group

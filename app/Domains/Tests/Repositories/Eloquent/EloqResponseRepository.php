@@ -3,6 +3,7 @@
 namespace App\Domains\Tests\Repositories\Eloquent;
 
 use App\Domains\Tests\Models\Response;
+use App\Domains\Tests\Models\Test;
 use App\Domains\Tests\Repositories\ResponseRepositoryInterface;
 use App\Facades\ObjectSerializer;
 use App\Models\CactusEntity;
@@ -18,6 +19,19 @@ class EloqResponseRepository implements ResponseRepositoryInterface
     {
         $this->model = $model;
     }
+
+
+    public function get(): ?array
+    {
+        $responses =  $this->model->all();
+
+        if($responses){
+            return ObjectSerializer::deserialize($responses->toJson() ?? "{}", 'array<' . Response::class . '>', 'json');
+        }
+        return ObjectSerializer::deserialize("{}", 'array<' . Response::class . '>', 'json');
+    }
+
+
     public function getById(string $id): ?CactusEntity
     {
         // TODO: Implement getById() method.

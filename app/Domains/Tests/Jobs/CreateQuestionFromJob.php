@@ -102,9 +102,10 @@ class CreateQuestionFromJob implements ShouldQueue
             //Todo create or get Languages
             $questionDTO->setLanguages([$language_id => ['question' => $question]]);
 
+            //dd($questionDTO);
             $createdQuestionDTO = $questionService->store($questionDTO);
-            //dd($createdQuestionDTO);
-            $questionService->syncReferences($questionDTO,$createdQuestionDTO->getId());
+
+            //$questionService->syncReferences($questionDTO,$createdQuestionDTO->getId());
         /*}catch (\Exception $exception) {
             Log::error($exception->getMessage());
         }*/

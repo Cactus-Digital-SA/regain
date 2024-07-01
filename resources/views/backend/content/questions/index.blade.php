@@ -23,7 +23,7 @@
 @section('content-header')
     <div class="col-md-5 content-header-right text-md-end col-md-auto d-md-block d-none mb-2">
         <div class="mb-1 breadcrumb-right">
-            <a class="btn btn-success waves-effect waves-float waves-light me-2" href="{{route('tests.create')}}"><i class="ti ti-package ti-xs me-1"></i> {{ __("Create Question") }}</a>
+            <a class="btn btn-success waves-effect waves-float waves-light me-2" href="{{route('tests.questions.create')}}"><i class="ti ti-package ti-xs me-1"></i> {{ __("Create Question") }}</a>
             <button class="btn btn-info btn-round waves-effect waves-float waves-light" onclick="jQuery('#filters').toggle()">
                 <i class="ti ti-filter"></i> {{__("Filters")}}
             </button>

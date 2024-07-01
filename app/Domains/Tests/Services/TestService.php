@@ -20,6 +20,15 @@ class TestService
 
 
     /**
+     * @return Test[]
+     */
+    public function get():array
+    {
+        return $this->repository->get();
+    }
+
+
+    /**
      * @param string $name
      * @param int $category_id
      * @return Test

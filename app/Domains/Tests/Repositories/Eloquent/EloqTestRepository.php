@@ -28,9 +28,14 @@ class EloqTestRepository implements TestRepositoryInterface
         // TODO: Implement deleteById() method.
     }
 
-    public function get(): array
+    public function get(): ?array
     {
-        // TODO: Implement get() method.
+        $tests =  $this->model->all();
+
+        if($tests){
+            return ObjectSerializer::deserialize($tests->toJson() ?? "{}", 'array<' . Test::class . '>', 'json');
+        }
+        return ObjectSerializer::deserialize("{}", 'array<' . Test::class . '>', 'json');
     }
 
     public function store(Test|CactusEntity $entity): ?Test

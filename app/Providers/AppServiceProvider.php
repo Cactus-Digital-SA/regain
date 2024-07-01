@@ -14,10 +14,14 @@ use App\Domains\Tests\Repositories\CategoryRepositoryInterface;
 use App\Domains\Tests\Repositories\Eloquent\EloqCategoryRepository;
 use App\Domains\Tests\Repositories\Eloquent\EloqInstructionRepository;
 use App\Domains\Tests\Repositories\Eloquent\EloqQuestionRepository;
+use App\Domains\Tests\Repositories\Eloquent\EloqReferenceRepository;
+use App\Domains\Tests\Repositories\Eloquent\EloqResponseRepository;
 use App\Domains\Tests\Repositories\Eloquent\EloqSubscaleRepository;
 use App\Domains\Tests\Repositories\Eloquent\EloqTestRepository;
 use App\Domains\Tests\Repositories\InstructionRepositoryInterface;
 use App\Domains\Tests\Repositories\QuestionRepositoryInterface;
+use App\Domains\Tests\Repositories\ReferenceRepositoryInterface;
+use App\Domains\Tests\Repositories\ResponseRepositoryInterface;
 use App\Domains\Tests\Repositories\SubscaleRepositoryInterface;
 use App\Domains\Tests\Repositories\TestRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
@@ -40,6 +44,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(LanguageRepositoryInterface::class, EloqLanguageRepository::class);
         $this->app->bind(SubscaleRepositoryInterface::class, EloqSubscaleRepository::class);
         $this->app->bind(CategoryRepositoryInterface::class, EloqCategoryRepository::class);
+        $this->app->bind(ReferenceRepositoryInterface::class, EloqReferenceRepository::class);
+        $this->app->bind(ResponseRepositoryInterface::class, EloqResponseRepository::class);
     }
 
     /**

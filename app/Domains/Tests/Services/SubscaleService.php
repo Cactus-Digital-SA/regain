@@ -16,6 +16,15 @@ class SubscaleService
     {
         $this->repository = $repository;
     }
+
+    /**
+     * @return Subscale[]
+     */
+    public function get(): array
+    {
+        return $this->repository->get();
+    }
+
     /**
      * @param string $name
      * @param int $test_id
@@ -25,4 +34,5 @@ class SubscaleService
     {
         return $this->repository->findOrCreate($name, $test_id);
     }
+
 }

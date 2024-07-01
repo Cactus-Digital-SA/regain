@@ -9,6 +9,10 @@ interface ResponseRepositoryInterface extends RepositoryInterface
 {
 
     /**
+     * @return Response[]|null
+     */
+    public function get(): ?array;
+    /**
      * @param string $title
      * @param int $language_id
      * @return Response

@@ -45,9 +45,9 @@ class EloqQuestionRepository implements QuestionRepositoryInterface
             $question->subscale_id = $entity->getSubscaleId() ?? null;
             $question->save();
 
-            $question->languages()->attach($entity->getLanguages());
-
-            $question->responses()->attach($entity->getResponses());
+            $question->languages()->sync($entity->getLanguages(), false);
+            $question->responses()->sync($entity->getResponses(), false);
+            $question->references()->sync($entity->getReferences(), false);
 
             $question->load(['languages', 'responses.languages','subscale', 'instruction', 'test','references']);
 
