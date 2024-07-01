@@ -13,7 +13,8 @@
 @section('content-header')
     <div class="col-md-5 content-header-right text-md-end col-md-auto d-md-block d-none mb-2 header-btn">
         <div class="mb-1 breadcrumb-right">
-            <a class="btn btn-success waves-effect waves-float waves-light me-2" href="{{route('admin.roles.create')}}"><i class="ti ti-user-plus ti-xs me-1"></i> Δημιουργία Ρόλου</a>
+            <a class="btn btn-success waves-effect waves-float waves-light me-2" href="{{route('admin.roles.create')}}"><i class="ti ti-user-plus ti-xs me-1"></i>
+                {{ __('Create Role') }}</a>
         </div>
     </div>
 @endsection
@@ -115,7 +116,7 @@
                     {
                         extend: 'collection',
                         className: 'btn btn-outline-secondary dropdown-toggle me-2',
-                        text: '<i class="ti ti-logout rotate-n90 me-2"></i>' + '{{ __('locale.Export')  }}',
+                        text: '<i class="ti ti-logout rotate-n90 me-2"></i>' + '{{ __('Export')  }}',
                         buttons: [
                             {
                                 extend: 'print',
@@ -208,13 +209,13 @@
                         previous: '&nbsp;',
                         next: '&nbsp;'
                     },
-                    "lengthMenu": "{{__('locale.Show')}} _MENU_ {{__('locale.Entries')}}",
-                    "zeroRecords": "{{__('locale.Nothing Found')}}",
-                    "info": "{{__('locale.Showing')}} _START_ {{__('until')}} _END_ {{__('locale.Entries')}}",
-                    "infoEmpty": "{{__('locale.Nothing Found')}}",
-                    "loadingRecords": "{{ __('locale.Loading')  }}",
+                    "lengthMenu": "{{__('Show')}} _MENU_ {{__('Entries')}}",
+                    "zeroRecords": "{{__('Nothing Found')}}",
+                    "info": "{{__('Showing')}} _START_ {{__('until')}} _END_ {{__('Entries')}}",
+                    "infoEmpty": "{{__('Nothing Found')}}",
+                    "loadingRecords": "{{ __('Loading')  }}",
                     sProcessing: '<div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>',
-                    "search": "{{ __('locale.Search') }}",
+                    "search": "{{ __('Search') }}",
                 },
             });
             $('div.head-label').html('<h6 class="mb-0">{{__('Roles')}}</h6>');

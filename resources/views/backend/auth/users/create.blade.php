@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', 'Δημιουργία Χρήστη')
+@section('title', 'Create User')
 
 @section('content')
     <form id="form" method="POST" action="{{ route('admin.users.store') }}" class="form-horizontal">
@@ -91,7 +91,7 @@
             <div class="card-footer">
                 <div class="row">
                     <div class="col text-end">
-                        <button class="btn btn-primary float-right" type="submit">Δημιουργία Χρήστη</button>
+                        <button class="btn btn-primary float-right" type="submit"> {{ __('Create User') }}</button>
                     </div><!--row-->
                 </div><!--row-->
             </div>

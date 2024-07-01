@@ -27,67 +27,67 @@ class PermissionRoleSeeder extends Seeder
         $users = Permission::create([
             'id' => 1,
             'name' => 'admin.access.user',
-            'description' => 'Όλα Τα Δικαιώματα Χρηστών',
+            'description' => 'All User Rights',
         ]);
 
         $users->children()->saveMany([
             new Permission([
                 'id' => 2,
                 'name' => 'admin.access.user.list',
-                'description' => 'Προβολή Χρηστών',
+                'description' => 'View Users',
             ]),
             new Permission([
                 'id' => 3,
                 'name' => 'admin.access.user.deactivate',
-                'description' => 'Απενεργοποίηση Χρηστών',
+                'description' => 'Deactivate Users',
                 'sort' => 2,
             ]),
             new Permission([
                 'id' => 4,
                 'name' => 'admin.access.user.reactivate',
-                'description' => 'Επανενεργοποίηση Χρηστών',
+                'description' => 'Re-Activate Users',
                 'sort' => 3,
             ]),
             new Permission([
                 'id' => 5,
                 'name' => 'admin.access.user.clear-session',
-                'description' => 'Εκκαθάριση Συνδέσεων Χρήστη',
+                'description' => 'Clear Session of User',
                 'sort' => 4,
             ]),
             new Permission([
                 'id' => 6,
                 'name' => 'admin.access.user.impersonate',
-                'description' => 'Σύνδεση ως Χρήστης',
+                'description' => 'Login as User',
                 'sort' => 5,
             ]),
             new Permission([
                 'id' => 7,
                 'name' => 'admin.access.user.change-password',
-                'description' => 'Αλλαγή Κωδικών Χρήστη',
+                'description' => 'Change User Password',
                 'sort' => 6,
             ]),
             new Permission([
                 'id' => 8,
                 'name' => 'admin.access.user.create',
-                'description' => 'Δημιουργία Χρήστη',
+                'description' => 'Create User',
                 'sort' => 7,
             ]),
             new Permission([
                 'id' => 9,
                 'name' => 'admin.access.user.edit',
-                'description' => 'Επεξεργασία Χρήστη',
+                'description' => 'Edit User',
                 'sort' => 8,
             ]),
             new Permission([
                 'id' => 10,
                 'name' => 'admin.access.user.show',
-                'description' => 'Προβολή Χρήστη',
+                'description' => 'View User',
                 'sort' => 9,
             ]),
             new Permission([
                 'id' => 11,
                 'name' => 'admin.access.user.delete',
-                'description' => 'Διαγραφή Χρήστη',
+                'description' => 'Delete User',
                 'sort' => 10,
             ]),
         ]);
@@ -95,17 +95,17 @@ class PermissionRoleSeeder extends Seeder
         Permission::create([
             'id' => 20,
             'name' => 'edit permissions' ,
-            'description' => 'Επεξεργασία Δικαιωμάτων'
+            'description' => 'Edit Rights'
         ]);
         Permission::create([
             'id' => 21,
             'name' => 'crud roles' ,
-            'description' => 'Crud Ρόλων'
+            'description' => 'Crud Roles'
         ]);
         Permission::create([
             'id' => 22,
             'name' => 'view logs' ,
-            'description' => 'Προβολή Logs'
+            'description' => 'View Logs'
         ]);
 
 

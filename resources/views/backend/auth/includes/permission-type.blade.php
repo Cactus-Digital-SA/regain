@@ -6,7 +6,7 @@
 @endphp
 @if (sizeof($general) > 0)
     <h6 class="border-bottom py-1 mx-1 mb-0 font-medium-2"><i data-feather='lock'></i>
-        Γενικά δικαιώματα
+        {{ __('General Permissions') }}
     </h6>
     <table class="table table-borderless">
         <tbody>
@@ -31,7 +31,7 @@
 
 @if (sizeof($categories) > 0)
     <h6 class="border-bottom py-1 mx-1 mb-0 font-medium-2"><i data-feather='lock'></i>
-        Κατηγορίες αδειών
+        {{__('Additional Permissions')}}
     </h6>
     <table class="table table-borderless"  style="vertical-align:top; ">
         <tbody>

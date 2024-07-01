@@ -416,4 +416,8 @@ class EloqUserRepository implements UserRepositoryInterface
     }
 
 
+    public function dataTable(array $filters = []): JsonResponse
+    {
+        // TODO: Implement dataTable() method.
+    }
 }

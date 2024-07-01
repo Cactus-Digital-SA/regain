@@ -26,5 +26,6 @@ $contentLayout = (isset($container) ? (($container === 'container-xxl') ? "layou
   <!--/ Layout Content -->
   @include('backend/layouts/sections/scripts')
   @stack('after-scripts')
+  @yield('modals')
 </body>
 </html>

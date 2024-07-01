@@ -28,7 +28,7 @@ class ApiPermissionRoleTableSeeder extends Seeder
         foreach ($permissions as $permission) {
             Permission::create([
                 'name' => $permission,
-                'description' => 'Πρόσβαση API',
+                'description' => 'Access API',
             ]);
         }
 

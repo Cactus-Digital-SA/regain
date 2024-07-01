@@ -13,7 +13,7 @@
     @if (auth()->user()->can('delete users')  || auth()->user()->can('admin.access.user.deactivate')  || auth()->user()->can('admin.access.user.reactivate'))
         <div class="btn-group btn-group-sm dropdown" role="group">
             <button id="userActions" type="button" class="btn btn-secondary dropdown-toggle mr-1 waves-effect waves-light" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Περισσότερα
+                {{ __('More') }}
             </button>
             <div class="dropdown-menu" aria-labelledby="userActions">
                 @if ($user->id !== auth()->id())
@@ -56,7 +56,6 @@
                     @endif
                 @endif
             </div>
-
         </div>
     @endif
 </div>

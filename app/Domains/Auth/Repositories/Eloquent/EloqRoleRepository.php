@@ -170,4 +170,9 @@ class EloqRoleRepository implements RoleRepositoryInterface
             ->rawColumns(['actions'])
             ->toJson();
     }
+
+    public function dataTable(array $filters = []): JsonResponse
+    {
+        // TODO: Implement dataTable() method.
+    }
 }

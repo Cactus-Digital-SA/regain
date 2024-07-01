@@ -196,4 +196,9 @@ class Helpers
             }
         }
     }
+
+    public static function extractIntegerFromString($string) {
+        preg_match('/\d+/', $string, $matches);
+        return isset($matches[0]) ? (int)$matches[0] : null;
+    }
 }

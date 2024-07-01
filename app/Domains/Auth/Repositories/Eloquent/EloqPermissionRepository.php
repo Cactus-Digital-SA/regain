@@ -9,6 +9,7 @@ use App\Domains\Auth\Repositories\Eloquent\Models\User as EloquentUser;
 use App\Domains\Auth\Repositories\PermissionRepositoryInterface;
 use App\Facades\ObjectSerializer;
 use App\Models\CactusEntity;
+use Illuminate\Http\JsonResponse;
 
 class EloqPermissionRepository implements PermissionRepositoryInterface
 {
@@ -93,5 +94,10 @@ class EloqPermissionRepository implements PermissionRepositoryInterface
     public function deleteById(string $id): bool
     {
         // TODO: Implement deleteById() method.
+    }
+
+    public function dataTable(array $filters = []): JsonResponse
+    {
+        // TODO: Implement dataTable() method.
     }
 }

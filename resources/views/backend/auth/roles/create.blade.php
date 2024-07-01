@@ -1,9 +1,9 @@
 @extends('backend.layouts.app')
 
-@section('title', 'Δημιουργία Ρόλου')
+@section('title', 'Create Role')
 @section('content-header-breadcrumbs')
     <li class="breadcrumb-item"> <a href="{{route('admin.home')}}" class="">Dashboard</a> </li>
-    <li class="breadcrumb-item active">Δημιουργία Ρόλου </li>
+    <li class="breadcrumb-item active">{{ __('Create Role') }}</li>
 @endsection
 @section('content-header')
 
@@ -36,7 +36,7 @@
             <div class="card-footer">
                 <div class="row">
                     <div class="col text-end">
-                        <button class="btn btn-primary float-right" type="submit">Αποθήκευση Ρόλου</button>
+                        <button class="btn btn-primary float-right" type="submit">{{ __('Create Role') }}</button>
                     </div><!--row-->
                 </div><!--row-->
             </div>

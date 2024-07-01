@@ -7,7 +7,7 @@
 
 @extends('backend.layouts.app')
 
-@section('title', __('locale.Users'))
+@section('title', __('Users'))
 
 @section('vendor-style')
     @include('includes.datatable_styles')
@@ -17,17 +17,18 @@
 @section('content-header')
     <div class="col-md-8">
         <ul class="nav nav-pills flex-column flex-sm-row mb-2">
-            <li class="nav-item"><a class="nav-link {{ activeClass(request()->is('admin/users'),'active') }}" href="{{route('admin.users.index')}}"><i class="ti ti-user-check ti-xs me-1"></i> Όλοι</a></li>
-            <li class="nav-item"><a class="nav-link {{ activeClass(request()->is('admin/users/deactivated'),'active') }}" href="{{route('admin.users.deactivated')}}"><i class="ti ti-user-off ti-xs me-1"></i> Απενεργοποιημένοι</a></li>
-            <li class="nav-item"><a class="nav-link {{ activeClass(request()->is('admin/users/deleted'),'active') }}" href="{{route('admin.users.deleted')}}"><i class="ti ti-user-x ti-xs me-1"></i> Διαγραμμένοι</a></li>
+            <li class="nav-item"><a class="nav-link {{ activeClass(request()->is('admin/users'),'active') }}" href="{{route('admin.users.index')}}"><i class="ti ti-user-check ti-xs me-1"></i>  {{ __('All') }}</a></li>
+            <li class="nav-item"><a class="nav-link {{ activeClass(request()->is('admin/users/deactivated'),'active') }}" href="{{route('admin.users.deactivated')}}"><i class="ti ti-user-off ti-xs me-1"></i>{{ __('Deactivated') }}</a></li>
+            <li class="nav-item"><a class="nav-link {{ activeClass(request()->is('admin/users/deleted'),'active') }}" href="{{route('admin.users.deleted')}}"><i class="ti ti-user-x ti-xs me-1"></i>{{ __('Deleted') }}</a></li>
         </ul>
     </div>
 
     <div class="col-md-4 content-header-right text-md-end col-md-auto d-md-block d-none mb-2">
         <div class="mb-1 breadcrumb-right">
-            <a class="btn btn-success waves-effect waves-float waves-light me-2" href="{{route('admin.users.create')}}"><i class="ti ti-user-plus ti-xs me-1"></i> Δημιουργία Χρήστη</a>
+            <a class="btn btn-success waves-effect waves-float waves-light me-2" href="{{route('admin.users.create')}}"><i class="ti ti-user-plus ti-xs me-1"></i>
+                {{__('Create User')}}</a>
             <button class="btn btn-info btn-round waves-effect waves-float waves-light" onclick="jQuery('#filters').toggle()">
-                <i class="ti ti-filter"></i> Φίλτρα
+                <i class="ti ti-filter"></i> {{ __('Filters') }}
             </button>
         </div>
     </div>
@@ -40,14 +41,14 @@
             <div class="card-body p-0">
                 <div class="row justify-content-end card-header">
                     <div class="col-md-2 col-12">
-                        <input type="text" class="form-control" placeholder="Όνομα" id="filter_name"/>
+                        <input type="text" class="form-control" placeholder="{{__('Name')}}" id="filter_name"/>
                     </div>
                     <div class="col-md-2-5 col-12">
-                        <select name="filter_user_email" id="filter_user_email" class="form-control select2 filter_user_email" data-placeholder="Email Χρήστη">
+                        <select name="filter_user_email" id="filter_user_email" class="form-control select2 filter_user_email" data-placeholder="Email">
                         </select>
                     </div>
                     <div class="col-md-2 col-12">
-                        <select name="filter_role" id="filter_role" class="form-control select2" data-placeholder="Ρόλος">
+                        <select name="filter_role" id="filter_role" class="form-control select2" data-placeholder="{{__('Role')}}">
                             <option value="">---</option>
                             @foreach($roles as $role)
                                 <option value="{{$role->getId()}}" @if(isset($selectedRole) && $selectedRole == $role->getName()) selected @endif>{{$role->getName()}}</option>
@@ -58,7 +59,8 @@
                         <div class="form-group row p-0 m-0">
                             <div class="col-md-12">
                                 <div class="ButtonToolbar" style="position:relative; top:10%;" role="toolbar" aria-label="Toolbar with button groups">
-                                    <button style="width: 90%;" id="search" name="search" class="btn btn-success mr-1 mb-1 waves-effect waves-light" data-toggle="tooltip"><i class="fa fa-search me-2" ></i> Αναζήτηση</button>
+                                    <button style="width: 90%;" id="search" name="search" class="btn btn-success mr-1 mb-1 waves-effect waves-light" data-toggle="tooltip"><i class="fa fa-search me-2" ></i>
+                                        {{__('Search')}}</button>
                                 </div>
                             </div>
                         </div>
@@ -80,15 +82,15 @@
                             <th></th>
                             <th></th>
                             <th>id</th>
-                            <th>{{ __('locale.Name') }}</th>
+                            <th>{{ __('Name') }}</th>
                             <th>Email</th>
                             <th>{{__('Role')}}</th>
-                            <th>Κατάσταση</th>
-                            <th>Τελευταία Σύνδεση</th>
+                            <th>{{__('Status')}}</th>
+                            <th>{{__('Last Login')}}</th>
                             @if($status == 1)
-                                <th>Επαναφορά</th>
+                                <th>{{__('Restore')}}</th>
                             @else
-                                <th>Λειτουργίες</th>
+                                <th>{{__('Actions')}}</th>
                             @endif
                         </tr>
                         </thead>
@@ -219,8 +221,8 @@
                         {
                             extend: 'collection',
                             className: 'btn btn-outline-secondary dropdown-toggle me-2',
-                            text: '<i class="ti ti-logout rotate-n90 me-2"></i>' + '{{ __('locale.Export')  }}',
-                            {{--text: feather.icons['share'].toSvg({ class: 'font-small-4 me-50' }) + '{{ __('locale.Export')  }}',--}}
+                            text: '<i class="ti ti-logout rotate-n90 me-2"></i>' + '{{ __('Export')  }}',
+                            {{--text: feather.icons['share'].toSvg({ class: 'font-small-4 me-50' }) + '{{ __('Export')  }}',--}}
                             buttons: [
                                 {
                                     extend: 'print',
@@ -262,7 +264,7 @@
                             }
                         },
                         {{--{--}}
-                        {{--    text: feather.icons['plus'].toSvg({ class: 'me-50 font-small-4' }) + '{{ __('locale.New Record')  }}',--}}
+                        {{--    text: feather.icons['plus'].toSvg({ class: 'me-50 font-small-4' }) + '{{ __('New Record')  }}',--}}
                         {{--    className: 'create-new btn btn-primary',--}}
                         {{--    attr: {--}}
                         {{--        'data-bs-toggle': 'modal',--}}
@@ -311,17 +313,17 @@
                             previous: '&nbsp;',
                             next: '&nbsp;'
                         },
-                        "lengthMenu": "{{__('locale.Show')}} _MENU_ {{__('locale.Entries')}}",
-                        "zeroRecords": "{{__('locale.Nothing Found')}}",
-                        "info": "{{__('locale.Showing')}} _START_ {{__('until')}} _END_ {{__('locale.Entries')}}",
-                        "infoEmpty": "{{__('locale.Nothing Found')}}",
-                        "loadingRecords": "{{ __('locale.Loading')  }}",
+                        "lengthMenu": "{{__('Show')}} _MENU_ {{__('Entries')}}",
+                        "zeroRecords": "{{__('Nothing Found')}}",
+                        "info": "{{__('Showing')}} _START_ {{__('until')}} _END_ {{__('Entries')}}",
+                        "infoEmpty": "{{__('Nothing Found')}}",
+                        "loadingRecords": "{{ __('Loading')  }}",
                         sProcessing: '<div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>',
-                        "search": "{{ __('locale.Search') }}",
+                        "search": "{{ __('Search') }}",
                     },
                 });
             }
-            $('div.head-label').html('<h6 class="mb-0">Χρήστες</h6>');
+            $('div.head-label').html('<h6 class="mb-0">{{ __("Users") }}</h6>');
 
 
             $('#search').on("click", function () {

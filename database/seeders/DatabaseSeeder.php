@@ -13,5 +13,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(AuthSeeder::class);
         $this->call(ApiPermissionRoleTableSeeder::class);
+        $this->call(LanguageSeeder::class);
     }
 }

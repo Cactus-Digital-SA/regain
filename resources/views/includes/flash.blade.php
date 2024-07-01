@@ -1,7 +1,7 @@
 @if(session('success'))
     <script type="module">
         Swal.fire({
-            title: '{{__('locale.Update')}}!',
+            title: '{{__('Update')}}!',
             html: '{!! session('success') !!}',
             icon: 'success',
             customClass: {
@@ -14,7 +14,7 @@
 @if(session('danger') || session('error'))
     <script type="module">
         Swal.fire({
-            title: '{{__('locale.Update')}}!',
+            title: '{{__('Update')}}!',
             html: '{!! session('danger') !!} {!! session('error') !!}',
             icon: 'error',
             customClass: {
@@ -27,7 +27,7 @@
 @if(session('warning'))
     <script type="module">
         Swal.fire({
-            title: '{{__('locale.Update')}}!',
+            title: '{{__('Update')}}!',
             html: '{!! session('warning') !!}',
             icon: 'warning',
             customClass: {
@@ -44,7 +44,7 @@
             html_errors += "<p>{{ $error }}</p>";
         @endforeach
         Swal.fire({
-            title: '{{__('locale.Update')}}!',
+            title: '{{__('Update')}}!',
             html: html_errors,
             icon: 'error',
             customClass: {

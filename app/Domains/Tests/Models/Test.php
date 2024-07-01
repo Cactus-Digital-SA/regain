@@ -1,0 +1,185 @@
+<?php
+
+namespace App\Domains\Tests\Models;
+
+use App\Models\CactusEntity;
+
+class Test extends CactusEntity
+{
+
+    /**
+     * @var int $id
+     * @JMS\Serializer\Annotation\SerializedName("id")
+     * @JMS\Serializer\Annotation\Type("int")
+     */
+    private int $id;
+
+
+    /** @var string $name
+     * @JMS\Serializer\Annotation\SerializedName("name")
+     * @JMS\Serializer\Annotation\Type("string")
+     */
+    private string $name;
+
+
+    /** @var Category|null $category
+     * @JMS\Serializer\Annotation\SerializedName("category")
+     * @JMS\Serializer\Annotation\Type("App\Domains\Tests\Models\Category")
+     */
+    private ?Category $category;
+
+
+    /** @var int|null $category_id
+     * @JMS\Serializer\Annotation\SerializedName("category_id")
+     * @JMS\Serializer\Annotation\Type("int")
+     */
+    private ?int $category_id;
+
+
+    /**
+     * @var array $subscales
+     * @JMS\Serializer\Annotation\SerializedName("subscales")
+     * @JMS\Serializer\Annotation\Type("array<App\Domains\Tests\Models\Subscale>")
+     */
+    private array $subscales = [];
+
+
+    /**
+     * @var array $questions
+     * @JMS\Serializer\Annotation\SerializedName("questions")
+     * @JMS\Serializer\Annotation\Type("array<App\Domains\Tests\Models\Question>")
+     */
+    private array $questions = [];
+
+
+    /**
+     * @param bool $withRelations
+     * @return array
+     */
+    public function getValues(bool $withRelations = true): array
+    {
+        $data = [
+            'id' => $this->id,
+            'name' => $this->name,
+            'category_id' => $this->category_id ?? null
+        ];
+
+        if ($withRelations) {
+            $data['category'] = $this->getCategory();
+            $data['subscales'] = $this->getSubscales();
+            $data['questions'] = $this->getQuestions();
+        }
+        return $data;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     * @return $this
+     */
+    public function setId(int $id): Test
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @return Category
+     */
+    public function getCategory(): Category
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param Category $category
+     * @return Test
+     */
+    public function setCategory(Category $category): Test
+    {
+        $this->category = $category;
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getCategoryId(): ?int
+    {
+        return $this->category_id;
+    }
+
+    /**
+     * @param int|null $category_id
+     * @return Test
+     */
+    public function setCategoryId(?int $category_id): Test
+    {
+        $this->category_id = $category_id;
+        return $this;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     * @return Test
+     */
+    public function setName(string $name): Test
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSubscales(): array
+    {
+        return $this->subscales;
+    }
+
+    /**
+     * @param array $subscales
+     * @return $this
+     */
+    public function setSubscales(array $subscales): Test
+    {
+        $this->subscales = $subscales;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getQuestions(): array
+    {
+        return $this->questions;
+    }
+
+    /**
+     * @param array $questions
+     * @return $this
+     */
+    public function setQuestions(array $questions): Test
+    {
+        $this->questions = $questions;
+        return $this;
+    }
+
+
+}

@@ -43,8 +43,8 @@
                             </a>
                         </div>
                         <!-- /Logo -->
-                        <h4 class="card-title mb-1">{{__('locale.Welcome')}} 👋</h4>
-                        <p class="card-text mb-2">{{__('locale.SignParagraph')}}</p>
+                        <h4 class="card-title mb-1">{{__('Welcome')}} 👋</h4>
+                        <p class="card-text mb-2">{{__('Please login to our system to proceed!')}}</p>
                         @if (session('status'))
                             <div class="alert alert-success mb-1 rounded-0" role="alert">
                                 <div class="alert-body">
@@ -66,10 +66,10 @@
                             </div>
                             <div class="mb-3 form-password-toggle">
                                 <div class="d-flex justify-content-between">
-                                    <label class="form-label" for="password">{{__('locale.Password')}}</label>
+                                    <label class="form-label" for="password">{{__('Password')}}</label>
                                     @if (Route::has('password.request'))
                                         <a href="{{ route('password.request') }}">
-                                            <small>{{__('locale.Forgot Password')}}</small>
+                                            <small>{{__('Forgot Password')}}</small>
                                         </a>
                                     @endif
                                 </div>
@@ -85,12 +85,12 @@
                                     <input class="form-check-input" type="checkbox" id="remember-me"
                                         {{ old('remember') ? 'checked' : '' }}>
                                     <label class="form-check-label" for="remember-me">
-                                        {{__('locale.Remember Me')}}
+                                        {{__('Remember Me')}}
                                     </label>
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <button class="btn btn-primary d-grid w-100" type="submit">{{__('locale.Sign in')}}</button>
+                                <button class="btn btn-primary d-grid w-100" type="submit">{{__('Sign in')}}</button>
                             </div>
                         </form>
 
