@@ -21,12 +21,11 @@
 @endsection
 
 @section('content-header')
-    §
     <div class="col-md-5 content-header-right text-md-end col-md-auto d-md-block d-none mb-2">
         <div class="mb-1 breadcrumb-right">
             <a class="btn btn-success waves-effect waves-float waves-light me-2" href="{{route('tests.create')}}"><i class="ti ti-package ti-xs me-1"></i> {{ __("Create Question") }}</a>
             <button class="btn btn-info btn-round waves-effect waves-float waves-light" onclick="jQuery('#filters').toggle()">
-                <i "ti ti-filter"></i> {{__("Filters")}}
+                <i class="ti ti-filter"></i> {{__("Filters")}}
             </button>
             <a href="javascript:void(0)" class="btn btn-secondary waves-effect waves-light me-2" data-bs-toggle="modal" data-bs-target="#importModal"><i class="ti ti-package-import ti-xs me-1"></i> {{ __("Import Questions") }}</a>
 
@@ -188,7 +187,7 @@
                                 targets: 1,
                                 orderable: false,
                                 responsivePriority: 3,
-                                render: function (data, type, full, meta) {
+                                render: function (data) {
                                     return (
                                         '<div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox' +
                                         data +
@@ -260,7 +259,7 @@
                                         exportOptions: { columns: [3, 4] }
                                     }
                                 ],
-                                init: function (api, node, config) {
+                                init: function (api, node) {
                                     $(node).removeClass('btn-secondary');
                                     $(node).parent().removeClass('btn-group');
                                     setTimeout(function () {
@@ -290,7 +289,7 @@
                                 }),
                                 type: 'column',
                                 renderer: function (api, rowIdx, columns) {
-                                    var data = $.map(columns, function (col, i) {
+                                    var data = $.map(columns, function (col) {
                                         return col.title !== '' // ? Do not show row in modal popup if title is blank (for check box)
                                             ? '<tr data-dt-row="' +
                                             col.rowIdx +
@@ -315,8 +314,8 @@
                         language: {
                             paginate: {
                                 // remove previous & next text from pagination
-                                previous: '&nbsp;',
-                                next: '&nbsp;'
+                                previous: 'Previous',
+                                next: 'Next'
                             },
                             "lengthMenu": "{{__('Show')}} _MENU_ {{__('Entries')}}",
                             "zeroRecords": "{{__('Nothing Found')}}",
@@ -370,7 +369,7 @@
                     // processResults: function (data, params) {
                     //     return data
                     // },
-                    processResults: function (data, params) {
+                    processResults: function (data) {
                         return {
                             results: $.map(data.results, function(obj) {
                                 return { id: obj.text, text: obj.text }; // Use email as both id and text
@@ -401,7 +400,7 @@
                     // processResults: function (data, params) {
                     //     return data
                     // },
-                    processResults: function (data, params) {
+                    processResults: function (data) {
                         return {
                             results: $.map(data.results, function(obj) {
                                 return { id: obj.text, text: obj.text }; // Use email as both id and text
