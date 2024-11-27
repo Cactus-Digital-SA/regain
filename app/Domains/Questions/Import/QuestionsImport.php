@@ -11,8 +11,10 @@ use App\Domains\Instructions\Services\InstructionService;
 use App\Domains\Language\Repositories\Eloquent\EloqLanguageRepository;
 use App\Domains\Language\Repositories\Eloquent\Models\Language;
 use App\Domains\Language\Services\LanguageService;
+use App\Domains\Questions\Import\Sheets\PreAssessmentsImport;
 use App\Domains\Questions\Import\Sheets\ReferenceImport;
 use App\Domains\Questions\Import\Sheets\ScoresImport;
+use App\Domains\Questions\Import\Sheets\SkillsImport;
 use App\Domains\Questions\Import\Sheets\SociodemographicImport;
 use App\Domains\Questions\Import\Sheets\ThresholdImport;
 use App\Domains\Questions\Jobs\CreateQuestionFromJob;
@@ -44,14 +46,12 @@ class QuestionsImport implements WithMultipleSheets
     public function sheets(): array
     {
         return [
-            //5 => new ReferenceImport(),
-            //0 => new SociodemographicImport(),
+            5 => new ReferenceImport(),
+            0 => new SociodemographicImport(),
             3 => new ScoresImport(),
             4 => new ThresholdImport(),
-           /* 1 => new PreAssessmentsImport(),
+            1 => new PreAssessmentsImport(),
             2 => new SkillsImport(),
-            3 => new ScoresImport(),*/
-            //4 => new ThresholdImport(),
         ];
     }
 
