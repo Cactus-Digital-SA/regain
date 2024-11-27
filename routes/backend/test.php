@@ -1,9 +1,9 @@
 <?php
 
-use App\Domains\Tests\Http\Controllers\Datatable\DatatableController;
-use App\Domains\Tests\Http\Controllers\Import\ImportController;
-use App\Domains\Tests\Http\Controllers\InstructionController;
-use App\Domains\Tests\Http\Controllers\QuestionController;
+use App\Domains\Instructions\Http\Controllers\InstructionController;
+use App\Domains\Questions\Http\Controllers\Datatable\DatatableController;
+use App\Domains\Questions\Http\Controllers\Import\ImportController;
+use App\Domains\Questions\Http\Controllers\QuestionController;
 use App\Domains\Tests\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 

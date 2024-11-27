@@ -13,15 +13,22 @@ return new class extends Migration
     {
         Schema::create('tests', function (Blueprint $table) {
             $table->id();
-            $table->text('name');
             $table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
+            $table->text('name');
+
+            //Sorting
+            $table->unsignedInteger('sort')->nullable();
             $table->timestamps();
         });
 
         Schema::create('subscales', function (Blueprint $table) {
             $table->id();
-            $table->text('name');
             $table->foreignId('test_id')->constrained()->cascadeOnDelete();
+            $table->text('name');
+            $table->unsignedSmallInteger('required_questions')->default(0);
+
+            //Sorting
+            $table->unsignedInteger('sort')->nullable();
             $table->timestamps();
         });
 

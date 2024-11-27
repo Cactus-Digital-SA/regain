@@ -2,7 +2,7 @@
 
 namespace App\Domains\Tests\Http\Controllers;
 
-use App\Domains\Tests\Services\CategoryService;
+use App\Domains\Categories\Services\CategoryService;
 use App\Domains\Tests\Services\TestService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;

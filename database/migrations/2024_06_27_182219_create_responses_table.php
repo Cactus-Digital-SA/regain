@@ -14,6 +14,10 @@ return new class extends Migration
         Schema::create('responses', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->smallInteger('type');
+
+            //Sorting
+            $table->unsignedInteger('sort')->nullable();
             $table->timestamps();
         });
 

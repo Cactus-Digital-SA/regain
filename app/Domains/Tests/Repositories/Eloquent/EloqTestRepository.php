@@ -18,7 +18,7 @@ class EloqTestRepository implements TestRepositoryInterface
         $this->model = $model;
     }
 
-    public function getById(string $id): ?CactusEntity
+    public function getById(string $id): ?Test
     {
         // TODO: Implement getById() method.
     }
@@ -54,23 +54,20 @@ class EloqTestRepository implements TestRepositoryInterface
     }
 
 
-    /**
-     * @param string $name
-     * @param int $category_id
-     * @return Test
-     */
-    public function findOrCreate(string $name, int $category_id): Test
+    public function findOrCreate(string $name, int $category_id, ?int $sort): Test
     {
-        $category = $this->model
-            ->where('name', $name)
+        $entity = $this->model
             ->firstOrCreate([
                 'name' => $name,
-                'category_id' => $category_id,
-            ]);
+                ],
+                [
+                    'category_id' => $category_id,
+                    'sort' => $sort
+                ]);
 
-        $category->load(['category','questions']);
+        $entity->load(['category','questions']);
 
-        return ObjectSerializer::deserialize($category->toJson() ?? "{}", Test::class, 'json');
+        return ObjectSerializer::deserialize($entity->toJson() ?? "{}", Test::class, 'json');
     }
 
     /**
@@ -104,5 +101,23 @@ class EloqTestRepository implements TestRepositoryInterface
     public function dataTable(array $filters = []): JsonResponse
     {
         // TODO: Implement dataTable() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getByName(string $name, bool $withRelations = false): ?Test
+    {
+        $entity = $this->model->where('name', $name)->first();
+
+        if($entity == null){
+            return null;
+        }
+
+        if($withRelations){
+            $entity->load(['category', 'questions','subscales','thresholds']);
+        }
+
+        return ObjectSerializer::deserialize($entity->toJson() ?? "{}", Test::class, 'json');
     }
 }

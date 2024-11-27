@@ -29,7 +29,7 @@
             </li>
             <li class="menu-item has-sub {{ activeClass(request()->is('admin/tests*'),'open') }}">
                 <a class="menu-link menu-toggle" href="#">
-                    <i class="menu-icon tf-icons ti ti-octagon"></i>
+                    <i class="menu-icon tf-icons ti ti-checklist"></i>
                     <span class="menu-title">{{ __('Tests') }}</span>
                 </a>
                 <ul class="menu-sub">

@@ -13,9 +13,21 @@ return new class extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+
+            //Conditionally Questions
+            $table->foreignId('required_question_id')->nullable()->constrained('questions')->nullOnDelete();
+
+            //Relations
             $table->foreignId('instruction_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('subscale_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('test_id')->constrained()->cascadeOnDelete();
+
+            //Sorting
+            $table->unsignedInteger('sort')->nullable();
+
+            //Status
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
 
@@ -23,6 +35,24 @@ return new class extends Migration
             $table->id();
             $table->foreignId('question_id')->constrained()->cascadeOnDelete();
             $table->foreignId('response_id')->constrained()->cascadeOnDelete();
+            $table->string('score')->nullable();
+            $table->timestamps();
+        });
+
+        //What response is required for this question
+        Schema::create('question_required_response', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('question_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('response_id')->constrained('responses')->cascadeOnDelete();
+            $table->timestamps();
+        });
+
+        //What profession is required for this question
+        Schema::create('question_profession', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('question_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('response_id')->constrained('responses')->cascadeOnDelete();
+
             $table->timestamps();
         });
 

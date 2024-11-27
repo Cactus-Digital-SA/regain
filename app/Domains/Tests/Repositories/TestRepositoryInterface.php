@@ -15,11 +15,31 @@ interface TestRepositoryInterface extends RepositoryInterface
      */
     public function get(): ?array;
 
+    /**
+     * @param string $id
+     * @return Test|null
+     */
+    public function getById(string $id): ?Test;
+
+    /**
+     * @param string $name
+     * @param bool $withRelations
+     * @return Test|null
+     */
+    public function getByName(string $name, bool $withRelations = false): ?Test;
+
     public function store(Test|CactusEntity $entity): ?Test;
 
     public function update(Test|CactusEntity $entity, string $id): ?Test;
 
-    public function findOrCreate(string $name, int $category_id): Test;
+
+    /**
+     * @param string $name
+     * @param int $category_id
+     * @param int|null $sort
+     * @return Test
+     */
+    public function findOrCreate(string $name, int $category_id, ?int $sort): Test;
 
     public function testsDatatable(array $filters = []): \Illuminate\Http\JsonResponse;
 

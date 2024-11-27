@@ -2,6 +2,10 @@
 
 namespace App\Domains\Tests\Models;
 
+use App\Domains\Categories\Models\Category;
+use App\Domains\Questions\Models\Question;
+use App\Domains\Results\Models\Threshold;
+use App\Domains\Subscales\Models\Subscale;
 use App\Models\CactusEntity;
 
 class Test extends CactusEntity
@@ -21,10 +25,17 @@ class Test extends CactusEntity
      */
     private string $name;
 
+    /**
+     * @var int|null $sort
+     * @JMS\Serializer\Annotation\SerializedName("sort")
+     * @JMS\Serializer\Annotation\Type("int")
+     */
+    private ?int $sort;
+
 
     /** @var Category|null $category
      * @JMS\Serializer\Annotation\SerializedName("category")
-     * @JMS\Serializer\Annotation\Type("App\Domains\Tests\Models\Category")
+     * @JMS\Serializer\Annotation\Type("App\Domains\Categories\Models\Category")
      */
     private ?Category $category;
 
@@ -37,19 +48,27 @@ class Test extends CactusEntity
 
 
     /**
-     * @var array $subscales
+     * @var Subscale[] $subscales
      * @JMS\Serializer\Annotation\SerializedName("subscales")
-     * @JMS\Serializer\Annotation\Type("array<App\Domains\Tests\Models\Subscale>")
+     * @JMS\Serializer\Annotation\Type("array<App\Domains\Subscales\Models\Subscale>")
      */
     private array $subscales = [];
 
 
     /**
-     * @var array $questions
+     * @var Question[] $questions
      * @JMS\Serializer\Annotation\SerializedName("questions")
-     * @JMS\Serializer\Annotation\Type("array<App\Domains\Tests\Models\Question>")
+     * @JMS\Serializer\Annotation\Type("array<App\Domains\Questions\Models\Question>")
      */
     private array $questions = [];
+
+    /**
+     * @var Threshold[]|null $thresholds
+     * @JMS\Serializer\Annotation\SerializedName("thresholds")
+     * @JMS\Serializer\Annotation\Type("array<App\Domains\Results\Models\Threshold>")
+     */
+    private ?array $thresholds = [];
+
 
 
     /**
@@ -61,13 +80,15 @@ class Test extends CactusEntity
         $data = [
             'id' => $this->id,
             'name' => $this->name,
-            'category_id' => $this->category_id ?? null
+            'category_id' => $this->category_id ?? null,
+            'sort' => $this->sort ?? null
         ];
 
         if ($withRelations) {
             $data['category'] = $this->getCategory();
             $data['subscales'] = $this->getSubscales();
             $data['questions'] = $this->getQuestions();
+            $data['thresholds'] = $this->getThresholds();
         }
         return $data;
     }
@@ -105,6 +126,24 @@ class Test extends CactusEntity
     public function setCategory(Category $category): Test
     {
         $this->category = $category;
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getSort(): ?int
+    {
+        return $this->sort;
+    }
+
+    /**
+     * @param int|null $sort
+     * @return Test
+     */
+    public function setSort(?int $sort): Test
+    {
+        $this->sort = $sort;
         return $this;
     }
 
@@ -181,5 +220,22 @@ class Test extends CactusEntity
         return $this;
     }
 
+    /**
+     * @return array|null
+     */
+    public function getThresholds(): ?array
+    {
+        return $this->thresholds;
+    }
+
+    /**
+     * @param array|null $thresholds
+     * @return Test
+     */
+    public function setThresholds(?array $thresholds): Test
+    {
+        $this->thresholds = $thresholds;
+        return $this;
+    }
 
 }

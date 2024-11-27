@@ -1,6 +1,6 @@
 @php
     /**
-     * @var array<App\Domains\Tests\Models\Instruction> $instructions
+     * @var array<\App\Domains\Instructions\Models\Instruction> $instructions
     */
 @endphp
 @extends('backend.layouts.app')
@@ -24,8 +24,11 @@
                 <div class="card-body">
                     <div>
                         <label for="defaultFormControlInput" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="defaultFormControlInput" placeholder="John Doe" aria-describedby="defaultFormControlHelp" />
-                        <div id="defaultFormControlHelp" class="form-text">We'll never share your details with anyone else.</div>
+                        <input type="text" class="form-control" id="defaultFormControlInput" placeholder="John Doe"
+                               aria-describedby="defaultFormControlHelp"/>
+                        <div id="defaultFormControlHelp" class="form-text">We'll never share your details with anyone
+                            else.
+                        </div>
                     </div>
                 </div>
             </div>
@@ -35,9 +38,11 @@
                 <h5 class="card-header">Float label</h5>
                 <div class="card-body">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="floatingInput" placeholder="John Doe" aria-describedby="floatingInputHelp" />
+                        <input type="text" class="form-control" id="floatingInput" placeholder="John Doe"
+                               aria-describedby="floatingInputHelp"/>
                         <label for="floatingInput">Name</label>
-                        <div id="floatingInputHelp" class="form-text">We'll never share your details with anyone else.</div>
+                        <div id="floatingInputHelp" class="form-text">We'll never share your details with anyone else.
+                        </div>
                     </div>
                 </div>
             </div>
@@ -50,15 +55,18 @@
                 <div class="card-body">
                     <div class="mb-4">
                         <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" />
+                        <input type="email" class="form-control" id="exampleFormControlInput1"
+                               placeholder="name@example.com"/>
                     </div>
                     <div class="mb-4">
                         <label for="exampleFormControlReadOnlyInput1" class="form-label">Read only</label>
-                        <input class="form-control" type="text" id="exampleFormControlReadOnlyInput1" placeholder="Readonly input here..." readonly />
+                        <input class="form-control" type="text" id="exampleFormControlReadOnlyInput1"
+                               placeholder="Readonly input here..." readonly/>
                     </div>
                     <div class="mb-4">
                         <label for="exampleFormControlReadOnlyInputPlain1" class="form-label">Read plain</label>
-                        <input type="text" readonly class="form-control-plaintext" id="exampleFormControlReadOnlyInputPlain1" value="email@example.com" />
+                        <input type="text" readonly class="form-control-plaintext"
+                               id="exampleFormControlReadOnlyInputPlain1" value="email@example.com"/>
                     </div>
                     <div class="mb-4">
                         <label for="exampleFormControlSelect1" class="form-label">Example select</label>
@@ -71,7 +79,8 @@
                     </div>
                     <div class="mb-4">
                         <label for="exampleDataList" class="form-label">Datalist example</label>
-                        <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to search...">
+                        <input class="form-control" list="datalistOptions" id="exampleDataList"
+                               placeholder="Type to search...">
                         <datalist id="datalistOptions">
                             <option value="San Francisco"></option>
                             <option value="New York"></option>
@@ -82,7 +91,8 @@
                     </div>
                     <div class="mb-4">
                         <label for="exampleFormControlSelect2" class="form-label">Example multiple select</label>
-                        <select multiple class="form-select" id="exampleFormControlSelect2" aria-label="Multiple select example">
+                        <select multiple class="form-select" id="exampleFormControlSelect2"
+                                aria-label="Multiple select example">
                             <option selected>Open this select menu</option>
                             <option value="1">One</option>
                             <option value="2">Two</option>
@@ -106,18 +116,20 @@
 
                     <div class="mt-2 mb-4">
                         <label for="largeInput" class="form-label">Large input</label>
-                        <input id="largeInput" class="form-control form-control-lg" type="text" placeholder=".form-control-lg" />
+                        <input id="largeInput" class="form-control form-control-lg" type="text"
+                               placeholder=".form-control-lg"/>
                     </div>
                     <div class="mb-4">
                         <label for="defaultInput" class="form-label">Default input</label>
-                        <input id="defaultInput" class="form-control" type="text" placeholder="Default input" />
+                        <input id="defaultInput" class="form-control" type="text" placeholder="Default input"/>
                     </div>
                     <div>
                         <label for="smallInput" class="form-label">Small input</label>
-                        <input id="smallInput" class="form-control form-control-sm" type="text" placeholder=".form-control-sm" />
+                        <input id="smallInput" class="form-control form-control-sm" type="text"
+                               placeholder=".form-control-sm"/>
                     </div>
                 </div>
-                <hr class="m-0" />
+                <hr class="m-0"/>
                 <div class="card-body">
                     <small class="text-light fw-medium">Input select</small>
                     <div class="mt-2 mb-4">
@@ -148,12 +160,13 @@
                         </select>
                     </div>
                 </div>
-                <hr class="m-0" />
+                <hr class="m-0"/>
                 <div class="card-body">
                     <small class="text-light fw-medium">Input Shape</small>
                     <div class="mt-2">
                         <label for="roundedInput" class="form-label">Rounded input</label>
-                        <input id="roundedInput" class="form-control rounded-pill" type="text" placeholder="Default input" />
+                        <input id="roundedInput" class="form-control rounded-pill" type="text"
+                               placeholder="Default input"/>
                     </div>
                 </div>
             </div>
@@ -169,31 +182,32 @@
                     <div class="col-md p-6">
                         <small class="text-light fw-medium">Checkboxes</small>
                         <div class="form-check mt-4">
-                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" />
+                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"/>
                             <label class="form-check-label" for="defaultCheck1">
                                 Unchecked
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" checked />
+                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" checked/>
                             <label class="form-check-label" for="defaultCheck2">
                                 Indeterminate
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck3" checked />
+                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck3" checked/>
                             <label class="form-check-label" for="defaultCheck3">
                                 Checked
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="disabledCheck1" disabled />
+                            <input class="form-check-input" type="checkbox" value="" id="disabledCheck1" disabled/>
                             <label class="form-check-label" for="disabledCheck1">
                                 Disabled Unchecked
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="disabledCheck2" disabled checked />
+                            <input class="form-check-input" type="checkbox" value="" id="disabledCheck2" disabled
+                                   checked/>
                             <label class="form-check-label" for="disabledCheck2">
                                 Disabled Checked
                             </label>
@@ -202,128 +216,141 @@
                     <div class="col-md p-6">
                         <small class="text-light fw-medium">Radio</small>
                         <div class="form-check mt-4">
-                            <input name="default-radio-1" class="form-check-input" type="radio" value="" id="defaultRadio1" />
+                            <input name="default-radio-1" class="form-check-input" type="radio" value=""
+                                   id="defaultRadio1"/>
                             <label class="form-check-label" for="defaultRadio1">
                                 Unchecked
                             </label>
                         </div>
                         <div class="form-check">
-                            <input name="default-radio-1" class="form-check-input" type="radio" value="" id="defaultRadio2" checked />
+                            <input name="default-radio-1" class="form-check-input" type="radio" value=""
+                                   id="defaultRadio2" checked/>
                             <label class="form-check-label" for="defaultRadio2">
                                 Checked
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" value="" id="disabledRadio1" disabled />
+                            <input class="form-check-input" type="radio" value="" id="disabledRadio1" disabled/>
                             <label class="form-check-label" for="disabledRadio1">
                                 Disabled unchecked
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" value="" id="disabledRadio2" disabled checked />
+                            <input class="form-check-input" type="radio" value="" id="disabledRadio2" disabled checked/>
                             <label class="form-check-label" for="disabledRadio2">
                                 Disabled checkbox
                             </label>
                         </div>
                     </div>
                 </div>
-                <hr class="m-0" />
+                <hr class="m-0"/>
                 <!-- Inline Checkboxes -->
                 <div class="row row-bordered g-0">
                     <div class="col-md p-6">
                         <small class="text-light fw-medium d-block">Inline Checkboxes</small>
                         <div class="form-check form-check-inline mt-4">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" />
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1"/>
                             <label class="form-check-label" for="inlineCheckbox1">1</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" />
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2"/>
                             <label class="form-check-label" for="inlineCheckbox2">2</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" disabled />
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3"
+                                   disabled/>
                             <label class="form-check-label" for="inlineCheckbox3">3 (disabled)</label>
                         </div>
                     </div>
                     <div class="col-md p-6">
                         <small class="text-light fw-medium d-block">Inline Radio</small>
                         <div class="form-check form-check-inline mt-4">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                                   value="option1"/>
                             <label class="form-check-label" for="inlineRadio1">1</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                                   value="option2"/>
                             <label class="form-check-label" for="inlineRadio2">2</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" disabled />
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3"
+                                   value="option3" disabled/>
                             <label class="form-check-label" for="inlineRadio3">3 (disabled)</label>
                         </div>
                     </div>
                 </div>
-                <hr class="m-0" />
+                <hr class="m-0"/>
                 <!-- Checkboxes & Radio Colors -->
                 <div class="row row-bordered g-0">
                     <div class="col-md p-6">
                         <small class="text-light fw-medium d-block">Checkboxes Colors</small>
 
                         <div class="form-check form-check-primary mt-4">
-                            <input class="form-check-input" type="checkbox" value="" id="customCheckPrimary" checked />
+                            <input class="form-check-input" type="checkbox" value="" id="customCheckPrimary" checked/>
                             <label class="form-check-label" for="customCheckPrimary">Primary</label>
                         </div>
                         <div class="form-check form-check-secondary">
-                            <input class="form-check-input" type="checkbox" value="" id="customCheckSecondary" checked />
+                            <input class="form-check-input" type="checkbox" value="" id="customCheckSecondary" checked/>
                             <label class="form-check-label" for="customCheckSecondary">Secondary</label>
                         </div>
                         <div class="form-check form-check-success">
-                            <input class="form-check-input" type="checkbox" value="" id="customCheckSuccess" checked />
+                            <input class="form-check-input" type="checkbox" value="" id="customCheckSuccess" checked/>
                             <label class="form-check-label" for="customCheckSuccess">Success</label>
                         </div>
                         <div class="form-check form-check-danger">
-                            <input class="form-check-input" type="checkbox" value="" id="customCheckDanger" checked />
+                            <input class="form-check-input" type="checkbox" value="" id="customCheckDanger" checked/>
                             <label class="form-check-label" for="customCheckDanger">Danger</label>
                         </div>
                         <div class="form-check form-check-warning">
-                            <input class="form-check-input" type="checkbox" value="" id="customCheckWarning" checked />
+                            <input class="form-check-input" type="checkbox" value="" id="customCheckWarning" checked/>
                             <label class="form-check-label" for="customCheckWarning"> Warning </label>
                         </div>
                         <div class="form-check form-check-info">
-                            <input class="form-check-input" type="checkbox" value="" id="customCheckInfo" checked />
+                            <input class="form-check-input" type="checkbox" value="" id="customCheckInfo" checked/>
                             <label class="form-check-label" for="customCheckInfo"> Info </label>
                         </div>
                         <div class="form-check form-check-dark">
-                            <input class="form-check-input" type="checkbox" value="" id="customCheckDark" checked />
+                            <input class="form-check-input" type="checkbox" value="" id="customCheckDark" checked/>
                             <label class="form-check-label" for="customCheckDark"> Dark </label>
                         </div>
                     </div>
                     <div class="col-md p-6">
                         <small class="text-light fw-medium d-block">Radio Color</small>
                         <div class="form-check form-check-primary mt-4">
-                            <input name="customRadioPrimary" class="form-check-input" type="radio" value="" id="customRadioPrimary" checked />
+                            <input name="customRadioPrimary" class="form-check-input" type="radio" value=""
+                                   id="customRadioPrimary" checked/>
                             <label class="form-check-label" for="customRadioPrimary"> Primary </label>
                         </div>
                         <div class="form-check form-check-secondary">
-                            <input name="customRadioSecondary" class="form-check-input" type="radio" value="" id="customRadioSecondary" checked />
+                            <input name="customRadioSecondary" class="form-check-input" type="radio" value=""
+                                   id="customRadioSecondary" checked/>
                             <label class="form-check-label" for="customRadioSecondary"> Secondary </label>
                         </div>
                         <div class="form-check form-check-success">
-                            <input name="customRadioSuccess" class="form-check-input" type="radio" value="" id="customRadioSuccess" checked />
+                            <input name="customRadioSuccess" class="form-check-input" type="radio" value=""
+                                   id="customRadioSuccess" checked/>
                             <label class="form-check-label" for="customRadioSuccess"> Success </label>
                         </div>
                         <div class="form-check form-check-danger">
-                            <input name="customRadioDanger" class="form-check-input" type="radio" value="" id="customRadioDanger" checked />
+                            <input name="customRadioDanger" class="form-check-input" type="radio" value=""
+                                   id="customRadioDanger" checked/>
                             <label class="form-check-label" for="customRadioDanger"> Danger </label>
                         </div>
                         <div class="form-check form-check-warning">
-                            <input name="customRadioWarning" class="form-check-input" type="radio" value="" id="customRadioWarning" checked />
+                            <input name="customRadioWarning" class="form-check-input" type="radio" value=""
+                                   id="customRadioWarning" checked/>
                             <label class="form-check-label" for="customRadioWarning"> Warning </label>
                         </div>
                         <div class="form-check form-check-info">
-                            <input name="customRadioInfo" class="form-check-input" type="radio" value="" id="customRadioInfo" checked />
+                            <input name="customRadioInfo" class="form-check-input" type="radio" value=""
+                                   id="customRadioInfo" checked/>
                             <label class="form-check-label" for="customRadioInfo"> Info </label>
                         </div>
                         <div class="form-check form-check-dark">
-                            <input name="customRadioDark" class="form-check-input" type="radio" value="" id="customRadioDark" checked />
+                            <input name="customRadioDark" class="form-check-input" type="radio" value=""
+                                   id="customRadioDark" checked/>
                             <label class="form-check-label" for="customRadioDark"> Dark </label>
                         </div>
                     </div>
@@ -336,19 +363,24 @@
                 <div class="card-body">
                     <div class="form-check form-switch mb-2">
                         <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox input</label>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox
+                            input</label>
                     </div>
                     <div class="form-check form-switch mb-2">
                         <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
-                        <label class="form-check-label" for="flexSwitchCheckChecked">Checked switch checkbox input</label>
+                        <label class="form-check-label" for="flexSwitchCheckChecked">Checked switch checkbox
+                            input</label>
                     </div>
                     <div class="form-check form-switch mb-2">
                         <input class="form-check-input" type="checkbox" id="flexSwitchCheckDisabled" disabled>
-                        <label class="form-check-label" for="flexSwitchCheckDisabled">Disabled switch checkbox input</label>
+                        <label class="form-check-label" for="flexSwitchCheckDisabled">Disabled switch checkbox
+                            input</label>
                     </div>
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckCheckedDisabled" checked disabled>
-                        <label class="form-check-label" for="flexSwitchCheckCheckedDisabled">Disabled checked switch checkbox input</label>
+                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckCheckedDisabled" checked
+                               disabled>
+                        <label class="form-check-label" for="flexSwitchCheckCheckedDisabled">Disabled checked switch
+                            checkbox input</label>
                     </div>
                 </div>
             </div>
@@ -386,85 +418,88 @@
                     <div class="mb-4 row">
                         <label for="html5-text-input" class="col-md-2 col-form-label">Text</label>
                         <div class="col-md-10">
-                            <input class="form-control" type="text" value="{{ config('variables.templateName') }}" id="html5-text-input" />
+                            <input class="form-control" type="text" value="{{ config('variables.templateName') }}"
+                                   id="html5-text-input"/>
                         </div>
                     </div>
                     <div class="mb-4 row">
                         <label for="html5-search-input" class="col-md-2 col-form-label">Search</label>
                         <div class="col-md-10">
-                            <input class="form-control" type="search" value="Search ..." id="html5-search-input" />
+                            <input class="form-control" type="search" value="Search ..." id="html5-search-input"/>
                         </div>
                     </div>
                     <div class="mb-4 row">
                         <label for="html5-email-input" class="col-md-2 col-form-label">Email</label>
                         <div class="col-md-10">
-                            <input class="form-control" type="email" value="john@example.com" id="html5-email-input" />
+                            <input class="form-control" type="email" value="john@example.com" id="html5-email-input"/>
                         </div>
                     </div>
                     <div class="mb-4 row">
                         <label for="html5-url-input" class="col-md-2 col-form-label">URL</label>
                         <div class="col-md-10">
-                            <input class="form-control" type="url" value="{{ config('variables.creatorUrl') }}" id="html5-url-input" />
+                            <input class="form-control" type="url" value="{{ config('variables.creatorUrl') }}"
+                                   id="html5-url-input"/>
                         </div>
                     </div>
                     <div class="mb-4 row">
                         <label for="html5-tel-input" class="col-md-2 col-form-label">Phone</label>
                         <div class="col-md-10">
-                            <input class="form-control" type="tel" value="90-(164)-188-556" id="html5-tel-input" />
+                            <input class="form-control" type="tel" value="90-(164)-188-556" id="html5-tel-input"/>
                         </div>
                     </div>
                     <div class="mb-4 row">
                         <label for="html5-password-input" class="col-md-2 col-form-label">Password</label>
                         <div class="col-md-10">
-                            <input class="form-control" type="password" value="password" id="html5-password-input" />
+                            <input class="form-control" type="password" value="password" id="html5-password-input"/>
                         </div>
                     </div>
                     <div class="mb-4 row">
                         <label for="html5-number-input" class="col-md-2 col-form-label">Number</label>
                         <div class="col-md-10">
-                            <input class="form-control" type="number" value="18" id="html5-number-input" />
+                            <input class="form-control" type="number" value="18" id="html5-number-input"/>
                         </div>
                     </div>
                     <div class="mb-4 row">
                         <label for="html5-datetime-local-input" class="col-md-2 col-form-label">Datetime</label>
                         <div class="col-md-10">
-                            <input class="form-control" type="datetime-local" value="2021-06-18T12:30:00" id="html5-datetime-local-input" />
+                            <input class="form-control" type="datetime-local" value="2021-06-18T12:30:00"
+                                   id="html5-datetime-local-input"/>
                         </div>
                     </div>
                     <div class="mb-4 row">
                         <label for="html5-date-input" class="col-md-2 col-form-label">Date</label>
                         <div class="col-md-10">
-                            <input class="form-control" type="date" value="2021-06-18" id="html5-date-input" />
+                            <input class="form-control" type="date" value="2021-06-18" id="html5-date-input"/>
                         </div>
                     </div>
                     <div class="mb-4 row">
                         <label for="html5-month-input" class="col-md-2 col-form-label">Month</label>
                         <div class="col-md-10">
-                            <input class="form-control" type="month" value="2021-06" id="html5-month-input" />
+                            <input class="form-control" type="month" value="2021-06" id="html5-month-input"/>
                         </div>
                     </div>
                     <div class="mb-4 row">
                         <label for="html5-week-input" class="col-md-2 col-form-label">Week</label>
                         <div class="col-md-10">
-                            <input class="form-control" type="week" value="2021-W25" id="html5-week-input" />
+                            <input class="form-control" type="week" value="2021-W25" id="html5-week-input"/>
                         </div>
                     </div>
                     <div class="mb-4 row">
                         <label for="html5-time-input" class="col-md-2 col-form-label">Time</label>
                         <div class="col-md-10">
-                            <input class="form-control" type="time" value="12:30:00" id="html5-time-input" />
+                            <input class="form-control" type="time" value="12:30:00" id="html5-time-input"/>
                         </div>
                     </div>
                     <div class="mb-4 row">
                         <label for="html5-color-input" class="col-md-2 col-form-label">Color</label>
                         <div class="col-md-10">
-                            <input class="form-control" type="color" value="#666EE8" id="html5-color-input" />
+                            <input class="form-control" type="color" value="#666EE8" id="html5-color-input"/>
                         </div>
                     </div>
                     <div class="row">
                         <label for="html5-range" class="col-md-2 col-form-label">Range</label>
                         <div class="col-md-10">
-                            <input type="range" class="form-range mt-4" id="html5-range" />
+                            <input type="range" class="form-range mt-4" id="html5-range"/>
                         </div>
                     </div>
                 </div>
@@ -501,11 +536,9 @@
 
 @section('content')
 
-
-@foreach($instructions as $instruction)
-    {{ $instruction->getContent() }}
-@endforeach
-
+    @foreach($instructions as $instruction)
+        {{ $instruction->getContent() }}
+    @endforeach
 
 @endsection
 

@@ -27,15 +27,26 @@ class TestService
         return $this->repository->get();
     }
 
+    /**
+     * @param string $name
+     * @param bool $withRelations
+     * @return Test|null
+     */
+    public function getByName(string $name, bool $withRelations = false): ?Test
+    {
+        return $this->repository->getByName($name, $withRelations);
+    }
+
 
     /**
      * @param string $name
      * @param int $category_id
+     * @param int|null $sort
      * @return Test
      */
-    public function findOrCreate(string $name, int $category_id): Test
+    public function findOrCreate(string $name, int $category_id, ?int $sort): Test
     {
-        return $this->repository->findOrCreate($name, $category_id);
+        return $this->repository->findOrCreate($name, $category_id, $sort);
     }
 
     /**

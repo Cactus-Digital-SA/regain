@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->text('title');
             $table->string('group')->nullable();
+            $table->string('group_name')->nullable();
+            $table->string('link')->nullable();
             $table->string('type')->nullable();
             $table->timestamps();
         });

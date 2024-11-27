@@ -17,6 +17,13 @@ return new class extends Migration
             $table->string('slug');
             $table->integer('parent_id')->nullable();
             $table->boolean('status')->default(true);
+
+            //Todo
+            //$table->foreignId('results_type_id')->constrained()->cascadeOnDelete();
+
+            //Sorting
+            $table->unsignedInteger('sort')->nullable();
+
             $table->timestamps();
         });
     }
