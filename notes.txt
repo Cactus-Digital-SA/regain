@@ -1,0 +1,96 @@
+Schema changes:
+    create a categories_series table
+        add socio and pre-assesment
+
+
+Score calculations
+
+    we need to store the state because the stopping condition might be anywhere
+
+    for each question answer store the state
+
+    if we have a subscale when it ends calculate score and store
+
+ROLES:
+    Admin:
+        manage tests (won't do for now)
+        create organizations (won't do)
+
+    Organization:
+        create practitioners
+            we only need the list of the practitioners for now (no UI for create update)
+                create entities and db schema and seed with 27 pracitioners (1 per region -> seeder)
+                create list view
+        create patients - fully working (figma)
+
+    Patient: UI to login and take tests
+        sociodemographic
+
+        pre-assesement
+
+        for now whatever the score is we will allocate a practitioner based on his region
+
+    Pracitioner:
+        list patients
+            per patient: view details only for completed 2 first tests              (pre-assesemnt report + score)
+
+            medical history: need a ui to create the history
+
+            once the medical history is completed we enable the skill test
+
+    Patient should be able to see which tests we completed and the generated pdfs per test
+        their own medical history
+
+    In the patient Ui there must be no notion of either the category or the test, they will only see questions
+
+
+
+Threshold calculation:
+
+Stopping conditions:
+
+    Stopping condition entity type:
+        question
+        subscale
+
+    Stopping condition entity id
+
+    Stopping condition rule calculator
+        condition: and / or
+            calculators:
+                sum (question_ids)
+                    >=, >, =, <, <=
+
+        condition: and / or
+            check entity:
+                question -> question id, response value
+                subscale id -> score > < >= =< (must be previous)
+
+
+CREATE TABLE stopping_conditions (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    entity_id INT,                      -- Refers to the entity (question, subscale, etc.)
+    entity_type ENUM('question', 'subscale', 'test'),
+    next_condition_id INT,              -- A condition ID that links to the next condition (for AND/OR logic chaining)
+    operator ENUM('AND', 'OR'),         -- Logical operator for multiple conditions
+    FOREIGN KEY (entity_id) REFERENCES entities(id)
+);
+
+CREATE TABLE condition_calculators (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    stopping_condition_id INT,                -- Refers to the stopping condition this calculator is part of
+    condition_type ENUM('sum', 'comparison'), -- Type of calculation (sum, comparison)
+    comparator ENUM('>=', '>', '=', '<', '<='), -- Comparison operator for numeric values
+    subscale_id INT,                          -- For check conditions, stores subscale ID for comparison
+    score_condition ENUM('>', '<', '>=', '<=', '='),  -- Score comparison condition for subscales
+    FOREIGN KEY (stopping_condition_id) REFERENCES stopping_conditions(id),
+    FOREIGN KEY (subscale_id) REFERENCES entities(id) -- subscale ID, for comparison
+);
+
+table for condition_calulator when questions
+    question_ids TEXT,                        -- For sum conditions, stores a comma-separated list of question IDs
+    response_value INT,                       -- For check conditions, stores the specific response value
+
+
+
+

@@ -15,13 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('title');
 
-            //Conditionally Questions
-            $table->foreignId('required_question_id')->nullable()->constrained('questions')->nullOnDelete();
-
             //Relations
-            $table->foreignId('instruction_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('subscale_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('test_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('instruction_id')->nullable('instructions')->constrained()->nullOnDelete();
+            $table->foreignId('subscale_id')->nullable()->constrained('subscales')->nullOnDelete();
+            $table->foreignId('test_id')->constrained('tests')->cascadeOnDelete();
 
             //Sorting
             $table->unsignedInteger('sort')->nullable();
@@ -31,43 +28,34 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('question_response', function (Blueprint $table) {
+        Schema::create('question_languages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('question_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('response_id')->constrained()->cascadeOnDelete();
+            $table->text('question');
+            $table->foreignId('question_id')->constrained('questions')->cascadeOnDelete();
+            $table->foreignId('language_id')->constrained('languages')->cascadeOnDelete();
+            $table->timestamps();
+        });
+
+        Schema::create('question_available_responses', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('question_id')->constrained('questions')->cascadeOnDelete();
+            $table->foreignId('response_id')->constrained('responses_pool')->cascadeOnDelete();
             $table->string('score')->nullable();
             $table->timestamps();
         });
 
         //What response is required for this question
-        Schema::create('question_required_response', function (Blueprint $table) {
+        Schema::create('question_required_responses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('question_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('response_id')->constrained('responses')->cascadeOnDelete();
+            $table->foreignId('question_id')->constrained('questions')->cascadeOnDelete();
+            $table->foreignId('response_id')->constrained('responses_pool')->cascadeOnDelete();
             $table->timestamps();
         });
 
-        //What profession is required for this question
-        Schema::create('question_profession', function (Blueprint $table) {
+        Schema::create('question_references', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('question_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('response_id')->constrained('responses')->cascadeOnDelete();
-
-            $table->timestamps();
-        });
-
-        Schema::create('question_reference', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('reference_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('question_id')->constrained()->cascadeOnDelete();
-            $table->timestamps();
-        });
-
-        Schema::create('language_question', function (Blueprint $table) {
-            $table->id();
-            $table->text('question');
-            $table->foreignId('question_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('language_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('question_id')->constrained('questions')->cascadeOnDelete();
+            $table->foreignId('reference_id')->constrained('references')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -78,7 +66,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('questions');
-        Schema::dropIfExists('response_question');
-        Schema::dropIfExists('reference_question');
+        Schema::dropIfExists('question_languages');
+        Schema::dropIfExists('question_available_responses');
+        Schema::dropIfExists('question_required_responses');
+        Schema::dropIfExists('question_references');
     }
 };

@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('instructions', function (Blueprint $table) {
+        Schema::create('user_subscale_scores', function (Blueprint $table) {
             $table->id();
-            $table->text('content');
-            $table->foreignId('language_id')->constrained('languages')->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('subscale_id')->constrained('subscales')->cascadeOnDelete();
+            $table->unsignedSmallInteger('score');
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('instructions');
+        Schema::dropIfExists('user_subscale_scores');
     }
 };

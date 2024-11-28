@@ -14,12 +14,7 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('slug');
-            $table->integer('parent_id')->nullable();
             $table->boolean('status')->default(true);
-
-            //Todo
-            //$table->foreignId('results_type_id')->constrained()->cascadeOnDelete();
 
             //Sorting
             $table->unsignedInteger('sort')->nullable();

@@ -11,15 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('thresholds', function (Blueprint $table) {
-            $table->id();
-            $table->text('interpretation');
-            $table->string('range_start');
-            $table->string('range_end');
-            $table->foreignId('test_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('subscale_id')->nullable()->constrained()->nullOnDelete();
-            $table->timestamps();
-        });
+        // TODO: need to figure out how we are going to implement this
+//        Schema::create('thresholds', function (Blueprint $table) {
+//            $table->id();
+//            $table->text('interpretation');
+//            $table->string('range_start');
+//            $table->string('range_end');
+//            $table->foreignId('test_id')->constrained('tests')->cascadeOnDelete();
+//            $table->foreignId('subscale_id')->nullable()->constrained('subscales')->nullOnDelete();
+//            $table->timestamps();
+//        });
     }
 
     /**
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('thresholds');
+//        Schema::dropIfExists('thresholds');
     }
 };

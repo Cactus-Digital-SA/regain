@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('tests', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('category_id')->nullable()->constrained('categories')->nullOnDelete();
             $table->text('name');
 
             //Sorting
@@ -23,9 +23,11 @@ return new class extends Migration
 
         Schema::create('subscales', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('test_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('test_id')->constrained('tests')->cascadeOnDelete();
             $table->text('name');
-            $table->unsignedSmallInteger('required_questions')->default(0);
+            // this will be a number that when added we will randomly show this number from the available questions
+            $table->unsignedSmallInteger('pick_upto_questions')->default(0);
+            $table->boolean('calculate_score')->default(true);
 
             //Sorting
             $table->unsignedInteger('sort')->nullable();

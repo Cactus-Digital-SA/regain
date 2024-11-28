@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('responses', function (Blueprint $table) {
+        Schema::create('responses_pool', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->smallInteger('type');
@@ -21,11 +21,11 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('language_response', function (Blueprint $table) {
+        Schema::create('responses_pool_languages', function (Blueprint $table) {
             $table->id();
             $table->text('question');
-            $table->foreignId('language_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('response_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('language_id')->constrained('languages')->cascadeOnDelete();
+            $table->foreignId('response_pool_id')->constrained('responses_pool')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -35,7 +35,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('responses');
-        Schema::dropIfExists('response_language');
+        Schema::dropIfExists('responses_pool');
+        Schema::dropIfExists('responses_pool_languages');
     }
 };
