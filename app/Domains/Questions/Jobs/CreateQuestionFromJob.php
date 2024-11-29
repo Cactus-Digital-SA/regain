@@ -57,8 +57,8 @@ class CreateQuestionFromJob implements ShouldQueue
         $question          = (string)$row['question'];
         $referenceType     = (string)$row['reference_group'];
         $referenceGroup    = (int)Helpers::extractIntegerFromString($row['reference']);
-        $requiredQuestion  = (string)$row['required_question'];
-        $requiredResponses = (string)$row['required_response'];
+        $requiredQuestion  = array_key_exists('required_question', $row->toArray()) ? $row['required_question'] : null;
+        $requiredResponses = array_key_exists('required_response', $row->toArray()) ? $row['required_response'] : null;
 
         /**  Get Responses */
         $responses = [];
@@ -114,7 +114,7 @@ class CreateQuestionFromJob implements ShouldQueue
 
         /** Required Question and responses for the question to show */
         $requiredResponsesIds = [];
-        if ($requiredQuestion != '-') {
+        if ($requiredQuestion && $requiredQuestion !== '-') {
             $requiredQuestionId     = (int)Helpers::extractIntegerFromString($row['required_question']);
             $requiredResponsesArray = explode(',', $requiredResponses);
 
