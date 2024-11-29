@@ -10,66 +10,51 @@ use App\Models\CactusEntity;
 
 class Test extends CactusEntity
 {
-
     /**
      * @var int $id
      * @JMS\Serializer\Annotation\SerializedName("id")
      * @JMS\Serializer\Annotation\Type("int")
      */
     private int $id;
-
-
     /** @var string $name
      * @JMS\Serializer\Annotation\SerializedName("name")
      * @JMS\Serializer\Annotation\Type("string")
      */
     private string $name;
-
     /**
      * @var int|null $sort
      * @JMS\Serializer\Annotation\SerializedName("sort")
      * @JMS\Serializer\Annotation\Type("int")
      */
     private ?int $sort;
-
-
     /** @var Category|null $category
      * @JMS\Serializer\Annotation\SerializedName("category")
      * @JMS\Serializer\Annotation\Type("App\Domains\Categories\Models\Category")
      */
     private ?Category $category;
-
-
     /** @var int|null $category_id
      * @JMS\Serializer\Annotation\SerializedName("category_id")
      * @JMS\Serializer\Annotation\Type("int")
      */
     private ?int $category_id;
-
-
     /**
      * @var Subscale[] $subscales
      * @JMS\Serializer\Annotation\SerializedName("subscales")
      * @JMS\Serializer\Annotation\Type("array<App\Domains\Subscales\Models\Subscale>")
      */
     private array $subscales = [];
-
-
     /**
      * @var Question[] $questions
      * @JMS\Serializer\Annotation\SerializedName("questions")
      * @JMS\Serializer\Annotation\Type("array<App\Domains\Questions\Models\Question>")
      */
     private array $questions = [];
-
     /**
      * @var Threshold[]|null $thresholds
      * @JMS\Serializer\Annotation\SerializedName("thresholds")
      * @JMS\Serializer\Annotation\Type("array<App\Domains\Results\Models\Threshold>")
      */
     private ?array $thresholds = [];
-
-
 
     /**
      * @param bool $withRelations
@@ -78,37 +63,20 @@ class Test extends CactusEntity
     public function getValues(bool $withRelations = true): array
     {
         $data = [
-            'id' => $this->id,
-            'name' => $this->name,
+            'id'          => $this->id,
+            'name'        => $this->name,
             'category_id' => $this->category_id ?? null,
-            'sort' => $this->sort ?? null
+            'sort'        => $this->sort ?? null
         ];
 
         if ($withRelations) {
-            $data['category'] = $this->getCategory();
-            $data['subscales'] = $this->getSubscales();
-            $data['questions'] = $this->getQuestions();
+            $data['category']   = $this->getCategory();
+            $data['subscales']  = $this->getSubscales();
+            $data['questions']  = $this->getQuestions();
             $data['thresholds'] = $this->getThresholds();
         }
+
         return $data;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id
-     * @return $this
-     */
-    public function setId(int $id): Test
-    {
-        $this->id = $id;
-        return $this;
     }
 
     /**
@@ -126,61 +94,7 @@ class Test extends CactusEntity
     public function setCategory(Category $category): Test
     {
         $this->category = $category;
-        return $this;
-    }
 
-    /**
-     * @return int|null
-     */
-    public function getSort(): ?int
-    {
-        return $this->sort;
-    }
-
-    /**
-     * @param int|null $sort
-     * @return Test
-     */
-    public function setSort(?int $sort): Test
-    {
-        $this->sort = $sort;
-        return $this;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getCategoryId(): ?int
-    {
-        return $this->category_id;
-    }
-
-    /**
-     * @param int|null $category_id
-     * @return Test
-     */
-    public function setCategoryId(?int $category_id): Test
-    {
-        $this->category_id = $category_id;
-        return $this;
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     * @return Test
-     */
-    public function setName(string $name): Test
-    {
-        $this->name = $name;
         return $this;
     }
 
@@ -199,6 +113,7 @@ class Test extends CactusEntity
     public function setSubscales(array $subscales): Test
     {
         $this->subscales = $subscales;
+
         return $this;
     }
 
@@ -217,6 +132,7 @@ class Test extends CactusEntity
     public function setQuestions(array $questions): Test
     {
         $this->questions = $questions;
+
         return $this;
     }
 
@@ -235,7 +151,83 @@ class Test extends CactusEntity
     public function setThresholds(?array $thresholds): Test
     {
         $this->thresholds = $thresholds;
+
         return $this;
     }
 
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     * @return $this
+     */
+    public function setId(int $id): Test
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getSort(): ?int
+    {
+        return $this->sort;
+    }
+
+    /**
+     * @param int|null $sort
+     * @return Test
+     */
+    public function setSort(?int $sort): Test
+    {
+        $this->sort = $sort;
+
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getCategoryId(): ?int
+    {
+        return $this->category_id;
+    }
+
+    /**
+     * @param int|null $category_id
+     * @return Test
+     */
+    public function setCategoryId(?int $category_id): Test
+    {
+        $this->category_id = $category_id;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     * @return Test
+     */
+    public function setName(string $name): Test
+    {
+        $this->name = $name;
+
+        return $this;
+    }
 }

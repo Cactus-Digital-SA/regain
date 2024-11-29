@@ -14,7 +14,7 @@ trait PermissionScope
     public function scopeIsMaster($query)
     {
         return $query->whereDoesntHave('parent')
-            ->whereHas('children');
+                     ->whereHas('children');
     }
 
     /**
@@ -42,6 +42,6 @@ trait PermissionScope
     public function scopeSingular($query)
     {
         return $query->whereNull('parent_id')
-            ->whereDoesntHave('children');
+                     ->whereDoesntHave('children');
     }
 }

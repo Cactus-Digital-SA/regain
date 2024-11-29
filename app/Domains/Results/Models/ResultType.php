@@ -3,13 +3,12 @@
 namespace App\Domains\Results\Models;
 
 use App\Models\CactusEntity;
+use Nette\NotImplementedException;
 
 class ResultType extends CactusEntity
 {
-
     //Todo Connect to a test
     //Todo who can see this result type
-
 
     /** Todo
      * Type_1) Summary created by the interpretation of the result from GPT
@@ -19,5 +18,6 @@ class ResultType extends CactusEntity
     public function getValues(bool $withRelations = true): array
     {
         // TODO: Implement getValues() method.
+        throw new NotImplementedException();
     }
 }

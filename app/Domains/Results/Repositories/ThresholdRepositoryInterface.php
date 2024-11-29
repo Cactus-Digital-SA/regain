@@ -8,13 +8,11 @@ use App\Repositories\RepositoryInterface;
 
 interface ThresholdRepositoryInterface extends RepositoryInterface
 {
-
     /**
      * @param Threshold|CactusEntity $entity
      * @return Threshold
      */
     public function store(Threshold|CactusEntity $entity): Threshold;
-
 
     /**
      * @param Threshold|CactusEntity $entity

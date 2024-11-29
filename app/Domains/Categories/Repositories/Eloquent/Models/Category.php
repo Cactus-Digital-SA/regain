@@ -9,8 +9,6 @@ class Category extends Model
 {
     protected $fillable = [
         'name',
-        'slug',
-        'parent_id',
         'status',
         'sort'
     ];
@@ -18,8 +16,8 @@ class Category extends Model
     /**
      * @return BelongsTo
      */
-    public function parent() : BelongsTo
+    public function parent(): BelongsTo
     {
-        return $this->belongsTo(Category::class, 'parent_id');
+        return $this->belongsTo(__CLASS__, 'parent_id');
     }
 }

@@ -12,6 +12,9 @@ use App\Domains\Auth\Models\Role;
 use App\Domains\Auth\Services\PermissionService;
 use App\Domains\Auth\Services\RoleService;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class RoleController extends Controller
 {
@@ -20,41 +23,44 @@ class RoleController extends Controller
 
     public function __construct(RoleService $roleService, PermissionService $permissionService)
     {
-        $this->roleService = $roleService;
+        $this->roleService       = $roleService;
         $this->permissionService = $permissionService;
     }
 
-    public function index(ManageRoleRequest $request){
+    public function index(ManageRoleRequest $request): View
+    {
         $breadcrumbs = [
             ['link' => "home", 'name' => __('locale.Home')], ['name' => __('Roles')]
         ];
-        return view('backend.auth.roles.index',compact('breadcrumbs'));
+
+        return view('backend.auth.roles.index', compact('breadcrumbs'));
     }
 
-    public function show(ManageRoleRequest $request, string $roleId){
+    public function show(ManageRoleRequest $request, string $roleId): JsonResponse
+    {
         return response()->json();
     }
 
-    public function create(CreateRoleRequest $request)
+    public function create(CreateRoleRequest $request): View
     {
         return view('backend.auth.roles.create')
             ->withCategories($this->permissionService->getCategorizedPermissions())
             ->withGeneral($this->permissionService->getUncategorizedPermissions());
     }
 
-    public function store(StoreRoleRequest $request)
+    public function store(StoreRoleRequest $request): RedirectResponse
     {
         $role_DTO = new Role();
         $role_DTO->setGuardName('web');
         $role_DTO->setName($request['name']);
-        $role_DTO->setPermissions( $request['permissions'] ?? []);
+        $role_DTO->setPermissions($request['permissions'] ?? []);
 
         $this->roleService->store($role_DTO);
 
-        return redirect()->route('admin.roles.index')->with('success','Ο ρόλος δημιουργήθηκε με επιτυχία.');
+        return redirect()->route('admin.roles.index')->with('success', 'Ο ρόλος δημιουργήθηκε με επιτυχία.');
     }
 
-    public function edit(EditRoleRequest $request, string $roleId)
+    public function edit(EditRoleRequest $request, string $roleId): View
     {
         $cactusRole = $this->roleService->getById($roleId);
 
@@ -65,25 +71,25 @@ class RoleController extends Controller
             ->withUsedPermissions($this->permissionService->getPermissionIdByRoleId($roleId));
     }
 
-    public function update(UpdateRoleRequest $request, string $roleId){
+    public function update(UpdateRoleRequest $request, string $roleId): RedirectResponse
+    {
         $role_DTO = new Role();
         $role_DTO->setName($request['name']);
         $role_DTO->setPermissions($request['permissions']);
 
         $this->roleService->update($role_DTO, $roleId);
 
-        return redirect()->route('admin.roles.index')->with('success','Ο ρόλος ενημερώθηκε με επιτυχία.');
+        return redirect()->route('admin.roles.index')->with('success', 'Ο ρόλος ενημερώθηκε με επιτυχία.');
     }
 
-    public function delete(DeleteRoleRequest $request, string $roleId){
+    public function delete(DeleteRoleRequest $request, string $roleId): RedirectResponse
+    {
         $response = $this->roleService->deleteById($roleId);
 
-        if($response){
-            return redirect()->route('admin.roles.index')->with('success','Ο ρόλος διαγράφτηκε με επιτυχία.');
+        if ($response) {
+            return redirect()->route('admin.roles.index')->with('success', 'Ο ρόλος διαγράφτηκε με επιτυχία.');
         }
 
-        return redirect()->route('admin.roles.index')->with('error','Ο ρόλος δεν μπόρεσε να διαγραφεί.');
+        return redirect()->route('admin.roles.index')->with('error', 'Ο ρόλος δεν μπόρεσε να διαγραφεί.');
     }
-
-
 }

@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Instruction extends Model
 {
-
     protected $fillable = [
         'content',
         'language_id'
@@ -19,14 +18,15 @@ class Instruction extends Model
     /**
      * @return BelongsTo
      */
-    public function language() : BelongsTo{
+    public function language(): BelongsTo
+    {
         return $this->belongsTo(Language::class);
     }
 
     /**
      * @return HasMany
      */
-    public function questions() : HasMany
+    public function questions(): HasMany
     {
         return $this->hasMany(Question::class);
     }

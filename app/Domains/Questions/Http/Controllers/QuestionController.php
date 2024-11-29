@@ -29,8 +29,7 @@ class QuestionController extends Controller
         protected SubscaleService $subscaleService,
         protected ReferenceService $referenceService,
         protected ResponseService $responseService,
-    )
-    {
+    ) {
     }
 
     /**
@@ -41,24 +40,23 @@ class QuestionController extends Controller
         return view('backend.content.questions.index');
     }
 
-
     /**
      * @return View
      */
     public function create(): View
     {
-        $languages = $this->languageService->get();
-        $tests = $this->testService->get();
+        $languages    = $this->languageService->get();
+        $tests        = $this->testService->get();
         $instructions = $this->instructionService->get();
-        $subscales = $this->subscaleService->get();
-        $references = $this->referenceService->get();
-        $responses = $this->responseService->get();
-
+        $subscales    = $this->subscaleService->get();
+        $references   = $this->referenceService->get();
+        $responses    = $this->responseService->get();
 
         $professions = $this->responseService->getByType(TypeEnum::PROFESSIONS->value);
+
         //dd($professions);
 
-        return view('backend.content.questions.create' ,compact('references','professions','subscales','responses','instructions','languages','tests'));
+        return view('backend.content.questions.create', compact('references', 'professions', 'subscales', 'responses', 'instructions', 'languages', 'tests'));
     }
 
     /**
@@ -82,7 +80,6 @@ class QuestionController extends Controller
             $this->questionsService->store($questionDTO);
         }
 
-        return redirect()->route('tests.questions.index')->with('success' , 'Instruction created successfully');
-
+        return redirect()->route('tests.questions.index')->with('success', 'Instruction created successfully');
     }
 }

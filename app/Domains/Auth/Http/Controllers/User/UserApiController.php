@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Domains\Auth\Http\Controllers\User;
 
 use App\Domains\Auth\Services\UserService;
@@ -14,13 +15,14 @@ class UserApiController extends Controller
         $this->userService = $userService;
     }
 
-    public function emailsPaginated(Request $request){
+    public function emailsPaginated(Request $request)
+    {
         $validated = $request->validate([
             'page' => 'required|integer',
             'term' => 'nullable|string',
         ]);
 
-        $page = $validated['page'];
+        $page        = $validated['page'];
         $resultCount = 25;
 
         $offset = ($page - 1) * $resultCount;
@@ -31,24 +33,19 @@ class UserApiController extends Controller
          */
         $result = $this->userService->emailsPaginated($validated['term'], $offset, $resultCount);
 
-
         $subSections = $result['data'];
-        $count = $result['count'];
+        $count       = $result['count'];
 
-
-        $endCount = $offset + $resultCount;
+        $endCount  = $offset + $resultCount;
         $morePages = $count > $endCount;
 
-
-        $results = array(
-            "results" => $subSections,
-            "pagination" => array(
+        $results = [
+            "results"    => $subSections,
+            "pagination" => [
                 "more" => $morePages
-            )
-        );
+            ]
+        ];
 
         return response()->json($results);
-
     }
-
 }

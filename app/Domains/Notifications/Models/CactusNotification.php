@@ -12,7 +12,8 @@ class CactusNotification
     /**
      * @throws Exception
      */
-    public function __construct(array $notifications = []) {
+    public function __construct(array $notifications = [])
+    {
         foreach ($notifications as $notification) {
             if (!($notification instanceof NotificationInterface)) {
                 throw new Exception("Όλα τα στοιχεία στον πίνακα θα πρέπει να είναι τύπου NotificationInterface.");
@@ -22,13 +23,13 @@ class CactusNotification
         $this->notifications = $notifications;
     }
 
-
-    public function get(): array {
+    public function get(): array
+    {
         return $this->notifications;
     }
 
-    public function add(NotificationInterface $notification): void {
+    public function add(NotificationInterface $notification): void
+    {
         $this->notifications[] = $notification;
     }
-
 }

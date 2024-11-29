@@ -14,7 +14,7 @@ trait UserMethod
      */
     public function isMasterAdmin(): bool
     {
-        if($this->hasRole('super-admin')):
+        if ($this->hasRole('super-admin')):
             return true;
         else:
             return false;
@@ -31,7 +31,7 @@ trait UserMethod
      */
     public function isAdmin(): bool
     {
-        if($this->hasRole('Administrator|super-admin')):
+        if ($this->hasRole('Administrator|super-admin')):
             return true;
         else:
             return false;
@@ -61,7 +61,4 @@ trait UserMethod
     {
         return $this->permissions->pluck('description');
     }
-
-
-
 }

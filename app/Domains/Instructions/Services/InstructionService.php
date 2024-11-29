@@ -8,8 +8,6 @@ use Illuminate\Http\JsonResponse;
 
 class InstructionService
 {
-
-
     private InstructionRepositoryInterface $repository;
 
     /**
@@ -22,13 +20,11 @@ class InstructionService
 
     /**
      * @return Instruction[]
-     *
      */
     public function get(): array
     {
         return $this->repository->get();
     }
-
 
     public function store(Instruction $entity): ?Instruction
     {
@@ -37,7 +33,7 @@ class InstructionService
 
     /**
      * @param string $instruction
-     * @param int $language_id
+     * @param int    $language_id
      * @return Instruction|null
      */
     public function findOrCreateInstruction(string $instruction, int $language_id): ?Instruction
@@ -45,12 +41,11 @@ class InstructionService
         return $this->repository->findOrCreateInstruction($instruction, $language_id);
     }
 
-
     /**
      * @param array $filters
      * @return JsonResponse
      */
-    public function dataTable(array $filters = []) : JsonResponse
+    public function dataTable(array $filters = []): JsonResponse
     {
         return $this->repository->dataTable($filters);
     }

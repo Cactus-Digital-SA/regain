@@ -10,11 +10,11 @@ use App\Domains\Auth\Http\Requests\User\ReactiveUserRequest;
 use App\Domains\Auth\Http\Requests\User\StoreUserRequest;
 use App\Domains\Auth\Http\Requests\User\UpdateUserPasswordRequest;
 use App\Domains\Auth\Http\Requests\User\UpdateUserRequest;
+use App\Domains\Auth\Models\User;
 use App\Domains\Auth\Services\PermissionService;
 use App\Domains\Auth\Services\RoleService;
 use App\Domains\Auth\Services\UserService;
 use App\Http\Controllers\Controller;
-use App\Domains\Auth\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -26,15 +26,20 @@ class UserController extends Controller
     /**
      * UserController constructor.
      *
-     * @param UserService $userService
-     * @param RoleService $roleService
+     * @param UserService       $userService
+     * @param RoleService       $roleService
      * @param PermissionService $permissionService
      */
     public function __construct(UserService $userService, RoleService $roleService, PermissionService $permissionService)
     {
-        $this->userService = $userService;
-        $this->roleService = $roleService;
+        $this->userService       = $userService;
+        $this->roleService       = $roleService;
         $this->permissionService = $permissionService;
+    }
+
+    public function index(ManageUserRequest $request)
+    {
+        return view('backend.auth.users.index', $this->prepareViewData($request));
     }
 
     private function prepareViewData($request, $status = 0, $active = 1)
@@ -43,22 +48,16 @@ class UserController extends Controller
             ['link' => "/", 'name' => __('locale.Home')], ['name' => __('locale.Users')]
         ];
 
-        $role = $request->input('role');
+        $role  = $request->input('role');
         $roles = $this->roleService->get();
 
-
         return [
-            'breadcrumbs' => $breadcrumbs,
-            'status' => $status,
-            'active' => $active,
-            'roles' => $roles,
+            'breadcrumbs'  => $breadcrumbs,
+            'status'       => $status,
+            'active'       => $active,
+            'roles'        => $roles,
             'selectedRole' => $role,
         ];
-    }
-
-    public function index(ManageUserRequest $request)
-    {
-        return view('backend.auth.users.index', $this->prepareViewData($request));
     }
 
     public function deleted(ManageUserRequest $request)
@@ -103,7 +102,7 @@ class UserController extends Controller
 
     /**
      * @param EditUserRequest $request
-     * @param string $userId
+     * @param string          $userId
      * @return mixed
      */
     public function edit(EditUserRequest $request, string $userId)
@@ -127,28 +126,28 @@ class UserController extends Controller
         $userDTO->setRoles($request['roles'] ?? []);
         $userDTO->setPermissions($request['permissions'] ?? []);
 
-        $user = $this->userService->update($userDTO, $userId,true);
+        $user = $this->userService->update($userDTO, $userId, true);
 
         return redirect()->route('admin.users.edit', $user->getId())->with('success', 'Ο χρήστης ενημερώθηκε με επιτυχία');
     }
 
-
     public function editPassword(Request $request, string $userId)
     {
         $cactusUser = $this->userService->getById($userId);
-        $authUser = $this->userService->getAuthUser();
+        $authUser   = $this->userService->getAuthUser();
 
         return view('backend.auth.users.edit_password')
             ->withAuthUser($authUser)
             ->withUser($cactusUser);
     }
+
     public function updatePassword(UpdateUserPasswordRequest $request, string $userId)
     {
         $userDTO = new User();
         $userDTO->setPassword($request['password']);
         $this->userService->updatePassword($userDTO, $userId);
 
-        return redirect()->route('admin.users.index')->with('success','Ο κωδικός του χρήστη ενημερώθηκε με επιτυχία');
+        return redirect()->route('admin.users.index')->with('success', 'Ο κωδικός του χρήστη ενημερώθηκε με επιτυχία');
     }
 
     public function delete(DeleteUserRequest $request, string $userId)
@@ -187,5 +186,4 @@ class UserController extends Controller
 
         return redirect()->back()->with('success', 'Ο χρήστης ' . $message);
     }
-
 }

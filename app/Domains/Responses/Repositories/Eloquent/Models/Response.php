@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Response extends Model
 {
-
     protected $fillable = [
         'title',
         'type',
@@ -19,16 +18,16 @@ class Response extends Model
     /**
      * @return BelongsToMany
      */
-    public function languages() :BelongsToMany
+    public function languages(): BelongsToMany
     {
-        return $this->belongsToMany(Language::class)->withPivot('question');
+        return $this->belongsToMany(Language::class, "responses_languages")->withPivot('question');
     }
 
     /**
      * @return BelongsToMany
      */
-    public function questions() : BelongsToMany
+    public function questions(): BelongsToMany
     {
-        return $this->belongsToMany(Question::class)->withPivot('score');
+        return $this->belongsToMany(Question::class);
     }
 }

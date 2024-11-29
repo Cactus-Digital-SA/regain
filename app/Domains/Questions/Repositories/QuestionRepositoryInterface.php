@@ -9,7 +9,6 @@ use Illuminate\Http\JsonResponse;
 
 interface QuestionRepositoryInterface extends RepositoryInterface
 {
-
     /**
      * @param string $id
      * @return Question|null
@@ -25,7 +24,7 @@ interface QuestionRepositoryInterface extends RepositoryInterface
     /**
      * @return Question[]
      */
-    public function get():array;
+    public function get(): array;
 
     /**
      * @param Question|CactusEntity $entity
@@ -35,14 +34,14 @@ interface QuestionRepositoryInterface extends RepositoryInterface
 
     /**
      * @param Question|CactusEntity $entity
-     * @param string|null $id
+     * @param string|null           $id
      * @return Question|null
      */
     public function storeWithId(Question|CactusEntity $entity, ?string $id): ?Question;
 
     /**
      * @param Question|CactusEntity $entity
-     * @param string $id
+     * @param string                $id
      * @return Question|null
      */
     public function update(Question|CactusEntity $entity, string $id): ?Question;
@@ -55,7 +54,7 @@ interface QuestionRepositoryInterface extends RepositoryInterface
 
     /**
      * @param Question|CactusEntity $entity
-     * @param int $id
+     * @param int                   $id
      * @return Question|null
      */
     public function syncReferences(Question|CactusEntity $entity, int $id): ?Question;
@@ -65,6 +64,4 @@ interface QuestionRepositoryInterface extends RepositoryInterface
      * @return JsonResponse
      */
     public function dataTable(array $filters = []): JsonResponse;
-
-
 }

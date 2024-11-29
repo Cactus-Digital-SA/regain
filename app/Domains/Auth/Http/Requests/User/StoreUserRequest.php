@@ -28,16 +28,16 @@ class StoreUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'max:100'],
-            'email' => ['required', 'max:255', 'email', Rule::unique('users')],
-            'password' => ['max:100'],
-            'active' => ['sometimes', 'in:1'],
-            'email_verified' => ['sometimes', 'in:1'],
+            'name'                    => ['required', 'max:100'],
+            'email'                   => ['required', 'max:255', 'email', Rule::unique('users')],
+            'password'                => ['max:100'],
+            'active'                  => ['sometimes', 'in:1'],
+            'email_verified'          => ['sometimes', 'in:1'],
             'send_confirmation_email' => ['sometimes', 'in:1'],
-            'roles' => ['sometimes', 'array'],
-            'roles.*' => [Rule::exists('roles', 'id')],
-            'permissions' => ['sometimes', 'array'],
-            'permissions.*' => [Rule::exists('permissions', 'id')],
+            'roles'                   => ['sometimes', 'array'],
+            'roles.*'                 => [Rule::exists('roles', 'id')],
+            'permissions'             => ['sometimes', 'array'],
+            'permissions.*'           => [Rule::exists('permissions', 'id')],
         ];
     }
 
@@ -47,7 +47,7 @@ class StoreUserRequest extends FormRequest
     public function messages()
     {
         return [
-            'roles.*.exists' => __('One or more roles were not found or are not allowed to be associated with this user type.'),
+            'roles.*.exists'       => __('One or more roles were not found or are not allowed to be associated with this user type.'),
             'permissions.*.exists' => __('One or more permissions were not found or are not allowed to be associated with this user type.'),
         ];
     }

@@ -17,5 +17,4 @@ trait UserRelationship
     {
         return $this->morphMany(PasswordHistory::class, 'model');
     }
-
 }

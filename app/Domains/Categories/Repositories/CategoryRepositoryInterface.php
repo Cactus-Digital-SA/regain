@@ -8,9 +8,8 @@ use Illuminate\Support\Collection;
 
 interface CategoryRepositoryInterface extends RepositoryInterface
 {
-
     /**
-     * @param string $name
+     * @param string   $name
      * @param int|null $parent_id
      * @param int|null $sort
      * @return Category
@@ -19,8 +18,8 @@ interface CategoryRepositoryInterface extends RepositoryInterface
 
     /**
      * @param string|null $searchTerm
-     * @param int $offset
-     * @param int $resultCount number of results per page
+     * @param int         $offset
+     * @param int         $resultCount number of results per page
      * @return array{data: Collection, count: int} Array contains paginated data and total count.
      */
     public function categoriesPaginated(?string $searchTerm, int $offset, int $resultCount): array;

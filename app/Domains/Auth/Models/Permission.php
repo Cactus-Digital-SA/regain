@@ -15,42 +15,36 @@ class Permission extends CactusEntity
      * @JMS\Serializer\Annotation\Type("int")
      */
     private int $id;
-
     /**
      * @var string
      * @JMS\Serializer\Annotation\SerializedName("name")
      * @JMS\Serializer\Annotation\Type("string")
      */
     private string $name;
-
     /**
      * @var string
      * @JMS\Serializer\Annotation\SerializedName("guard_name")
      * @JMS\Serializer\Annotation\Type("string")
      */
     private string $guardName;
-
     /**
      * @var string
      * @JMS\Serializer\Annotation\SerializedName("description")
      * @JMS\Serializer\Annotation\Type("string")
      */
     private string $description;
-
     /**
      * @var ?int
      * @JMS\Serializer\Annotation\SerializedName("parent_id")
      * @JMS\Serializer\Annotation\Type("int")
      */
     private ?int $parentId;
-
     /**
      * @var int
      * @JMS\Serializer\Annotation\SerializedName("sort")
      * @JMS\Serializer\Annotation\Type("int")
      */
     private int $sort;
-
     /**
      * @var Permission[] $children
      * @JMS\Serializer\Annotation\SerializedName("children")
@@ -74,13 +68,20 @@ class Permission extends CactusEntity
             $data['children'] = $this->getChildren();
         }
 
-
         return $data;
     }
 
-    public function setId(int $id): Permission
+    /**
+     * @return Permission[]
+     */
+    public function getChildren(): array
     {
-        $this->id = $id;
+        return $this->children;
+    }
+
+    public function setChildren(array $children): Permission
+    {
+        $this->children = $children;
 
         return $this;
     }
@@ -88,6 +89,13 @@ class Permission extends CactusEntity
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function setId(int $id): Permission
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getName(): string
@@ -146,21 +154,6 @@ class Permission extends CactusEntity
     public function setSort(int $sort): Permission
     {
         $this->sort = $sort;
-
-        return $this;
-    }
-
-    /**
-     * @return Permission[]
-     */
-    public function getChildren(): array
-    {
-        return $this->children;
-    }
-
-    public function setChildren(array $children): Permission
-    {
-        $this->children = $children;
 
         return $this;
     }

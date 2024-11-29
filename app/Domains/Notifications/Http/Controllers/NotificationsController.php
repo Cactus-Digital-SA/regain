@@ -18,7 +18,7 @@ class NotificationsController extends Controller
 
     public function __construct(NotificationsService $notificationsService, CactusNotification $cactusNotification)
     {
-        $this->cactusNotification = $cactusNotification;
+        $this->cactusNotification   = $cactusNotification;
         $this->notificationsService = $notificationsService;
     }
 
@@ -29,8 +29,8 @@ class NotificationsController extends Controller
     public function sendEmail(SendNotificationRequest $request)
     {
         $recipients = [];
-        foreach($request['recipients'] as $recipient){
-            $recipients[] = new Recipient($recipient['email'],$recipient['name']);
+        foreach ($request['recipients'] as $recipient) {
+            $recipients[] = new Recipient($recipient['email'], $recipient['name']);
         }
 
         $emailDTO = new EmailNotification();
@@ -45,5 +45,4 @@ class NotificationsController extends Controller
 
         return new Response(['message' => 'send'], 200);
     }
-
 }

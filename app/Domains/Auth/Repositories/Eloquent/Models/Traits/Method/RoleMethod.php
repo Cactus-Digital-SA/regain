@@ -15,7 +15,7 @@ trait RoleMethod
     public function isAdmin(): bool
     {
 //        || $this->name === 'Administrator'
-        return $this->name === 'super-admin' ;
+        return $this->name === 'super-admin';
     }
 
     /**

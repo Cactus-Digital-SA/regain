@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class ImportController extends Controller
 {
-    public function users(Request $request)
+    public function users(Request $request): void
     {
         // todo
     }

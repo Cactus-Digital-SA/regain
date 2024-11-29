@@ -2,7 +2,6 @@
 
 namespace App\Domains\Auth\Http\Requests\User;
 
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -29,11 +28,11 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'max:100'],
-            'email' => ['required', 'max:255', 'email', Rule::unique('users')->ignore($this->userId)],
-            'roles' => ['sometimes', 'array'],
-            'roles.*' => [Rule::exists('roles', 'id')],
-            'permissions' => ['sometimes', 'array'],
+            'name'          => ['required', 'max:100'],
+            'email'         => ['required', 'max:255', 'email', Rule::unique('users')->ignore($this->userId)],
+            'roles'         => ['sometimes', 'array'],
+            'roles.*'       => [Rule::exists('roles', 'id')],
+            'permissions'   => ['sometimes', 'array'],
             'permissions.*' => [Rule::exists('permissions', 'id')],
         ];
     }
@@ -44,10 +43,8 @@ class UpdateUserRequest extends FormRequest
     public function messages()
     {
         return [
-            'roles.*.exists' => __('One or more roles were not found or are not allowed to be associated with this user type.'),
+            'roles.*.exists'       => __('One or more roles were not found or are not allowed to be associated with this user type.'),
             'permissions.*.exists' => __('One or more permissions were not found or are not allowed to be associated with this user type.'),
         ];
     }
-
-
 }

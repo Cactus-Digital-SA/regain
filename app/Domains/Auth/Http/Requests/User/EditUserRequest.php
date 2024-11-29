@@ -2,7 +2,6 @@
 
 namespace App\Domains\Auth\Http\Requests\User;
 
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
@@ -31,6 +30,4 @@ class EditUserRequest extends FormRequest
             //
         ];
     }
-
-
 }

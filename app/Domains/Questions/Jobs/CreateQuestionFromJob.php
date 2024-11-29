@@ -29,16 +29,17 @@ class CreateQuestionFromJob implements ShouldQueue
      */
     public int $tries = 1;
 
-
     /**
      * Create a new job instance.
      */
     public function __construct(
         public Collection $question,
-    ) {}
+    ) {
+    }
 
     /**
      * Execute the job.
+     *
      * @throws Exception
      */
     public function handle(): void
@@ -48,32 +49,30 @@ class CreateQuestionFromJob implements ShouldQueue
 
         $row = $this->question;
 
-
-        $id = (int)Helpers::extractIntegerFromString($row['unique_id']);
-        $category = (string)$row['category'];
-        $subscale = (string)$row['subscale'];
-        $test = (string)$row['test'];
-        $instructions = (string)$row['instructions'];
-        $question = (string)$row['question'];
-        $referenceType = (string)$row['reference_group'];
-        $referenceGroup = (int)Helpers::extractIntegerFromString($row['reference']);
-        $requiredQuestion = (string)$row['required_question'];
-        $requiredResponses = (string)$row['required_answer'];
-
+        $id                = (int)Helpers::extractIntegerFromString($row['unique_id']);
+        $category          = (string)$row['category'];
+        $subscale          = (string)$row['subscale'];
+        $test              = (string)$row['test'];
+        $instructions      = (string)$row['instructions'];
+        $question          = (string)$row['question'];
+        $referenceType     = (string)$row['reference_group'];
+        $referenceGroup    = (int)Helpers::extractIntegerFromString($row['reference']);
+        $requiredQuestion  = (string)$row['required_question'];
+        $requiredResponses = (string)$row['required_response'];
 
         /**  Get Responses */
         $responses = [];
 
         if ($referenceType != 'Medication Reference' && $test != 'Professional Sector') {
             foreach ($row as $key => $value) {
-                if (str_contains($key, 'response') && !empty($value)) {
+                if (str_starts_with($key, "response") && str_contains($key, 'response') && !empty($value)) {
                     $responses[] = ['value' => (string)$value, 'type' => 1, 'sort' => null];
                 }
             }
         }
 
         if ($referenceType == 'Medication Reference') {
-            $responses = [];
+            $responses  = [];
             $medication = QuestionsImport::getMedications();
             foreach ($medication as $value) {
                 $responses[] = ['value' => $value, 'type' => 2, 'sort' => null];
@@ -88,7 +87,6 @@ class CreateQuestionFromJob implements ShouldQueue
                 }
             }
         }
-
 
         /**  Create or Find Language */
         $language_id = QuestionsImport::findLanguage('en');
@@ -114,24 +112,22 @@ class CreateQuestionFromJob implements ShouldQueue
         /**  Get References */
         $referencesIds = QuestionsImport::getReferences($referenceType, $referenceGroup);
 
-
         /** Required Question and responses for the question to show */
-        $requiredResponsesIds = array();
-        if($requiredQuestion != '-'){
-            $requiredQuestionId = (int)Helpers::extractIntegerFromString($row['required_question']);
-            $requiredResponsesArray = explode(',',$requiredResponses);
+        $requiredResponsesIds = [];
+        if ($requiredQuestion != '-') {
+            $requiredQuestionId     = (int)Helpers::extractIntegerFromString($row['required_question']);
+            $requiredResponsesArray = explode(',', $requiredResponses);
 
-            foreach ($requiredResponsesArray as $requiredResponse){
+            foreach ($requiredResponsesArray as $requiredResponse) {
                 $requiredResponse = $responseService->getByTitle($requiredResponse);
 
-                if($requiredResponse) {
+                if ($requiredResponse) {
                     $requiredResponsesIds[] = $requiredResponse->getId();
                 }
             }
-        }else{
+        } else {
             $requiredQuestionId = null;
         }
-
 
         $questionDTO = new \App\Domains\Questions\Models\Question();
 
@@ -149,7 +145,6 @@ class CreateQuestionFromJob implements ShouldQueue
 
         $questionDTO->setLanguages([$language_id => ['question' => $question]]);
 
-        $questionService->storeWithId($questionDTO,$id);
+        $questionService->storeWithId($questionDTO, $id);
     }
-
 }

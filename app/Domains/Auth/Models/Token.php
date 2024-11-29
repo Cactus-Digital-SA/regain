@@ -7,35 +7,30 @@ use DateTime;
 
 class Token extends CactusEntity
 {
-
     /**
      * @var int $id
      * @JMS\Serializer\Annotation\SerializedName("id")
      * @JMS\Serializer\Annotation\Type("int")
      */
     private int $id;
-
     /**
      * @var string $name
      * @JMS\Serializer\Annotation\SerializedName("name")
      * @JMS\Serializer\Annotation\Type("string")
      */
     private string $name;
-
     /**
      * @var string $token
      * @JMS\Serializer\Annotation\SerializedName("token")
      * @JMS\Serializer\Annotation\Type("string")
      */
     private string $token;
-
     /**
      * @var DateTime|null $lastUsedAt
      * @JMS\Serializer\Annotation\SerializedName("last_used_at")
      * @JMS\Serializer\Annotation\Type("DateTime<'Y-m-d\TH:i:s.up'>")
      */
     private ?DateTime $lastUsedAt = null;
-
     /**
      * @var DateTime|null $expiresAt
      * @JMS\Serializer\Annotation\SerializedName("expires_at")
@@ -56,6 +51,7 @@ class Token extends CactusEntity
     public function setId(int $id): Token
     {
         $this->id = $id;
+
         return $this;
     }
 
@@ -67,6 +63,7 @@ class Token extends CactusEntity
     public function setName(string $name): Token
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -78,6 +75,7 @@ class Token extends CactusEntity
     public function setToken(string $token): Token
     {
         $this->token = $token;
+
         return $this;
     }
 
@@ -89,6 +87,7 @@ class Token extends CactusEntity
     public function setLastUsedAt(?DateTime $lastUsedAt): Token
     {
         $this->lastUsedAt = $lastUsedAt;
+
         return $this;
     }
 
@@ -100,8 +99,7 @@ class Token extends CactusEntity
     public function setExpiresAt(?DateTime $expiresAt): Token
     {
         $this->expiresAt = $expiresAt;
+
         return $this;
     }
-
-
 }

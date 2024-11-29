@@ -3,23 +3,24 @@
 namespace App\Domains\Results\Repositories\Eloquent;
 
 use App\Domains\Results\Models\Threshold;
-use App\Domains\Results\Repositories\ThresholdRepositoryInterface;
 use App\Domains\Results\Repositories\Eloquent\Models\Threshold as EloqThreshold;
+use App\Domains\Results\Repositories\ThresholdRepositoryInterface;
 use App\Facades\ObjectSerializer;
 use App\Models\CactusEntity;
 use Illuminate\Http\JsonResponse;
+use Nette\NotImplementedException;
 
 class EloqThresholdRepository implements ThresholdRepositoryInterface
 {
-
     public function __construct(
         private EloqThreshold $model
-    )
-    {}
+    ) {
+    }
 
     public function getById(string $id): ?CactusEntity
     {
         // TODO: Implement getById() method.
+        throw new NotImplementedException();
     }
 
     public function store(Threshold|CactusEntity $entity): Threshold
@@ -27,17 +28,18 @@ class EloqThresholdRepository implements ThresholdRepositoryInterface
 
         $threshold = $this->model->create([
             'interpretation' => $entity->getInterpretation(),
-            'range_start' => $entity->getRangeStart(),
-            'range_end' => $entity->getRangeEnd(),
-            'test_id' => $entity->getTestId(),
-            'subscale_id' => $entity->getSubscaleId(),
+            'range_start'    => $entity->getRangeStart(),
+            'range_end'      => $entity->getRangeEnd(),
+            'test_id'        => $entity->getTestId(),
+            'subscale_id'    => $entity->getSubscaleId(),
         ]);
-       /* $threshold->interpretation = $entity->getInterpretation();
-        $threshold->range_start = $entity->getRangeStart();
-        $threshold->range_end = $entity->getRangeEnd();
-        $threshold->test_id = $entity->getTestId();
-        $threshold->subscale_id = $entity->getSubscaleId();
-        $threshold->save();*/
+
+        /* $threshold->interpretation = $entity->getInterpretation();
+         $threshold->range_start = $entity->getRangeStart();
+         $threshold->range_end = $entity->getRangeEnd();
+         $threshold->test_id = $entity->getTestId();
+         $threshold->subscale_id = $entity->getSubscaleId();
+         $threshold->save();*/
 
         return ObjectSerializer::deserialize($threshold->toJson() ?? '{}', Threshold::class, 'json');
     }
@@ -45,11 +47,13 @@ class EloqThresholdRepository implements ThresholdRepositoryInterface
     public function update(CactusEntity $entity, string $id): ?CactusEntity
     {
         // TODO: Implement update() method.
+        throw new NotImplementedException();
     }
 
     public function deleteById(string $id): bool
     {
         // TODO: Implement deleteById() method.
+        throw new NotImplementedException();
     }
 
     /**
@@ -58,6 +62,7 @@ class EloqThresholdRepository implements ThresholdRepositoryInterface
     public function dataTable(array $filters = []): JsonResponse
     {
         // TODO: Implement dataTable() method.
+        throw new NotImplementedException();
     }
 
     public function findOrCreate(Threshold|CactusEntity $entity): Threshold
@@ -67,12 +72,11 @@ class EloqThresholdRepository implements ThresholdRepositoryInterface
             ->where('subscale_id', $entity->getSubscaleId())
             ->firstOrCreate([
                 'interpretation' => $entity->getInterpretation(),
-                'range_start' => $entity->getRangeStart(),
-                'range_end' => $entity->getRangeEnd(),
-                'test_id' => $entity->getTestId(),
-                'subscale_id' => $entity->getSubscaleId(),
+                'range_start'    => $entity->getRangeStart(),
+                'range_end'      => $entity->getRangeEnd(),
+                'test_id'        => $entity->getTestId(),
+                'subscale_id'    => $entity->getSubscaleId(),
             ]);
-
 
         return ObjectSerializer::deserialize($threshold->toJson() ?? '{}', Threshold::class, 'json');
     }

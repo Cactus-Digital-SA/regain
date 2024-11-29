@@ -6,7 +6,6 @@ use App\Models\CactusEntity;
 
 class Category extends CactusEntity
 {
-
     //Todo connect to Results Type to be a multiple select2
     //Todo add a notify_practitioner_days
 
@@ -20,50 +19,38 @@ class Category extends CactusEntity
      * @JMS\Serializer\Annotation\Type("int")
      */
     private int $id;
-
-
     /** @var string $name
      * @JMS\Serializer\Annotation\SerializedName("name")
      * @JMS\Serializer\Annotation\Type("string")
      */
     private string $name;
-
-
     /** @var string $slug
      * @JMS\Serializer\Annotation\SerializedName("slug")
      * @JMS\Serializer\Annotation\Type("string")
      */
     private string $slug;
-
-
     /** @var int|null $parent_id
      * @JMS\Serializer\Annotation\SerializedName("parent_id")
      * @JMS\Serializer\Annotation\Type("int")
      */
     private ?int $parent_id = null;
-
     /**
      * @var bool $status
      * @JMS\Serializer\Annotation\SerializedName("status")
      * @JMS\Serializer\Annotation\Type("bool")
      */
     private bool $status = true;
-
     /**
      * @var int|null $sort
      * @JMS\Serializer\Annotation\SerializedName("sort")
      * @JMS\Serializer\Annotation\Type("int")
      */
     private ?int $sort;
-
-
     /** @var Category|null $parent
      * @JMS\Serializer\Annotation\SerializedName("parent")
      * @JMS\Serializer\Annotation\Type("App\Domains\Categories\Models\Category")
      */
     private ?Category $parent = null;
-
-
 
     /**
      * @param bool $withRelations
@@ -72,12 +59,12 @@ class Category extends CactusEntity
     public function getValues(bool $withRelations = true): array
     {
         $data = [
-            'id' => $this->id,
-            'name' => $this->name,
-            'slug' => $this->slug,
+            'id'        => $this->id,
+            'name'      => $this->name,
+            'slug'      => $this->slug,
             'parent_id' => $this->parent_id,
-            'status' => $this->status,
-            'sort' => $this->sort ?? null,
+            'status'    => $this->status,
+            'sort'      => $this->sort ?? null,
         ];
 
         if ($withRelations) {
@@ -85,6 +72,18 @@ class Category extends CactusEntity
         }
 
         return $data;
+    }
+
+    public function getParent(): ?Category
+    {
+        return $this->parent;
+    }
+
+    public function setParent(?Category $parent): Category
+    {
+        $this->parent = $parent;
+
+        return $this;
     }
 
     public function getId(): int
@@ -95,6 +94,7 @@ class Category extends CactusEntity
     public function setId(int $id): Category
     {
         $this->id = $id;
+
         return $this;
     }
 
@@ -106,6 +106,7 @@ class Category extends CactusEntity
     public function setName(string $name): Category
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -117,6 +118,7 @@ class Category extends CactusEntity
     public function setSlug(string $slug): Category
     {
         $this->slug = $slug;
+
         return $this;
     }
 
@@ -128,6 +130,7 @@ class Category extends CactusEntity
     public function setParentId(?int $parent_id): Category
     {
         $this->parent_id = $parent_id;
+
         return $this;
     }
 
@@ -139,17 +142,7 @@ class Category extends CactusEntity
     public function setStatus(bool $status): Category
     {
         $this->status = $status;
-        return $this;
-    }
 
-    public function getParent(): ?Category
-    {
-        return $this->parent;
-    }
-
-    public function setParent(?Category $parent): Category
-    {
-        $this->parent = $parent;
         return $this;
     }
 
@@ -168,8 +161,7 @@ class Category extends CactusEntity
     public function setSort(?int $sort): Category
     {
         $this->sort = $sort;
+
         return $this;
     }
-
-
 }

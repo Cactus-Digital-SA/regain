@@ -7,7 +7,6 @@ use App\Domains\Tests\Repositories\TestRepositoryInterface;
 
 class TestService
 {
-
     private TestRepositoryInterface $repository;
 
     /**
@@ -18,18 +17,17 @@ class TestService
         $this->repository = $repository;
     }
 
-
     /**
      * @return Test[]
      */
-    public function get():array
+    public function get(): array
     {
         return $this->repository->get();
     }
 
     /**
      * @param string $name
-     * @param bool $withRelations
+     * @param bool   $withRelations
      * @return Test|null
      */
     public function getByName(string $name, bool $withRelations = false): ?Test
@@ -37,10 +35,9 @@ class TestService
         return $this->repository->getByName($name, $withRelations);
     }
 
-
     /**
-     * @param string $name
-     * @param int $category_id
+     * @param string   $name
+     * @param int      $category_id
      * @param int|null $sort
      * @return Test
      */
@@ -51,13 +48,12 @@ class TestService
 
     /**
      * @param string|null $searchTerm
-     * @param int $offset
-     * @param int $resultCount
+     * @param int         $offset
+     * @param int         $resultCount
      * @return array
      */
     public function testsPaginated(?string $searchTerm, int $offset, int $resultCount): array
     {
         return $this->repository->testsPaginated($searchTerm, $offset, $resultCount);
     }
-
 }

@@ -8,7 +8,6 @@ use App\Repositories\RepositoryInterface;
 
 interface SubscaleRepositoryInterface extends RepositoryInterface
 {
-
     /**
      * @return Subscale[]|null
      */
@@ -22,7 +21,7 @@ interface SubscaleRepositoryInterface extends RepositoryInterface
 
     /**
      * @param string $name
-     * @param bool $withRelations
+     * @param bool   $withRelations
      * @return Subscale|null
      */
     public function getByName(string $name, bool $withRelations = false): ?Subscale;
@@ -34,9 +33,9 @@ interface SubscaleRepositoryInterface extends RepositoryInterface
     public function subscalesDatatable(array $filters = []): \Illuminate\Http\JsonResponse;
 
     /**
-     * @param string $name
-     * @param int $test_id
-     * @param int $requiredQuestions
+     * @param string   $name
+     * @param int      $test_id
+     * @param int      $requiredQuestions
      * @param int|null $sort
      * @return Subscale
      */

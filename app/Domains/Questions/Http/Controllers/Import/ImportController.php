@@ -10,8 +10,6 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ImportController extends Controller
 {
-
-
     /**
      * @param Request $request
      * @return RedirectResponse

@@ -10,6 +10,4 @@ interface LanguageRepositoryInterface extends RepositoryInterface
     public function getByCode(string $code): ?Language;
 
     public function get(): ?array;
-
-
 }

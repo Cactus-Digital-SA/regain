@@ -30,44 +30,44 @@ class ThresholdImport implements ToCollection, WithHeadingRow
 
     public function collection(Collection $collection): void
     {
-        $thresholdService = new ThresholdService(new EloqThresholdRepository(new Threshold()));
-        $testService = new TestService(new EloqTestRepository(new Test()));
-        $subscaleService = new SubscaleService(new EloqSubscaleRepository(new Subscale()));
-        try {
-            foreach ($collection as $row) {
-                if ($row['test'] == null) continue;
-
-                $test = $testService->getByName($row['test']);
-                $subscale = $subscaleService->getByName($row['subscale']);
-
-                if ($test) {
-                    /**  Get Thresholds */
-
-                    foreach ($row as $key => $value) {
-                        if (str_contains($key, 'total_score') && $value != '-') {
-
-                            $scoreNumber = Helpers::extractIntegerFromString($key);
-                            $thresholds = explode('-', $value);
-
-                            $thresholdDTO = new \App\Domains\Results\Models\Threshold();
-
-                            $thresholdDTO->setTestId($test->getId());
-                            $thresholdDTO->setRangeStart($thresholds[0]);
-                            $thresholdDTO->setRangeEnd($thresholds[1]);
-                            $thresholdDTO->setInterpretation($row['score_interpretation_'.$scoreNumber]);
-                            $thresholdDTO->setSubscaleId($subscale?->getId());
-
-
-                            //dd($thresholdDTO, $key, $value, $row['score_interpretation_'.$scoreNumber]);
-                            $thresholdService->store($thresholdDTO);
-
-                        }
-                    }
-                }
-            }
-        }catch (\Exception $exception) {
-            Log::error($exception);
-        }
+//        $thresholdService = new ThresholdService(new EloqThresholdRepository(new Threshold()));
+//        $testService = new TestService(new EloqTestRepository(new Test()));
+//        $subscaleService = new SubscaleService(new EloqSubscaleRepository(new Subscale()));
+//        try {
+//            foreach ($collection as $row) {
+//                if ($row['test'] == null) continue;
+//
+//                $test = $testService->getByName($row['test']);
+//                $subscale = $subscaleService->getByName($row['subscale']);
+//
+//                if ($test) {
+//                    /**  Get Thresholds */
+//
+//                    foreach ($row as $key => $value) {
+//                        if (str_contains($key, 'total_score') && $value != '-') {
+//
+//                            $scoreNumber = Helpers::extractIntegerFromString($key);
+//                            $thresholds = explode('-', $value);
+//
+//                            $thresholdDTO = new \App\Domains\Results\Models\Threshold();
+//
+//                            $thresholdDTO->setTestId($test->getId());
+//                            $thresholdDTO->setRangeStart($thresholds[0]);
+//                            $thresholdDTO->setRangeEnd($thresholds[1]);
+//                            $thresholdDTO->setInterpretation($row['score_interpretation_'.$scoreNumber]);
+//                            $thresholdDTO->setSubscaleId($subscale?->getId());
+//
+//
+//                            //dd($thresholdDTO, $key, $value, $row['score_interpretation_'.$scoreNumber]);
+//                            $thresholdService->store($thresholdDTO);
+//
+//                        }
+//                    }
+//                }
+//            }
+//        }catch (\Exception $exception) {
+//            Log::error($exception);
+//        }
 
     }
 

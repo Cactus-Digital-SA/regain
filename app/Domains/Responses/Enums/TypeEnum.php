@@ -4,8 +4,8 @@ namespace App\Domains\Responses\Enums;
 
 enum TypeEnum: int
 {
-    case BASIC = 1;
-    case MEDICATION = 2;
+    case BASIC       = 1;
+    case MEDICATION  = 2;
     case PROFESSIONS = 3;
 
     /**

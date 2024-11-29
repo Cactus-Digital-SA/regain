@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Subscale extends Model
 {
-
     protected $fillable = [
         'name',
         'test_id',
@@ -22,7 +21,7 @@ class Subscale extends Model
     /**
      * @return BelongsTo
      */
-    public function test() :BelongsTo
+    public function test(): BelongsTo
     {
         return $this->belongsTo(Test::class);
     }
@@ -30,7 +29,7 @@ class Subscale extends Model
     /**
      * @return HasMany
      */
-    public function questions():HasMany
+    public function questions(): HasMany
     {
         return $this->hasMany(Question::class);
     }
@@ -38,7 +37,7 @@ class Subscale extends Model
     /**
      * @return HasMany
      */
-    public function thresholds():HasMany
+    public function thresholds(): HasMany
     {
         return $this->hasMany(Threshold::class);
     }

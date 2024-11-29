@@ -28,7 +28,7 @@ class UpdateUserPasswordRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'password' => ['required','confirmed', 'regex:/^(?=.*[a-z])(?=.*[\d!@#$%^&*()_+{}\[\]:;<>,.?~\s]).{8,}$/']
+            'password' => ['required', 'confirmed', 'regex:/^(?=.*[a-z])(?=.*[\d!@#$%^&*()_+{}\[\]:;<>,.?~\s]).{8,}$/']
         ];
     }
 
@@ -36,7 +36,6 @@ class UpdateUserPasswordRequest extends FormRequest
      * Handle a failed authorization attempt.
      *
      * @return void
-     *
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     protected function failedAuthorization()

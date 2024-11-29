@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Question extends Model
 {
-
     protected $fillable = [
         'title',
         'sort',
@@ -25,7 +24,7 @@ class Question extends Model
     /**
      * @return BelongsToMany
      */
-    public function responses() : BelongsToMany
+    public function responses(): BelongsToMany
     {
         return $this->belongsToMany(Response::class)->withPivot('score');
     }
@@ -33,7 +32,7 @@ class Question extends Model
     /**
      * @return BelongsToMany
      */
-    public function references() : BelongsToMany
+    public function references(): BelongsToMany
     {
         return $this->belongsToMany(Reference::class);
     }
@@ -41,7 +40,7 @@ class Question extends Model
     /**
      * @return BelongsToMany
      */
-    public function languages() : BelongsToMany
+    public function languages(): BelongsToMany
     {
         return $this->belongsToMany(Language::class)->withPivot('question');
     }
@@ -49,47 +48,48 @@ class Question extends Model
     /**
      * @return BelongsTo
      */
-    public function test(): BelongsTo{
-        return  $this->belongsTo(Test::class);
+    public function test(): BelongsTo
+    {
+        return $this->belongsTo(Test::class);
     }
 
     /**
      * @return BelongsTo
      */
-    public function subscale(): BelongsTo{
-        return  $this->belongsTo(Subscale::class);
+    public function subscale(): BelongsTo
+    {
+        return $this->belongsTo(Subscale::class);
     }
 
     /**
      * @return BelongsTo
      */
-    public function instruction(): BelongsTo{
-        return  $this->belongsTo(Instruction::class);
+    public function instruction(): BelongsTo
+    {
+        return $this->belongsTo(Instruction::class);
     }
 
     /**
      * @return HasOne
      */
-    public function requiredQuestion(): HasOne{
-        return  $this->hasOne(Question::class,'id','required_question_id');
+    public function requiredQuestion(): HasOne
+    {
+        return $this->hasOne(Question::class, 'id', 'required_question_id');
     }
-
 
     /**
      * @return BelongsToMany
      */
-    public function requiredResponses() : BelongsToMany
+    public function requiredResponses(): BelongsToMany
     {
-        return $this->belongsToMany(Response::class,'question_required_response');
+        return $this->belongsToMany(Response::class, 'question_required_response');
     }
-
 
     /**
      * @return BelongsToMany
      */
-    public function requiredProfessions() : BelongsToMany
+    public function requiredProfessions(): BelongsToMany
     {
-        return $this->belongsToMany(Response::class,'question_profession');
+        return $this->belongsToMany(Response::class, 'question_profession');
     }
-
 }

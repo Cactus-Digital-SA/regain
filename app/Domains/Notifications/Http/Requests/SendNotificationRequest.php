@@ -14,10 +14,10 @@ class SendNotificationRequest extends FormRequest
     public function rules()
     {
         return [
-            'subject' => ['required', 'string'],
-            'body' => ['required', 'string'],
-            'recipients' => ['required', 'array'],
-            'recipients.*.name' => ['required', 'string'],
+            'subject'            => ['required', 'string'],
+            'body'               => ['required', 'string'],
+            'recipients'         => ['required', 'array'],
+            'recipients.*.name'  => ['required', 'string'],
             'recipients.*.email' => ['required', 'string'],
         ];
     }

@@ -11,8 +11,8 @@ use Illuminate\Http\RedirectResponse;
 class ToBeLoggedOut
 {
     /**
-     * @param  $request
-     * @param  Closure  $next
+     * @param         $request
+     * @param Closure $next
      * @return RedirectResponse|mixed
      */
     public function handle($request, Closure $next)

@@ -11,10 +11,10 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Nette\NotImplementedException;
 
 class EloqCategoryRepository implements CategoryRepositoryInterface
 {
-
     private EloqCategory $model;
 
     public function __construct(EloqCategory $model)
@@ -29,11 +29,11 @@ class EloqCategoryRepository implements CategoryRepositoryInterface
                 'name' => $name,
             ],
                 [
-                'slug' => Str::slug($name),
-                'parent_id' => $parent_id,
-                'status' => true,
-                'sort' => $sort
-            ]);
+                    'slug'      => Str::slug($name),
+                    'parent_id' => $parent_id,
+                    'status'    => true,
+                    'sort'      => $sort
+                ]);
 
         $category->load('parent');
 
@@ -43,27 +43,31 @@ class EloqCategoryRepository implements CategoryRepositoryInterface
     public function getById(string $id): ?CactusEntity
     {
         // TODO: Implement getById() method.
+        throw new NotImplementedException();
     }
 
     public function store(CactusEntity $entity): ?CactusEntity
     {
         // TODO: Implement store() method.
+        throw new NotImplementedException();
     }
 
     public function update(CactusEntity $entity, string $id): ?CactusEntity
     {
         // TODO: Implement update() method.
+        throw new NotImplementedException();
     }
 
     public function deleteById(string $id): bool
     {
         // TODO: Implement deleteById() method.
+        throw new NotImplementedException();
     }
 
     /**
      * @param string|null $searchTerm
-     * @param int $offset
-     * @param int $resultCount number of results per page
+     * @param int         $offset
+     * @param int         $resultCount number of results per page
      * @return array{data: Collection, count: int} Array contains paginated data and total count.
      */
     public function categoriesPaginated(?string $searchTerm, int $offset, int $resultCount): array
@@ -75,21 +79,21 @@ class EloqCategoryRepository implements CategoryRepositoryInterface
 
         $categories = $categories->skip($offset)->take($resultCount)->get('id');
 
-
         if ($searchTerm == null) {
             $count = $this->model->count();
         } else {
             $count = $categories->count();
         }
 
-        return array(
-            "data" => $categories,
+        return [
+            "data"  => $categories,
             "count" => $count
-        );
+        ];
     }
 
     public function dataTable(array $filters = []): JsonResponse
     {
         // TODO: Implement dataTable() method.
+        throw new NotImplementedException();
     }
 }

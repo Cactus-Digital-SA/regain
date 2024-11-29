@@ -14,9 +14,8 @@ class Sender
     public function __construct(string $email, string $name)
     {
         $this->email = $email;
-        $this->name = $name;
+        $this->name  = $name;
     }
-
 
     public function getEmail(): string
     {
@@ -37,5 +36,4 @@ class Sender
     {
         $this->name = $name;
     }
-
 }

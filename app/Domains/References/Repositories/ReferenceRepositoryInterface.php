@@ -12,11 +12,10 @@ interface ReferenceRepositoryInterface extends RepositoryInterface
      */
     public function get(): ?array;
 
-
     /**
-     * @param string $title
-     * @param string $type
-     * @param string $group
+     * @param string      $title
+     * @param string      $type
+     * @param string      $group
      * @param string|null $link
      * @param string|null $groupName
      * @return Reference

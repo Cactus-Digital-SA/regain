@@ -6,7 +6,6 @@ use App\Models\CactusEntity;
 
 class Referral extends CactusEntity
 {
-
     //Todo the referral can have a list of users
     //Todo Name of the referral
     //Todo create an admin for the referral with phone

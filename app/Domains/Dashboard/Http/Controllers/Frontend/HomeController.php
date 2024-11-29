@@ -9,19 +9,19 @@ use Auth;
  */
 class HomeController
 {
-
     public function index()
     {
         //return view('welcome');
         //Todo Remove this to have different from end
-        if(Auth::guest()){
+        if (Auth::guest()) {
             return redirect()->route('login');
-        }else{
+        } else {
             if (Auth::check()) {
                 if (Auth::user()->isAdmin()) {
                     return redirect()->route('admin.home');
                 }
             }
+
             return view('welcome');
         }
     }

@@ -8,19 +8,17 @@ use Illuminate\View\View;
 
 class TestController extends Controller
 {
-
     /**
      * Create a new controller instance.
      */
-    public function __construct(
-        private TestService $testService,
-    ) {}
-
+    public function __construct()
+    {
+    }
 
     /**
      * @return View
      */
-    public function index() : View
+    public function index(): View
     {
         return view('backend.content.tests.index');
     }

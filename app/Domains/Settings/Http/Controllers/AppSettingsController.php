@@ -21,10 +21,10 @@ class AppSettingsController extends Controller
 
     /**
      * @param ShowSettingsRequest $request
-     * @param $setting
+     * @param                     $setting
      * @return RedirectResponse
      */
-    public function clear_settings(ShowSettingsRequest $request,$setting)
+    public function clear_settings(ShowSettingsRequest $request, $setting)
     {
         $msg = '';
         switch ($setting):
@@ -46,12 +46,12 @@ class AppSettingsController extends Controller
                 break;
         endswitch;
 
-        return redirect()->back()->with('status',$msg.' Cleared!');
+        return redirect()->back()->with('status', $msg . ' Cleared!');
     }
 
     /**
      * @param ShowSettingsRequest $request
-     * @param $setting
+     * @param                     $setting
      * @return RedirectResponse
      */
     public function cache_settings(ShowSettingsRequest $request, $setting)
@@ -72,10 +72,8 @@ class AppSettingsController extends Controller
                 break;
         endswitch;
 
-        return redirect()->back()->with('status',$msg.' Cached!');
+        return redirect()->back()->with('status', $msg . ' Cached!');
     }
-
-
 
     /**
      * @return RedirectResponse
@@ -84,9 +82,10 @@ class AppSettingsController extends Controller
     {
         \Artisan::call('config:cache');
         \Artisan::call('view:cache');
+
 //        \Artisan::call('route:cache');
 
-        return redirect()->back()->with('status','App Optimized!');
+        return redirect()->back()->with('status', 'App Optimized!');
     }
 
     /**
@@ -95,23 +94,20 @@ class AppSettingsController extends Controller
     public function optimize_clear()
     {
         \Artisan::call('optimize:clear');
-        return redirect()->back()->with('status','All Cache Cleared!');
-    }
 
+        return redirect()->back()->with('status', 'All Cache Cleared!');
+    }
 
     /**
      * @return mixed
      */
-    public function index ()
+    public function index()
     {
         $arr['Artisan Commands'] = $this->settingsServices->get_artisan_commands();
 
         $arr['Optimizations'] = $this->settingsServices->optimizations();
 
-
         return view("backend.content.settings.index")
             ->withAppSettings($arr);
     }
-
-
 }

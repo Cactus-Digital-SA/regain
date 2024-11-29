@@ -8,19 +8,17 @@ class Recipient
     private string $name;
     private ?string $phone;
 
-
     /**
-     * @param string $email
-     * @param string $name
+     * @param string      $email
+     * @param string      $name
      * @param string|null $phone
      */
     public function __construct(string $email, string $name, string $phone = null)
     {
         $this->email = $email;
-        $this->name = $name;
+        $this->name  = $name;
         $this->phone = $phone;
     }
-
 
     public function getEmail(): string
     {
@@ -51,6 +49,4 @@ class Recipient
     {
         $this->phone = $phone;
     }
-
-
 }

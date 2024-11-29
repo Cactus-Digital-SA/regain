@@ -15,8 +15,8 @@ trait UserScope
     public function scopeSearch($query, $term)
     {
         return $query->where(function ($query) use ($term) {
-            $query->where('name', 'like', '%'.$term.'%')
-                ->orWhere('email', 'like', '%'.$term.'%');
+            $query->where('name', 'like', '%' . $term . '%')
+                  ->orWhere('email', 'like', '%' . $term . '%');
         });
     }
 
@@ -37,6 +37,4 @@ trait UserScope
     {
         return $query->whereActive(true);
     }
-
-
 }

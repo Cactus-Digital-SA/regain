@@ -13,7 +13,6 @@ class DataTableController extends Controller
     protected UserService $userService;
     protected RoleService $roleService;
 
-
     public function __construct(UserService $userService, RoleService $roleService)
     {
         $this->userService = $userService;
@@ -26,19 +25,18 @@ class DataTableController extends Controller
      */
     public function users(Request $request): JsonResponse
     {
-
-        $columnIndex = $request['order'][0]['column']; // Column index
-        $columnName = $request['columns'][$columnIndex]['name']; // Order Column name
+        $columnIndex     = $request['order'][0]['column']; // Column index
+        $columnName      = $request['columns'][$columnIndex]['name']; // Order Column name
         $columnSortOrder = $request['order'][0]['dir']; // asc or desc
 
-        $filters = [];
-        $filters['columnName'] = $columnName;
+        $filters                    = [];
+        $filters['columnName']      = $columnName;
         $filters['columnSortOrder'] = $columnSortOrder;
-        $filters['filterName'] = $request['filterName'];
+        $filters['filterName']      = $request['filterName'];
         $filters['filterUserEmail'] = $request['filterUserEmail'];
-        $filters['filterRole'] = $request['filterRole'];
-        $filters['status'] = $request['status'];
-        $filters['active'] = $request['active'];
+        $filters['filterRole']      = $request['filterRole'];
+        $filters['status']          = $request['status'];
+        $filters['active']          = $request['active'];
 
         return $this->userService->usersDatatable($filters);
     }
@@ -50,5 +48,4 @@ class DataTableController extends Controller
     {
         return $this->roleService->rolesDatatable();
     }
-
 }

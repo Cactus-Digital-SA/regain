@@ -9,28 +9,24 @@ use App\Models\CactusEntity;
  */
 class Role extends CactusEntity
 {
-
     /**
      * @var int $id
      * @JMS\Serializer\Annotation\SerializedName("id")
      * @JMS\Serializer\Annotation\Type("int")
      */
     private int $id;
-
     /**
      * @var string $name
      * @JMS\Serializer\Annotation\SerializedName("name")
      * @JMS\Serializer\Annotation\Type("string")
      */
     private string $name;
-
     /**
      * @var string $guardName
      * @JMS\Serializer\Annotation\SerializedName("guard_name")
      * @JMS\Serializer\Annotation\Type("string")
      */
     private string $guardName;
-
     /**
      * @var Permission[] $permissions
      * @JMS\Serializer\Annotation\SerializedName("permissions")
@@ -45,8 +41,8 @@ class Role extends CactusEntity
     public function getValues(bool $withRelations = true): array
     {
         $data = [
-            'id' => $this->id,
-            'name' => $this->name,
+            'id'        => $this->id,
+            'name'      => $this->name,
             'guardName' => $this->guardName,
         ];
 
@@ -57,16 +53,16 @@ class Role extends CactusEntity
         return $data;
     }
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
     public function setId(int $id): Role
     {
         $this->id = $id;
 
         return $this;
-    }
-
-    public function getId(): int
-    {
-        return $this->id;
     }
 
     public function getName(): string

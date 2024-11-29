@@ -11,6 +11,7 @@ use Illuminate\Notifications\Notification;
 class CactusEmailNotification extends Notification implements ShouldQueue
 {
     use Queueable;
+
     private Sender $sender;
     private string $greeting;
     private string $emailSubject;
@@ -25,18 +26,18 @@ class CactusEmailNotification extends Notification implements ShouldQueue
      */
     public function __construct(Sender $sender, string $subject, string $greeting, string $body, array $emailAttachments = [], array $action = [])
     {
-        $this->sender = $sender;
-        $this->emailSubject = $subject;
-        $this->greeting = $greeting;
-        $this->body = $body;
+        $this->sender           = $sender;
+        $this->emailSubject     = $subject;
+        $this->greeting         = $greeting;
+        $this->body             = $body;
         $this->emailAttachments = $emailAttachments;
-        $this->action = $action;
+        $this->action           = $action;
     }
 
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return array
      */
     public function via($notifiable)
@@ -54,14 +55,12 @@ class CactusEmailNotification extends Notification implements ShouldQueue
         $message = new MailMessage();
 
         $message = $message->subject($this->emailSubject)
-                        ->greeting($this->greeting)
-                        ->from($this->sender->getEmail(), $this->sender->getName())
-                        ->line($this->body)
-                        ->salutation('Με εκτίμηση, <br> '.$this->sender->getName())
-                        ->action($this->action['text'] ?? null, $this->action['url'] ?? null);
+                           ->greeting($this->greeting)
+                           ->from($this->sender->getEmail(), $this->sender->getName())
+                           ->line($this->body)
+                           ->salutation('Με εκτίμηση, <br> ' . $this->sender->getName())
+                           ->action($this->action['text'] ?? null, $this->action['url'] ?? null);
 
         return $message;
     }
-
-
 }

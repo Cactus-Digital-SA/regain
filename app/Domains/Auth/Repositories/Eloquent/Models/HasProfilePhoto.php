@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Domains\Auth\Repositories\Eloquent\Models;
+
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
@@ -9,10 +10,10 @@ trait HasProfilePhoto
     /**
      * Update the user's profile photo.
      *
-     * @param  \Illuminate\Http\UploadedFile  $photo
+     * @param UploadedFile $photo
      * @return void
      */
-    public function updateProfilePhoto(UploadedFile $photo)
+    public function updateProfilePhoto(UploadedFile $photo): void
     {
         tap($this->profile_photo_path, function ($previous) use ($photo) {
             $this->forceFill([
@@ -28,13 +29,23 @@ trait HasProfilePhoto
     }
 
     /**
+     * Get the disk that profile photos should be stored on.
+     *
+     * @return string
+     */
+    protected function profilePhotoDisk(): string
+    {
+        return isset($_ENV['VAPOR_ARTIFACT_NAME']) ? 's3' : 'public';
+    }
+
+    /**
      * Delete the user's profile photo.
      *
      * @return void
      */
-    public function deleteProfilePhoto()
+    public function deleteProfilePhoto(): void
     {
-        if (! $this->managesProfilePhotos()) {
+        if (!$this->managesProfilePhotos()) {
             return;
         }
 
@@ -50,11 +61,42 @@ trait HasProfilePhoto
     }
 
     /**
+     * Determine if the application is allowing profile photo uploads.
+     *
+     * @return bool
+     */
+    public static function managesProfilePhotos(): bool
+    {
+        return static::enabled(static::profilePhotos());
+    }
+
+    /**
+     * Determine if the given feature is enabled.
+     *
+     * @param string $feature
+     * @return bool
+     */
+    public static function enabled(string $feature): bool
+    {
+        return true;
+    }
+
+    /**
+     * Enable the profile photo upload feature.
+     *
+     * @return string
+     */
+    public static function profilePhotos(): string
+    {
+        return 'profile-photos';
+    }
+
+    /**
      * Get the URL to the user's profile photo.
      *
      * @return string
      */
-    public function getProfilePhotoUrlAttribute()
+    public function getProfilePhotoUrlAttribute(): string
     {
         return $this->profile_photo_path
             ? Storage::disk($this->profilePhotoDisk())->url($this->profile_photo_path)
@@ -66,53 +108,12 @@ trait HasProfilePhoto
      *
      * @return string
      */
-    protected function defaultProfilePhotoUrl()
+    protected function defaultProfilePhotoUrl(): string
     {
         $name = trim(collect(explode(' ', $this->name))->map(function ($segment) {
             return mb_substr($segment, 0, 1);
         })->join(' '));
 
-        return 'https://ui-avatars.com/api/?name='.urlencode($name).'&color=7F9CF5&background=EBF4FF';
-    }
-
-    /**
-     * Get the disk that profile photos should be stored on.
-     *
-     * @return string
-     */
-    protected function profilePhotoDisk()
-    {
-        return isset($_ENV['VAPOR_ARTIFACT_NAME']) ? 's3' : 'public';
-    }
-
-    /**
-     * Determine if the application is allowing profile photo uploads.
-     *
-     * @return bool
-     */
-    public static function managesProfilePhotos()
-    {
-        return static::enabled(static::profilePhotos());
-    }
-
-    /**
-     * Determine if the given feature is enabled.
-     *
-     * @param  string  $feature
-     * @return bool
-     */
-    public static function enabled(string $feature)
-    {
-        return true;
-    }
-
-    /**
-     * Enable the profile photo upload feature.
-     *
-     * @return string
-     */
-    public static function profilePhotos()
-    {
-        return 'profile-photos';
+        return 'https://ui-avatars.com/api/?name=' . urlencode($name) . '&color=7F9CF5&background=EBF4FF';
     }
 }

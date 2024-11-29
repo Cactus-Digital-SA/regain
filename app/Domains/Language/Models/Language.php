@@ -6,42 +6,36 @@ use App\Models\CactusEntity;
 
 class Language extends CactusEntity
 {
-
     /**
      * @var int $id
      * @JMS\Serializer\Annotation\SerializedName("id")
      * @JMS\Serializer\Annotation\Type("int")
      */
     private int $id;
-
     /**
      * @var string $name
      * @JMS\Serializer\Annotation\SerializedName("name")
      * @JMS\Serializer\Annotation\Type("string")
      */
     private string $name = "";
-
     /**
      * @var string $code
      * @JMS\Serializer\Annotation\SerializedName("code")
      * @JMS\Serializer\Annotation\Type("string")
      */
     private string $code = "";
-
     /**
      * @var string $locale
      * @JMS\Serializer\Annotation\SerializedName("locale")
      * @JMS\Serializer\Annotation\Type("string")
      */
     private string $locale = "";
-
     /**
      * @var string|null $image
      * @JMS\Serializer\Annotation\SerializedName("image")
      * @JMS\Serializer\Annotation\Type("string")
      */
     private ?string $image;
-
     /**
      * @var int $status
      * @JMS\Serializer\Annotation\SerializedName("status")
@@ -52,11 +46,11 @@ class Language extends CactusEntity
     public function getValues(bool $withRelations = true): array
     {
         $data = [
-            'id' => $this->id,
-            'name' => $this->name,
-            'code' => $this->code,
+            'id'     => $this->id,
+            'name'   => $this->name,
+            'code'   => $this->code,
             'locale' => $this->locale,
-            'image' => $this->image,
+            'image'  => $this->image,
             'status' => $this->status,
         ];
 
@@ -71,6 +65,7 @@ class Language extends CactusEntity
     public function setId(int $id): Language
     {
         $this->id = $id;
+
         return $this;
     }
 
@@ -82,6 +77,7 @@ class Language extends CactusEntity
     public function setName(string $name): Language
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -93,6 +89,7 @@ class Language extends CactusEntity
     public function setCode(string $code): Language
     {
         $this->code = $code;
+
         return $this;
     }
 
@@ -104,6 +101,7 @@ class Language extends CactusEntity
     public function setLocale(string $locale): Language
     {
         $this->locale = $locale;
+
         return $this;
     }
 
@@ -115,6 +113,7 @@ class Language extends CactusEntity
     public function setImage(string $image): Language
     {
         $this->image = $image;
+
         return $this;
     }
 
@@ -126,7 +125,7 @@ class Language extends CactusEntity
     public function setStatus(int $status): Language
     {
         $this->status = $status;
+
         return $this;
     }
-
 }

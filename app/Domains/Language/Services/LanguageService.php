@@ -7,7 +7,6 @@ use App\Domains\Language\Repositories\LanguageRepositoryInterface;
 
 class LanguageService
 {
-
     private LanguageRepositoryInterface $repository;
 
     /**
@@ -34,5 +33,4 @@ class LanguageService
     {
         return $this->repository->get();
     }
-
 }

@@ -27,24 +27,23 @@ class SubscaleService
 
     /**
      * @param string $name
-     * @param bool $withRelations
+     * @param bool   $withRelations
      * @return Subscale|null
      */
     public function getByName(string $name, bool $withRelations = false): ?Subscale
     {
-        return $this->repository->getByName($name,$withRelations);
+        return $this->repository->getByName($name, $withRelations);
     }
 
     /**
-     * @param string $name
-     * @param int $test_id
-     * @param int $requiredQuestions
+     * @param string   $name
+     * @param int      $test_id
+     * @param int      $requiredQuestions
      * @param int|null $sort
      * @return Subscale
      */
     public function findOrCreate(string $name, int $test_id, int $requiredQuestions, ?int $sort): Subscale
     {
-        return $this->repository->findOrCreate($name, $test_id,$requiredQuestions, $sort);
+        return $this->repository->findOrCreate($name, $test_id, $requiredQuestions, $sort);
     }
-
 }

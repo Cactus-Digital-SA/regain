@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Domains\Auth\Http\Controllers\Fortify;
 
 use App\Domains\Auth\Services\UserService;
@@ -27,9 +28,9 @@ class TwoFactorAuthController extends Controller
      * @param Request $request
      * @return RedirectResponse
      */
-    public function confirm(Request $request)
+    public function confirm(Request $request): RedirectResponse
     {
-        $confirmed = $this->userService->confirmTwoFactorAuth( $request->code);
+        $confirmed = $this->userService->confirmTwoFactorAuth($request->code);
 
         if (!$confirmed) {
             return back()->withErrors('Invalid Two Factor Authentication code');
@@ -44,7 +45,7 @@ class TwoFactorAuthController extends Controller
      */
     public function recoveryPass(TwoFactorLoginRequest $request)
     {
-        if (! $request->hasChallengedUser()) {
+        if (!$request->hasChallengedUser()) {
             return redirect()->route('login');
         }
 
@@ -56,11 +57,11 @@ class TwoFactorAuthController extends Controller
      */
     public function sendEmail(TwoFactorLoginRequest $request)
     {
-        if (! $request->hasChallengedUser()) {
+        if (!$request->hasChallengedUser()) {
             return redirect()->route('login');
         }
 
-        if($request->session()->has('login.id')){
+        if ($request->session()->has('login.id')) {
             $userId = $request->session()->get('login.id');
             $this->userService->sendOTP($userId);
         }

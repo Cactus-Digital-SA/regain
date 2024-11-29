@@ -9,7 +9,6 @@ use Illuminate\Support\Collection;
 
 interface TestRepositoryInterface extends RepositoryInterface
 {
-
     /**
      * @return Test[]|null
      */
@@ -23,7 +22,7 @@ interface TestRepositoryInterface extends RepositoryInterface
 
     /**
      * @param string $name
-     * @param bool $withRelations
+     * @param bool   $withRelations
      * @return Test|null
      */
     public function getByName(string $name, bool $withRelations = false): ?Test;
@@ -32,10 +31,9 @@ interface TestRepositoryInterface extends RepositoryInterface
 
     public function update(Test|CactusEntity $entity, string $id): ?Test;
 
-
     /**
-     * @param string $name
-     * @param int $category_id
+     * @param string   $name
+     * @param int      $category_id
      * @param int|null $sort
      * @return Test
      */
@@ -45,8 +43,8 @@ interface TestRepositoryInterface extends RepositoryInterface
 
     /**
      * @param string|null $searchTerm
-     * @param int $offset
-     * @param int $resultCount number of results per page
+     * @param int         $offset
+     * @param int         $resultCount number of results per page
      * @return array{data: Collection, count: int} Array contains paginated data and total count.
      */
     public function testsPaginated(?string $searchTerm, int $offset, int $resultCount): array;

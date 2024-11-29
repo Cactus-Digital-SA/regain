@@ -15,7 +15,6 @@ class PasswordHistory extends Model
      * @var string
      */
     protected $table = 'password_histories';
-
     /**
      * The attributes that are mass assignable.
      *

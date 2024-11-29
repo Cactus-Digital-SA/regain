@@ -26,7 +26,7 @@ return new class extends Migration
             $table->foreignId('test_id')->constrained('tests')->cascadeOnDelete();
             $table->text('name');
             // this will be a number that when added we will randomly show this number from the available questions
-            $table->unsignedSmallInteger('pick_upto_questions')->default(0);
+            $table->unsignedSmallInteger('required_questions')->default(0);
             $table->boolean('calculate_score')->default(true);
 
             //Sorting

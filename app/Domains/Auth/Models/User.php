@@ -2,9 +2,6 @@
 
 namespace App\Domains\Auth\Models;
 
-use App\Domains\Auth\Models\Permission;
-use App\Domains\Auth\Models\Role;
-use App\Domains\Auth\Models\Token;
 use App\Models\CactusEntity;
 use Illuminate\Http\Request;
 
@@ -16,125 +13,125 @@ class User extends CactusEntity
      * @JMS\Serializer\Annotation\Type("int")
      */
     private int $id;
-
     /**
      * @var string $name
      * @JMS\Serializer\Annotation\SerializedName("name")
      * @JMS\Serializer\Annotation\Type("string")
      */
     private string $name = "";
-
     /**
      * @var string $email
      * @JMS\Serializer\Annotation\SerializedName("email")
      * @JMS\Serializer\Annotation\Type("string")
      */
     private string $email = "";
-
     /**
      * @var string $password
      * @JMS\Serializer\Annotation\SerializedName("password")
      * @JMS\Serializer\Annotation\Type("string")
      */
     private string $password = "";
-
     /**
      * @var \DateTime|null $email_verified_at
      * @JMS\Serializer\Annotation\SerializedName("email_verified_at")
      * @JMS\Serializer\Annotation\Type("DateTime<'Y-m-d\TH:i:s.up'>")
      */
     private ?\DateTime $email_verified_at = null;
-
     /**
      * @var \DateTime|null $password_changed_at
      * @JMS\Serializer\Annotation\SerializedName("password_changed_at")
      * @JMS\Serializer\Annotation\Type("DateTime<'Y-m-d\TH:i:s.up'>")
      */
     private ?\DateTime $password_changed_at = null;
-
     /**
      * @var int $active
      * @JMS\Serializer\Annotation\SerializedName("active")
      * @JMS\Serializer\Annotation\Type("int")
      */
     private int $active = 0;
-
     /**
      * @var \DateTime|null $last_login_at
      * @JMS\Serializer\Annotation\SerializedName("last_login_at")
      * @JMS\Serializer\Annotation\Type("DateTime<'Y-m-d\TH:i:s.up'>")
      */
     private ?\DateTime $last_login_at = null;
-
     /**
      * @var string|null $last_login_ip
      * @JMS\Serializer\Annotation\SerializedName("last_login_ip")
      * @JMS\Serializer\Annotation\Type("string")
      */
     private ?string $last_login_ip = null;
-
     /**
      * @var bool $to_be_logged_out
      * @JMS\Serializer\Annotation\SerializedName("to_be_logged_out")
      * @JMS\Serializer\Annotation\Type("bool")
      */
     private bool $to_be_logged_out = false;
-
     /**
      * @var string|null $profile_photo_url
      * @JMS\Serializer\Annotation\SerializedName("profile_photo_url")
      * @JMS\Serializer\Annotation\Type("string")
      */
     private ?string $profile_photo_url = null;
-
     /**
      * @var string|null $twoFactorSecret
      * @JMS\Serializer\Annotation\SerializedName("two_factor_secret")
      * @JMS\Serializer\Annotation\Type("string")
      */
     private ?string $twoFactorSecret = null;
-
     /**
      * @var string|null $twoFactorConfirmed
      * @JMS\Serializer\Annotation\SerializedName("two_factor_confirmed")
      * @JMS\Serializer\Annotation\Type("string")
      */
     private ?string $twoFactorConfirmed = null;
-
     /**
      * @var string|null $twoFactorRecoveryCodes
      * @JMS\Serializer\Annotation\SerializedName("two_factor_recovery_codes")
      * @JMS\Serializer\Annotation\Type("string")
      */
     private ?string $twoFactorRecoveryCodes = null;
-
     /**
      * @var string|null $twoFactorQrCodeSvg
      * @JMS\Serializer\Annotation\SerializedName("twoFactorQrCodeSvg")
      * @JMS\Serializer\Annotation\Type("string")
      */
     private ?string $twoFactorQrCodeSvg = null;
-
     /**
      * @var Token[] $tokens
      * @JMS\Serializer\Annotation\SerializedName("tokens")
      * @JMS\Serializer\Annotation\Type("array<App\Domains\Auth\Models\Token>")
      */
     private array $tokens = [];
-
     /**
      * @var Role[] $roles
      * @JMS\Serializer\Annotation\SerializedName("roles")
      * @JMS\Serializer\Annotation\Type("array<App\Domains\Auth\Models\Role>")
      */
     private array $roles = [];
-
     /**
      * @var Permission[] $permissions
      * @JMS\Serializer\Annotation\SerializedName("permissions")
      * @JMS\Serializer\Annotation\Type("array<App\Domains\Auth\Models\Permission>")
      */
     private array $permissions = [];
+
+    public static function fromRequest(Request $request): User
+    {
+        $user = new User();
+
+        return $user
+            ->setName($request['name'])
+            ->setEmail($request['email'])
+            ->setPassword($request['password'])
+            ->setEmailVerifiedAt($request['email_verified_at'])
+            ->setPasswordChangedAt($request['password_changed_at'])
+            ->setActive($request['active'])
+            ->setLastLoginAt($request['last_login_at'])
+            ->setLastLoginIp($request['last_login_ip'])
+            ->setToBeLoggedOut($request['to_be_logged_out'])
+            ->setProfilePhotoUrl($request['profile_photo_path']);
+    }
 
     /**
      * @param bool $withRelations
@@ -143,23 +140,23 @@ class User extends CactusEntity
     public function getValues(bool $withRelations = true): array
     {
         $data = [
-            'id' => $this->id,
-            'name' => $this->name,
-            'email' => $this->email,
-            'password' => $this->password,
-            'email_verified_at' => $this->email_verified_at ? $this->email_verified_at->format('Y-m-d\TH:i:s.up') : null,
+            'id'                  => $this->id,
+            'name'                => $this->name,
+            'email'               => $this->email,
+            'password'            => $this->password,
+            'email_verified_at'   => $this->email_verified_at ? $this->email_verified_at->format('Y-m-d\TH:i:s.up') : null,
             'password_changed_at' => $this->password_changed_at ? $this->password_changed_at->format('Y-m-d\TH:i:s.up') : null,
-            'active' => $this->active,
-            'last_login_at' => $this->last_login_at ? $this->last_login_at->format('Y-m-d\TH:i:s.up') : null,
-            'last_login_ip' => $this->last_login_ip,
-            'to_be_logged_out' => $this->to_be_logged_out,
-            'profile_photo_url' => $this->profile_photo_url,
+            'active'              => $this->active,
+            'last_login_at'       => $this->last_login_at ? $this->last_login_at->format('Y-m-d\TH:i:s.up') : null,
+            'last_login_ip'       => $this->last_login_ip,
+            'to_be_logged_out'    => $this->to_be_logged_out,
+            'profile_photo_url'   => $this->profile_photo_url,
         ];
 
         if ($withRelations) {
-            $data['roles'] = $this->mapRelationToArray($this->roles);
+            $data['roles']       = $this->mapRelationToArray($this->roles);
             $data['permissions'] = $this->mapRelationToArray($this->permissions);
-            $data['tokens'] = $this->mapRelationToArray($this->tokens);
+            $data['tokens']      = $this->mapRelationToArray($this->tokens);
         }
 
         return $data;
@@ -168,19 +165,24 @@ class User extends CactusEntity
     public function toJson(): string
     {
         $data = [
-            'name' => $this->name,
-            'email' => $this->email,
-            'password' => $this->password,
-            'email_verified_at' => $this->email_verified_at ? $this->email_verified_at->format('Y-m-d\TH:i:s.up') : null,
+            'name'                => $this->name,
+            'email'               => $this->email,
+            'password'            => $this->password,
+            'email_verified_at'   => $this->email_verified_at ? $this->email_verified_at->format('Y-m-d\TH:i:s.up') : null,
             'password_changed_at' => $this->password_changed_at ? $this->password_changed_at->format('Y-m-d\TH:i:s.up') : null,
-            'active' => $this->active,
-            'last_login_at' => $this->last_login_at ? $this->last_login_at->format('Y-m-d\TH:i:s.up') : null,
-            'last_login_ip' => $this->last_login_ip,
-            'to_be_logged_out' => $this->to_be_logged_out,
-            'profile_photo_url' => $this->profile_photo_url,
+            'active'              => $this->active,
+            'last_login_at'       => $this->last_login_at ? $this->last_login_at->format('Y-m-d\TH:i:s.up') : null,
+            'last_login_ip'       => $this->last_login_ip,
+            'to_be_logged_out'    => $this->to_be_logged_out,
+            'profile_photo_url'   => $this->profile_photo_url,
         ];
 
         return json_encode($data);
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
     }
 
     public function setId(int $id): User
@@ -188,11 +190,6 @@ class User extends CactusEntity
         $this->id = $id;
 
         return $this;
-    }
-
-    public function getId(): int
-    {
-        return $this->id;
     }
 
     public function getName(): string
@@ -203,6 +200,7 @@ class User extends CactusEntity
     public function setName(string $name): User
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -214,6 +212,7 @@ class User extends CactusEntity
     public function setEmail(string $email): User
     {
         $this->email = $email;
+
         return $this;
     }
 
@@ -225,6 +224,7 @@ class User extends CactusEntity
     public function setPassword(string $password): User
     {
         $this->password = $password;
+
         return $this;
     }
 
@@ -236,6 +236,7 @@ class User extends CactusEntity
     public function setEmailVerifiedAt(?\DateTime $email_verified_at): User
     {
         $this->email_verified_at = $email_verified_at;
+
         return $this;
     }
 
@@ -247,6 +248,7 @@ class User extends CactusEntity
     public function setPasswordChangedAt(?\DateTime $password_changed_at): User
     {
         $this->password_changed_at = $password_changed_at;
+
         return $this;
     }
 
@@ -258,6 +260,7 @@ class User extends CactusEntity
     public function setActive(int $active): User
     {
         $this->active = $active;
+
         return $this;
     }
 
@@ -269,6 +272,7 @@ class User extends CactusEntity
     public function setLastLoginAt(?\DateTime $last_login_at): User
     {
         $this->last_login_at = $last_login_at;
+
         return $this;
     }
 
@@ -280,6 +284,7 @@ class User extends CactusEntity
     public function setLastLoginIp(?string $last_login_ip): User
     {
         $this->last_login_ip = $last_login_ip;
+
         return $this;
     }
 
@@ -291,6 +296,7 @@ class User extends CactusEntity
     public function setToBeLoggedOut(bool $to_be_logged_out): User
     {
         $this->to_be_logged_out = $to_be_logged_out;
+
         return $this;
     }
 
@@ -302,6 +308,7 @@ class User extends CactusEntity
     public function setProfilePhotoUrl(?string $profile_photo_url): User
     {
         $this->profile_photo_url = $profile_photo_url;
+
         return $this;
     }
 
@@ -313,6 +320,7 @@ class User extends CactusEntity
     public function setTwoFactorSecret(?string $twoFactorSecret): User
     {
         $this->twoFactorSecret = $twoFactorSecret;
+
         return $this;
     }
 
@@ -324,6 +332,7 @@ class User extends CactusEntity
     public function setTwoFactorConfirmed(?string $twoFactorConfirmed): user
     {
         $this->twoFactorConfirmed = $twoFactorConfirmed;
+
         return $this;
     }
 
@@ -335,6 +344,7 @@ class User extends CactusEntity
     public function setTwoFactorRecoveryCodes(?string $twoFactorRecoveryCodes): user
     {
         $this->twoFactorRecoveryCodes = $twoFactorRecoveryCodes;
+
         return $this;
     }
 
@@ -346,6 +356,7 @@ class User extends CactusEntity
     public function setTwoFactorQrCodeSvg(?string $twoFactorQrCodeSvg): user
     {
         $this->twoFactorQrCodeSvg = $twoFactorQrCodeSvg;
+
         return $this;
     }
 
@@ -357,9 +368,9 @@ class User extends CactusEntity
     public function setTokens(array $tokens): User
     {
         $this->tokens = $tokens;
+
         return $this;
     }
-
 
     /**
      * @return Role[]
@@ -372,6 +383,7 @@ class User extends CactusEntity
     public function setRoles(array $roles): User
     {
         $this->roles = $roles;
+
         return $this;
     }
 
@@ -386,24 +398,7 @@ class User extends CactusEntity
     public function setPermissions(array $permissions): User
     {
         $this->permissions = $permissions;
+
         return $this;
     }
-
-    public static function fromRequest(Request $request): User
-    {
-        $user = new User();
-        return $user
-            ->setName($request['name'])
-            ->setEmail($request['email'])
-            ->setPassword($request['password'])
-            ->setEmailVerifiedAt($request['email_verified_at'])
-            ->setPasswordChangedAt($request['password_changed_at'])
-            ->setActive($request['active'])
-            ->setLastLoginAt($request['last_login_at'])
-            ->setLastLoginIp($request['last_login_ip'])
-            ->setToBeLoggedOut($request['to_be_logged_out'])
-            ->setProfilePhotoUrl($request['profile_photo_path']);
-    }
-
-
 }

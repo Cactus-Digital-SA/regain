@@ -13,14 +13,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Test extends Model
 {
-
     protected $fillable = [
         'name',
         'category_id',
         'sort'
     ];
 
-    public function category() :BelongsTo
+    public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
@@ -28,14 +27,15 @@ class Test extends Model
     /**
      * @return HasMany
      */
-    public function questions():HasMany
+    public function questions(): HasMany
     {
         return $this->hasMany(Question::class);
     }
+
     /**
      * @return HasMany
      */
-    public function thresholds():HasMany
+    public function thresholds(): HasMany
     {
         return $this->hasMany(Threshold::class);
     }
@@ -47,6 +47,4 @@ class Test extends Model
     {
         return $this->belongsToMany(Subscale::class);
     }
-
-
 }

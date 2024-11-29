@@ -11,12 +11,13 @@ use App\Models\CactusEntity;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use Nette\NotImplementedException;
 use Yajra\DataTables\Facades\DataTables;
 
 class EloqInstructionRepository implements InstructionRepositoryInterface
 {
-
     private EloqInstruction $model;
+
     public function __construct(EloqInstruction $instruction)
     {
         $this->model = $instruction;
@@ -27,14 +28,16 @@ class EloqInstructionRepository implements InstructionRepositoryInterface
      */
     public function get(): array
     {
-       $instructions = $this->model->all();
-       return ObjectSerializer::deserialize($instructions->toJson() ?? "{}", 'array<' . \App\Domains\Instructions\Models\Instruction::class . '>', 'json');
+        $instructions = $this->model->all();
+
+        return ObjectSerializer::deserialize($instructions->toJson() ?? "{}", 'array<' . \App\Domains\Instructions\Models\Instruction::class . '>', 'json');
     }
 
     public function getById(string $id): ?CactusEntity
     {
         $instructions = $this->model->find($id);
-        return ObjectSerializer::deserialize($instructions->toJson() ?? "{}",  \App\Domains\Instructions\Models\Instruction::class, 'json');
+
+        return ObjectSerializer::deserialize($instructions->toJson() ?? "{}", \App\Domains\Instructions\Models\Instruction::class, 'json');
     }
 
     /**
@@ -47,8 +50,8 @@ class EloqInstructionRepository implements InstructionRepositoryInterface
         DB::beginTransaction();
 
         try {
-            $instruction = new $this->model;
-            $instruction->content = $entity->getContent() ?? null;
+            $instruction              = new $this->model;
+            $instruction->content     = $entity->getContent() ?? null;
             $instruction->language_id = $entity->getLanguageId() ?? null;
 
             $instruction->save();
@@ -66,22 +69,24 @@ class EloqInstructionRepository implements InstructionRepositoryInterface
     public function update(CactusEntity $entity, string $id): ?CactusEntity
     {
         // TODO: Implement update() method.
+        throw new NotImplementedException();
     }
 
     public function deleteById(string $id): bool
     {
         // TODO: Implement deleteById() method.
+        throw new NotImplementedException();
     }
 
     public function getInstructionByTest(string $testId): array
     {
         // TODO: Implement getInstructionByTest() method.
+        throw new NotImplementedException();
     }
-
 
     /**
      * @param string $instruction
-     * @param int $language_id
+     * @param int    $language_id
      * @return Instruction|null
      */
     public function findOrCreateInstruction(string $instruction, int $language_id): ?Instruction
@@ -91,12 +96,10 @@ class EloqInstructionRepository implements InstructionRepositoryInterface
             ->where('content', $instruction)
             ->firstOrCreate([
                 'language_id' => $language_id,
-                'content' => $instruction
+                'content'     => $instruction
             ]);
 
         $instruction->load('language');
-
-        //dd($instruction);
 
         return ObjectSerializer::deserialize($instruction->toJson() ?? "{}", Instruction::class, 'json');
     }
@@ -114,6 +117,6 @@ class EloqInstructionRepository implements InstructionRepositoryInterface
         $instructions->orderBy('instructions.id', 'asc');
 
         return DataTables::of($instructions)
-            ->toJson();
+                         ->toJson();
     }
 }

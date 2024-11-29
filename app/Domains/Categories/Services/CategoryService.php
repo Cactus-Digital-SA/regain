@@ -7,7 +7,6 @@ use App\Domains\Categories\Repositories\CategoryRepositoryInterface;
 
 class CategoryService
 {
-
     private CategoryRepositoryInterface $repository;
 
     /**
@@ -18,9 +17,8 @@ class CategoryService
         $this->repository = $repository;
     }
 
-
     /**
-     * @param string $name
+     * @param string   $name
      * @param int|null $parent_id
      * @param int|null $sort
      * @return Category
@@ -32,8 +30,8 @@ class CategoryService
 
     /**
      * @param string|null $searchTerm
-     * @param int $offset
-     * @param int $resultCount
+     * @param int         $offset
+     * @param int         $resultCount
      * @return array
      */
     public function categoriesPaginated(?string $searchTerm, int $offset, int $resultCount): array

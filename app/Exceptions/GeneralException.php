@@ -19,9 +19,9 @@ class GeneralException extends Exception
     /**
      * GeneralException constructor.
      *
-     * @param  string  $message
-     * @param  int  $code
-     * @param  Throwable|null  $previous
+     * @param string         $message
+     * @param int            $code
+     * @param Throwable|null $previous
      */
     public function __construct($message = '', $code = 0, Throwable $previous = null)
     {
@@ -36,7 +36,6 @@ class GeneralException extends Exception
         //
     }
 
-
     /**
      * @param $request
      * @return RedirectResponse
@@ -47,6 +46,6 @@ class GeneralException extends Exception
         return redirect()
             ->back()
             ->withInput()
-            ->with('danger',$this->message);
+            ->with('danger', $this->message);
     }
 }

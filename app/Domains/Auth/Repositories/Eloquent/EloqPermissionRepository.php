@@ -10,6 +10,7 @@ use App\Domains\Auth\Repositories\PermissionRepositoryInterface;
 use App\Facades\ObjectSerializer;
 use App\Models\CactusEntity;
 use Illuminate\Http\JsonResponse;
+use PhpCsFixer\Console\Report\FixReport\JsonReporter;
 
 class EloqPermissionRepository implements PermissionRepositoryInterface
 {
@@ -43,61 +44,66 @@ class EloqPermissionRepository implements PermissionRepositoryInterface
     }
 
     /**
-     *@return Permission[]
+     * @return Permission[]
      */
     public function getCategorizedPermissions(): array
     {
-        $permissions = $this->model::isMaster()
-            ->with('children')
-            ->get();
+        $permissions = $this->model->isMaster()
+                                   ->with('children')
+                                   ->get();
 
-        return ObjectSerializer::deserialize($permissions->toJson() ?? "{}",'array<' . Permission::class . '>', 'json');
+        return ObjectSerializer::deserialize($permissions->toJson() ?? "{}", 'array<' . Permission::class . '>', 'json');
     }
 
     /**
-     *@return Permission[]
+     * @return Permission[]
      */
     public function getUncategorizedPermissions(): array
     {
-        $permissions = $this->model::singular()
-            ->orderBy('sort', 'asc')
-            ->get();
+        $permissions = $this->model->singular()
+                                   ->orderBy('sort', 'asc')
+                                   ->get();
 
-        return ObjectSerializer::deserialize($permissions->toJson() ?? "{}",'array<' . Permission::class . '>', 'json');
+        return ObjectSerializer::deserialize($permissions->toJson() ?? "{}", 'array<' . Permission::class . '>', 'json');
     }
 
     /**
-     *@return Permission[]
+     * @return Permission[]
      */
     public function getRolePermissions($roleId): array
     {
         $role = EloquentRole::find($roleId);
 
-        return ObjectSerializer::deserialize($role->permissions->toJson() ?? "{}",'array<' . Permission::class . '>', 'json');
+        return ObjectSerializer::deserialize($role->permissions->toJson() ?? "{}", 'array<' . Permission::class . '>', 'json');
     }
 
     public function getById(string $id): ?CactusEntity
     {
         // TODO: Implement getById() method.
+        return null;
     }
 
     public function store(CactusEntity $entity): ?CactusEntity
     {
         // TODO: Implement store() method.
+        return null;
     }
 
     public function update($entity, string $id): ?CactusEntity
     {
         // TODO: Implement update() method.
+        return null;
     }
 
     public function deleteById(string $id): bool
     {
         // TODO: Implement deleteById() method.
+        return false;
     }
 
     public function dataTable(array $filters = []): JsonResponse
     {
         // TODO: Implement dataTable() method.
+        return new JsonResponse();
     }
 }

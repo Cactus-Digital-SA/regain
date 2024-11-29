@@ -8,11 +8,12 @@ use App\Domains\Subscales\Repositories\SubscaleRepositoryInterface;
 use App\Facades\ObjectSerializer;
 use App\Models\CactusEntity;
 use Illuminate\Http\JsonResponse;
+use Nette\NotImplementedException;
 
 class EloqSubscaleRepository implements SubscaleRepositoryInterface
 {
-
     private EloquentSubscale $model;
+
     public function __construct(EloquentSubscale $subscale)
     {
         $this->model = $subscale;
@@ -20,52 +21,58 @@ class EloqSubscaleRepository implements SubscaleRepositoryInterface
 
     public function get(): ?array
     {
-        $subscales =  $this->model->all();
+        $subscales = $this->model->all();
 
-        if($subscales){
+        if ($subscales) {
             return ObjectSerializer::deserialize($subscales->toJson() ?? "{}", 'array<' . Subscale::class . '>', 'json');
         }
+
         return ObjectSerializer::deserialize("{}", 'array<' . Subscale::class . '>', 'json');
     }
 
     public function getById(string $id): ?Subscale
     {
         // TODO: Implement getById() method.
+        throw new NotImplementedException();
     }
 
     public function deleteById(string $id): bool
     {
         // TODO: Implement deleteById() method.
+        throw new NotImplementedException();
     }
 
     public function store(Subscale|CactusEntity $entity): ?Subscale
     {
         // TODO: Implement store() method.
+        throw new NotImplementedException();
     }
 
     public function update(Subscale|CactusEntity $entity, string $id): ?Subscale
     {
         // TODO: Implement update() method.
+        throw new NotImplementedException();
     }
 
-    public function subscalesDatatable(array $filters = []): \Illuminate\Http\JsonResponse
+    public function subscalesDatatable(array $filters = []): JsonResponse
     {
         // TODO: Implement subscalesDatatable() method.
+        throw new NotImplementedException();
     }
 
-    public function findOrCreate(string $name, int $test_id, int $requiredQuestions, ?int $sort ): Subscale
+    public function findOrCreate(string $name, int $test_id, int $requiredQuestions, ?int $sort): Subscale
     {
         $subscale = $this->model
             ->firstOrCreate([
                 'name' => $name,
             ],
-            [
-                'test_id' => $test_id,
-                'required_questions' => $requiredQuestions,
-                'sort' => $sort
-            ]);
+                [
+                    'test_id'            => $test_id,
+                    'required_questions' => $requiredQuestions,
+                    'sort'               => $sort
+                ]);
 
-        $subscale->load(['test','questions']);
+        $subscale->load(['test', 'questions']);
 
         return ObjectSerializer::deserialize($subscale->toJson() ?? "{}", Subscale::class, 'json');
     }
@@ -73,6 +80,7 @@ class EloqSubscaleRepository implements SubscaleRepositoryInterface
     public function dataTable(array $filters = []): JsonResponse
     {
         // TODO: Implement dataTable() method.
+        throw new NotImplementedException();
     }
 
     /**
@@ -82,11 +90,11 @@ class EloqSubscaleRepository implements SubscaleRepositoryInterface
     {
         $entity = $this->model->where('name', $name)->first();
 
-        if($entity == null){
+        if ($entity == null) {
             return null;
         }
 
-        if($withRelations){
+        if ($withRelations) {
             $entity->load([]);
         }
 

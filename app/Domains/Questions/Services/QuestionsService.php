@@ -2,14 +2,12 @@
 
 namespace App\Domains\Questions\Services;
 
-
 use App\Domains\Questions\Models\Question;
 use App\Domains\Questions\Repositories\QuestionRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 
 class QuestionsService
 {
-
     private QuestionRepositoryInterface $repository;
 
     /**
@@ -30,7 +28,7 @@ class QuestionsService
     }
 
     /**
-     * @param Question $entity
+     * @param Question    $entity
      * @param string|null $id
      * @return Question|null
      */
@@ -38,7 +36,6 @@ class QuestionsService
     {
         return $this->repository->storeWithId($entity, $id);
     }
-
 
     /**
      * @param int $id
@@ -69,10 +66,11 @@ class QuestionsService
 
     /**
      * @param Question $entity
-     * @param int $id
+     * @param int      $id
      * @return Question|null
      */
-    public function update(Question $entity, int $id): ?Question{
+    public function update(Question $entity, int $id): ?Question
+    {
         return $this->repository->update($entity, $id);
     }
 
@@ -85,15 +83,13 @@ class QuestionsService
         return $this->repository->attachReferences($entity);
     }
 
-
     /**
      * @param Question $entity
-     * @param int $id
+     * @param int      $id
      * @return Question|null
      */
     public function syncReferences(Question $entity, int $id): ?Question
     {
-        return $this->repository->syncReferences($entity,$id);
+        return $this->repository->syncReferences($entity, $id);
     }
-
 }

@@ -17,11 +17,10 @@ class ResponseService
         $this->repository = $repository;
     }
 
-
     /**
      * @return Response[]
      */
-    public function get():array
+    public function get(): array
     {
         return $this->repository->get();
     }
@@ -30,7 +29,7 @@ class ResponseService
      * @param string $id
      * @return Response|null
      */
-    public function getById(string $id) : ?Response
+    public function getById(string $id): ?Response
     {
         return $this->repository->getById($id);
     }
@@ -39,7 +38,7 @@ class ResponseService
      * @param string $type
      * @return Response[]|null
      */
-    public function getByType(string $type) : ?array
+    public function getByType(string $type): ?array
     {
         return $this->repository->getByType($type);
     }
@@ -48,31 +47,31 @@ class ResponseService
      * @param string $title
      * @return Response|null
      */
-    public function getByTitle(string $title) : ?Response
+    public function getByTitle(string $title): ?Response
     {
         return $this->repository->getByTitle($title);
     }
 
     /**
-     * @param string $title
-     * @param int $language_id
-     * @param int $type
+     * @param string   $title
+     * @param int      $language_id
+     * @param int      $type
      * @param int|null $sort
      * @return Response
      */
     public function findOrCreate(string $title, int $language_id, int $type, ?int $sort): Response
     {
-        return $this->repository->findOrCreate($title, $language_id,$type, $sort);
+        return $this->repository->findOrCreate($title, $language_id, $type, $sort);
     }
 
     /**
      * @param Response $entity
-     * @param string $questionId
-     * @param string $score
+     * @param string   $questionId
+     * @param string   $score
      * @return Response
      */
     public function addScore(Response $entity, string $questionId, string $score): Response
     {
-        return $this->repository->addScore($entity, $questionId , $score);
+        return $this->repository->addScore($entity, $questionId, $score);
     }
 }

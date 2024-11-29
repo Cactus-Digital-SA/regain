@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Threshold extends Model
 {
-
     protected $fillable = [
         'interpretation',
         'range_start',
@@ -21,7 +20,7 @@ class Threshold extends Model
     /**
      * @return BelongsTo
      */
-    public function tests() : BelongsTo
+    public function tests(): BelongsTo
     {
         return $this->belongsTo(Test::class);
     }
@@ -29,7 +28,7 @@ class Threshold extends Model
     /**
      * @return BelongsTo
      */
-    public function subscales() : BelongsTo
+    public function subscales(): BelongsTo
     {
         return $this->belongsTo(Subscale::class);
     }

@@ -44,7 +44,6 @@ class User extends Authenticatable
         'to_be_logged_out',
         'profile_photo_path'
     ];
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -56,23 +55,17 @@ class User extends Authenticatable
         'two_factor_recovery_codes',
         'two_factor_secret',
     ];
-
     /**
      * The attributes that should be cast.
      *
      * @var array<string, string>
      */
     protected $casts = [
-        'active' => 'boolean',
-        'last_login_at' => 'datetime',
+        'active'            => 'boolean',
+        'last_login_at'     => 'datetime',
         'email_verified_at' => 'datetime',
-        'to_be_logged_out' => 'boolean',
+        'to_be_logged_out'  => 'boolean',
     ];
-
-    protected static function newFactory() {
-        return UserFactory::new();
-    }
-
     /**
      * The accessors to append to the model's array form.
      *
@@ -81,6 +74,11 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    protected static function newFactory()
+    {
+        return UserFactory::new();
+    }
 
     /**
      * Return true or false if the user can impersonate an other user.
@@ -107,5 +105,4 @@ class User extends Authenticatable
     {
         return 'web';
     }
-
 }
