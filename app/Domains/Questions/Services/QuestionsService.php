@@ -123,10 +123,25 @@ readonly class QuestionsService
                     return null;
                 }
 
-                return $skillsCategories->first()->tests()->first()->questions()->first();
+                /** @var EloquentQuestion $activeQuestion */
+                $activeQuestion = $skillsCategories
+                    ->first()
+                    ->tests()
+                    ->first()
+                    ->questions()
+                    ->first();
+
+                return $activeQuestion->load(['responses', 'references', 'instructions']);
             }
         }
 
-        return $socioDemoGraphicsCategories->first()->tests()->first()->questions()->first();
+        $activeQuestion = $socioDemoGraphicsCategories
+            ->first()
+            ->tests()
+            ->first()
+            ->questions()
+            ->first();
+
+        return $activeQuestion->load(['responses', 'references', 'instructions']);
     }
 }
