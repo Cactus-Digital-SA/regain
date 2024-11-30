@@ -2,20 +2,20 @@
 
 namespace App\Domains\Questions\Services;
 
+use App\Domains\QuestionnaireFlow\Constants\QuestionnaireFlowType;
+use App\Domains\QuestionnaireFlow\QuestionnaireFlowService;
 use App\Domains\Questions\Models\Question;
+use App\Domains\Questions\Repositories\Eloquent\Models\Question as EloquentQuestion;
 use App\Domains\Questions\Repositories\QuestionRepositoryInterface;
+use App\Domains\UserResponse\Models\UserResponse;
 use Illuminate\Http\JsonResponse;
 
-class QuestionsService
+readonly class QuestionsService
 {
-    private QuestionRepositoryInterface $repository;
-
-    /**
-     * @param QuestionRepositoryInterface $repository
-     */
-    public function __construct(QuestionRepositoryInterface $repository)
-    {
-        $this->repository = $repository;
+    public function __construct(
+        private QuestionRepositoryInterface $repository,
+        private QuestionnaireFlowService $questionnaireFlowService,
+    ) {
     }
 
     /**
@@ -91,5 +91,42 @@ class QuestionsService
     public function syncReferences(Question $entity, int $id): ?Question
     {
         return $this->repository->syncReferences($entity, $id);
+    }
+
+    public function getActiveQuestion(int $userId): ?EloquentQuestion
+    {
+        // Get all categories to keep state
+        $socioDemoGraphicsCategories = $this->questionnaireFlowService
+            ->getFlowCategories(QuestionnaireFlowType::SOCIODEMOGRAPHIC_ASSESSMENT);
+
+        $skillsCategories = $this->questionnaireFlowService
+            ->getFlowCategories(QuestionnaireFlowType::SKILLS);
+
+        /** @var UserResponse|null $currentUserResponse */
+        $currentUserResponse = UserResponse::query()
+                                           ->where('user_id', $userId)
+                                           ->orderBy('question_response_id', 'desc')
+                                           ->first();
+
+        if ($currentUserResponse !== null) {
+            /** @var EloquentQuestion $question */
+            $question = $currentUserResponse->questionResponse()->question;
+
+            $nextQuestion = EloquentQuestion::query()
+                                   ->where('id', $question->question_id + 1)
+                                   ->first();
+
+            if ($nextQuestion === null) {
+                $currentCategoryId = $question->test->category_id;
+
+                if (in_array($currentCategoryId, $socioDemoGraphicsCategories->pluck('id')->toArray(), true)) {
+                    return null;
+                }
+
+                return $skillsCategories->first()->tests()->first()->questions()->first();
+            }
+        }
+
+        return $socioDemoGraphicsCategories->first()->tests()->first()->questions()->first();
     }
 }

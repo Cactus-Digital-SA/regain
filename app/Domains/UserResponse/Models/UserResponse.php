@@ -1,0 +1,50 @@
+<?php
+
+namespace App\Domains\UserResponse\Models;
+
+use App\Domains\Auth\Repositories\Eloquent\Models\User;
+use App\Domains\Questions\Repositories\Eloquent\Models\QuestionResponse;
+use App\Domains\Subscales\Repositories\Eloquent\Models\Subscale;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+/**
+ * @property int id
+ * @property int user_id
+ * @property int subscale
+ * @property int question_response_id
+ * @property int score
+ * @property Carbon created_at
+ * @property Carbon updated_at
+ */
+class UserResponse extends Model
+{
+    protected $fillable = [
+        'user_id',
+        'subscale',
+        'question_response_id',
+        'score'
+    ];
+    protected $casts = [
+        'question_response_id' => 'int',
+        'score'                => 'int',
+        'user_id'              => 'int',
+        'subscale'             => 'int'
+    ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function questionResponse(): BelongsTo
+    {
+        return $this->belongsTo(QuestionResponse::class);
+    }
+
+    public function subscale(): BelongsTo
+    {
+        return $this->belongsTo(Subscale::class);
+    }
+}
