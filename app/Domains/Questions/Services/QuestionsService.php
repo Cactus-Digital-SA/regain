@@ -7,7 +7,7 @@ use App\Domains\QuestionnaireFlow\QuestionnaireFlowService;
 use App\Domains\Questions\Models\Question;
 use App\Domains\Questions\Repositories\Eloquent\Models\Question as EloquentQuestion;
 use App\Domains\Questions\Repositories\QuestionRepositoryInterface;
-use App\Domains\UserResponse\Models\UserResponse;
+use App\Domains\UserResponse\Repositories\Eloquent\Models\UserResponse;
 use Illuminate\Http\JsonResponse;
 
 readonly class QuestionsService
@@ -111,10 +111,7 @@ readonly class QuestionsService
         if ($currentUserResponse !== null) {
             /** @var EloquentQuestion $question */
             $question = $currentUserResponse->questionResponse()->question;
-
-            $nextQuestion = EloquentQuestion::query()
-                                   ->where('id', $question->question_id + 1)
-                                   ->first();
+            $nextQuestion = $this->repository->getById($question->question_id + 1);
 
             if ($nextQuestion === null) {
                 $currentCategoryId = $question->test->category_id;

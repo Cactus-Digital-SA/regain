@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_responses', function (Blueprint $table) {
+        Schema::create('user_responses', static function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('subscale')->nullable()->constrained('subscales')->cascadeOnDelete();
+            $table->foreignId('subscale_id')->nullable()->constrained('subscales')->cascadeOnDelete();
             $table->foreignId('question_response_id')->constrained('question_response')->cascadeOnDelete();
             $table->unsignedSmallInteger('score')->nullable();
             $table->timestamps();
