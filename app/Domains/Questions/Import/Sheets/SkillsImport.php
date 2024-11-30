@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Domains\Questions\Import\Sheets;
+
 use App\Domains\Questions\Import\QuestionsImport;
 use Exception;
 use Illuminate\Support\Collection;
@@ -9,7 +10,6 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 class SkillsImport implements ToCollection, WithHeadingRow
 {
-
     /**
      * @param Collection $collection
      * @return void
@@ -24,6 +24,4 @@ class SkillsImport implements ToCollection, WithHeadingRow
     {
         return 4;
     }
-
-
 }

@@ -9,6 +9,7 @@ use App\Domains\Questions\Repositories\Eloquent\Models\Question as EloquentQuest
 use App\Domains\Questions\Repositories\QuestionRepositoryInterface;
 use App\Domains\UserResponse\Repositories\Eloquent\Models\UserResponse;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Collection;
 
 readonly class QuestionsService
 {
@@ -44,6 +45,14 @@ readonly class QuestionsService
     public function getById(int $id): ?Question
     {
         return $this->repository->getById($id);
+    }
+
+    /**
+     * @return Question[]
+     */
+    public function getAll(): array
+    {
+        return $this->repository->get();
     }
 
     /**
@@ -93,7 +102,7 @@ readonly class QuestionsService
         return $this->repository->syncReferences($entity, $id);
     }
 
-    public function getActiveQuestion(int $userId): ?EloquentQuestion
+    public function getActiveQuestion(int $userId): ?Question
     {
         // Get all categories to keep state
         $socioDemoGraphicsCategories = $this->questionnaireFlowService
@@ -110,7 +119,7 @@ readonly class QuestionsService
 
         if ($currentUserResponse !== null) {
             /** @var EloquentQuestion $question */
-            $question = $currentUserResponse->questionResponse()->question;
+            $question     = $currentUserResponse->questionResponse()->question;
             $nextQuestion = $this->repository->getById($question->question_id + 1);
 
             if ($nextQuestion === null) {
@@ -136,9 +145,11 @@ readonly class QuestionsService
             ->first()
             ->tests()
             ->first()
-            ->questions()
+            ?->questions()
+            ->get(["id"])
             ->first();
 
-        return $activeQuestion->load(['responses', 'references', 'instructions']);
+        return $this->repository->getById($activeQuestion->id);
+//        return
     }
 }

@@ -2,11 +2,7 @@
 
 namespace App\Domains\Questions\Import;
 
-use App\Domains\Categories\Repositories\Eloquent\EloqCategoryRepository;
-use App\Domains\Categories\Repositories\Eloquent\Models\Category;
 use App\Domains\Categories\Services\CategoryService;
-use App\Domains\Instructions\Repositories\Eloquent\EloqInstructionRepository;
-use App\Domains\Instructions\Repositories\Eloquent\Models\Instruction;
 use App\Domains\Instructions\Services\InstructionService;
 use App\Domains\Language\Repositories\Eloquent\EloqLanguageRepository;
 use App\Domains\Language\Repositories\Eloquent\Models\Language;
@@ -18,23 +14,14 @@ use App\Domains\Questions\Import\Sheets\SkillsImport;
 use App\Domains\Questions\Import\Sheets\SociodemographicImport;
 use App\Domains\Questions\Import\Sheets\ThresholdImport;
 use App\Domains\Questions\Jobs\CreateQuestionFromJob;
-use App\Domains\Questions\Repositories\Eloquent\EloqQuestionRepository;
-use App\Domains\Questions\Repositories\Eloquent\Models\Question as EloqQuestion;
 use App\Domains\Questions\Services\QuestionsService;
-use App\Domains\References\Repositories\Eloquent\EloqReferenceRepository;
-use App\Domains\References\Repositories\Eloquent\Models\Reference;
 use App\Domains\References\Services\ReferenceService;
-use App\Domains\Responses\Repositories\Eloquent\EloqResponseRepository;
-use App\Domains\Responses\Repositories\Eloquent\Models\Response;
 use App\Domains\Responses\Services\ResponseService;
-use App\Domains\Subscales\Repositories\Eloquent\EloqSubscaleRepository;
-use App\Domains\Subscales\Repositories\Eloquent\Models\Subscale;
 use App\Domains\Subscales\Services\SubscaleService;
-use App\Domains\Tests\Repositories\Eloquent\EloqTestRepository;
-use App\Domains\Tests\Repositories\Eloquent\Models\Test;
 use App\Domains\Tests\Services\TestService;
 use App\Helpers\Helpers;
 use Exception;
+use Illuminate\Container\Container;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -50,12 +37,10 @@ class QuestionsImport implements WithMultipleSheets
     public static function createInstruction(string $instruction, int $language_id): ?int
     {
         if ($instruction != null && $instruction != '-') {
-            $repository         = new EloqInstructionRepository(new Instruction());
-            $instructionService = new InstructionService($repository);
+            /** @var InstructionService $instructionService */
+            $instructionService = Container::getInstance()->get(InstructionService::class);
 
-            $instructionDTO = $instructionService->findOrCreateInstruction($instruction, $language_id);
-
-            return $instructionDTO->getId();
+            return $instructionService->findOrCreateInstruction($instruction, $language_id)?->getId();
         }
 
         return null;
@@ -67,12 +52,12 @@ class QuestionsImport implements WithMultipleSheets
      */
     public static function findLanguage(string $code): int
     {
-        $repository      = new EloqLanguageRepository(new Language());
-        $languageService = new LanguageService($repository);
+        /** @var LanguageService $languageService */
+        $languageService = Container::getInstance()->get(LanguageService::class);
 
         $language = $languageService->getByCode($code);
 
-        if ($language->getCode() == null) {
+        if ($language->getCode() === null) {
             return 0;
         }
 
@@ -87,7 +72,7 @@ class QuestionsImport implements WithMultipleSheets
     public static function createCategory(string $category): int
     {
         try {
-            $categoryService = new CategoryService(new EloqCategoryRepository(new Category()));
+            $categoryService = Container::getInstance()->get(CategoryService::class);
             $category        = $categoryService->firstOrCreate($category, null, null);
             $categoryId      = $category->getId();
         } catch (Exception $exception) {
@@ -107,10 +92,9 @@ class QuestionsImport implements WithMultipleSheets
     public static function createTest(string $test, int $categoryId): int
     {
         try {
-            $testService = new TestService(new EloqTestRepository(new Test()));
-            $testDTO     = $testService->findOrCreate($test, $categoryId, null);
+            $testService = Container::getInstance()->get(TestService::class);
 
-            return $testDTO->getId();
+            return $testService->findOrCreate($test, $categoryId, null)->getId();
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
             throw $exception;
@@ -127,10 +111,9 @@ class QuestionsImport implements WithMultipleSheets
     {
         if ($subscale != null && $subscale != '-') {
             try {
-                $subscaleService = new SubscaleService(new EloqSubscaleRepository(new Subscale()));
-                $subscaleDTO     = $subscaleService->findOrCreate($subscale, $testId, 2, null);
+                $subscaleService = Container::getInstance()->get(SubscaleService::class);
 
-                return $subscaleDTO->getId();
+                return $subscaleService->findOrCreate($subscale, $testId, 2, null)->getId();
             } catch (Exception $exception) {
                 Log::error($exception->getMessage());
                 throw $exception;
@@ -149,7 +132,7 @@ class QuestionsImport implements WithMultipleSheets
     public static function createResponses(array $responses, int $language_id): array
     {
         try {
-            $service      = new ResponseService(new EloqResponseRepository(new Response()));
+            $service      = Container::getInstance()->get(ResponseService::class);
             $responsesIds = [];
 
             foreach ($responses as $response) {
@@ -170,7 +153,7 @@ class QuestionsImport implements WithMultipleSheets
      */
     public static function createQuestions(Collection $collection): void
     {
-        $questionService = new QuestionsService(new EloqQuestionRepository(new EloqQuestion()));
+        $questionService = Container::getInstance()->get(QuestionsService::class);
         foreach ($collection as $row) {
             if ($row['unique_id'] == null) {
                 continue;
@@ -210,7 +193,7 @@ class QuestionsImport implements WithMultipleSheets
      */
     public static function getReferences(string $type, string $group): array
     {
-        $referenceService = new ReferenceService(new EloqReferenceRepository(new Reference()));
+        $referenceService = Container::getInstance()->get(ReferenceService::class);
         $references       = $referenceService->getByGroupAndType($group, $type);
 
         $referencesId = [];
@@ -284,10 +267,10 @@ class QuestionsImport implements WithMultipleSheets
         return [
             5 => new ReferenceImport(),
             0 => new SociodemographicImport(),
-            3 => new ScoresImport(),
             4 => new ThresholdImport(),
             1 => new PreAssessmentsImport(),
             2 => new SkillsImport(),
+            3 => new ScoresImport(),
         ];
     }
 }

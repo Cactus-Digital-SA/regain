@@ -2,6 +2,7 @@
 
 namespace App\Domains\Auth\Repositories\Eloquent\Models\Traits\Method;
 
+use App\Domains\Auth\Models\RolesEnum;
 use Illuminate\Support\Collection;
 
 /**
@@ -36,6 +37,14 @@ trait UserMethod
         else:
             return false;
         endif;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function isPatient(): bool
+    {
+        return $this->hasRole(RolesEnum::Patient->value);
     }
 
     /**

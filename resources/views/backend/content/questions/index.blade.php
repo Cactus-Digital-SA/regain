@@ -13,21 +13,23 @@
 @endsection
 
 @section('content-header-breadcrumbs')
-    <li class="breadcrumb-item"><a href="{{route('home')}}">{{ __('Home') }}</a>
+    <li class="breadcrumb-item"><a href="{{route('admin.home')}}">{{ __('Home') }}</a>
     </li>
     <li class="breadcrumb-item active">
-        <a href="{{route('tests.questions.index')}}">{{ __('All Questions') }}</a>
+        <a href="{{route('admin.tests.questions.index')}}">{{ __('All Questions') }}</a>
     </li>
 @endsection
 
 @section('content-header')
     <div class="col-md-5 content-header-right text-md-end col-md-auto d-md-block d-none mb-2">
         <div class="mb-1 breadcrumb-right">
-            <a class="btn btn-success waves-effect waves-float waves-light me-2" href="{{route('tests.questions.create')}}"><i class="ti ti-package ti-xs me-1"></i> {{ __("Create Question") }}</a>
+            <a class="btn btn-success waves-effect waves-float waves-light me-2" href="{{route('admin.tests.questions.create')}}"><i class="ti ti-package ti-xs me-1"></i> {{ __("Create Question") }}
+            </a>
             <button class="btn btn-info btn-round waves-effect waves-float waves-light" onclick="jQuery('#filters').toggle()">
                 <i class="ti ti-filter"></i> {{__("Filters")}}
             </button>
-            <a href="javascript:void(0)" class="btn btn-secondary waves-effect waves-light me-2" data-bs-toggle="modal" data-bs-target="#importModal"><i class="ti ti-package-import ti-xs me-1"></i> {{ __("Import Questions") }}</a>
+            <a href="javascript:void(0)" class="btn btn-secondary waves-effect waves-light me-2" data-bs-toggle="modal" data-bs-target="#importModal"><i class="ti ti-package-import ti-xs me-1"></i> {{ __("Import Questions") }}
+            </a>
 
         </div>
     </div>
@@ -54,7 +56,8 @@
                         <div class="form-group row p-0 m-0">
                             <div class="col-md-12">
                                 <div class="ButtonToolbar" style="position:relative; top:10%;" role="toolbar" aria-label="Toolbar with button groups">
-                                    <button style="width: 90%;" id="questions_search" name="search" class="btn btn-success mr-1 mb-1 waves-effect waves-light" data-toggle="tooltip"><i class="fa fa-search me-2" ></i>
+                                    <button style="width: 90%;" id="questions_search" name="search" class="btn btn-success mr-1 mb-1 waves-effect waves-light" data-toggle="tooltip">
+                                        <i class="fa fa-search me-2"></i>
                                         {{__('Search')}}</button>
                                 </div>
                             </div>
@@ -106,7 +109,7 @@
                         <h4 class="mb-2">Upload the Excel with the questions</h4>
                         <p>Verify that your excel is in the correct format</p>
                     </div>
-                    <form action="{{ route('tests.import.questions') }}" method="post" class="row g-5" enctype="multipart/form-data">
+                    <form action="{{ route('admin.tests.import.questions') }}" method="post" class="row g-5" enctype="multipart/form-data">
                         @csrf
                         <div class="col-12">
                             <div class="mb-4">
@@ -142,8 +145,9 @@
             var dt_basic_table = $('.questions-datatable');
             if (dt_basic_table.length) {
                 search();
+
                 function search() {
-                    if ( $.fn.DataTable.isDataTable('.questions-datatable') ) {
+                    if ($.fn.DataTable.isDataTable('.questions-datatable')) {
                         dt_basic_table.DataTable().destroy();
                     }
 
@@ -152,7 +156,7 @@
                         serverSide: true,
                         serverMethod: 'post',
                         ajax: {
-                            url: "{{ route('tests.datatable.questions') }}",
+                            url: "{{ route('admin.tests.datatable.questions') }}",
                             headers: {
                                 'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
                             },
@@ -163,16 +167,16 @@
                             }
                         },
                         columns: [
-                            { data: 'id' },
-                            { data: 'id' },
-                            { data: 'id' }, // used for sorting so will hide this column
-                            { data: 'test.name' , name: 'test.name'},
-                            { data: 'languages' , name: 'languages.name'},
-                            { data: 'test.category.name' , name: 'test.category.name'},
-                            { data: 'subscale.name' , name: 'subscale.name'},
-                            { data: 'instruction.content', name: 'instruction.content'},
-                            { data: 'references' , name: 'references.title'},
-                            { data: 'responses' , name: 'responses.title' }
+                            {data: 'id'},
+                            {data: 'id'},
+                            {data: 'id'}, // used for sorting so will hide this column
+                            {data: 'test.name', name: 'test.name'},
+                            {data: 'languages', name: 'languages.name'},
+                            {data: 'test.category.name', name: 'test.category.name'},
+                            {data: 'subscale.name', name: 'subscale.name'},
+                            {data: 'instruction.content', name: 'instruction.content'},
+                            {data: 'references', name: 'references.title'},
+                            {data: 'responses', name: 'responses.title'}
                         ],
                         columnDefs: [
                             {
@@ -232,31 +236,31 @@
                                         extend: 'print',
                                         text: '<i class="ti ti-printer me-2" ></i>Print',
                                         className: 'dropdown-item',
-                                        exportOptions: { columns: [3, 4] }
+                                        exportOptions: {columns: [3, 4]}
                                     },
                                     {
                                         extend: 'csv',
                                         text: '<i class="ti ti-file-text me-2" ></i>Csv',
                                         className: 'dropdown-item',
-                                        exportOptions: { columns: [3, 4] }
+                                        exportOptions: {columns: [3, 4]}
                                     },
                                     {
                                         extend: 'excel',
                                         text: '<i class="ti ti-file-spreadsheet me-2"></i>Excel',
                                         className: 'dropdown-item',
-                                        exportOptions: { columns: [3, 4] }
+                                        exportOptions: {columns: [3, 4]}
                                     },
                                     {
                                         extend: 'pdf',
                                         text: '<i class="ti ti-file-text me-2"></i>Pdf',
                                         className: 'dropdown-item',
-                                        exportOptions: { columns: [3, 4] }
+                                        exportOptions: {columns: [3, 4]}
                                     },
                                     {
                                         extend: 'copy',
                                         text: '<i class="ti ti-copy me-1" ></i>Copy',
                                         className: 'dropdown-item',
-                                        exportOptions: { columns: [3, 4] }
+                                        exportOptions: {columns: [3, 4]}
                                     }
                                 ],
                                 init: function (api, node) {
@@ -328,17 +332,18 @@
                     });
 
                     // Initialize popovers on DataTable draw
-                    dt_basic.on('draw', function() {
-                        $('[data-bs-toggle="popover"]').each(function() {
+                    dt_basic.on('draw', function () {
+                        $('[data-bs-toggle="popover"]').each(function () {
                             var popover = new bootstrap.Popover(this);
-                            $(this).on('shown.bs.popover', function() {
-                                setTimeout(function() {
+                            $(this).on('shown.bs.popover', function () {
+                                setTimeout(function () {
                                     popover.hide();
                                 }, 1500); // 1.5 second delay
                             });
                         });
                     });
                 }
+
                 $('div.head-label').html('<h6 class="mb-0">{{ __('Questions') }}</h6>');
 
 
@@ -355,12 +360,12 @@
                 ajax: {
                     type: 'POST',
                     delay: 500,
-                    url: "{{ route('api.internal.tests.testsPaginated') }}",
+                    url: "{{ route('admin.tests.testsPaginated') }}",
                     dataType: 'json',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    data: function(params) {
+                    data: function (params) {
                         return {
                             term: params.term || '',
                             page: params.page || 1
@@ -371,8 +376,8 @@
                     // },
                     processResults: function (data) {
                         return {
-                            results: $.map(data.results, function(obj) {
-                                return { id: obj.text, text: obj.text }; // Use email as both id and text
+                            results: $.map(data.results, function (obj) {
+                                return {id: obj.text, text: obj.text}; // Use email as both id and text
                             })
                         };
                     },
@@ -386,12 +391,12 @@
                 ajax: {
                     type: 'POST',
                     delay: 500,
-                    url: "{{ route('api.internal.tests.categoriesPaginated') }}",
+                    url: "{{ route('admin.tests.categoriesPaginated') }}",
                     dataType: 'json',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    data: function(params) {
+                    data: function (params) {
                         return {
                             term: params.term || '',
                             page: params.page || 1
@@ -402,8 +407,8 @@
                     // },
                     processResults: function (data) {
                         return {
-                            results: $.map(data.results, function(obj) {
-                                return { id: obj.text, text: obj.text }; // Use email as both id and text
+                            results: $.map(data.results, function (obj) {
+                                return {id: obj.text, text: obj.text}; // Use email as both id and text
                             })
                         };
                     },

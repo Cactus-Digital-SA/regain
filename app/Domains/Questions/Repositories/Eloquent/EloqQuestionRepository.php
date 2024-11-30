@@ -5,6 +5,7 @@ namespace App\Domains\Questions\Repositories\Eloquent;
 use App\Domains\Questions\Models\Question;
 use App\Domains\Questions\Repositories\Eloquent\Models\Question as EloqQuestion;
 use App\Domains\Questions\Repositories\QuestionRepositoryInterface;
+use App\Domains\Tests\Models\Test;
 use App\Exceptions\GeneralException;
 use App\Facades\ObjectSerializer;
 use App\Models\CactusEntity;
@@ -26,8 +27,9 @@ class EloqQuestionRepository implements QuestionRepositoryInterface
 
     public function get(): array
     {
-        // TODO: Implement get() method.
-        throw new NotImplementedException();
+        $questions = $this->model->all();
+
+        return ObjectSerializer::deserialize($questions->toJson() ?? "{}", 'array<' . Question::class . '>', 'json');
     }
 
     /**
@@ -65,7 +67,6 @@ class EloqQuestionRepository implements QuestionRepositoryInterface
             $question->load(['languages', 'responses.languages', 'subscale', 'instruction', 'test', 'references']);
         } catch (Exception $e) {
             DB::rollBack();
-
             Log::error($e->getMessage());
             throw new GeneralException(__('There was a problem creating questions. Please try again.'));
         }
@@ -84,12 +85,11 @@ class EloqQuestionRepository implements QuestionRepositoryInterface
     public function getById(string $id): ?Question
     {
         $question = EloqQuestion::find($id);
+        $question->load(['responses', 'references', 'instruction']);
 
-        if ($question == null) {
-            return null;
-        }
-
-        return ObjectSerializer::deserialize($question->toJson() ?? "{}", Question::class, 'json');
+        return $question ?
+            ObjectSerializer::deserialize($question->toJson() ?? "{}", Question::class, 'json') :
+            null;
     }
 
     public function deleteById(string $id): bool

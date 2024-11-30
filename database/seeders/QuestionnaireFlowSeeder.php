@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace Database\Seeders;
 
 use App\Domains\QuestionnaireFlow\Constants\QuestionnaireFlowType;
-use App\Domains\QuestionnaireFlow\Model\QuestionnaireFlow;
+use App\Domains\QuestionnaireFlow\Models\QuestionnaireFlow;
 use Illuminate\Database\Seeder;
 
 class QuestionnaireFlowSeeder extends Seeder

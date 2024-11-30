@@ -27,6 +27,6 @@ class RolesAndPermissionSeeder extends Seeder
         $role = Role::firstOrCreate(['id' => RolesEnum::Administrator->value, 'name' => 'Administrator',]);
         $role->syncPermissions(Permission::all());
 
-
+        $role = Role::firstOrCreate(['id' => RolesEnum::Patient->value, 'name' => 'Patient',]);
     }
 }

@@ -12,6 +12,7 @@ use App\Domains\Responses\Services\ResponseService;
 use App\Helpers\Helpers;
 use Exception;
 use Illuminate\Bus\Queueable;
+use Illuminate\Container\Container;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -44,8 +45,8 @@ class CreateQuestionFromJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $questionService = new QuestionsService(new EloqQuestionRepository(new Question()));
-        $responseService = new ResponseService(new EloqResponseRepository(new Response()));
+        $questionService = Container::getInstance()->get(QuestionsService::class);
+        $responseService = Container::getInstance()->get(ResponseService::class);
 
         $row = $this->question;
 
