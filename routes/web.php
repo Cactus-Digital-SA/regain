@@ -43,7 +43,7 @@ Route::group([
     'middleware' => ['role.patient', 'auth'],
 ], function () {
     Route::get('/', [PatientController::class, 'index'])->name('home');
-    Route::get('/store', [PatientController::class, 'store'])->name('store');
+    Route::post('/store', [PatientController::class, 'store'])->name('store');
 });
 
 ////2fa fortify

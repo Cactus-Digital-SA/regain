@@ -101,11 +101,13 @@
                             {{$question->getTitle()}}
                         </h5>
                         @foreach ($question->getResponses() as $response)
-                            <div class="form-group">
-                                <a href="{{route('patient.store', [
-                                        "response_id" => $response->getId()
-                                        ])}}" class="btn btn-primary">{{$response->getTitle()}}</a>
-                            </div>
+                            <form method="POST" id="submit-form_{{$response->getId()}}" action="{{ route('patient.store') }}">
+                                @csrf
+                                <input type="hidden" name="response_id" value=""/>
+                                <div class="form-group">
+                                    <button class="btn btn-primary">{{$response->getTitle()}}</button>
+                                </div>
+                            </form>
                         @endforeach
                     </div>
                 </div>
