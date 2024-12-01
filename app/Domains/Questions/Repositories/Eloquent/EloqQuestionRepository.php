@@ -52,10 +52,10 @@ class EloqQuestionRepository implements QuestionRepositoryInterface
 
             $question->title                = $entity->getTitle();
             $question->test_id              = $entity->getTestId();
-            $question->instruction_id       = $entity->getInstructionId() ?? null;
-            $question->subscale_id          = $entity->getSubscaleId() ?? null;
-            $question->sort                 = $entity->getSort() ?? null;
-            $question->required_question_id = $entity->getRequiredQuestionId() ?? null;
+            $question->instruction_id       = $entity->getInstructionId();
+            $question->subscale_id          = $entity->getSubscaleId();
+            $question->sort                 = $entity->getSort();
+            $question->required_question_id = $entity->getRequiredQuestionId();
             $question->status               = $entity->getStatus() ?? 1;
             $question->save();
 
@@ -85,7 +85,10 @@ class EloqQuestionRepository implements QuestionRepositoryInterface
     public function getById(string $id): ?Question
     {
         $question = EloqQuestion::find($id);
-        $question->load(['responses', 'references', 'instruction']);
+
+        if ($question) {
+            $question->load(['responses', 'references', 'instruction']);
+        }
 
         return $question ?
             ObjectSerializer::deserialize($question->toJson() ?? "{}", Question::class, 'json') :

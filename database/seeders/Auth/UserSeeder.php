@@ -1,7 +1,8 @@
 <?php
 
-namespace Database\Seeders\Auth;
+declare(strict_types = 1);
 
+namespace Database\Seeders\Auth;
 
 use App\Domains\Auth\Repositories\Eloquent\Models\User;
 use Illuminate\Database\Seeder;
@@ -11,28 +12,26 @@ use Illuminate\Database\Seeder;
  */
 class UserSeeder extends Seeder
 {
-
     /**
      * Run the database seed.
      */
-    public function run()
+    public function run(): void
     {
         // Add the master administrator, user id of 1
         User::create([
-            'name' => 'Super Admin',
-            'email' => 'admin@cactusweb.gr',
-            'password' => bcrypt('123456'),
+            'name'              => 'Super Admin',
+            'email'             => 'admin@cactusweb.gr',
+            'password'          => bcrypt('123456'),
             'email_verified_at' => now(),
-            'active' => true,
+            'active'            => true,
         ]);
 
         User::create([
-            'name' => 'Cactus',
-            'email' => 'dimitris@cactusweb.gr',
-            'password' => bcrypt('1425lx36'),
+            'name'              => 'Cactus',
+            'email'             => 'dimitris@cactusweb.gr',
+            'password'          => bcrypt('1425lx36'),
             'email_verified_at' => now(),
-            'active' => true,
+            'active'            => true,
         ]);
-
     }
 }
