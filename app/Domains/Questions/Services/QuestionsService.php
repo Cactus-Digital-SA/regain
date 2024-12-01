@@ -143,6 +143,7 @@ readonly class QuestionsService
 
     private function isReadyForSkillsTest(): bool
     {
+        // needs medical history record
         return false;
     }
 }

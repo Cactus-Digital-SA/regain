@@ -37,6 +37,18 @@ class Question extends CactusEntity
      */
     private int $status;
     /**
+     * @var ?bool $selectMultiple
+     * @JMS\Serializer\Annotation\SerializedName("can_select_multiple")
+     * @JMS\Serializer\Annotation\Type("int")
+     */
+    private ?bool $selectMultiple = null;
+    /**
+     * @var ?int $maxSelections
+     * @JMS\Serializer\Annotation\SerializedName("max_selections")
+     * @JMS\Serializer\Annotation\Type("int")
+     */
+    private ?int $maxSelections = null;
+    /**
      * @var int $test_id
      * @JMS\Serializer\Annotation\SerializedName("test_id")
      * @JMS\Serializer\Annotation\Type("int")
@@ -121,6 +133,8 @@ class Question extends CactusEntity
             'instruction_id'       => $this->instruction_id ?? null,
             'subscale_id'          => $this->subscale_id ?? null,
             'required_question_id' => $this->requiredQuestionId ?? null,
+            'can_select_multiple'  => $this->can_select_multiple ?? null,
+            'max_selections'       => $this->maxSelections ?? null,
             'sort'                 => $this->sort ?? null
         ];
 
@@ -345,6 +359,26 @@ class Question extends CactusEntity
         $this->sort = $sort;
 
         return $this;
+    }
+
+    public function isSelectMultiple(): ?bool
+    {
+        return $this->selectMultiple;
+    }
+
+    public function setSelectMultiple(?bool $selectMultiple): void
+    {
+        $this->selectMultiple = $selectMultiple;
+    }
+
+    public function getMaxSelections(): ?int
+    {
+        return $this->maxSelections;
+    }
+
+    public function setMaxSelections(?int $maxSelections): void
+    {
+        $this->maxSelections = $maxSelections;
     }
 
     /**

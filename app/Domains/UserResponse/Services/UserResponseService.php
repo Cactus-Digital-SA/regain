@@ -32,11 +32,12 @@ class UserResponseService
                                      ->upsert(
                                          [
                                              'user_id'              => $form->getUserId(),
+                                             'question_id'          => $form->getQuestionId(),
                                              'subscale_id'          => $question->subscale_id,
                                              'question_response_id' => $questionResponse->id,
                                              'score'                => $questionResponse->score,
                                          ],
-                                         ['user_id', 'subscale_id', 'question_response_id'],
+                                         ['user_id', 'question_id', 'subscale_id', 'question_response_id'],
                                          ['question_response_id', 'score']
                                      );
 

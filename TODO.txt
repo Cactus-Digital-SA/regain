@@ -1,0 +1,24 @@
+1) Practitioner
+    Practitioner Dashboard (need figma)
+        Medical Record (front & backend)
+        Show personal data (dynamic)
+        Show some tags from medical history
+        View & Download medical history
+        In appointment dates show the medical history and the submission of the socio-demographic & pre-assesment test
+
+        Only show patients when they have completed the test (list patients)
+
+        Assign patients to practitioners based on geographic region
+        Seed practitioners for each region
+
+        Report generation (modal to show scores & pdf generation)
+
+2) Organization
+       Register patient (figma?)
+       List practitioners & patients (figma)
+
+3) Patient
+    save subscale score & test score (per question)
+    when they have completed the first 2 tests assign them automatically based on region
+    if they have completed the medical record then show the skills test
+
