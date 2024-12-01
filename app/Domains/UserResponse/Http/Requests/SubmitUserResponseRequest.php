@@ -47,8 +47,8 @@ class SubmitUserResponseRequest extends FormRequest
     public function getSubmittedUserResponseForm(): SubmittedUserResponseForm
     {
         return (new SubmittedUserResponseForm())
-            ->setUserId(Auth::id())
-            ->setQuestionId($this->input(self::QUESTION_ID))
+            ->setUserId((int)Auth::id())
+            ->setQuestionId((int)$this->input(self::QUESTION_ID))
             ->setQuestionResponseIds($this->input(self::QUESTION_RESPONSE_IDS));
     }
 }
