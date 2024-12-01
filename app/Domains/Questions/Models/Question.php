@@ -38,7 +38,7 @@ class Question extends CactusEntity
     private int $status;
     /**
      * @var ?bool $selectMultiple
-     * @JMS\Serializer\Annotation\SerializedName("can_select_multiple")
+     * @JMS\Serializer\Annotation\SerializedName("select_multiple")
      * @JMS\Serializer\Annotation\Type("int")
      */
     private ?bool $selectMultiple = null;
@@ -133,7 +133,7 @@ class Question extends CactusEntity
             'instruction_id'       => $this->instruction_id ?? null,
             'subscale_id'          => $this->subscale_id ?? null,
             'required_question_id' => $this->requiredQuestionId ?? null,
-            'can_select_multiple'  => $this->can_select_multiple ?? null,
+            'select_multiple'      => $this->select_multiple ?? null,
             'max_selections'       => $this->maxSelections ?? null,
             'sort'                 => $this->sort ?? null
         ];

@@ -6,15 +6,22 @@ namespace App\Domains\UserResponse\Services;
 
 use App\Domains\Questions\Repositories\Eloquent\Models\Question;
 use App\Domains\Questions\Repositories\Eloquent\Models\QuestionResponse;
+use App\Domains\Scores\Services\UserScoreService;
 use App\Domains\UserResponse\Http\Dtos\SubmittedUserResponseForm;
 use App\Domains\UserResponse\Repositories\Eloquent\Models\UserResponse;
 use Illuminate\Support\Collection;
 
-class UserResponseService
+readonly class UserResponseService
 {
+    public function __construct(
+        private UserScoreService $userScoreService
+    ) {
+    }
+
     public function submitAnswer(SubmittedUserResponseForm $form): bool
     {
         $questionId = $form->getQuestionId();
+        $userId = $form->getUserId();
 
         /** @var Question $question */
         $question = Question::query()->find($questionId);
@@ -31,8 +38,8 @@ class UserResponseService
             $updatedId = UserResponse::query()
                                      ->upsert(
                                          [
-                                             'user_id'              => $form->getUserId(),
-                                             'question_id'          => $form->getQuestionId(),
+                                             'user_id'              => $userId,
+                                             'question_id'          => $questionId,
                                              'subscale_id'          => $question->subscale_id,
                                              'question_response_id' => $questionResponse->id,
                                              'score'                => $questionResponse->score,
@@ -40,6 +47,12 @@ class UserResponseService
                                          ['user_id', 'question_id', 'subscale_id', 'question_response_id'],
                                          ['question_response_id', 'score']
                                      );
+
+            if ($question->subscale_id > 0) {
+                $this->userScoreService->calculateSubscaleScore($userId, $question->subscale_id);
+            }
+
+            $this->userScoreService->calculateTestScore($userId, $questionId);
 
             if ($updatedId > 0) {
                 $updatedIds[] = $updatedId;

@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property int    test_id
  * @property int    required_question_id
  * @property int    required_response_id
- * @property int    can_select_multiple
+ * @property int    select_multiple
  * @property int    max_selections
  * @property int    sort
  * @property bool   status
@@ -36,19 +36,18 @@ class Question extends Model
         'instruction_id',
         'subscale_id',
         'test_id',
-        'can_select_multiple',
+        'select_multiple',
         'max_selections',
         'required_question_id',
         'sort',
         'status',
     ];
     protected $casts = [
-        'title'                => 'string',
         'instruction_id'       => 'integer',
         'subscale_id'          => 'integer',
         'test_id'              => 'integer',
-        'can_select_multiple'  => 'integer|nullable',
-        'max_selections'       => 'integer|nullable',
+        'select_multiple'      => 'boolean',
+        'max_selections'       => 'integer',
         'required_question_id' => 'integer',
         'required_response_id' => 'integer',
         'sort'                 => 'integer',
