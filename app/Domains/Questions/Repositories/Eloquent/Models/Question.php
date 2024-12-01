@@ -8,17 +8,39 @@ use App\Domains\References\Repositories\Eloquent\Models\Reference;
 use App\Domains\Responses\Repositories\Eloquent\Models\Response;
 use App\Domains\Subscales\Repositories\Eloquent\Models\Subscale;
 use App\Domains\Tests\Repositories\Eloquent\Models\Test;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+/**
+ * @property int    id
+ * @property string title
+ * @property int    instruction_id
+ * @property int    subscale_id
+ * @property int    test_id
+ * @property int    required_question_id
+ * @property int    required_response_id
+ * @property int    sort
+ * @property bool   status
+ * @property Carbon created_at
+ * @property Carbon updated_at
+ */
 class Question extends Model
 {
     protected $fillable = [
         'title',
         'sort',
         'status',
+    ];
+    protected $casts = [
+        'subscale_id'          => 'integer',
+        'test_id'              => 'integer',
+        'required_question_id' => 'integer',
+        'required_response_id' => 'integer',
+        'sort'                 => 'integer',
+        'status'               => 'boolean',
     ];
 
     /**

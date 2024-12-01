@@ -3,13 +3,21 @@
 namespace App\Domains\Questions\Repositories\Eloquent\Models;
 
 use App\Domains\Responses\Repositories\Eloquent\Models\Response;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int    id
+ * @property int    question_id
+ * @property int    response_id
+ * @property int    score
+ * @property Carbon created_at
+ * @property Carbon updated_at
+ */
 class QuestionResponse extends Model
 {
     protected $table = 'question_response';
-
     protected $fillable = [
         'question_id',
         'response_id',

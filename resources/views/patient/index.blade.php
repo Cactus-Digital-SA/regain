@@ -1,7 +1,6 @@
-@php use App\Domains\Questions\Models\Question; @endphp
 @php
     /**
-     * @var \App\Domains\Questions\Repositories\Eloquent\Models\Question $question
+     * @var App\Domains\Questions\Models\Question $question
     */
 @endphp<!DOCTYPE html>
 <html>
@@ -125,7 +124,7 @@
             <div class="col-md-12 col-lg-12 mx-auto">
                 <div class="box rounded">
                     <div class="detail-box">
-                        <form method="POST" id="submit-form_{{$response->getId()}}" action="{{ route('patient.store') }}">
+                        <form method="POST" id="submit-form_{{$response->getId()}}" action="{{ route('patient.submit-answer') }}">
                             @csrf
                             <input type="hidden" name="questionId" value="{{$question->getId()}}"/>
                             <input type="hidden" name="questionResponseIds[]" id="questionResponseIds"/>

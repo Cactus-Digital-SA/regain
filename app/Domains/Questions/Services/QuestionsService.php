@@ -150,6 +150,5 @@ readonly class QuestionsService
             ->first();
 
         return $this->repository->getById($activeQuestion->id);
-//        return
     }
 }
