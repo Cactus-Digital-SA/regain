@@ -81,3 +81,14 @@ Route::group([
         ->name('change-password.update');
 
 });
+
+
+// TODO, REMOVE WHEN DONE
+// For mock purposes
+
+Route::group([
+    'prefix' => 'mock',
+    'as' => 'mock.',
+], function () {
+    Route::get('/date-of-birth', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showDateOfBirth'])->name('date-of-birth');
+});
