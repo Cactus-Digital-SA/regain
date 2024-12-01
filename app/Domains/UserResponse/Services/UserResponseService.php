@@ -22,7 +22,7 @@ class UserResponseService
         /** @var Collection<mixed, QuestionResponse> $questionResponses */
         $questionResponses = QuestionResponse::query()
                                              ->where('question_id', '=', $questionId)
-                                             ->whereIn('id', '=', $form->getQuestionResponseIds())
+                                             ->whereIn('id', $form->getQuestionResponseIds())
                                              ->get();
 
         $updatedIds = [];
