@@ -40,15 +40,30 @@ class SubmitUserResponseRequest extends FormRequest
         return [
             self::QUESTION_ID                 => 'required|integer',
             self::QUESTION_RESPONSE_IDS       => 'required|array',
-            self::QUESTION_RESPONSE_IDS . '*' => 'required|integer',
+            self::QUESTION_RESPONSE_IDS . '.*' => 'required|integer',
         ];
+    }
+
+    public function getQuestionId(): int
+    {
+        return (int)$this->input(self::QUESTION_ID);
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getQuestionResponseIds(): array
+    {
+        return collect($this->input(self::QUESTION_RESPONSE_IDS))
+            ->map(fn ($id) => (int)$id)
+            ->toArray();
     }
 
     public function getSubmittedUserResponseForm(): SubmittedUserResponseForm
     {
         return (new SubmittedUserResponseForm())
             ->setUserId((int)Auth::id())
-            ->setQuestionId((int)$this->input(self::QUESTION_ID))
-            ->setQuestionResponseIds($this->input(self::QUESTION_RESPONSE_IDS));
+            ->setQuestionId($this->getQuestionId())
+            ->setQuestionResponseIds($this->getQuestionResponseIds());
     }
 }
