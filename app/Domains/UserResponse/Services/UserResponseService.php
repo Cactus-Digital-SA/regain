@@ -22,23 +22,23 @@ class UserResponseService
         /** @var Collection<mixed, QuestionResponse> $questionResponses */
         $questionResponses = QuestionResponse::query()
                                              ->where('question_id', '=', $questionId)
-                                             ->whereIn('id', $form->getQuestionResponseIds())
+                                             ->whereIn('response_id', $form->getQuestionResponseIds())
                                              ->get();
 
         $updatedIds = [];
 
         foreach ($questionResponses as $questionResponse) {
             $updatedId = UserResponse::query()
-                        ->upsert(
-                            [
-                                'user_id'              => $form->getUserId(),
-                                'subscale_id'          => $question->subscale_id,
-                                'question_response_id' => $questionResponse->id,
-                                'score'                => $questionResponse->score,
-                            ],
-                            ['user_id', 'subscale_id', 'question_response_id'],
-                            ['question_response_id', 'score']
-                        );
+                                     ->upsert(
+                                         [
+                                             'user_id'              => $form->getUserId(),
+                                             'subscale_id'          => $question->subscale_id,
+                                             'question_response_id' => $questionResponse->id,
+                                             'score'                => $questionResponse->score,
+                                         ],
+                                         ['user_id', 'subscale_id', 'question_response_id'],
+                                         ['question_response_id', 'score']
+                                     );
 
             if ($updatedId > 0) {
                 $updatedIds[] = $updatedId;

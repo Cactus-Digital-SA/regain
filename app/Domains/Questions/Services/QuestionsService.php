@@ -9,7 +9,6 @@ use App\Domains\Questions\Repositories\Eloquent\Models\Question as EloquentQuest
 use App\Domains\Questions\Repositories\QuestionRepositoryInterface;
 use App\Domains\UserResponse\Repositories\Eloquent\Models\UserResponse;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Collection;
 
 readonly class QuestionsService
 {
@@ -36,15 +35,6 @@ readonly class QuestionsService
     public function storeWithId(Question $entity, ?string $id): ?Question
     {
         return $this->repository->storeWithId($entity, $id);
-    }
-
-    /**
-     * @param int $id
-     * @return Question|null
-     */
-    public function getById(int $id): ?Question
-    {
-        return $this->repository->getById($id);
     }
 
     /**
@@ -104,51 +94,55 @@ readonly class QuestionsService
 
     public function getActiveQuestion(int $userId): ?Question
     {
-        // Get all categories to keep state
-        $socioDemoGraphicsCategories = $this->questionnaireFlowService
-            ->getFlowCategories(QuestionnaireFlowType::SOCIODEMOGRAPHIC_ASSESSMENT);
-
-        $skillsCategories = $this->questionnaireFlowService
-            ->getFlowCategories(QuestionnaireFlowType::SKILLS);
-
         /** @var UserResponse|null $currentUserResponse */
         $currentUserResponse = UserResponse::query()
                                            ->where('user_id', $userId)
                                            ->orderBy('question_response_id', 'desc')
                                            ->first();
 
+        $nextQuestionId = null;
         if ($currentUserResponse !== null) {
             /** @var EloquentQuestion $question */
-            $question     = $currentUserResponse->questionResponse()->question;
-            $nextQuestion = $this->repository->getById($question->question_id + 1);
+            $question     = $currentUserResponse->questionResponse->question;
+            $nextQuestion = $this->repository->getById($question->id + 1);
 
-            if ($nextQuestion === null) {
-                $currentCategoryId = $question->test->category_id;
+            if ($nextQuestion !== null) {
+                $nextCategoryId = $nextQuestion->getTest()->getCategoryId();
+                $nextQuestionId = $nextQuestion->getId();
 
-                if (in_array($currentCategoryId, $socioDemoGraphicsCategories->pluck('id')->toArray(), true)) {
+                if (!$this->isReadyForSkillsTest() && in_array(
+                        $nextCategoryId,
+                        $this->questionnaireFlowService->getFlowCategories(QuestionnaireFlowType::SKILLS)->pluck('id')->toArray(), true)
+                ) {
                     return null;
                 }
-
-                /** @var EloquentQuestion $activeQuestion */
-                $activeQuestion = $skillsCategories
-                    ->first()
-                    ->tests()
-                    ->first()
-                    ->questions()
-                    ->first();
-
-                return $activeQuestion->load(['responses', 'references', 'instructions']);
             }
+        } else {
+            $nextQuestion   = $this->questionnaireFlowService
+                ->getFlowCategories(QuestionnaireFlowType::SOCIODEMOGRAPHIC_ASSESSMENT)
+                ->first()
+                ->tests()
+                ->first()
+                ?->questions()
+                ->get(["id"])
+                ->first();
+            $nextQuestionId = $nextQuestion->id;
         }
 
-        $activeQuestion = $socioDemoGraphicsCategories
-            ->first()
-            ->tests()
-            ->first()
-            ?->questions()
-            ->get(["id"])
-            ->first();
+        return $nextQuestionId ? $this->repository->getById($nextQuestionId) : null;
+    }
 
-        return $this->repository->getById($activeQuestion->id);
+    /**
+     * @param int $id
+     * @return Question|null
+     */
+    public function getById(int $id): ?Question
+    {
+        return $this->repository->getById($id);
+    }
+
+    private function isReadyForSkillsTest(): bool
+    {
+        return false;
     }
 }

@@ -87,7 +87,7 @@ class EloqQuestionRepository implements QuestionRepositoryInterface
         $question = EloqQuestion::find($id);
 
         if ($question) {
-            $question->load(['responses', 'references', 'instruction']);
+            $question->load(['responses', 'references', 'instruction', 'test']);
         }
 
         return $question ?

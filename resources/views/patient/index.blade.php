@@ -99,7 +99,7 @@
                         <h5>
                             {{$question->getTitle()}}
                         </h5>
-                        <form method="POST" id="input-form" data-max-responses="{{ 1 }}">
+                        <form method="POST" id="input-form" data-max-responses="{{ 2 }}">
                             @csrf
                             @foreach ($question->getResponses() as $response)
                                 <div class=" form-group">
@@ -124,7 +124,7 @@
             <div class="col-md-12 col-lg-12 mx-auto">
                 <div class="box rounded">
                     <div class="detail-box">
-                        <form method="POST" id="submit-form_{{$response->getId()}}" action="{{ route('patient.submit-answer') }}">
+                        <form method="POST" id="submit-form_{{$question->getId()}}" action="{{ route('patient.submit-answer') }}">
                             @csrf
                             <input type="hidden" name="questionId" value="{{$question->getId()}}"/>
                             <input type="hidden" name="questionResponseIds[]" id="questionResponseIds"/>
@@ -165,7 +165,6 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const responsesInput = document.getElementById('questionResponseIds');
         const selectButtons = document.querySelectorAll('.select-response');
         const nextButton = document.getElementById('next-button');
 
@@ -186,7 +185,7 @@
                         btn.classList.add('btn-primary');
                     });
                     // Update selectedResponses with the new choice
-                    selectedResponses = [responseId];
+                    selectedResponses = [parseInt(responseId)];
                     this.classList.remove('btn-primary');
                     this.classList.add('btn-success');
                 } else {
@@ -205,8 +204,15 @@
                     }
                 }
 
-                // Update hidden input value
-                responsesInput.value = JSON.stringify(selectedResponses);
+                const form = document.getElementById('submit-form_{{$question->getId()}}');
+                form.querySelectorAll('input[name="questionResponseIds[]"]').forEach(input => input.remove());
+                selectedResponses.forEach(response => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'questionResponseIds[]';
+                    input.value = response; // Set the integer value directly
+                    form.appendChild(input);
+                });
 
                 // Enable or disable the Next button
                 nextButton.disabled = selectedResponses.length === 0;
