@@ -100,15 +100,39 @@
                         <h5>
                             {{$question->getTitle()}}
                         </h5>
-                        @foreach ($question->getResponses() as $response)
-                            <form method="POST" id="submit-form_{{$response->getId()}}" action="{{ route('patient.store') }}">
-                                @csrf
-                                <input type="hidden" name="response_id" value=""/>
-                                <div class="form-group">
-                                    <button class="btn btn-primary">{{$response->getTitle()}}</button>
+                        <form method="POST" id="input-form" data-max-responses="{{ 1 }}">
+                            @csrf
+                            @foreach ($question->getResponses() as $response)
+                                <div class=" form-group">
+                                    <button
+                                            type="button"
+                                            class="btn btn-primary select-response"
+                                            data-response-id="{{$response->getId()}}">
+                                        {{$response->getTitle()}}
+                                    </button>
                                 </div>
-                            </form>
-                        @endforeach
+                            @endforeach
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="blog_section layout_padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-lg-12 mx-auto">
+                <div class="box rounded">
+                    <div class="detail-box">
+                        <form method="POST" id="submit-form_{{$response->getId()}}" action="{{ route('patient.store') }}">
+                            @csrf
+                            <input type="hidden" name="questionId" value="{{$question->getId()}}"/>
+                            <input type="hidden" name="questionResponseIds[]" id="questionResponseIds"/>
+                            <div class="form-group">
+                                <button class="btn btn-primary" id="next-button" disabled>Next</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -139,6 +163,58 @@
 <form method="POST" id="logout-form" action="{{ route('logout') }}">
     @csrf
 </form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const responsesInput = document.getElementById('questionResponseIds');
+        const selectButtons = document.querySelectorAll('.select-response');
+        const nextButton = document.getElementById('next-button');
+
+        // Get max responses from the form attribute
+        const maxResponses = parseInt(document.getElementById('input-form').dataset.maxResponses, 10) || 1;
+
+        // Track selected response IDs
+        let selectedResponses = [];
+
+        selectButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const responseId = this.dataset.responseId;
+
+                if (maxResponses === 1) {
+                    // For single choice, clear all selections
+                    selectButtons.forEach(btn => {
+                        btn.classList.remove('btn-success');
+                        btn.classList.add('btn-primary');
+                    });
+                    // Update selectedResponses with the new choice
+                    selectedResponses = [responseId];
+                    this.classList.remove('btn-primary');
+                    this.classList.add('btn-success');
+                } else {
+                    // Toggle selection for multiple choices
+                    if (selectedResponses.includes(responseId)) {
+                        selectedResponses = selectedResponses.filter(id => id !== responseId);
+                        this.classList.remove('btn-success');
+                        this.classList.add('btn-primary');
+                    } else if (selectedResponses.length < maxResponses) {
+                        selectedResponses.push(responseId);
+                        this.classList.remove('btn-primary');
+                        this.classList.add('btn-success');
+                    } else {
+                        alert(`You can select up to ${maxResponses} response(s) only.`);
+                        return;
+                    }
+                }
+
+                // Update hidden input value
+                responsesInput.value = JSON.stringify(selectedResponses);
+
+                // Enable or disable the Next button
+                nextButton.disabled = selectedResponses.length === 0;
+            });
+        });
+    });
+</script>
 
 </body>
 
