@@ -110,6 +110,37 @@
             }
         }
 
+        /* Overlay style */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none; /* Initially hidden */
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* Make sure it covers the whole page */
+        }
+
+        .overlay .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 <body>
@@ -155,7 +186,9 @@
         </div>
     @endforeach
     <div class="d-flex justify-content-center">
-        <button type="submit" class="btn btn-primary mt-3">Next</button>
+        <form id="submit-form">
+            <button type="button" class="btn btn-primary mt-3" id="next-button">Next</button>
+        </form>
     </div>
 </div>
 <div id="overlay" class="overlay">
