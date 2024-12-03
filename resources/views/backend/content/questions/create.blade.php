@@ -31,18 +31,18 @@
 @endsection
 
 @section('content-header-breadcrumbs')
-    <li class="breadcrumb-item"><a href="{{route('home')}}">{{__('Home')}}</a>
+    <li class="breadcrumb-item"><a href="{{route('admin.home')}}">{{__('Home')}}</a>
     </li>
     <li class="breadcrumb-item">
-        <a href="{{route('tests.questions.index')}}">{{__('Questions')}}</a>
+        <a href="{{route('admin.tests.questions.index')}}">{{__('Questions')}}</a>
     </li>
     <li class="breadcrumb-item active">
-        <a href="{{route('tests.questions.create')}}">{{__('Create Question')}}</a>
+        <a href="{{route('admin.tests.questions.create')}}">{{__('Create Question')}}</a>
     </li>
 @endsection
 
 @section('content')
-    <form id="form" method="POST" action="{{ route('tests.questions.store') }}" class="form-horizontal">
+    <form id="form" method="POST" action="{{ route('admin.tests.questions.store') }}" class="form-horizontal">
         @csrf
         <div class="row">
             <div class="col-md-6">
@@ -176,7 +176,7 @@
                                         <option></option>
                                         @foreach($instructions as $instruction)
                                             <option
-                                                value="{{ $instruction->getId() }}">{{ $instruction->getContent() }}</option>
+                                                    value="{{ $instruction->getId() }}">{{ $instruction->getContent() }}</option>
                                         @endforeach
                                     </select>
 
@@ -226,9 +226,9 @@
         /**
          * Button click event to check all options
          */
-        $('#checkAllBtn').on('click', function() {
+        $('#checkAllBtn').on('click', function () {
             let allValues = [];
-            $('select[name="professions[]"] option').each(function() {
+            $('select[name="professions[]"] option').each(function () {
                 if ($(this).val()) {
                     allValues.push($(this).val());
                 }

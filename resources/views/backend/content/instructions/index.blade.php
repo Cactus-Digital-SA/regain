@@ -13,10 +13,10 @@
 @endsection
 
 @section('content-header-breadcrumbs')
-    <li class="breadcrumb-item"><a href="{{route('home')}}">{{ __('Home') }}</a>
+    <li class="breadcrumb-item"><a href="{{route('admin.home')}}">{{ __('Home') }}</a>
     </li>
     <li class="breadcrumb-item active">
-        <a href="{{route('tests.instructions.index')}}">{{ __('All Instructions') }}</a>
+        <a href="{{route('admin.tests.instructions.index')}}">{{ __('All Instructions') }}</a>
     </li>
 @endsection
 
@@ -24,7 +24,8 @@
 
     <div class="col-md-5 content-header-right text-md-end col-md-auto d-md-block d-none mb-2">
         <div class="mb-1 breadcrumb-right">
-            <a class="btn btn-success waves-effect waves-float waves-light me-2" href="{{route('tests.instructions.create')}}"><i class="ti ti-package ti-xs me-1"></i> {{ __("Create Instruction") }}</a>
+            <a class="btn btn-success waves-effect waves-float waves-light me-2" href="{{route('admin.tests.instructions.create')}}"><i class="ti ti-package ti-xs me-1"></i> {{ __("Create Instruction") }}
+            </a>
         </div>
     </div>
 @endsection
@@ -67,8 +68,9 @@
             var dt_basic_table = $('.instructions-datatable');
             if (dt_basic_table.length) {
                 search();
+
                 function search() {
-                    if ( $.fn.DataTable.isDataTable('.instructions-datatable') ) {
+                    if ($.fn.DataTable.isDataTable('.instructions-datatable')) {
                         dt_basic_table.DataTable().destroy();
                     }
 
@@ -77,17 +79,17 @@
                         serverSide: true,
                         serverMethod: 'post',
                         ajax: {
-                            url: "{{ route('tests.datatable.instructions') }}",
+                            url: "{{ route('admin.tests.datatable.instructions') }}",
                             headers: {
                                 'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
                             },
                         },
                         columns: [
-                            { data: 'id' },
-                            { data: 'id' },
-                            { data: 'id' }, // used for sorting so will hide this column
-                            { data: 'content' , name: 'content'},
-                            { data: 'language.name' , name: 'language.name'},
+                            {data: 'id'},
+                            {data: 'id'},
+                            {data: 'id'}, // used for sorting so will hide this column
+                            {data: 'content', name: 'content'},
+                            {data: 'language.name', name: 'language.name'},
                         ],
                         columnDefs: [
                             {
@@ -147,31 +149,31 @@
                                         extend: 'print',
                                         text: '<i class="ti ti-printer me-2" ></i>Print',
                                         className: 'dropdown-item',
-                                        exportOptions: { columns: [3, 4] }
+                                        exportOptions: {columns: [3, 4]}
                                     },
                                     {
                                         extend: 'csv',
                                         text: '<i class="ti ti-file-text me-2" ></i>Csv',
                                         className: 'dropdown-item',
-                                        exportOptions: { columns: [3, 4] }
+                                        exportOptions: {columns: [3, 4]}
                                     },
                                     {
                                         extend: 'excel',
                                         text: '<i class="ti ti-file-spreadsheet me-2"></i>Excel',
                                         className: 'dropdown-item',
-                                        exportOptions: { columns: [3, 4] }
+                                        exportOptions: {columns: [3, 4]}
                                     },
                                     {
                                         extend: 'pdf',
                                         text: '<i class="ti ti-file-text me-2"></i>Pdf',
                                         className: 'dropdown-item',
-                                        exportOptions: { columns: [3, 4] }
+                                        exportOptions: {columns: [3, 4]}
                                     },
                                     {
                                         extend: 'copy',
                                         text: '<i class="ti ti-copy me-1" ></i>Copy',
                                         className: 'dropdown-item',
-                                        exportOptions: { columns: [3, 4] }
+                                        exportOptions: {columns: [3, 4]}
                                     }
                                 ],
                                 init: function (api, node, config) {
@@ -243,17 +245,18 @@
                     });
 
                     // Initialize popovers on DataTable draw
-                    dt_basic.on('draw', function() {
-                        $('[data-bs-toggle="popover"]').each(function() {
+                    dt_basic.on('draw', function () {
+                        $('[data-bs-toggle="popover"]').each(function () {
                             var popover = new bootstrap.Popover(this);
-                            $(this).on('shown.bs.popover', function() {
-                                setTimeout(function() {
+                            $(this).on('shown.bs.popover', function () {
+                                setTimeout(function () {
                                     popover.hide();
                                 }, 1500); // 1.5 second delay
                             });
                         });
                     });
                 }
+
                 $('div.head-label').html('<h6 class="mb-0">{{ __('Instructions') }}</h6>');
 
 
@@ -270,12 +273,12 @@
                 ajax: {
                     type: 'POST',
                     delay: 500,
-                    url: "{{ route('api.internal.tests.testsPaginated') }}",
+                    url: "{{ route('admin.tests.testsPaginated') }}",
                     dataType: 'json',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    data: function(params) {
+                    data: function (params) {
                         return {
                             term: params.term || '',
                             page: params.page || 1
@@ -286,8 +289,8 @@
                     // },
                     processResults: function (data, params) {
                         return {
-                            results: $.map(data.results, function(obj) {
-                                return { id: obj.text, text: obj.text }; // Use email as both id and text
+                            results: $.map(data.results, function (obj) {
+                                return {id: obj.text, text: obj.text}; // Use email as both id and text
                             })
                         };
                     },
@@ -301,12 +304,12 @@
                 ajax: {
                     type: 'POST',
                     delay: 500,
-                    url: "{{ route('api.internal.tests.categoriesPaginated') }}",
+                    url: "{{ route('admin.tests.categoriesPaginated') }}",
                     dataType: 'json',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    data: function(params) {
+                    data: function (params) {
                         return {
                             term: params.term || '',
                             page: params.page || 1
@@ -317,8 +320,8 @@
                     // },
                     processResults: function (data, params) {
                         return {
-                            results: $.map(data.results, function(obj) {
-                                return { id: obj.text, text: obj.text }; // Use email as both id and text
+                            results: $.map(data.results, function (obj) {
+                                return {id: obj.text, text: obj.text}; // Use email as both id and text
                             })
                         };
                     },

@@ -97,6 +97,7 @@ Route::group([]
                 Route::get('create', [InstructionController::class, 'create'])->name('create')->middleware('permission:admin.instructions.create');
                 Route::post('store', [InstructionController::class, 'store'])->name('store')->middleware('permission:admin.instructions.create');
             });
+
             Route::get('create', [TestController::class, 'create'])->name('create');
 
             Route::post('tests/paginated', [TestApiController::class, 'testsPaginated'])->name('testsPaginated');

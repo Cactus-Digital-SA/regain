@@ -1,5 +1,6 @@
 <?php
 
+use App\Domains\Auth\CustomLoginController;
 use App\Domains\Patient\Http\Controllers\PatientController;
 use App\Http\Controllers\LanguageController;
 use Illuminate\Support\Facades\Route;
@@ -29,10 +30,11 @@ Route::get('lang/{locale}', [LanguageController::class, 'swap']);
  *
  * These routes can only be accessed by users with type `admin`
  */
+
 Route::group([
     'prefix'     => 'admin',
     'as'         => 'admin.',
-    'middleware' => 'admin'
+    'middleware' => ['auth']
 ], function () {
     require_once(__DIR__ . '/admin.php');
 });
@@ -83,15 +85,12 @@ Route::group([
 //         ->name('change-password.update');
 //});
 
-
-
-
 // TODO, REMOVE WHEN DONE
 // For mock purposes
 
 Route::group([
     'prefix' => 'mock',
-    'as' => 'mock.',
+    'as'     => 'mock.',
 ], function () {
     Route::get('/date-of-birth', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showDateOfBirth'])->name('date-of-birth');
     Route::get('/current-location', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showCurrentLocation'])->name('current-location');

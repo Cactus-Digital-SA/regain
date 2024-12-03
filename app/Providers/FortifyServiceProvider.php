@@ -42,7 +42,7 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
-        $this->app->bind(DisableTwoFactorAuthentication::class, function(){
+        $this->app->bind(DisableTwoFactorAuthentication::class, function () {
             return new ReallyDisableTwoFactorAuthentication();
         });
 
@@ -51,7 +51,7 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         RateLimiter::for('login', function (Request $request) {
-            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
+            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())) . '|' . $request->ip());
 
             return Limit::perMinute(5)->by($throttleKey);
         });
@@ -60,7 +60,7 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
         });
 
-        Fortify::authenticateThrough(function(){
+        Fortify::authenticateThrough(function () {
             return array_filter([
                 config('fortify.limiters.login') ? null : EnsureLoginIsNotThrottled::class,
 
@@ -80,7 +80,6 @@ class FortifyServiceProvider extends ServiceProvider
             }
         });
 
-
         Fortify::confirmPasswordView(function () {
             return view('frontend.auth.fortify.confirm');
         });
@@ -88,5 +87,11 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::twoFactorChallengeView(function () {
             return view('frontend.auth.fortify.two-factor-challenge');
         });
+
+        // register new LoginResponse
+        $this->app->singleton(
+            \Laravel\Fortify\Contracts\LoginResponse::class,
+            \App\Http\Responses\LoginResponse::class
+        );
     }
 }

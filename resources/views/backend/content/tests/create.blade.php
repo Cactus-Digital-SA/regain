@@ -528,7 +528,7 @@
 @endsection
 
 @section('content-header-breadcrumbs')
-    <li class="breadcrumb-item"><a href="{{route('home')}}">{{__('Home')}}</a>
+    <li class="breadcrumb-item"><a href="{{route('admin.home')}}">{{__('Home')}}</a>
     </li>
     <li class="breadcrumb-item active">
     </li>

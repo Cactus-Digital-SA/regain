@@ -17,10 +17,6 @@ class HomeController
             return redirect()->route('login');
         }
 
-        if (Auth::check() && Auth::user()?->isAdmin()) {
-            return redirect()->route('admin.home');
-        }
-
-        return view('welcome');
+        return redirect('admin.home');
     }
 }
