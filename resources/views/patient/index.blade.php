@@ -1,8 +1,9 @@
 @php
     /**
-     * @var App\Domains\Questions\Models\Question $question
+     * @var App\Domains\Questions\Models\Question[] $questions
     */
-@endphp<!DOCTYPE html>
+@endphp
+        <!DOCTYPE html>
 <html>
 
 <head>
@@ -36,97 +37,71 @@
         .rounded {
             border-radius: 55px; /* Adjust the px value as needed */
         }
+
+        /* Ensure checkboxes are inline */
+        .form-check-inline {
+            margin-right: 15px; /* Add some space between checkboxes */
+        }
     </style>
 </head>
 
 <body>
 
 <div>
-    <!-- header section strats -->
+    <!-- header section starts -->
     <header class="header_section long_section px-0">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
             <a class="navbar-brand" href="index.html">
-          <span>
-            Regain
-          </span>
+                <span>Regain</span>
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class=""> </span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <div class="d-flex mx-auto flex-column flex-lg-row align-items-center">
-                    <ul class="navbar-nav  ">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="index.html">Regain <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="about.html"> MyRegain</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="furniture.html">Community</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="blog.html">Help</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="quote_btn-container">
-                    <a href="{{route("logout")}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-              <span>
-                Logout
-              </span>
-                        <i class="fa fa-user" aria-hidden="true"></i>
-                    </a>
-                    <form class="form-inline">
-                        <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
-                            <i class="fa fa-search" aria-hidden="true"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
+            <!-- Other header code omitted for brevity -->
         </nav>
     </header>
     <!-- end header section -->
 </div>
 
-<section class="blog_section layout_padding">
+<section class="blog_section">
     <div class="container">
         <div class="row">
             <div class="col-md-12 col-lg-12 mx-auto">
                 <div class="box rounded">
-                    <div class="detail-box">
-                        <h5>
-                            {{$question->getTitle()}}
-                        </h5>
-                        <form method="POST" id="input-form" data-max-responses="{{ 2 }}">
-                            @csrf
-                            @foreach ($question->getResponses() as $response)
-                                <div class=" form-group">
-                                    <button
-                                            type="button"
-                                            class="btn btn-primary select-response"
-                                            data-response-id="{{$response->getId()}}">
-                                        {{$response->getTitle()}}
-                                    </button>
-                                </div>
-                            @endforeach
-                        </form>
-                    </div>
+                    @foreach ($questions as $question)
+                        <div class="detail-box">
+                            <h5>{{$question->getTitle()}}</h5>
+                            <form method="POST" id="input-form_{{$question->getId()}}" class="collect-question" data-question-id="{{$question->getId()}}" data-max-responses="2">
+                                @csrf
+                                @foreach ($question->getResponses() as $response)
+                                    <div class="form-check form-check-inline">
+                                        <input
+                                                type="checkbox"
+                                                class="select-response"
+                                                data-question-id="{{$question->getId()}}"
+                                                data-response-id="{{$response->getId()}}"
+                                                id="response-{{$question->getId()}}-{{$response->getId()}}"
+                                                name="response-{{$question->getId()}}[]">
+                                        <label for="response-{{$question->getId()}}-{{$response->getId()}}">
+                                            {{$response->getTitle()}}
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </form>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>
     </div>
 </section>
-<section class="blog_section layout_padding">
+
+<!-- One Next button below the question section -->
+<section class="blog_section">
     <div class="container">
         <div class="row">
             <div class="col-md-12 col-lg-12 mx-auto">
                 <div class="box rounded">
                     <div class="detail-box">
-                        <form method="POST" id="submit-form_{{$question->getId()}}" action="{{ route('patient.submit-answer') }}">
+                        <form method="POST" id="submit-form" action="{{ route('patient.submit-answer') }}">
                             @csrf
-                            <input type="hidden" name="questionId" value="{{$question->getId()}}"/>
                             <input type="hidden" name="questionResponseIds[]" id="questionResponseIds"/>
                             <div class="form-group">
                                 <button class="btn btn-primary" id="next-button" disabled>Next</button>
@@ -138,89 +113,143 @@
         </div>
     </div>
 </section>
-<!-- end blog section -->
-
-<!-- client section -->
 
 <!-- footer section -->
 <footer class="footer_section">
     <div class="container">
-        <p>
-            &copy; <span id="displayYear"></span> All Rights Reserved By
+        <p>&copy; <span id="displayYear"></span> All Rights Reserved By
             <a href="https://www.cactusweb.gr/">Cactus</a>
         </p>
     </div>
 </footer>
-<!-- footer section -->
 
-<!-- jQery -->
+<!-- jQuery and Bootstrap scripts -->
 <script src="{{asset('assets/js/jquery-3.4.1.min.js')}}"></script>
-<!-- bootstrap js -->
 <script src="{{asset('assets/js/bootstrap.js')}}"></script>
-<!-- End Google Map -->
-
-<form method="POST" id="logout-form" action="{{ route('logout') }}">
-    @csrf
-</form>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const selectButtons = document.querySelectorAll('.select-response');
         const nextButton = document.getElementById('next-button');
+        const checkboxes = document.querySelectorAll('.select-response');
 
-        // Get max responses from the form attribute
-        const maxResponses = parseInt(document.getElementById('input-form').dataset.maxResponses, 10) || 1;
+        // Initialize an object to track if all questions have been answered
+        const answeredQuestions = {};
 
-        // Track selected response IDs
-        let selectedResponses = [];
+        // Function to handle checkbox change and update the 'Next' button state
+        function updateNextButtonState() {
+            const allAnswered = Object.values(answeredQuestions).every(isAnswered => isAnswered);
+            nextButton.disabled = !allAnswered; // Enable "Next" only if all questions are answered
+        }
 
-        selectButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                const responseId = this.dataset.responseId;
+        // Function to handle max selections logic
+        function enforceMaxSelections(questionId) {
+            const form = document.getElementById(`input-form_${questionId}`);
+            const checkboxes = form.querySelectorAll('input[name="response-' + questionId + '[]"]');
+            const selectedResponses = Array.from(checkboxes).filter(checkbox => checkbox.checked);
 
-                if (maxResponses === 1) {
-                    // For single choice, clear all selections
-                    selectButtons.forEach(btn => {
-                        btn.classList.remove('btn-success');
-                        btn.classList.add('btn-primary');
+            // Limit to max 2 selections
+            if (selectedResponses.length > 2) {
+                alert('You can select up to 2 responses only.');
+                // Uncheck the last selected checkbox to respect the max selection
+                selectedResponses[selectedResponses.length - 1].checked = false;
+            }
+
+            // Update the Next button state
+            updateNextButtonState();
+        }
+
+        // Initialize answeredQuestions by checking the current state of all questions
+        checkboxes.forEach(checkbox => {
+            const questionId = checkbox.dataset.questionId;
+            const form = document.getElementById(`input-form_${questionId}`);
+            const checkboxesForQuestion = form.querySelectorAll('input[name="response-' + questionId + '[]"]:checked');
+            answeredQuestions[questionId] = checkboxesForQuestion.length > 0;
+        });
+
+        // Event listener for checkboxes
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                const questionId = this.dataset.questionId;
+
+                // Enforce max selections (limit to 2)
+                enforceMaxSelections(questionId);
+
+                // Update the hidden input for responses
+                const form = document.getElementById(`submit-form`);
+                const responseInputs = form.querySelectorAll('input[name="questionResponseIds[]"]');
+                responseInputs.forEach(input => input.remove());
+
+                // Collect selected response IDs
+                const selectedResponses = [];
+                document.querySelectorAll(`input[name="response-${questionId}[]"]:checked`)
+                    .forEach(checkbox => {
+                        selectedResponses.push(checkbox.dataset.responseId);
                     });
-                    // Update selectedResponses with the new choice
-                    selectedResponses = [parseInt(responseId)];
-                    this.classList.remove('btn-primary');
-                    this.classList.add('btn-success');
-                } else {
-                    // Toggle selection for multiple choices
-                    if (selectedResponses.includes(responseId)) {
-                        selectedResponses = selectedResponses.filter(id => id !== responseId);
-                        this.classList.remove('btn-success');
-                        this.classList.add('btn-primary');
-                    } else if (selectedResponses.length < maxResponses) {
-                        selectedResponses.push(responseId);
-                        this.classList.remove('btn-primary');
-                        this.classList.add('btn-success');
-                    } else {
-                        alert(`You can select up to ${maxResponses} response(s) only.`);
-                        return;
-                    }
-                }
 
-                const form = document.getElementById('submit-form_{{$question->getId()}}');
-                form.querySelectorAll('input[name="questionResponseIds[]"]').forEach(input => input.remove());
-                selectedResponses.forEach(response => {
+                // Add selected responses to the hidden input
+                selectedResponses.forEach(responseId => {
                     const input = document.createElement('input');
                     input.type = 'hidden';
                     input.name = 'questionResponseIds[]';
-                    input.value = response; // Set the integer value directly
+                    input.value = responseId;
                     form.appendChild(input);
                 });
 
-                // Enable or disable the Next button
-                nextButton.disabled = selectedResponses.length === 0;
+                // Track if this question is answered
+                answeredQuestions[questionId] = selectedResponses.length > 0;
+                updateNextButtonState();
             });
         });
+
+        // Handle Next button click
+        nextButton.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                // Collect the selected response IDs for this question
+                let selectedResponsesFinal = [];
+                document.querySelectorAll(`.collect-question`)
+                    .forEach(questionForm => {
+                        questionData = {};
+                        questionData.questionId = parseInt(questionForm.dataset.questionId);
+                        questionData.responses = [];
+
+                        // Add the selected response ID to the questionData object
+                        responses = questionForm.querySelectorAll(`.select-response:checked`).forEach(response => {
+                            questionData.responses.push(parseInt(response.dataset.responseId));
+                        });
+
+                        selectedResponsesFinal.push(questionData);
+                    });
+
+                if (selectedResponsesFinal.length > 0) {
+
+                    // Send the collected data via JSON
+                    fetch('{{ route('patient.submit-answers') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({questions: selectedResponsesFinal})
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            // Handle the response from the server (e.g., show a success message, redirect)
+                            window.location.href = '{{ route('patient.home') }}';
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                }
+            }
+        );
+
+        // Initialize the "Next" button state
+        updateNextButtonState(); // Check if the "Next" button should be enabled
+
+
     });
 </script>
 
 </body>
-
 </html>

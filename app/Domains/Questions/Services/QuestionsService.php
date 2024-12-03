@@ -92,19 +92,23 @@ readonly class QuestionsService
         return $this->repository->syncReferences($entity, $id);
     }
 
-    public function getActiveQuestion(int $userId): ?Question
+    /**
+     * @param int $userId
+     * @param int $take
+     * @return Question[]
+     */
+    public function fetchQuestions(int $userId, int $take = 5): array
     {
-        /** @var UserResponse|null $currentUserResponse */
-        $currentUserResponse = UserResponse::query()
-                                           ->where('user_id', $userId)
-                                           ->orderBy('question_response_id', 'desc')
-                                           ->first();
+        $questions      = [];
+        $activeQuestion = $this->getActiveQuestion($userId);
+        if ($activeQuestion === null) {
+            return $questions;
+        }
+        $questions[$activeQuestion->getId()] = $activeQuestion;
 
-        $nextQuestionId = null;
-        if ($currentUserResponse !== null) {
-            /** @var EloquentQuestion $question */
-            $question     = $currentUserResponse->questionResponse->question;
-            $nextQuestion = $this->repository->getById($question->id + 1);
+        $questionLoop = $activeQuestion;;
+        for ($i = 0; $i < $take; $i++) {
+            $nextQuestion = $this->getNextQuestion($questionLoop);
 
             if ($nextQuestion !== null) {
                 $nextCategoryId = $nextQuestion->getTest()->getCategoryId();
@@ -114,22 +118,50 @@ readonly class QuestionsService
                         $nextCategoryId,
                         $this->questionnaireFlowService->getFlowCategories(QuestionnaireFlowType::SKILLS)->pluck('id')->toArray(), true)
                 ) {
-                    return null;
+                    continue;
                 }
+                $questions[$nextQuestionId] = $nextQuestion;
+                $questionLoop               = $nextQuestion;
             }
+        }
+
+        return $questions;
+    }
+
+    public function getNextQuestion(?Question $currentQuestion): ?Question
+    {
+        $nextQuestionId = null;
+        if ($currentQuestion !== null) {
+            /** @var EloquentQuestion $question */
+            $nextQuestion   = $this->repository->getById($currentQuestion->getId() + 1);
+            $nextQuestionId = $nextQuestion?->getId();
+        }
+
+        return $nextQuestionId ? $this->repository->getById($nextQuestionId) : null;
+    }
+
+    public function getActiveQuestion(int $userId): ?Question
+    {
+        /** @var UserResponse|null $currentUserResponse */
+        $latestResponse = UserResponse::query()
+                                      ->where('user_id', $userId)
+                                      ->orderBy('question_response_id', 'desc')
+                                      ->first();
+
+        if ($latestResponse !== null) {
+            $activeQuestionId = $latestResponse?->questionResponse->question->id + 1;
         } else {
-            $nextQuestion   = $this->questionnaireFlowService
+            $activeQuestionId = $this->questionnaireFlowService
                 ->getFlowCategories(QuestionnaireFlowType::SOCIODEMOGRAPHIC_ASSESSMENT)
                 ->first()
                 ->tests()
                 ->first()
                 ?->questions()
                 ->get(["id"])
-                ->first();
-            $nextQuestionId = $nextQuestion->id;
+                ->first()->id;
         }
 
-        return $nextQuestionId ? $this->repository->getById($nextQuestionId) : null;
+        return $this->getById($activeQuestionId);
     }
 
     /**

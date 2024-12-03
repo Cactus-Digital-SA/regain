@@ -22,3 +22,41 @@
     when they have completed the first 2 tests assign them automatically based on region
     if they have completed the medical record then show the skills test
 
+
+    completion flow table
+
+
+
+
+Reference queries
+
+
+
+
+
+SELECT
+        ur.user_id,
+        q.test_id,
+        SUM(CASE
+                WHEN ur.score IS NOT NULL THEN ur.score
+                ELSE CAST(qr.score AS UNSIGNED)
+            END) AS total_score
+    FROM user_responses ur
+             INNER JOIN question_response qr ON ur.question_response_id = qr.id
+             INNER JOIN questions q ON qr.question_id = q.id
+    GROUP BY ur.user_id, q.test_id;
+
+    SELECT
+    	questions.title,
+      tests.name,
+      tests.id,
+      (SELECT
+	       question_response.score FROM question_response
+       WHERE question_response.id = user_responses.question_response_id AND question_response.question_id = user_responses.question_id)
+    FROM user_responses
+    INNER JOIN questions ON questions.id = user_responses.question_id
+    INNER JOIN tests ON tests.id = questions.test_id
+
+
+
+

@@ -6,22 +6,24 @@ namespace App\Domains\UserResponse\Services;
 
 use App\Domains\Questions\Repositories\Eloquent\Models\Question;
 use App\Domains\Questions\Repositories\Eloquent\Models\QuestionResponse;
+use App\Domains\Questions\Services\QuestionsService;
 use App\Domains\Scores\Services\UserScoreService;
-use App\Domains\UserResponse\Http\Dtos\SubmittedUserResponseForm;
+use App\Domains\UserResponse\Http\Dtos\SubmittedUserResponsesForm;
+use App\Domains\UserResponse\Http\Dtos\SubmittedUserResponsesQuestionForm;
 use App\Domains\UserResponse\Repositories\Eloquent\Models\UserResponse;
 use Illuminate\Support\Collection;
 
 readonly class UserResponseService
 {
     public function __construct(
-        private UserScoreService $userScoreService
+        private UserScoreService $userScoreService,
+        private QuestionsService $questionsService,
     ) {
     }
 
-    public function submitAnswer(SubmittedUserResponseForm $form): bool
+    public function submitAnswer(SubmittedUserResponsesQuestionForm $form, int $userId): bool
     {
         $questionId = $form->getQuestionId();
-        $userId = $form->getUserId();
 
         /** @var Question $question */
         $question = Question::query()->find($questionId);
@@ -29,7 +31,7 @@ readonly class UserResponseService
         /** @var Collection<mixed, QuestionResponse> $questionResponses */
         $questionResponses = QuestionResponse::query()
                                              ->where('question_id', '=', $questionId)
-                                             ->whereIn('response_id', $form->getQuestionResponseIds())
+                                             ->whereIn('response_id', $form->getResponseIds())
                                              ->get();
 
         $updatedIds = [];
@@ -60,5 +62,15 @@ readonly class UserResponseService
         }
 
         return count($updatedIds) > 0;
+    }
+
+    public function submitAnswers(SubmittedUserResponsesForm $form): bool
+    {
+        $status = true;
+        foreach ($form->getQuestions() as $formQuestion) {
+            $status = $this->submitAnswer($formQuestion, $form->getUserId());
+        }
+
+        return $status;
     }
 }

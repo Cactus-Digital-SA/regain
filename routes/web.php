@@ -44,6 +44,7 @@ Route::group([
 ], function () {
     Route::get('/', [PatientController::class, 'index'])->name('home');
     Route::post('/submit-answer', [PatientController::class, 'submitAnswer'])->name('submit-answer');
+    Route::post('/submit-answers', [PatientController::class, 'submitAnswers'])->name('submit-answers');
 });
 
 ////2fa fortify
