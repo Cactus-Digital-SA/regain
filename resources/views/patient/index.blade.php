@@ -4,177 +4,44 @@
     */
 @endphp
 
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Current Location</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .grid-layout {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 1rem;
-            justify-items: center;
-            align-items: center;
-        }
-
-        .grid-layout li {
-            list-style: none;
-            text-align: center;
-            text-wrap: nowrap;
-        }
-
-        input[type="radio"] {
-            appearance: none;
-            width: 0.9rem;
-            height: 0.9rem;
-            border: 2px solid #161B2C;
-            border-radius: 100%;
-            position: relative;
-            cursor: pointer;
-            background-color: #fff;
-            transition: all 0.3s ease;
-        }
-
-        input[type="radio"]:hover,
-        label.toggle:hover + input[type="radio"] {
-            border-color: #555;
-        }
-
-        label.toggle:hover + input[type="radio"] {
-            background-color: #f0f0f0;
-        }
-
-        input[type="radio"]:checked {
-            background-color: #333;
-            border-color: #333;
-        }
-
-        label.toggle {
-            display: inline-flex;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            padding: 0.3rem 0.3rem;
-            border-radius: 0.5rem;
-        }
-
-        label.toggle:hover {
-            background-color: #f0f0f0;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-        }
-
-        input[type="radio"]:checked + label.toggle {
-            background-color: #151B2C;
-            color: #fff;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-        }
-
-        label.toggle:hover + input[type="radio"]:checked {
-            background-color: #333;
-            border-color: #333;
-        }
-
-        .question-span {
-            font-size: 16px;
-            font-weight: 700;
-            line-height: 22px;
-            text-align: left;
-            text-underline-position: from-font;
-            text-decoration-skip-ink: none;
-
-        }
-
-        .radio-label {
-            font-size: 15px;
-            font-weight: 400;
-        }
-
-        @media (max-width: 990px) {
-            .grid-layout {
-                display: flex;
-                flex-direction: column;
-                justify-content: start;
-                align-items: start;
-            }
-
-            .grid-layout ul {
-                display: flex;
-                flex-wrap: nowrap;
-                justify-content: center;
-                align-items: center;
-                padding: 0;
-                margin: 0;
-            }
-        }
-
-        /* Overlay style */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: none; /* Initially hidden */
-            justify-content: center;
-            align-items: center;
-            z-index: 9999; /* Make sure it covers the whole page */
-        }
-
-        .overlay .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3498db;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 2s linear infinite;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-    </style>
 </head>
 <body>
 
+@vite(['resources/css/patient-index.css'])
+
 <video class="video-background" autoplay muted loop>
     <source
-            src="https://s3-figma-videos-production-sig.figma.com/video/1309080390110430302/TEAM/1e82/00ac/-1b93-4cf6-acd8-68ac308285fd?Expires=1733702400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=oorEDXdUAETvyCVU7BK8hb7EhdlCg53KlsncAE7Q1cIR8umuliZzbLcggOlyHA41GoRkvXwvzgGEh9Lx-fQiwV0Ri-G7ri5D5ovhDWrLnKcX564t8ughfnmtru1oG3ln6q6C4TNvsPCPAe~zQ9tSnnmDfrha3V7HjNqutPflCKk3kNIDpwHEy4X2Cw3a3c-ZdN9NeRtFabz42~VTvb2IoYcXx5GiOY5NMsjqsXqjOYt~a0JGnc49hTyXHyLDtkOYzhXzSZCGkbPplj28biet78gPFyzVN2fSehm0aYoVgjiEuLbua6BJ~n2Dj0Lf7FeulAQVOp6721-80D39XsAfDw__"
-            type="video/mp4">
+        src="https://s3-figma-videos-production-sig.figma.com/video/1309080390110430302/TEAM/1e82/00ac/-1b93-4cf6-acd8-68ac308285fd?Expires=1733702400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=oorEDXdUAETvyCVU7BK8hb7EhdlCg53KlsncAE7Q1cIR8umuliZzbLcggOlyHA41GoRkvXwvzgGEh9Lx-fQiwV0Ri-G7ri5D5ovhDWrLnKcX564t8ughfnmtru1oG3ln6q6C4TNvsPCPAe~zQ9tSnnmDfrha3V7HjNqutPflCKk3kNIDpwHEy4X2Cw3a3c-ZdN9NeRtFabz42~VTvb2IoYcXx5GiOY5NMsjqsXqjOYt~a0JGnc49hTyXHyLDtkOYzhXzSZCGkbPplj28biet78gPFyzVN2fSehm0aYoVgjiEuLbua6BJ~n2Dj0Lf7FeulAQVOp6721-80D39XsAfDw__"
+        type="video/mp4">
     Your browser does not support the video tag.
 </video>
 
 @include('frontend.content.mock.includes.navbar')
 
 <div class="dob-container">
-    {{--    <div class="d-flex justify-content-between align-items-center" style="width: 99%; margin: 0 auto">--}}
-    {{--        <a href="#" class="btn btn-link text-decoration-none">&larr; Back</a>--}}
-    {{--    </div>--}}
-
     @foreach ($questions as $question)
-        <div class="container px-5 py-2 pb-5">
-            <form id="input-form_{{$question->getId()}}" class="collect-question" data-question-id="{{$question->getId()}}" data-max-responses="2">
+        <div class="container px-3 py-2">
+            <form id="input-form_{{$question->getId()}}" class="collect-question" data-question-id="{{$question->getId()}}">
                 @csrf
                 <div class="question mb-5">
                     <span class="question-span">{{$question->getTitle()}}</span>
-                    <ul class="list-unstyled grid-layout mb-4 mt-1">
+                    <ul class="list-unstyled grid-layout mt-3">
                         @foreach ($question->getResponses() as $response)
                             <li>
                                 <input
-                                        type="checkbox"
-                                        class="select-response"
-                                        data-question-id="{{$question->getId()}}"
-                                        data-response-id="{{$response->getId()}}"
-                                        id="response-{{$question->getId()}}-{{$response->getId()}}"
-                                        name="response-{{$question->getId()}}[]">
+                                    type="checkbox"
+                                    class="select-response radio-label round"
+                                    data-question-id="{{$question->getId()}}"
+                                    data-response-id="{{$response->getId()}}"
+                                    id="response-{{$question->getId()}}-{{$response->getId()}}"
+                                    name="response-{{$question->getId()}}[]">
                                 <label for="response-{{$question->getId()}}-{{$response->getId()}}" class="toggle">
                                     <span class="radio-label round">{{ $response->getTitle() }}</span>
                                 </label>
@@ -187,12 +54,9 @@
     @endforeach
     <div class="d-flex justify-content-center">
         <form id="submit-form">
-            <button type="button" class="btn btn-primary mt-3" id="next-button">Next</button>
+            <button type="button" class="btn btn-primary mt-3" id="next-button" disabled>Next</button>
         </form>
     </div>
-</div>
-<div id="overlay" class="overlay">
-    <div class="spinner"></div>
 </div>
 
 <script>

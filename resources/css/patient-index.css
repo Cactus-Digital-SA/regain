@@ -1,0 +1,116 @@
+.grid-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 0.2fr));
+    gap: 1rem;
+    justify-items: start;
+    align-items: center;
+}
+
+.radio-label {
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.grid-layout li {
+    list-style: none;
+    text-align: start;
+    text-wrap: nowrap;
+}
+
+input[type="checkbox"] {
+    appearance: none;
+    width: 0.9rem;
+    height: 0.9rem;
+    border: 2px solid #161B2C;
+    border-radius: 100%;
+    position: relative;
+    cursor: pointer;
+    background-color: #fff;
+    transition: all 0.3s ease;
+}
+
+input[type="checkbox"]:hover {
+    border-color: #555;
+}
+
+input[type="checkbox"]:checked {
+    background-color: #333;
+    border-color: #333;
+}
+
+label.toggle {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0.3rem 0.3rem;
+    border-radius: 0.5rem;
+}
+
+label.toggle:hover {
+    background-color: #f0f0f0;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+input[type="checkbox"]:checked + label.toggle {
+    background-color: #151B2C;
+    color: #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.question-span {
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 22px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+}
+
+@media (max-width: 990px) {
+    .grid-layout {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid-layout ul {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+        margin: 0;
+    }
+}
+
+@media (max-width: 1600px) {
+    .grid-layout {
+        grid-template-columns: repeat(auto-fit, minmax(400px, 0.2fr));
+    }
+}
+
+@media (max-width: 1400px) {
+    .grid-layout {
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    }
+}
+
+@media (max-width: 990px) {
+    .grid-layout {
+        grid-template-columns: repeat(2, minmax(300px, 0.2fr));
+    }
+
+    .grid-layout ul {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+        margin: 0;
+    }
+}
+
+@media (max-width: 780px) {
+    .grid-layout {
+        grid-template-columns: 1fr;
+    }
+}
