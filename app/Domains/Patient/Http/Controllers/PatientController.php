@@ -31,7 +31,6 @@ class PatientController extends Controller
      */
     public function index(): View
     {
-        // $question = $this->questionsService->getActiveQuestion(Auth::id());
         $questions = $this->questionsService->fetchQuestions(Auth::id(), 5);
 
         return view('patient.index')->with(
@@ -45,8 +44,6 @@ class PatientController extends Controller
         $submitted     = $this->responseService->submitAnswers($submittedData);
 
         if ($submitted) {
-            $questions = $this->questionsService->fetchQuestions(Auth::id());
-
             return response()->json([
                 'success' => true,
                 'message' => 'Answers submitted successfully.'// Send the questions as part of the response
@@ -55,26 +52,6 @@ class PatientController extends Controller
 
         Log::error('Could not submit answer for user ' . $submittedData->getUserId(), [
             'questionIs' => $submittedData,
-        ]);
-
-        abort(500);
-    }
-
-    public function submitAnswer(SubmitUserResponsesRequest $request): RedirectResponse
-    {
-        $submittedData = $request->getSubmittedUserResponseForm();
-        $submitted     = $this->responseService->submitAnswer($submittedData);
-
-        if ($submitted) {
-            $activeQuestion = $this->questionsService->getActiveQuestion($submittedData->getUserId());
-
-            return redirect(Route("patient.home"))->with(
-                ["question" => $activeQuestion]
-            );
-        }
-
-        Log::error('Could not submit answer for user ' . $submittedData->getUserId(), [
-            'questionId' => $submittedData->getQuestionId(),
         ]);
 
         abort(500);

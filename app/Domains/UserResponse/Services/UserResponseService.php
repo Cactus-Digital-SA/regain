@@ -6,7 +6,6 @@ namespace App\Domains\UserResponse\Services;
 
 use App\Domains\Questions\Repositories\Eloquent\Models\Question;
 use App\Domains\Questions\Repositories\Eloquent\Models\QuestionResponse;
-use App\Domains\Questions\Services\QuestionsService;
 use App\Domains\Scores\Services\UserScoreService;
 use App\Domains\UserResponse\Http\Dtos\SubmittedUserResponsesForm;
 use App\Domains\UserResponse\Http\Dtos\SubmittedUserResponsesQuestionForm;
@@ -17,7 +16,6 @@ readonly class UserResponseService
 {
     public function __construct(
         private UserScoreService $userScoreService,
-        private QuestionsService $questionsService,
     ) {
     }
 

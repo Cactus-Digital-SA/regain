@@ -42,6 +42,38 @@
         .form-check-inline {
             margin-right: 15px; /* Add some space between checkboxes */
         }
+
+        /* Overlay style */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none; /* Initially hidden */
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* Make sure it covers the whole page */
+        }
+
+        .overlay .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 
@@ -122,6 +154,9 @@
         </p>
     </div>
 </footer>
+<div id="overlay" class="overlay">
+    <div class="spinner"></div>
+</div>
 
 <!-- jQuery and Bootstrap scripts -->
 <script src="{{asset('assets/js/jquery-3.4.1.min.js')}}"></script>
@@ -205,6 +240,10 @@
         nextButton.addEventListener('click', function (e) {
                 e.preventDefault();
 
+                // Show the overlay and disable the button
+                overlay.style.display = 'flex';
+                nextButton.disabled = true;
+
                 // Collect the selected response IDs for this question
                 let selectedResponsesFinal = [];
                 document.querySelectorAll(`.collect-question`)
@@ -243,6 +282,9 @@
                 }
             }
         );
+
+        overlay.style.display = 'none'; // Hide the overlay if no responses were selected
+        nextButton.disabled = false;
 
         // Initialize the "Next" button state
         updateNextButtonState(); // Check if the "Next" button should be enabled
