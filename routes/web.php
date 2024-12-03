@@ -84,3 +84,16 @@ Route::group([
 //});
 
 
+
+
+// TODO, REMOVE WHEN DONE
+// For mock purposes
+
+Route::group([
+    'prefix' => 'mock',
+    'as' => 'mock.',
+], function () {
+    Route::get('/date-of-birth', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showDateOfBirth'])->name('date-of-birth');
+    Route::get('/current-location', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showCurrentLocation'])->name('current-location');
+    Route::get('/disability-disorder', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showDisabilityDisorder'])->name('disability-disorder');
+});
