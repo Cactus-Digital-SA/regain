@@ -101,21 +101,13 @@ class Question extends Model
     {
         return $this->belongsTo(Instruction::class);
     }
-
-    /**
-     * @return HasOne
-     */
-    public function requiredQuestion(): HasOne
-    {
-        return $this->hasOne(Question::class, 'id', 'required_question_id');
-    }
-
+    
     /**
      * @return BelongsToMany
      */
     public function requiredResponses(): BelongsToMany
     {
-        return $this->belongsToMany(Response::class, 'question_required_response');
+        return $this->belongsToMany(QuestionResponse::class, 'question_required_response');
     }
 
     /**

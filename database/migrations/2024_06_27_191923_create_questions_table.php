@@ -18,8 +18,6 @@ return new class extends Migration {
             $table->foreignId('instruction_id')->nullable('instructions')->constrained()->nullOnDelete();
             $table->foreignId('subscale_id')->nullable()->constrained('subscales')->nullOnDelete();
             $table->foreignId('test_id')->constrained('tests')->cascadeOnDelete();
-            $table->unsignedInteger('required_question_id')->nullable();
-            $table->unsignedInteger('required_response_id')->nullable();
             //Sorting
             $table->unsignedInteger('sort')->nullable();
             $table->boolean('select_multiple')->nullable();
@@ -49,7 +47,7 @@ return new class extends Migration {
         Schema::create('question_required_response', function (Blueprint $table) {
             $table->id();
             $table->foreignId('question_id')->constrained('questions')->cascadeOnDelete();
-            $table->foreignId('response_id')->constrained('responses')->cascadeOnDelete();
+            $table->foreignId('question_response_id')->constrained('question_response')->cascadeOnDelete();
             $table->timestamps();
         });
 

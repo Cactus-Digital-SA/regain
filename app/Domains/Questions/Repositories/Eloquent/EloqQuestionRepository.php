@@ -50,13 +50,12 @@ class EloqQuestionRepository implements QuestionRepositoryInterface
                 $question->id = $id;
             }
 
-            $question->title                = $entity->getTitle();
-            $question->test_id              = $entity->getTestId();
-            $question->instruction_id       = $entity->getInstructionId();
-            $question->subscale_id          = $entity->getSubscaleId();
-            $question->sort                 = $entity->getSort();
-            $question->required_question_id = $entity->getRequiredQuestionId();
-            $question->status               = $entity->getStatus() ?? 1;
+            $question->title          = $entity->getTitle();
+            $question->test_id        = $entity->getTestId();
+            $question->instruction_id = $entity->getInstructionId();
+            $question->subscale_id    = $entity->getSubscaleId();
+            $question->sort           = $entity->getSort();
+            $question->status         = $entity->getStatus() ?? 1;
             $question->save();
 
             $question->languages()->sync($entity->getLanguages(), false);

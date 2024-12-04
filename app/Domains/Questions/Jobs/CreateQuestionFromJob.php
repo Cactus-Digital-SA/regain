@@ -5,6 +5,7 @@ namespace App\Domains\Questions\Jobs;
 use App\Domains\Questions\Import\QuestionsImport;
 use App\Domains\Questions\Repositories\Eloquent\EloqQuestionRepository;
 use App\Domains\Questions\Repositories\Eloquent\Models\Question;
+use App\Domains\Questions\Repositories\Eloquent\Models\QuestionResponse;
 use App\Domains\Questions\Services\QuestionsService;
 use App\Domains\Responses\Repositories\Eloquent\EloqResponseRepository;
 use App\Domains\Responses\Repositories\Eloquent\Models\Response;
@@ -14,10 +15,12 @@ use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class CreateQuestionFromJob implements ShouldQueue
 {
@@ -116,14 +119,26 @@ class CreateQuestionFromJob implements ShouldQueue
         /** Required Question and responses for the question to show */
         $requiredResponsesIds = [];
         if ($requiredQuestion && $requiredQuestion !== '-') {
-            $requiredQuestionId     = (int)Helpers::extractIntegerFromString($row['required_question']);
-            $requiredResponsesArray = explode(',', $requiredResponses);
+            $requiredQuestionId = (int)Helpers::extractIntegerFromString($row['required_question']);
+            if (str_starts_with($requiredResponses, 'RESPONSE')) {
+                $requiredResponsesList  = QuestionResponse::where('question_id', $requiredQuestionId)->get("id")->toArray();
+                $trimmedResponses       = str_replace(['RESPONSE', '#'], '', $requiredResponses);
+                $requiredResponsesArray = explode(',', $trimmedResponses);
+                /** @var Collection $requiredResponse */
+                $requiredResponsesIds = array_map(function ($index) use ($requiredResponsesList) {
+                    return $requiredResponsesList[(int)$index - 1]["id"];  // Subtract 1 to get the correct index
+                }, $requiredResponsesArray);
+            } else {
+                $requiredResponsesArray = explode(',', $requiredResponses);
+                foreach ($requiredResponsesArray as $requiredResponse) {
+                    $callable = function (Builder $query) use ($requiredResponse) {
+                        $query->where(DB::raw("UPPER(title)"), "=", $requiredResponse);
+                    };
 
-            foreach ($requiredResponsesArray as $requiredResponse) {
-                $requiredResponse = $responseService->getByTitle($requiredResponse);
-
-                if ($requiredResponse) {
-                    $requiredResponsesIds[] = $requiredResponse->getId();
+                    $row = QuestionResponse::where('question_id', $requiredQuestionId)->whereHas("response", $callable)->first();
+                    if ($row->count() > 0) {
+                        $requiredResponsesIds[] = $row->id;
+                    }
                 }
             }
         } else {
@@ -141,7 +156,6 @@ class CreateQuestionFromJob implements ShouldQueue
         $questionDTO->setSort(null);
         $questionDTO->setStatus(1);
 
-        $questionDTO->setRequiredQuestionId($requiredQuestionId);
         $questionDTO->setRequiredResponses($requiredResponsesIds);
 
         $questionDTO->setLanguages([$language_id => ['question' => $question]]);
