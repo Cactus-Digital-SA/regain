@@ -4,7 +4,7 @@
     */
 @endphp
 
-<!DOCTYPE html>
+        <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -18,8 +18,8 @@
 
 <video class="video-background" autoplay muted loop>
     <source
-        src="https://s3-figma-videos-production-sig.figma.com/video/1309080390110430302/TEAM/1e82/00ac/-1b93-4cf6-acd8-68ac308285fd?Expires=1733702400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=oorEDXdUAETvyCVU7BK8hb7EhdlCg53KlsncAE7Q1cIR8umuliZzbLcggOlyHA41GoRkvXwvzgGEh9Lx-fQiwV0Ri-G7ri5D5ovhDWrLnKcX564t8ughfnmtru1oG3ln6q6C4TNvsPCPAe~zQ9tSnnmDfrha3V7HjNqutPflCKk3kNIDpwHEy4X2Cw3a3c-ZdN9NeRtFabz42~VTvb2IoYcXx5GiOY5NMsjqsXqjOYt~a0JGnc49hTyXHyLDtkOYzhXzSZCGkbPplj28biet78gPFyzVN2fSehm0aYoVgjiEuLbua6BJ~n2Dj0Lf7FeulAQVOp6721-80D39XsAfDw__"
-        type="video/mp4">
+            src="https://s3-figma-videos-production-sig.figma.com/video/1309080390110430302/TEAM/1e82/00ac/-1b93-4cf6-acd8-68ac308285fd?Expires=1733702400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=oorEDXdUAETvyCVU7BK8hb7EhdlCg53KlsncAE7Q1cIR8umuliZzbLcggOlyHA41GoRkvXwvzgGEh9Lx-fQiwV0Ri-G7ri5D5ovhDWrLnKcX564t8ughfnmtru1oG3ln6q6C4TNvsPCPAe~zQ9tSnnmDfrha3V7HjNqutPflCKk3kNIDpwHEy4X2Cw3a3c-ZdN9NeRtFabz42~VTvb2IoYcXx5GiOY5NMsjqsXqjOYt~a0JGnc49hTyXHyLDtkOYzhXzSZCGkbPplj28biet78gPFyzVN2fSehm0aYoVgjiEuLbua6BJ~n2Dj0Lf7FeulAQVOp6721-80D39XsAfDw__"
+            type="video/mp4">
     Your browser does not support the video tag.
 </video>
 
@@ -27,8 +27,8 @@
 
 <div class="dob-container">
     @foreach ($questions as $question)
-        <div class="container px-3 py-2">
-            <form id="input-form_{{$question->getId()}}" class="collect-question" data-question-id="{{$question->getId()}}">
+        <div class="container px-3 py-2 {{$question->isHiddenBecauseOfRequired() ? "hidden" : ""}}" data-hide="{{$question->isHiddenBecauseOfRequired() ? "true" : "false"}}">
+            <form id="input-form_{{$question->getId()}}" class="collect-question" data-question-id="{{$question->getId()}}" data-condition-question-id="{{$question->getRequiredQuestionId()}}" data-condition-required-response-ids="[{{implode(", ", $question->getRequiredQuestionResponseIds())}}]">
                 @csrf
                 <div class="question mb-5">
                     <span class="question-span">{{$question->getTitle()}}</span>
@@ -36,12 +36,12 @@
                         @foreach ($question->getResponses() as $response)
                             <li>
                                 <input
-                                    type="checkbox"
-                                    class="select-response radio-label round"
-                                    data-question-id="{{$question->getId()}}"
-                                    data-response-id="{{$response->getId()}}"
-                                    id="response-{{$question->getId()}}-{{$response->getId()}}"
-                                    name="response-{{$question->getId()}}[]">
+                                        type="checkbox"
+                                        class="select-response radio-label round"
+                                        data-question-id="{{$question->getId()}}"
+                                        data-response-id="{{$response->getId()}}"
+                                        id="response-{{$question->getId()}}-{{$response->getId()}}"
+                                        name="response-{{$question->getId()}}[]">
                                 <label for="response-{{$question->getId()}}-{{$response->getId()}}" class="toggle">
                                     <span class="radio-label round">{{ $response->getTitle() }}</span>
                                 </label>
@@ -57,6 +57,9 @@
             <button type="button" class="btn btn-primary mt-3" id="next-button" disabled>Next</button>
         </form>
     </div>
+</div>
+<div id="overlay" class="overlay">
+    <div class="spinner"></div>
 </div>
 
 <script>
@@ -80,8 +83,8 @@
             const selectedResponses = Array.from(checkboxes).filter(checkbox => checkbox.checked);
 
             // Limit to max 2 selections
-            if (selectedResponses.length > 2) {
-                alert('You can select up to 2 responses only.');
+            if (selectedResponses.length > 1) {
+                alert('You can select up to 1 responses only.');
                 // Uncheck the last selected checkbox to respect the max selection
                 selectedResponses[selectedResponses.length - 1].checked = false;
             }
@@ -115,16 +118,37 @@
                 const selectedResponses = [];
                 document.querySelectorAll(`input[name="response-${questionId}[]"]:checked`)
                     .forEach(checkbox => {
-                        selectedResponses.push(checkbox.dataset.responseId);
+                        selectedResponses.push(parseInt(checkbox.dataset.responseId));
                     });
 
-                // Add selected responses to the hidden input
-                selectedResponses.forEach(responseId => {
-                    const input = document.createElement('input');
-                    input.type = 'hidden';
-                    input.name = 'questionResponseIds[]';
-                    input.value = responseId;
-                    form.appendChild(input);
+
+                const dependantForms = document.querySelectorAll('form[data-condition-question-id]:not([data-condition-question-id=""])');
+                dependantForms.forEach(form => {
+                    requiredQuestionId = form.dataset.conditionQuestionId;
+                    requiredForm = document.getElementById(`input-form_` + requiredQuestionId);
+                    requiredQuestionResponseIds = JSON.parse(form.dataset.conditionRequiredResponseIds);
+                    parentForm = document.getElementById(`input-form_` + requiredQuestionId);
+                    if (parentForm) {
+                        requiredFormInputs = parentForm.querySelectorAll(`input:checked`);
+                        if (requiredFormInputs.length > 0) {
+                            // Check if any of the selected inputs have a response ID that matches any in the required response IDs array
+                            const containsAnyId = Array.from(requiredFormInputs).some(input =>
+                                requiredQuestionResponseIds.includes(parseInt(input.dataset.responseId))
+                            );
+
+                            if (containsAnyId) {
+                                questionContainer = form.closest('.container');
+                                if (questionContainer) {
+                                    questionContainer.classList.remove('hidden');
+                                }
+                            } else {
+                                questionContainer.classList.add('hidden');
+                            }
+                        } else {
+                            questionContainer.classList.add('hidden');
+                        }
+                    }
+
                 });
 
                 // Track if this question is answered
@@ -187,7 +211,8 @@
         updateNextButtonState(); // Check if the "Next" button should be enabled
 
 
-    });
+    })
+    ;
 </script>
 </body>
 </html>

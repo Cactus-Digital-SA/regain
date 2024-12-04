@@ -101,7 +101,7 @@ class Question extends Model
     {
         return $this->belongsTo(Instruction::class);
     }
-    
+
     /**
      * @return BelongsToMany
      */

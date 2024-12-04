@@ -6,9 +6,11 @@ use App\Domains\QuestionnaireFlow\Constants\QuestionnaireFlowType;
 use App\Domains\QuestionnaireFlow\QuestionnaireFlowService;
 use App\Domains\Questions\Models\Question;
 use App\Domains\Questions\Repositories\Eloquent\Models\Question as EloquentQuestion;
+use App\Domains\Questions\Repositories\Eloquent\Models\QuestionResponse;
 use App\Domains\Questions\Repositories\QuestionRepositoryInterface;
 use App\Domains\UserResponse\Repositories\Eloquent\Models\UserResponse;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 readonly class QuestionsService
 {
@@ -97,7 +99,7 @@ readonly class QuestionsService
      * @param int $take
      * @return Question[]
      */
-    public function fetchQuestions(int $userId, int $take = 5): array
+    public function fetchQuestions(int $userId, int $take = 10): array
     {
         $questions      = [];
         $activeQuestion = $this->getActiveQuestion($userId);
@@ -137,12 +139,18 @@ readonly class QuestionsService
             $nextQuestionId = $nextQuestion?->getId();
         }
 
-        return $nextQuestionId ? $this->repository->getById($nextQuestionId) : null;
+        if ($nextQuestionId !== null) {
+            $nextQuestion = $this->repository->getById($nextQuestionId);
+
+            return $this->populateHiddenData($nextQuestion);
+        }
+
+        return null;
     }
 
     public function getActiveQuestion(int $userId): ?Question
     {
-        /** @var UserResponse|null $currentUserResponse */
+        /** @var UserResponse|null $latestResponse */
         $latestResponse = UserResponse::query()
                                       ->where('user_id', $userId)
                                       ->orderBy('question_response_id', 'desc')
@@ -161,7 +169,48 @@ readonly class QuestionsService
                 ->first()->id;
         }
 
-        return $this->getById($activeQuestionId);
+        $activeQuestion = $this->getById($activeQuestionId);
+
+        return $this->populateHiddenData($activeQuestion);
+    }
+
+    private function populateHiddenData(?Question $question): ?Question
+    {
+        if ($question && count($question->getRequiredResponses()) > 0) {
+            $requiredQuestionId       = $this->getRequiredQuestionId($question);
+            $requiredQuestionResponse = $this->getResponseByQuestion($requiredQuestionId);
+            $question->setRequiredQuestionId($requiredQuestionId);
+            $questionResponseQuestionIds = array_map(function ($userResponse) {
+                return $userResponse->getId();
+            }, $question->getRequiredResponses());
+            $questionResponses           = QuestionResponse::query()
+                                                           ->where('question_id', '=', $requiredQuestionId)
+                                                           ->whereIn('id', $questionResponseQuestionIds)
+                                                           ->get("response_id")->toArray();
+            $responseIds                 = array_map(function ($response) {
+                return $response["response_id"];
+            }, $questionResponses);
+            $question->setRequiredQuestionResponses($responseIds);
+            if ($requiredQuestionResponse && in_array($requiredQuestionResponse->question_response_id, $questionResponseQuestionIds, true)) {
+                $question->setHiddenBecauseOfRequired(false);
+            } else {
+                $question->setHiddenBecauseOfRequired(true);
+            }
+        }
+
+        return $question;
+    }
+
+    private function getRequiredQuestionId(Question $question): ?int
+    {
+        return EloquentQuestion::find($question->getId())->requiredResponses()->first()->question()->first()->id;
+    }
+
+    public function getResponseByQuestion(int $questionId): ?UserResponse
+    {
+        return UserResponse::where("question_id", "=", $questionId)
+                           ->where("user_id", "=", Auth::user()->id)
+                           ->first();
     }
 
     /**

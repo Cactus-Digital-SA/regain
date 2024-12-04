@@ -15,30 +15,30 @@ class UserResponse implements CactusEntityInterface
      * @JMS\Serializer\Annotation\SerializedName("id")
      * @JMS\Serializer\Annotation\Type("int")
      */
-    private int $id;
+    private ?int $id;
     /**
      * @JMS\Serializer\Annotation\SerializedName("user_id")
      * @JMS\Serializer\Annotation\Type("int")
      */
-    private int $userId;
+    private ?int $userId;
     /**
      * @JMS\Serializer\Annotation\SerializedName("subscale_id")
      * @JMS\Serializer\Annotation\Type("int")
      */
-    private int $subscaleId;
+    private ?int $subscaleId;
     /**
      * @JMS\Serializer\Annotation\SerializedName("question_response_id")
      * @JMS\Serializer\Annotation\Type("int")
      */
-    private int $questionResponseId;
+    private ?int $questionResponseId;
     /**
      * @JMS\Serializer\Annotation\SerializedName("score")
      * @JMS\Serializer\Annotation\Type("int")
      */
-    private int $score;
+    private ?int $score;
     /**
      * @JMS\Serializer\Annotation\SerializedName("user")
-     * @JMS\Serializer\Annotation\Type(App\Domains\Auth\Models\User")
+     * @JMS\Serializer\Annotation\Type("App\Domains\Auth\Models\User")
      */
     private ?User $user;
     /**
@@ -52,60 +52,60 @@ class UserResponse implements CactusEntityInterface
      */
     private ?QuestionResponse $questionResponse = null;
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setId(int $id): UserResponse
+    public function setId(?int $id): UserResponse
     {
         $this->id = $id;
 
         return $this;
     }
 
-    public function getUserId(): int
+    public function getUserId(): ?int
     {
         return $this->userId;
     }
 
-    public function setUserId(int $userId): UserResponse
+    public function setUserId(?int $userId): UserResponse
     {
         $this->userId = $userId;
 
         return $this;
     }
 
-    public function getSubscaleId(): int
+    public function getSubscaleId(): ?int
     {
         return $this->subscaleId;
     }
 
-    public function setSubscaleId(int $subscaleId): UserResponse
+    public function setSubscaleId(?int $subscaleId): UserResponse
     {
         $this->subscaleId = $subscaleId;
 
         return $this;
     }
 
-    public function getQuestionResponseId(): int
+    public function getQuestionResponseId(): ?int
     {
         return $this->questionResponseId;
     }
 
-    public function setQuestionResponseId(int $questionResponseId): UserResponse
+    public function setQuestionResponseId(?int $questionResponseId): UserResponse
     {
         $this->questionResponseId = $questionResponseId;
 
         return $this;
     }
 
-    public function getScore(): int
+    public function getScore(): ?int
     {
         return $this->score;
     }
 
-    public function setScore(int $score): UserResponse
+    public function setScore(?int $score): UserResponse
     {
         $this->score = $score;
 
