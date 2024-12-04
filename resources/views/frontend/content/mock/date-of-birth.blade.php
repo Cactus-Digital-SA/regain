@@ -6,8 +6,10 @@
     <title>Current Location</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .container {
-            width: 52%;
+
+        .dob-container {
+            max-width: 900px !important;
+            margin: auto;
         }
 
         .dropdown-select {
@@ -20,15 +22,24 @@
 
             border-radius: 1.7rem;
             display: flex;
+            max-width: 500px;
             box-shadow: 0 4px 4px 0 #00000040;
             padding: 10px;
             border: 1px solid #000; /* black like pencil */
             width: 100%;
             min-height: 3.4rem;
             height: 100%;
-            margin-bottom: 1.25rem;
+            margin: 1.25rem auto;
             appearance: none;
             background: #fff url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15"><path fill="none" stroke="%23999" stroke-width="1.5" d="M1 7.5l7 7 7-7"/></svg>') no-repeat right 25px center/15px;
+        }
+
+        .btn-primary {
+            max-width: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 1.25rem auto;
         }
 
 
@@ -47,30 +58,32 @@
 
 <div class="dob-container">
     <a href="#" class="btn btn-link text-decoration-none">&larr; Back</a>
-    <div class="container p-5 pt-2">
-        <h3 class="text-center mt-0 mb-2 text-nowrap dob-title">What is your date of birth?</h3>
-        <p class="text-center text-muted mb-5 choice">Choose one below.</p>
-        <form class="mb-0" onsubmit="return false;">
-            <select class="dropdown-select" name="day">
-                <option value="">Day</option>
-                @for ($i = 1; $i <= 31; $i++)
-                    <option value="{{ $i }}">{{ $i }}</option>
-                @endfor
-            </select>
-            <select class="dropdown-select" name="month">
-                <option value="">Month</option>
-                @foreach (['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] as $month)
-                    <option value="{{ $month }}">{{ $month }}</option>
-                @endforeach
-            </select>
-            <select class="dropdown-select mb-5" name="year">
-                <option value="">Year</option>
-                @for ($i = date('Y'); $i >= 1900; $i--)
-                    <option value="{{ $i }}">{{ $i }}</option>
-                @endfor
-            </select>
-            <button type="submit" class="btn btn-primary w-100 mt-3">Next</button>
-        </form>
+    <div class="container px-sm-5 py-5 pt-2">
+
+            <h3 class="text-center mt-0 mb-2 text-nowrap dob-title">What is your date of birth?</h3>
+            <p class="text-center text-muted mb-5 choice">Choose one below.</p>
+            <form class="mb-0 form-dob" onsubmit="return false;">
+                <select class="dropdown-select" name="day">
+                    <option value="">Day</option>
+                    @for ($i = 1; $i <= 31; $i++)
+                        <option value="{{ $i }}">{{ $i }}</option>
+                    @endfor
+                </select>
+                <select class="dropdown-select" name="month">
+                    <option value="">Month</option>
+                    @foreach (['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] as $month)
+                        <option value="{{ $month }}">{{ $month }}</option>
+                    @endforeach
+                </select>
+                <select class="dropdown-select mb-5" name="year">
+                    <option value="">Year</option>
+                    @for ($i = date('Y'); $i >= 1900; $i--)
+                        <option value="{{ $i }}">{{ $i }}</option>
+                    @endfor
+                </select>
+                <button type="submit" class="btn btn-primary w-100 mt-3">Next</button>
+            </form>
+
     </div>
 </div>
 
