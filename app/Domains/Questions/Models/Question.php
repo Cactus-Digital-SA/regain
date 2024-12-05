@@ -119,6 +119,12 @@ class Question extends CactusEntity
      * @var int[]|null
      */
     private ?array $requiredQuestionResponseIds = [];
+    /**
+     * @var bool $userInput
+     * @JMS\Serializer\Annotation\SerializedName("user_input")
+     * @JMS\Serializer\Annotation\Type("boolean")
+     */
+    private bool $userInput = false;
 
     public function getValues(bool $withRelations = true): array
     {
@@ -131,6 +137,7 @@ class Question extends CactusEntity
             'required_question_id' => $this->requiredQuestionId ?? null,
             'select_multiple'      => $this->select_multiple ?? null,
             'max_selections'       => $this->maxSelections ?? null,
+            'user_input'           => $this->userInput ?? false,
             'sort'                 => $this->sort ?? null
         ];
 
@@ -416,6 +423,18 @@ class Question extends CactusEntity
     public function setRequiredQuestionResponses(?array $requiredQuestionResponseIds): Question
     {
         $this->requiredQuestionResponseIds = $requiredQuestionResponseIds;
+
+        return $this;
+    }
+
+    public function isUserInput(): bool
+    {
+        return $this->userInput;
+    }
+
+    public function setUserInput(bool $userInput): Question
+    {
+        $this->userInput = $userInput;
 
         return $this;
     }

@@ -1,0 +1,206 @@
+<?php
+
+namespace App\Domains\Questions\Import;
+
+use App\Domains\Categories\Services\CategoryService;
+use App\Domains\Instructions\Services\InstructionService;
+use App\Domains\Language\Services\LanguageService;
+use App\Domains\Questions\Import\Sheets\MedicalHistoryImport;
+use App\Domains\Questions\Jobs\CreateQuestionFromJob;
+use App\Domains\Questions\Services\QuestionsService;
+use App\Domains\References\Services\ReferenceService;
+use App\Domains\Responses\Services\ResponseService;
+use App\Domains\Subscales\Services\SubscaleService;
+use App\Domains\Tests\Services\TestService;
+use App\Helpers\Helpers;
+use Exception;
+use Illuminate\Container\Container;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Concerns\WithMultipleSheets;
+
+class MedicalHistoryQuestionsImport implements WithMultipleSheets
+{
+    /**
+     * @param string $instruction
+     * @param int    $language_id
+     * @return int|null
+     */
+    public static function createInstruction(string $instruction, int $language_id): ?int
+    {
+        if ($instruction != null && $instruction != '-') {
+            /** @var InstructionService $instructionService */
+            $instructionService = Container::getInstance()->get(InstructionService::class);
+
+            return $instructionService->findOrCreateInstruction($instruction, $language_id)?->getId();
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $code
+     * @return int
+     */
+    public static function findLanguage(string $code): int
+    {
+        /** @var LanguageService $languageService */
+        $languageService = Container::getInstance()->get(LanguageService::class);
+
+        $language = $languageService->getByCode($code);
+
+        if ($language->getCode() === null) {
+            return 0;
+        }
+
+        return $language->getId();
+    }
+
+    /**
+     * @param string $category
+     * @return int
+     * @throws Exception
+     */
+    public static function createCategory(string $category): int
+    {
+        try {
+            $categoryService = Container::getInstance()->get(CategoryService::class);
+            $category        = $categoryService->firstOrCreate($category, null, null);
+            $categoryId      = $category->getId();
+        } catch (Exception $exception) {
+            Log::error($exception->getMessage());
+            throw $exception;
+        }
+
+        return $categoryId;
+    }
+
+    /**
+     * @param string $test
+     * @param int    $categoryId
+     * @return int
+     * @throws Exception
+     */
+    public static function createTest(string $test, int $categoryId): int
+    {
+        try {
+            $testService = Container::getInstance()->get(TestService::class);
+
+            return $testService->findOrCreate($test, $categoryId, null)->getId();
+        } catch (Exception $exception) {
+            Log::error($exception->getMessage());
+            throw $exception;
+        }
+    }
+
+    /**
+     * @param string $subscale
+     * @param int    $testId
+     * @return int|null
+     * @throws Exception
+     */
+    public static function createSubscale(string $subscale, int $testId): ?int
+    {
+        if ($subscale != null && $subscale != '-') {
+            try {
+                $subscaleService = Container::getInstance()->get(SubscaleService::class);
+
+                return $subscaleService->findOrCreate($subscale, $testId, 2, null)->getId();
+            } catch (Exception $exception) {
+                Log::error($exception->getMessage());
+                throw $exception;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param array $responses
+     * @param int   $language_id
+     * @return array
+     * @throws Exception
+     */
+    public static function createResponses(array $responses, int $language_id): array
+    {
+        try {
+            $service      = Container::getInstance()->get(ResponseService::class);
+            $responsesIds = [];
+
+            foreach ($responses as $response) {
+                $responsesIds[] = $service->findOrCreate($response['value'], $language_id, $response['type'], $response['sort'])->getId();
+            }
+
+            return $responsesIds;
+        } catch (Exception $exception) {
+            Log::error($exception->getMessage());
+            throw $exception;
+        }
+    }
+
+    /**
+     * @param Collection $collection
+     * @return void
+     * @throws Exception
+     */
+    public static function createQuestions(Collection $collection): void
+    {
+        $questionService = Container::getInstance()->get(QuestionsService::class);
+        foreach ($collection as $row) {
+            if ($row['unique_id'] == null) {
+                continue;
+            }
+
+            $id              = (int)Helpers::extractIntegerFromString($row['unique_id']);
+            $questionsExists = $questionService->getById($id);
+
+            $referenceType  = "Medical History Reference";
+            $referenceGroup = 99;
+
+            /**  Get References */
+            $referencesIds = self::getReferences($referenceType, $referenceGroup);
+
+            if ($questionsExists) {
+                $questionsExists->setReferences($referencesIds);
+                $questionService->syncReferences($questionsExists, $questionsExists->getId());
+                continue;
+            }
+
+            try {
+                //Trying to create Question with job
+                CreateQuestionFromJob::dispatch($row);
+            } catch (Exception $e) {
+                DB::rollBack();
+                throw new Exception($e);
+            }
+
+            DB::commit();
+        }
+    }
+
+    /**
+     * @param string $type
+     * @param string $group
+     * @return array
+     */
+    public static function getReferences(string $type, string $group): array
+    {
+        $referenceService = Container::getInstance()->get(ReferenceService::class);
+        $references       = $referenceService->getByGroupAndType($group, $type);
+
+        $referencesId = [];
+        foreach ($references as $reference) {
+            $referencesId[] = $reference->getId();
+        }
+
+        return $referencesId;
+    }
+
+    public function sheets(): array
+    {
+        return [
+            0 => new MedicalHistoryImport(),
+        ];
+    }
+}

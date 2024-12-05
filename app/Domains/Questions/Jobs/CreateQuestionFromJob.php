@@ -53,23 +53,32 @@ class CreateQuestionFromJob implements ShouldQueue
 
         $row = $this->question;
 
-        $id                = (int)Helpers::extractIntegerFromString($row['unique_id']);
-        $category          = (string)$row['category'];
-        $subscale          = (string)$row['subscale'];
-        $test              = (string)$row['test'];
-        $instructions      = (string)$row['instructions'];
-        $question          = (string)$row['question'];
-        $referenceType     = (string)$row['reference_group'];
-        $referenceGroup    = (int)Helpers::extractIntegerFromString($row['reference']);
+        $id       = (int)Helpers::extractIntegerFromString($row['unique_id']);
+        $category = (string)$row['category'];
+        $subscale = (string)$row['subscale'];
+
+        if ($category !== "MEDICAL HISTORY") {
+            $test           = (string)$row['test'];
+            $referenceType  = (string)$row['reference_group'];
+            $referenceGroup = (int)Helpers::extractIntegerFromString($row['reference']);
+        } else {
+            $test          = "MEDICAL HISTORY";
+            $referenceType = "MEDICAL HISTORY";
+        }
+
+        $instructions = (string)$row['instructions'];
+        $question     = (string)$row['question'];
+
         $requiredQuestion  = array_key_exists('required_question', $row->toArray()) ? $row['required_question'] : null;
         $requiredResponses = array_key_exists('required_response', $row->toArray()) ? $row['required_response'] : null;
+        $userInput         = array_key_exists('user_input', $row->toArray()) ? $row['user_input'] ?? false : false;
 
         /**  Get Responses */
         $responses = [];
 
         if ($referenceType != 'Medication Reference' && $test != 'Professional Sector') {
             foreach ($row as $key => $value) {
-                if (str_starts_with($key, "response") && str_contains($key, 'response') && !empty($value)) {
+                if (str_starts_with($key, "response") && str_contains($key, 'response') && !empty($value) && $value !== '-') {
                     $responses[] = ['value' => (string)$value, 'type' => 1, 'sort' => null];
                 }
             }
@@ -114,7 +123,10 @@ class CreateQuestionFromJob implements ShouldQueue
         $responsesIds = QuestionsImport::createResponses($responses, $language_id);
 
         /**  Get References */
-        $referencesIds = QuestionsImport::getReferences($referenceType, $referenceGroup);
+        $referencesIds = [];
+        if ($category !== "MEDICAL HISTORY") {
+            $referencesIds = QuestionsImport::getReferences($referenceType, $referenceGroup);
+        }
 
         /** Required Question and responses for the question to show */
         $requiredResponsesIds = [];
@@ -150,15 +162,14 @@ class CreateQuestionFromJob implements ShouldQueue
         $questionDTO->setTestId($testId);
         $questionDTO->setSubscaleId($subscaleId);
         $questionDTO->setInstructionId($instruction_id);
-        $questionDTO->setResponses($responsesIds);
         $questionDTO->setReferences($referencesIds);
+        $questionDTO->setResponses($responsesIds);
         $questionDTO->setTitle($question);
         $questionDTO->setSort(null);
         $questionDTO->setStatus(1);
-
         $questionDTO->setRequiredResponses($requiredResponsesIds);
-
         $questionDTO->setLanguages([$language_id => ['question' => $question]]);
+        $questionDTO->setUserInput($userInput);
 
         $questionService->storeWithId($questionDTO, $id);
     }

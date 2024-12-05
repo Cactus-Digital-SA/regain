@@ -30,7 +30,8 @@
             </button>
             <a href="javascript:void(0)" class="btn btn-secondary waves-effect waves-light me-2" data-bs-toggle="modal" data-bs-target="#importModal"><i class="ti ti-package-import ti-xs me-1"></i> {{ __("Import Questions") }}
             </a>
-
+            <a href="javascript:void(0)" class="btn btn-secondary waves-effect waves-light me-2" data-bs-toggle="modal" data-bs-target="#importHistoryModal"><i class="ti ti-package-import ti-xs me-1"></i> {{ __("Import Med. History Questions") }}
+            </a>
         </div>
     </div>
 @endsection
@@ -127,7 +128,32 @@
         </div>
     </div>
     <!--/ Enable OTP Modal -->
-
+    <div class="modal fade" id="importHistoryModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-simple modal-enable-otp modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="text-center mb-6">
+                        <h4 class="mb-2">Upload the Excel with the medical history questions</h4>
+                        <p>Verify that your excel is in the correct format</p>
+                    </div>
+                    <form action="{{ route('admin.tests.import.medicalHistoryQuestions') }}" method="post" class="row g-5" enctype="multipart/form-data">
+                        @csrf
+                        <div class="col-12">
+                            <div class="mb-4">
+                                <label class="form-label" for="formFile">Excel File</label>
+                                <input class="form-control" name="file" type="file" id="formFile">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary me-3">Submit</button>
+                            <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('vendor-script')

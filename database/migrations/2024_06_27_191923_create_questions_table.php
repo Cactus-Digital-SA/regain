@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->unsignedInteger('sort')->nullable();
             $table->boolean('select_multiple')->nullable();
             $table->unsignedInteger('max_selections')->nullable();
+            $table->boolean('user_input')->nullable();
 
             //Status
             $table->boolean('status')->default(true);

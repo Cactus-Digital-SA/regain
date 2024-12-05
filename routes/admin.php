@@ -111,6 +111,7 @@ Route::group([]
 
         Route::controller(ImportController::class)->prefix('import')->name('tests.import.')->group(function () {
             Route::post('/questions', 'questions')->name('questions')->middleware('permission:admin.tests.create');
+            Route::post('/history-questions', 'medicalHistoryQuestions')->name('medicalHistoryQuestions')->middleware('permission:admin.tests.create');
         });
     });
 

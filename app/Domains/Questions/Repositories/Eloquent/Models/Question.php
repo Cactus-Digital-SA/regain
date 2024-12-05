@@ -39,6 +39,7 @@ class Question extends Model
         'select_multiple',
         'max_selections',
         'required_question_id',
+        'user_input',
         'sort',
         'status',
     ];
@@ -51,6 +52,7 @@ class Question extends Model
         'required_question_id' => 'integer',
         'required_response_id' => 'integer',
         'sort'                 => 'integer',
+        'user_input'           => 'boolean',
         'status'               => 'boolean',
     ];
 

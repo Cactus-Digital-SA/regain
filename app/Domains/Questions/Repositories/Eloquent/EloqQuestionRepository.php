@@ -56,6 +56,7 @@ class EloqQuestionRepository implements QuestionRepositoryInterface
             $question->subscale_id    = $entity->getSubscaleId();
             $question->sort           = $entity->getSort();
             $question->status         = $entity->getStatus() ?? 1;
+            $question->user_input     = $entity->isUserInput() ?? false;
             $question->save();
 
             $question->languages()->sync($entity->getLanguages(), false);
