@@ -2,46 +2,56 @@
 
 namespace App\Domains\Questions\Import\Sheets;
 
-
-use App\Domains\Questions\Repositories\Eloquent\EloqQuestionRepository;
-use App\Domains\Questions\Repositories\Eloquent\Models\Question as EloqQuestion;
-use App\Domains\Questions\Services\QuestionsService;
-use App\Domains\Responses\Repositories\Eloquent\EloqResponseRepository;
-use App\Domains\Responses\Repositories\Eloquent\Models\Response as EloquentResponse;
-use App\Domains\Responses\Services\ResponseService;
-use App\Domains\Results\Repositories\Eloquent\EloqThresholdRepository;
-use App\Domains\Results\Repositories\Eloquent\Models\Threshold;
-use App\Domains\Results\Services\ThresholdService;
 use App\Domains\Subscales\Repositories\Eloquent\EloqSubscaleRepository;
 use App\Domains\Subscales\Repositories\Eloquent\Models\Subscale;
 use App\Domains\Subscales\Services\SubscaleService;
 use App\Domains\Tests\Repositories\Eloquent\EloqTestRepository;
 use App\Domains\Tests\Repositories\Eloquent\Models\Test;
 use App\Domains\Tests\Services\TestService;
-use App\Helpers\Helpers;
+use App\Domains\Thresholds\Repositories\Eloquent\EloqThresholdRepository;
+use App\Domains\Thresholds\Repositories\Eloquent\Models\Threshold as EloqThreshold;
+use App\Domains\Thresholds\Services\ThresholdService;
+use Illuminate\Container\Container;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-
 class ThresholdImport implements ToCollection, WithHeadingRow
 {
-
     public function collection(Collection $collection): void
     {
-//        $thresholdService = new ThresholdService(new EloqThresholdRepository(new Threshold()));
-//        $testService = new TestService(new EloqTestRepository(new Test()));
-//        $subscaleService = new SubscaleService(new EloqSubscaleRepository(new Subscale()));
-//        try {
-//            foreach ($collection as $row) {
-//                if ($row['test'] == null) continue;
-//
-//                $test = $testService->getByName($row['test']);
-//                $subscale = $subscaleService->getByName($row['subscale']);
-//
-//                if ($test) {
-//                    /**  Get Thresholds */
+        $thresholdService = Container::getInstance()->get(ThresholdService::class);
+        $testService      = Container::getInstance()->get(TestService::class);
+        $subscaleService  = Container::getInstance()->get(SubscaleService::class);
+
+        try {
+            foreach ($collection as $row) {
+                if ($row['test'] == null) {
+                    continue;
+                }
+
+                $test     = $testService->getByName($row['test']);
+                $subscale = $subscaleService->getByName($row['subscale']);
+
+                if ($test) {
+                    $rowAsArray         = $row->toArray();
+                    $subscaleThresholds = array_filter($rowAsArray, function ($key) {
+                        return strpos($key, 'subscale_score') === 0; // Check if the key starts with 'subscale_score'
+                    }, ARRAY_FILTER_USE_KEY);
+                    $subscaleLabels     = array_filter($rowAsArray, function ($key) {
+                        return strpos($key, 'subscale_label') === 0; // Check if the key starts with 'subscale_score'
+                    }, ARRAY_FILTER_USE_KEY);
+                    $totalThresholds    = array_filter($rowAsArray, function ($key) {
+                        return strpos($key, 'total_score') === 0; // Check if the key starts with 'subscale_score'
+                    }, ARRAY_FILTER_USE_KEY);
+                    $totalLabels        = array_filter($rowAsArray, function ($key) {
+                        return strpos($key, 'total_label') === 0; // Check if the key starts with 'subscale_score'
+                    }, ARRAY_FILTER_USE_KEY);
+
+                    $notes = $row["notes"];
+                    $test  = 1;
+
 //
 //                    foreach ($row as $key => $value) {
 //                        if (str_contains($key, 'total_score') && $value != '-') {
@@ -63,12 +73,11 @@ class ThresholdImport implements ToCollection, WithHeadingRow
 //
 //                        }
 //                    }
-//                }
-//            }
-//        }catch (\Exception $exception) {
-//            Log::error($exception);
-//        }
-
+                }
+            }
+        } catch (\Exception $exception) {
+            Log::error($exception);
+        }
     }
 
     public function headingRow(): int

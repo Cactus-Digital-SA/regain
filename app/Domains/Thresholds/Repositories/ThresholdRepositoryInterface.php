@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Domains\Results\Repositories;
+namespace App\Domains\Thresholds\Repositories;
 
-use App\Domains\Results\Models\Threshold;
+use App\Domains\Thresholds\Models\Threshold;
 use App\Models\CactusEntity;
 use App\Repositories\RepositoryInterface;
 

@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Domains\Results\Repositories\Eloquent;
+namespace App\Domains\Thresholds\Repositories\Eloquent;
 
-use App\Domains\Results\Models\Threshold;
-use App\Domains\Results\Repositories\Eloquent\Models\Threshold as EloqThreshold;
-use App\Domains\Results\Repositories\ThresholdRepositoryInterface;
+use App\Domains\Thresholds\Models\Threshold;
+use App\Domains\Thresholds\Repositories\Eloquent\Models\ThresholdSubscaleLimit as ElogThresholdSubscaleLimit;
+use App\Domains\Thresholds\Repositories\Eloquent\Models\Threshold as EloqThreshold;
+use App\Domains\Thresholds\Repositories\ThresholdRepositoryInterface;
 use App\Facades\ObjectSerializer;
 use App\Models\CactusEntity;
 use Illuminate\Http\JsonResponse;
@@ -25,21 +26,30 @@ class EloqThresholdRepository implements ThresholdRepositoryInterface
 
     public function store(Threshold|CactusEntity $entity): Threshold
     {
+        $threshold = new EloqThreshold();
 
-        $threshold = $this->model->create([
-            'interpretation' => $entity->getInterpretation(),
-            'range_start'    => $entity->getRangeStart(),
-            'range_end'      => $entity->getRangeEnd(),
-            'test_id'        => $entity->getTestId(),
-            'subscale_id'    => $entity->getSubscaleId(),
-        ]);
+        $threshold->test_id        = $entity->gettestId();
+        $threshold->subscale_id    = $entity->getsubscaleId();
+        $threshold->question_start = $entity->getquestionStart();
+        $threshold->question_end   = $entity->getquestionEnd();
+        $threshold->display_type   = $entity->getdisplayType();
 
-        /* $threshold->interpretation = $entity->getInterpretation();
-         $threshold->range_start = $entity->getRangeStart();
-         $threshold->range_end = $entity->getRangeEnd();
-         $threshold->test_id = $entity->getTestId();
-         $threshold->subscale_id = $entity->getSubscaleId();
-         $threshold->save();*/
+        $threshold->save();
+
+        if (count($entity->getSubscaleLimits()) > 0) {
+            $eloquentModels = array_map(static function ($item) use ($threshold) {
+                ElogThresholdSubscaleLimit::firstOrCreate([
+                    'threshold_id' => $threshold->id,
+                    'low'          => $item->getlow(),
+                    'high'         => $item->gethigh(),
+                    'notes'        => $item->getnotes(),
+                ]);
+            }, $entity->getSubscaleLimits());
+
+            $threshold->subscaleLimits()->saveMany($eloquentModels);
+        }
+
+        $threshold->load('subscale', 'test', 'subscaleLimits');
 
         return ObjectSerializer::deserialize($threshold->toJson() ?? '{}', Threshold::class, 'json');
     }
