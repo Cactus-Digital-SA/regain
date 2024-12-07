@@ -10,7 +10,7 @@ class ObjectSerializerServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton('json.serializer', function () {
-            return SerializerBuilder::create()->build();
+            return SerializerBuilder::create()->enableEnumSupport()->build();
         });
     }
 }

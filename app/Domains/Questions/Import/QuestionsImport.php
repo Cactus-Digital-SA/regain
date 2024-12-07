@@ -268,7 +268,7 @@ class QuestionsImport implements WithMultipleSheets
             1 => new PreAssessmentsImport(),
             2 => new SkillsImport(),
             3 => new ScoresImport(),
-//            4 => new ThresholdImport(),
+            4 => new ThresholdImport(),
         ];
     }
 }

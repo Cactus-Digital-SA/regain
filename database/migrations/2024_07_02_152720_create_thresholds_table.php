@@ -17,26 +17,27 @@ return new class extends Migration {
             $table->foreignId('question_start')->nullable()->constrained('questions')->nullOnDelete();
             $table->foreignId('question_end')->nullable()->constrained('questions')->nullOnDelete();
             $table->smallInteger('display_type');
+            $table->unique(['test_id', 'subscale_id']);
             $table->timestamps();
         });
 
-        Schema::create('thresholds_subscale_limits', function (Blueprint $table) {
+        Schema::create('threshold_subscale_limits', function (Blueprint $table) {
             $table->id();
             $table->foreignId('threshold_id')->constrained('thresholds')->cascadeOnDelete();
             $table->integer('low');
             $table->integer('high');
             $table->string('label');
-            $table->string('notes');
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
 
-        Schema::create('thresholds_test_limits', function (Blueprint $table) {
+        Schema::create('threshold_test_limits', function (Blueprint $table) {
             $table->id();
             $table->foreignId('threshold_id')->constrained('thresholds')->cascadeOnDelete();
             $table->integer('low');
             $table->integer('high');
             $table->string('label');
-            $table->string('notes');
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }
@@ -47,7 +48,7 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::dropIfExists('thresholds');
-        Schema::dropIfExists('thresholds_subscale_limits');
-        Schema::dropIfExists('thresholds_test_limits');
+        Schema::dropIfExists('threshold_subscale_limits');
+        Schema::dropIfExists('threshold_test_limits');
     }
 };

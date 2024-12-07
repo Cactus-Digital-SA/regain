@@ -11,6 +11,7 @@
         "php": "^8.2",
         "arcanedev/log-viewer": "^10.0.0",
         "doctrine/annotations": "^2.0",
+        "dompdf/dompdf": "^3.0",
         "guzzlehttp/guzzle": "^7.2",
         "jms/serializer": "3.30",
         "laravel/fortify": "^1.13",

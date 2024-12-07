@@ -8,10 +8,13 @@ use App\Domains\Subscales\Services\SubscaleService;
 use App\Domains\Tests\Repositories\Eloquent\EloqTestRepository;
 use App\Domains\Tests\Repositories\Eloquent\Models\Test;
 use App\Domains\Tests\Services\TestService;
+use App\Domains\Thresholds\Models\Constants\ThresholdDisplayType;
+use App\Domains\Thresholds\Models\Threshold;
+use App\Domains\Thresholds\Models\ThresholdSubscaleLimit;
+use App\Domains\Thresholds\Models\ThresholdTestLimit;
 use App\Domains\Thresholds\Repositories\Eloquent\EloqThresholdRepository;
 use App\Domains\Thresholds\Repositories\Eloquent\Models\Threshold as EloqThreshold;
 use App\Domains\Thresholds\Services\ThresholdService;
-use Illuminate\Container\Container;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\ToCollection;
@@ -21,9 +24,9 @@ class ThresholdImport implements ToCollection, WithHeadingRow
 {
     public function collection(Collection $collection): void
     {
-        $thresholdService = Container::getInstance()->get(ThresholdService::class);
-        $testService      = Container::getInstance()->get(TestService::class);
-        $subscaleService  = Container::getInstance()->get(SubscaleService::class);
+        $thresholdService = new ThresholdService(new EloqThresholdRepository(new EloqThreshold()));
+        $testService      = new TestService(new EloqTestRepository(new Test()));
+        $subscaleService  = new SubscaleService(new EloqSubscaleRepository(new Subscale()));
 
         try {
             foreach ($collection as $row) {
@@ -31,48 +34,93 @@ class ThresholdImport implements ToCollection, WithHeadingRow
                     continue;
                 }
 
-                $test     = $testService->getByName($row['test']);
-                $subscale = $subscaleService->getByName($row['subscale']);
+                $test = $testService->getByName($row['test']);
 
                 if ($test) {
                     $rowAsArray         = $row->toArray();
-                    $subscaleThresholds = array_filter($rowAsArray, function ($key) {
-                        return strpos($key, 'subscale_score') === 0; // Check if the key starts with 'subscale_score'
-                    }, ARRAY_FILTER_USE_KEY);
-                    $subscaleLabels     = array_filter($rowAsArray, function ($key) {
-                        return strpos($key, 'subscale_label') === 0; // Check if the key starts with 'subscale_score'
-                    }, ARRAY_FILTER_USE_KEY);
-                    $totalThresholds    = array_filter($rowAsArray, function ($key) {
-                        return strpos($key, 'total_score') === 0; // Check if the key starts with 'subscale_score'
-                    }, ARRAY_FILTER_USE_KEY);
-                    $totalLabels        = array_filter($rowAsArray, function ($key) {
-                        return strpos($key, 'total_label') === 0; // Check if the key starts with 'subscale_score'
-                    }, ARRAY_FILTER_USE_KEY);
+                    $subscaleThresholds = array_filter($rowAsArray, function ($value, $key) {
+                        return str_starts_with($key, 'subscale_score') && !in_array($value, ["-", "", null], true);
+                    }, ARRAY_FILTER_USE_BOTH);
+                    $subscaleLabels     = array_filter($rowAsArray, function ($value, $key) {
+                        return str_starts_with($key, 'subscale_label') && !in_array($value, ["-", "", null], true);
+                    }, ARRAY_FILTER_USE_BOTH);
+                    $totalThresholds    = array_filter($rowAsArray, function ($value, $key) {
+                        return str_starts_with($key, 'total_score') && !in_array($value, ["-", "", null], true);
+                    }, ARRAY_FILTER_USE_BOTH);
+                    $totalLabels        = array_filter($rowAsArray, function ($value, $key) {
+                        return str_starts_with($key, 'total_label') && !in_array($value, ["-", "", null], true);
+                    }, ARRAY_FILTER_USE_BOTH);
 
                     $notes = $row["notes"];
-                    $test  = 1;
 
-//
-//                    foreach ($row as $key => $value) {
-//                        if (str_contains($key, 'total_score') && $value != '-') {
-//
-//                            $scoreNumber = Helpers::extractIntegerFromString($key);
-//                            $thresholds = explode('-', $value);
-//
-//                            $thresholdDTO = new \App\Domains\Results\Models\Threshold();
-//
-//                            $thresholdDTO->setTestId($test->getId());
-//                            $thresholdDTO->setRangeStart($thresholds[0]);
-//                            $thresholdDTO->setRangeEnd($thresholds[1]);
-//                            $thresholdDTO->setInterpretation($row['score_interpretation_'.$scoreNumber]);
-//                            $thresholdDTO->setSubscaleId($subscale?->getId());
-//
-//
-//                            //dd($thresholdDTO, $key, $value, $row['score_interpretation_'.$scoreNumber]);
-//                            $thresholdService->store($thresholdDTO);
-//
-//                        }
-//                    }
+                    $threshold = new Threshold();
+
+                    $questions = explode("-", $row["questions"]);
+
+                    $threshold
+                        ->setQuestionStart((int)$questions[0])
+                        ->setQuestionEnd((int)$questions[1])
+                        ->setDisplayType(
+                            ThresholdDisplayType::from((int)$row["display_type"])
+                        )->setTestId($test->getId());
+
+                    if ($row["subscale"] !== "-") {
+                        $subscale = $subscaleService->getByName($row['subscale']);
+                        if ($subscale) {
+                            /** @var ThresholdSubscaleLimit[] $subscaleLimits */
+                            $subscaleLimits = [];
+                            $threshold->setSubscaleId($subscale->getId());
+                            $subscalesIndex = 0;
+                            foreach ($subscaleThresholds as $subscaleThreshold) {
+                                if ($subscaleThreshold !== "-") {
+                                    $limits = explode("-", $subscaleThreshold);
+                                    try {
+                                        $subscaleLimit    = (new ThresholdSubscaleLimit())
+                                            ->setLow((int)$limits[0])
+                                            ->setHigh((int)$limits[1])
+                                            ->setLabel(array_values($subscaleLabels)[$subscalesIndex])
+                                            ->setNotes($notes);
+                                        $subscaleLimits[] = $subscaleLimit;
+                                    } catch (\Exception $e) {
+                                        Log::error($e->getMessage());
+                                    }
+                                }
+                                $subscalesIndex++;
+                            }
+                            $threshold->setSubscaleLimits($subscaleLimits);
+                        }
+                    }
+
+                    if (in_array($threshold->getDisplayType(), [ThresholdDisplayType::SUBSCALE_SCORE, ThresholdDisplayType::TOTAL_SCORE], true)) {
+                        /** @var ThresholdTestLimit[] $testLimits */
+                        $testLimits      = [];
+                        $testLimitsIndex = 0;
+                        foreach ($totalThresholds as $totalThreshold) {
+                            if ($totalThreshold !== "-") {
+                                $limits = explode("-", $totalThreshold);
+                                try {
+                                    $testLimit = (new ThresholdTestLimit())
+                                        ->setLow((int)$limits[0])
+                                        ->setHigh((int)$limits[1])
+                                        ->setNotes($notes);
+
+                                    if (count($totalThresholds) === count($totalLabels)) {
+                                        $testLimit->setLabel(array_values($totalLabels)[$testLimitsIndex]);
+                                    } else {
+                                        $testLimit->setLabel("");
+                                    }
+
+                                    $testLimits[] = $testLimit;
+                                } catch (\Exception $e) {
+                                    Log::error($e->getMessage());
+                                }
+                            }
+                            $testLimitsIndex++;
+                        }
+                        $threshold->setTestLimits($testLimits);
+                    }
+
+                    $thresholdService->store($threshold);
                 }
             }
         } catch (\Exception $exception) {
