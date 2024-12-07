@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->foreignId('subscale_id')->nullable()->constrained('subscales')->cascadeOnDelete();
             $table->foreignId('question_response_id')->constrained('question_response')->cascadeOnDelete();
             $table->unsignedSmallInteger('score')->nullable();
+            $table->text('text')->nullable();
             $table->timestamps();
         });
     }

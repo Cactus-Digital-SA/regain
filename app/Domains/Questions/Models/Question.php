@@ -8,6 +8,7 @@ use App\Domains\References\Models\Reference;
 use App\Domains\Responses\Models\Response;
 use App\Domains\Subscales\Models\Subscale;
 use App\Domains\Tests\Models\Test;
+use App\Domains\UserResponse\Models\UserResponse;
 use App\Models\CactusEntity;
 
 class Question extends CactusEntity
@@ -71,23 +72,12 @@ class Question extends CactusEntity
      * @JMS\Serializer\Annotation\Type("App\Domains\Subscales\Models\Subscale")
      */
     private ?Subscale $subscale;
-    /** @var int|null $requiredQuestionId
-     * @JMS\Serializer\Annotation\SerializedName("required_question_id")
-     * @JMS\Serializer\Annotation\Type("int")
-     */
-    private ?int $requiredQuestionId;
     /**
-     * @var Question|null $requiredQuestion
-     * @JMS\Serializer\Annotation\SerializedName("required_question")
-     * @JMS\Serializer\Annotation\Type("App\Domains\Questions\Models\Question")
+     * @var UserResponse[]|null $requiredResponses
+     * @JMS\Serializer\Annotation\SerializedName("required_responses")
+     * @JMS\Serializer\Annotation\Type("array<App\Domains\UserResponse\Models\UserResponse>")
      */
-    private ?Question $requiredQuestion;
-    /**
-     * @var Response[]|null $requiredResponses
-     * @JMS\Serializer\Annotation\SerializedName("required_question")
-     * @JMS\Serializer\Annotation\Type("array<App\Domains\Responses\Models\Response>")
-     */
-    private ?array $requiredResponses;
+    private ?array $required_responses = [];
     /**
      * @var Response[]|null $requiredProfessions
      * @JMS\Serializer\Annotation\SerializedName("required_professions")
@@ -123,6 +113,18 @@ class Question extends CactusEntity
      * @JMS\Serializer\Annotation\Type("array<App\Domains\Language\Models\Language>")
      */
     private array $languages;
+    private bool $hiddenBecauseOfRequired = false;
+    private ?int $requiredQuestionId = null;
+    /**
+     * @var int[]|null
+     */
+    private ?array $requiredQuestionResponseIds = [];
+    /**
+     * @var bool $userInput
+     * @JMS\Serializer\Annotation\SerializedName("user_input")
+     * @JMS\Serializer\Annotation\Type("boolean")
+     */
+    private bool $userInput = false;
 
     public function getValues(bool $withRelations = true): array
     {
@@ -135,6 +137,7 @@ class Question extends CactusEntity
             'required_question_id' => $this->requiredQuestionId ?? null,
             'select_multiple'      => $this->select_multiple ?? null,
             'max_selections'       => $this->maxSelections ?? null,
+            'user_input'           => $this->userInput ?? false,
             'sort'                 => $this->sort ?? null
         ];
 
@@ -145,7 +148,6 @@ class Question extends CactusEntity
             $data['references']           = $this->getReferences();
             $data['responses']            = $this->getResponses();
             $data['language']             = $this->getLanguages();
-            $data['required_question']    = $this->getRequiredQuestion();
             $data['required_responses']   = $this->getRequiredResponses();
             $data['required_professions'] = $this->getRequiredProfessions();
         }
@@ -226,39 +228,20 @@ class Question extends CactusEntity
     }
 
     /**
-     * @return Question|null
-     */
-    public function getRequiredQuestion(): ?Question
-    {
-        return $this->requiredQuestion;
-    }
-
-    /**
-     * @param Question|null $requiredQuestion
-     * @return Question
-     */
-    public function setRequiredQuestion(?Question $requiredQuestion): Question
-    {
-        $this->requiredQuestion = $requiredQuestion;
-
-        return $this;
-    }
-
-    /**
-     * @return array|null
+     * @return UserResponse[]|null
      */
     public function getRequiredResponses(): ?array
     {
-        return $this->requiredResponses;
+        return $this->required_responses;
     }
 
     /**
-     * @param array|null $requiredResponses
-     * @return Question
+     * @param UserResponse[]|null $required_responses
+     * @return $this
      */
-    public function setRequiredResponses(?array $requiredResponses): Question
+    public function setRequiredResponses(?array $required_responses): Question
     {
-        $this->requiredResponses = $requiredResponses;
+        $this->required_responses = $required_responses;
 
         return $this;
     }
@@ -400,21 +383,57 @@ class Question extends CactusEntity
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
+    public function isHiddenBecauseOfRequired(): bool
+    {
+        return $this->hiddenBecauseOfRequired;
+    }
+
+    public function setHiddenBecauseOfRequired(bool $hiddenBecauseOfRequired): Question
+    {
+        $this->hiddenBecauseOfRequired = $hiddenBecauseOfRequired;
+
+        return $this;
+    }
+
     public function getRequiredQuestionId(): ?int
     {
         return $this->requiredQuestionId;
     }
 
-    /**
-     * @param int|null $requiredQuestionId
-     * @return Question
-     */
     public function setRequiredQuestionId(?int $requiredQuestionId): Question
     {
         $this->requiredQuestionId = $requiredQuestionId;
+
+        return $this;
+    }
+
+    /**
+     * @return int[]|null
+     */
+    public function getRequiredQuestionResponseIds(): ?array
+    {
+        return $this->requiredQuestionResponseIds;
+    }
+
+    /**
+     * @param int[]|null $requiredQuestionResponseIds
+     * @return $this
+     */
+    public function setRequiredQuestionResponses(?array $requiredQuestionResponseIds): Question
+    {
+        $this->requiredQuestionResponseIds = $requiredQuestionResponseIds;
+
+        return $this;
+    }
+
+    public function isUserInput(): bool
+    {
+        return $this->userInput;
+    }
+
+    public function setUserInput(bool $userInput): Question
+    {
+        $this->userInput = $userInput;
 
         return $this;
     }

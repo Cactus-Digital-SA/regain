@@ -10,13 +10,13 @@
                     @method('DELETE')
                     @csrf()
                     <div class="col-12">
-                        <div style="text-align: center;"> <h3 style="color: #EA5455">Είστε σίγουροι οτι θέλετε να γίνει η Διαγραφή;</h3></div>
+                        <div style="text-align: center;"> <h3 style="color: #EA5455">Are you sure to delete this item? </h3></div>
                         <br>
                     </div>
                     <div class="col-12 text-center mt-2">
-                        <button type="submit" class="btn btn-primary ">Διαγραφή <i class="ti ti-trash ti-xs ms-1"></i></button>
+                        <button type="submit" class="btn btn-primary ">Delete <i class="ti ti-trash ti-xs ms-1"></i></button>
                         <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">
-                            Άκυρο
+                            Cancel
                         </button>
                     </div>
                 </form>
@@ -25,4 +25,11 @@
     </div>
 </div>
 <!-- /Διαγραφή -->
-
+@push('after-scripts')
+    <script>
+        function deleteForm(actionUrl) {
+            let form = $('#deleteForm');
+            form.attr('action', actionUrl);
+        }
+    </script>
+@endpush

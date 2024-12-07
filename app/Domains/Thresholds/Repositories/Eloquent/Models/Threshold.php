@@ -1,26 +1,27 @@
 <?php
 
-namespace App\Domains\Results\Repositories\Eloquent\Models;
+namespace App\Domains\Thresholds\Repositories\Eloquent\Models;
 
 use App\Domains\Subscales\Repositories\Eloquent\Models\Subscale;
 use App\Domains\Tests\Repositories\Eloquent\Models\Test;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Threshold extends Model
 {
     protected $fillable = [
-        'interpretation',
-        'range_start',
-        'range_end',
         'test_id',
         'subscale_id',
+        'question_start',
+        'question_end',
+        'display_type',
     ];
 
     /**
      * @return BelongsTo
      */
-    public function tests(): BelongsTo
+    public function test(): BelongsTo
     {
         return $this->belongsTo(Test::class);
     }
@@ -28,8 +29,18 @@ class Threshold extends Model
     /**
      * @return BelongsTo
      */
-    public function subscales(): BelongsTo
+    public function subscale(): BelongsTo
     {
         return $this->belongsTo(Subscale::class);
+    }
+
+    public function subscaleLimits(): HasMany
+    {
+        return $this->hasMany(ThresholdSubscaleLimit::class);
+    }
+
+    public function testLimits(): HasMany
+    {
+        return $this->hasMany(ThresholdTestLimit::class);
     }
 }

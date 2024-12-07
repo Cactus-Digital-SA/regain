@@ -14,6 +14,8 @@ use App\Domains\Instructions\Repositories\Eloquent\EloqInstructionRepository;
 use App\Domains\Instructions\Repositories\InstructionRepositoryInterface;
 use App\Domains\Language\Repositories\Eloquent\EloqLanguageRepository;
 use App\Domains\Language\Repositories\LanguageRepositoryInterface;
+use App\Domains\Patient\Repositories\Eloquent\EloqPatientDataRepository;
+use App\Domains\Patient\Repositories\PatientDataRepositoryInterface;
 use App\Domains\Questions\Repositories\Eloquent\EloqQuestionRepository;
 use App\Domains\Questions\Repositories\Eloquent\EloqQuestionResponseRepository;
 use App\Domains\Questions\Repositories\QuestionRepositoryInterface;
@@ -48,6 +50,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CategoryRepositoryInterface::class, EloqCategoryRepository::class);
         $this->app->bind(ReferenceRepositoryInterface::class, EloqReferenceRepository::class);
         $this->app->bind(ResponseRepositoryInterface::class, EloqResponseRepository::class);
+        $this->app->bind(PatientDataRepositoryInterface::class, EloqPatientDataRepository::class);
         $this->app->singleton(QuestionResponseRepositoryInterface::class, EloqQuestionResponseRepository::class);
     }
 

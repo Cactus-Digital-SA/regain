@@ -5,12 +5,7 @@ namespace App\Domains\Questions\Import;
 use App\Domains\Categories\Services\CategoryService;
 use App\Domains\Instructions\Services\InstructionService;
 use App\Domains\Language\Services\LanguageService;
-use App\Domains\Questions\Import\Sheets\PreAssessmentsImport;
-use App\Domains\Questions\Import\Sheets\ReferenceImport;
-use App\Domains\Questions\Import\Sheets\ScoresImport;
-use App\Domains\Questions\Import\Sheets\SkillsImport;
-use App\Domains\Questions\Import\Sheets\SociodemographicImport;
-use App\Domains\Questions\Import\Sheets\ThresholdImport;
+use App\Domains\Questions\Import\Sheets\MedicalHistoryImport;
 use App\Domains\Questions\Jobs\CreateQuestionFromJob;
 use App\Domains\Questions\Services\QuestionsService;
 use App\Domains\References\Services\ReferenceService;
@@ -25,7 +20,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 
-class QuestionsImport implements WithMultipleSheets
+class MedicalHistoryQuestionsImport implements WithMultipleSheets
 {
     /**
      * @param string $instruction
@@ -160,11 +155,11 @@ class QuestionsImport implements WithMultipleSheets
             $id              = (int)Helpers::extractIntegerFromString($row['unique_id']);
             $questionsExists = $questionService->getById($id);
 
-            $referenceType  = (string)$row['reference_group'];
-            $referenceGroup = (int)Helpers::extractIntegerFromString($row['reference']);
+            $referenceType  = "Medical History Reference";
+            $referenceGroup = 99;
 
             /**  Get References */
-            $referencesIds = QuestionsImport::getReferences($referenceType, $referenceGroup);
+            $referencesIds = self::getReferences($referenceType, $referenceGroup);
 
             if ($questionsExists) {
                 $questionsExists->setReferences($referencesIds);
@@ -202,73 +197,10 @@ class QuestionsImport implements WithMultipleSheets
         return $referencesId;
     }
 
-    /**
-     * @return string[]
-     */
-    public static function getMedications(): array
-    {
-        return [
-            "Aptivus (Boehringer Ingelheim)",
-            "Atripla (Bristol-Myers Squibb)",
-            "Biktarvy (Gilead Sciences)",
-            "Cabenuva (ViiV Healthcare - GSK, Pfizer, Janssen)",
-            "Cimduo (Mylan)",
-            "Combivir (ViiV Healthcare - GSK, Pfizer)",
-            "Compera (Gilead Sciences)",
-            "Delstrigo (Merck)",
-            "Descovy (Gilead Sciences)",
-            "Dovato (GSK)",
-            "Edurant (ViiV Healthcare - GSK, Pfizer, Janssen)",
-            "Emtriva (Gilead Sciences)",
-            "Epivir (ViiV Healthcare - GSK, Pfizer)",
-            "Epzicom (ViiV Healthcare - GSK, Pfizer)",
-            "Eviplera (J&J, Janssen)",
-            "Evotaz (Bristol-Myers Squibb)",
-            "Fuzeon (Roche)",
-            "Genvoya (Gilead Sciences)",
-            "Intelence (Janssen)",
-            "Isentress (Merck)",
-            "Juluca (ViiV Healthcare - GSK, Pfizer)",
-            "Kaletra (AbbVie Inc.)",
-            "Kivexa (ViiV Healthcare - GSK, Pfizer)",
-            "Lexiva (ViiV Healthcare - GSK, Pfizer)",
-            "Norvir (AbbVie Inc.)",
-            "Odefsey (Gilead Sciences)",
-            "Pifeltro (Merck)",
-            "Prezcobix (Janssen)",
-            "Prezista (Janssen)",
-            "Retrovir (ViiV Healthcare - GSK, Pfizer)",
-            "Reyataz (Bristol-Myers Squibb)",
-            "Rukobia (ViiV Healthcare - GSK, Pfizer)",
-            "Selzentry (Pfizer)",
-            "Stribild (Gilead Sciences)",
-            "Sunlenca (Gilead Sciences)",
-            "Sustiva (Bristol-Myers Squibb)",
-            "Symfi (Viatris, Mylan)",
-            "Symtuza (Janssen)",
-            "Tivicay (ViiV Healthcare - GSK, Pfizer)",
-            "Triumeq (ViiV Healthcare - GSK, Pfizer)",
-            "Trizivir (ViiV Healthcare - GSK, Pfizer)",
-            "Trogarzo (Theratechnologies)",
-            "Truvada (Gilead Sciences)",
-            "Tybost (Gilead Sciences)",
-            "Viramune (Boehringer Ingelheim)",
-            "Viread (Gilead Sciences)",
-            "Vitekta (Gilead Sciences)",
-            "Vocabria (ViiV Healthcare - GSK, Pfizer)",
-            "Ziagen (ViiV Healthcare - GSK, Pfizer)"
-        ];
-    }
-
     public function sheets(): array
     {
         return [
-            5 => new ReferenceImport(),
-            0 => new SociodemographicImport(),
-            1 => new PreAssessmentsImport(),
-            2 => new SkillsImport(),
-            3 => new ScoresImport(),
-            4 => new ThresholdImport(),
+            0 => new MedicalHistoryImport(),
         ];
     }
 }

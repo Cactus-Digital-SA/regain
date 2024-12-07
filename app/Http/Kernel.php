@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Domains\Auth\Http\Middleware\LastUserActivity;
 use App\Domains\Auth\Http\Middleware\ToBeLoggedOut;
+use App\Http\Middleware\AdministratorMiddleware;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\LocaleMiddleware;
@@ -102,5 +103,6 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         // Other middleware
         'role.patient' => PatientMiddleware::class,
+        'role.administrator' => AdministratorMiddleware::class,
     ];
 }

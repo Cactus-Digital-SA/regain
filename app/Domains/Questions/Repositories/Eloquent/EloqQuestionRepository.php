@@ -56,6 +56,7 @@ class EloqQuestionRepository implements QuestionRepositoryInterface
             $question->subscale_id    = $entity->getSubscaleId();
             $question->sort           = $entity->getSort();
             $question->status         = $entity->getStatus() ?? 1;
+            $question->user_input     = $entity->isUserInput() ?? false;
             $question->save();
 
             $question->languages()->sync($entity->getLanguages(), false);
@@ -86,7 +87,7 @@ class EloqQuestionRepository implements QuestionRepositoryInterface
         $question = EloqQuestion::find($id);
 
         if ($question) {
-            $question->load(['responses', 'references', 'instruction', 'test']);
+            $question->load(['responses', 'references', 'instruction', 'test', 'requiredResponses']);
         }
 
         return $question ?
@@ -234,7 +235,7 @@ class EloqQuestionRepository implements QuestionRepositoryInterface
             return null;
         }
 
-        $question->load(['responses', 'references', 'languages', 'test', 'subscale', 'instruction', 'requiredQuestion', 'requiredResponses']);
+        $question->load(['responses', 'references', 'languages', 'test', 'subscale', 'instruction', 'requiredResponses']);
 
         return ObjectSerializer::deserialize($question->toJson() ?? "{}", Question::class, 'json');
     }

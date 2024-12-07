@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use Config;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class Helpers
@@ -200,5 +201,18 @@ class Helpers
     public static function extractIntegerFromString($string) {
         preg_match('/\d+/', $string, $matches);
         return isset($matches[0]) ? (int)$matches[0] : null;
+    }
+
+    public static function filters(Request $request)
+    {
+        $columnIndex = $request['order'][0]['column']; // Column index
+        $columnName = $request['columns'][$columnIndex]['name']; // Order Column name
+        $columnSortOrder = $request['order'][0]['dir']; // asc or desc
+
+        $filters = [];
+        $filters['columnName'] = $columnName;
+        $filters['columnSortOrder'] = $columnSortOrder;
+
+        return $filters;
     }
 }

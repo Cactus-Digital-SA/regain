@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Domains\Results\Services;
+namespace App\Domains\Thresholds\Services;
 
-use App\Domains\Results\Models\Threshold;
-use App\Domains\Results\Repositories\ThresholdRepositoryInterface;
+use App\Domains\Thresholds\Repositories\ThresholdRepositoryInterface;
+use App\Domains\Thresholds\Models\Threshold;
 
 class ThresholdService
 {
