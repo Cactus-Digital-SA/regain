@@ -84,10 +84,6 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
     {
         $patientData = $this->model->with('user')->select('patient_data.*');
 
-        if ($filters['columnName'] && $filters['columnSortOrder']) {
-            $patientData = $patientData->orderBy($filters['columnName'], $filters['columnSortOrder']);
-        }
-
         return DataTables::of($patientData)
             ->editColumn('id', function ($data) {
                 return '#OP' . $data->id;

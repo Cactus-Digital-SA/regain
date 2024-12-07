@@ -101,7 +101,7 @@
                         },
                         columns: [
                             {data: 'id', searchable: false, orderable: false},
-                            {data: 'name', name: 'users.name', searchable: false, orderable: true},
+                            {data: 'name', name: 'user.name', searchable: false, orderable: true},
                             {data: 'registered', name: 'users.created_at', searchable: false, orderable: false},
                             {data: 'status',  name: 'status', searchable: false, orderable: false},
                             {data: 'actions', searchable: false, orderable: false, className: 'text-end'},
