@@ -56,4 +56,9 @@ class MockFrontController extends  Controller
         return view('frontend.content.mock.disability-disorder', compact('questions', 'answers'));
     }
 
+    public function showOrganizationDashboard(): View
+    {
+        return view('frontend.content.mock.dashboards.organization.index');
+    }
+
 }
