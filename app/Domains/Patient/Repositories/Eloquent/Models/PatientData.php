@@ -3,6 +3,7 @@
 namespace App\Domains\Patient\Repositories\Eloquent\Models;
 
 use App\Domains\Auth\Repositories\Eloquent\Models\User;
+use App\Domains\Patient\Enums\StatusEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -18,9 +19,13 @@ class PatientData extends Model
         'primary_phone',
         'secondary_phone',
         'accessible_mobility',
-        'notes'
+        'notes',
+        'status'
     ];
 
+    protected $casts = [
+        'status' => StatusEnum::class,
+    ];
 
     public function user(): BelongsTo
     {

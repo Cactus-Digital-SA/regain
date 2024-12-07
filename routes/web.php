@@ -55,8 +55,8 @@ Route::group([
     'middleware' => ['role.administrator', 'auth'],
 ], function () {
 
-    Route::resource('/patients', \App\Domains\Regain\Http\PatientController::class);
-    Route::post('patients/table', [\App\Domains\Regain\Http\PatientController::class, 'datatable'])->name('patients.datatable');
+    Route::resource('/patients', \App\Domains\Regain\Http\Controllers\PatientController::class);
+    Route::post('patients/table', [\App\Domains\Regain\Http\Controllers\PatientController::class, 'datatable'])->name('patients.datatable');
 });
 
 

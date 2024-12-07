@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('secondary_phone')->nullable();
             $table->boolean('accessible_mobility')->default(false);
             $table->text('notes')->nullable();
+            $table->enum('status', \App\Domains\Patient\Enums\StatusEnum::values());
 
 
             $table->timestamps();

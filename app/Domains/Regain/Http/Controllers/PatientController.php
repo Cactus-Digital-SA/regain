@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\Regain\Http;
+namespace App\Domains\Regain\Http\Controllers;
 
 use App\Domains\Auth\Models\User;
 use App\Domains\Auth\Services\UserService;
@@ -23,19 +23,7 @@ class PatientController extends Controller
         return view('regain.patients.index', compact('columns'));
     }
 
-    public function create()
-    {
-        return view('backend.content.prospect.create');
-    }
-
-    public function show(string $prospectId)
-    {
-        $prospect = $this->prospectService->getByIdWithMorphsAndRelations($prospectId);
-
-        return view('backend.content.prospect.show', compact('prospect'));
-    }
-
-    public function store(Request $request)
+    public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
         $userDTO = new User();
         $userDTO->setName($request['name']);
@@ -48,20 +36,25 @@ class PatientController extends Controller
         $patientDTO = PatientData::fromRequest($request);
         $this->patientDataService->store($patientDTO);
 
-        return redirect()->route('prospect.index')->with('success', 'Το Prospect δημιουργήθηκε επιτυχώς');
+        return redirect()->route('regain.patients.index')->with('success', 'Patient created successfully');
     }
 
-    public function update(Request $request, string $prospectId)
+    public function update(Request $request, string $patient)
     {
 
     }
 
-    public function destroy(string $prospectId)
+    public function destroy(string $patient): \Illuminate\Http\RedirectResponse
     {
+        $response = $this->patientDataService->deleteById($patient);
+        if($response){
+            return redirect()->back()->with('success', 'Patient deleted successfully');
+        }
 
+        return redirect()->back()->with('error', 'There was a problem deleting the patient.');
     }
 
-    public function datatable(Request $request)
+    public function datatable(Request $request): \Illuminate\Http\JsonResponse
     {
         $filters = Helpers::filters($request);
         return $this->patientDataService->dataTable($filters);

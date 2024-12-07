@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', 'Prospects')
+@section('title', 'Patients')
 
 @section('content-header-breadcrumbs')
     <li class="breadcrumb-item"><a href="{{route('admin.home')}}">{{__('Home')}}</a>
@@ -15,7 +15,7 @@
     <div class="col-md-5 content-header-right text-md-end col-md-auto d-md-block d-none mb-2">
         <div class="mb-1 breadcrumb-right">
             <a class="btn btn-success waves-effect waves-float waves-light me-2"
-               href="{{route('regain.patients.create')}}"><i
+               href="#"><i
                     class="ti ti-user-plus ti-xs me-1"></i>
                 {{ __("Create Patient") }}
             </a>
@@ -32,16 +32,23 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <table class="datatables-basic patients-datatable table">
-                        <thead>
-                        <tr>
-                            @foreach($columns as $column)
-                                <th> {{ __($column['name']) }}</th>
-                            @endforeach
-                            <th> {{ __('Actions') }}</th>
-                        </tr>
-                        </thead>
-                    </table>
+                    <section id="column-selectors">
+                        <div class="table-responsive">
+                            <table class="table patients-datatable dt-select-table">
+                                <thead>
+                                <tr class="text-center">
+                                    @foreach($columns as $column)
+                                        <th> {{ __($column['name']) }}</th>
+                                    @endforeach
+                                    <th class="text-end">{{ __('Actions') }}</th>
+                                </tr>
+                                </thead>
+                                <tbody class="text-center">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
                 </div>
             </div>
         </div>
@@ -63,12 +70,9 @@
             let dt_basic_table = $('.patients-datatable');
 
             if (dt_basic_table.length) {
-                let filters = [];
                 checkUrlParamsAndSetInputs()
 
-                filters = getFiltersFromInputs();
-
-                mySearch(filters);
+                mySearch();
 
                 function mySearch(filters) {
                     if ($.fn.DataTable.isDataTable('.patients-datatable')) {
@@ -96,27 +100,17 @@
                             }
                         },
                         columns: [
-                            @foreach($columns as $key => $column)
-                            {
-                                data: '{{$key}}',
-                                name: '{{$column['table']}}',
-                                searchable: '{{ $column['searchable'] }}',
-                                sortable: '{{ $column['sortable'] }}'
-                            },
-                            @endforeach
-                            {data: 'actions', searchable: false, orderable: false},
+                            {data: 'id', searchable: false, orderable: false},
+                            {data: 'name', name: 'users.name', searchable: false, orderable: true},
+                            {data: 'registered', name: 'users.created_at', searchable: false, orderable: false},
+                            {data: 'status',  name: 'status', searchable: false, orderable: false},
+                            {data: 'actions', searchable: false, orderable: false, className: 'text-end'},
                         ],
                         columnDefs: [
-                            {
-                                // For Responsive
-                                className: 'control',
-                                orderable: false,
-                                responsivePriority: 2,
-                                targets: 0
-                            }
+
                         ],
-                        order: [[1, 'desc']],
-                        dom: '<"d-flex justify-content-between align-items-center mx-2 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"<"dt-action-buttons text-end"B>f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+                        order: [[0, 'desc']],
+                        dom: '<"d-flex justify-content-between align-items-center mx-2 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"<"dt-action-buttons text-end"B>f>>t<"d-flex justify-content-between mx-0 row"<"d-flex justify-content-center col-12"i><"d-flex justify-content-center col-12"p>>',
                         displayLength: 10,
                         lengthMenu: [10, 25, 50, 100],
                         buttons: [
@@ -195,19 +189,8 @@
                 }
 
                 $('#search').on("click", function () {
-
-                    let filters = getFiltersFromInputs();
-
-                    updateUrlWithFilters(filters)
                     mySearch(filters);
                 });
-
-                function getFiltersFromInputs(){
-                    filters = [];
-                    // filters.filterPatientName = $('#filter_patient_name').val();
-
-                    return filters;
-                }
 
                 // Function to update URL with filters as query parameters
                 function updateUrlWithFilters(filters) {
@@ -227,11 +210,11 @@
                     history.pushState(null, '', newUrl);
                 }
                 function checkUrlParamsAndSetInputs() {
-                    let searchParams = new URLSearchParams(window.location.search);
+                    // let searchParams = new URLSearchParams(window.location.search);
 
-                    if (searchParams.has('filterPatientName')) {
-                        $('#filter_patient_name').val(searchParams.get('filterPatientName'));
-                    }
+                    // if (searchParams.has('filterPatientName')) {
+                    //     $('#filter_patient_name').val(searchParams.get('filterPatientName'));
+                    // }
 
                 }
 
@@ -240,8 +223,7 @@
                 elementsArray.forEach(function (elem) {
                     elem.addEventListener("keypress", function () {
                         if (event.key === "Enter") {
-                            let filters = getFiltersFromInputs();
-                            mySearch(filters);
+                            mySearch();
                         }
                     });
                 });

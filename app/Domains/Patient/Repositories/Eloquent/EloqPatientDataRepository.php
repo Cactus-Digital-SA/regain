@@ -72,7 +72,9 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
 
     public function deleteById(string $id): bool
     {
-        // TODO: Implement deleteById() method.
+        $patientData = $this->model->findOrFail($id);
+        $patientData->user->delete();
+        return $patientData->delete();
     }
 
     /**
@@ -80,9 +82,7 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
      */
     public function dataTable(array $filters = []): JsonResponse
     {
-        $patientData = $this->model->query();
-
-        $patientData = $patientData->with('user');
+        $patientData = $this->model->with('user')->select('patient_data.*');
 
         if ($filters['columnName'] && $filters['columnSortOrder']) {
             $patientData = $patientData->orderBy($filters['columnName'], $filters['columnSortOrder']);
@@ -93,12 +93,18 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
                 return '#OP' . $data->id;
             })
             ->editColumn('name', function ($data) {
-                return $data?->user?->name;
+                return $data?->user?->name ?? ' - ';
+            })
+            ->editColumn('registered', function ($data) {
+                return $data?->user?->created_at?->format('d-m-Y') ?? ' - ';
+            })
+            ->editColumn('status', function ($data) {
+                return $data?->status?->value ?? ' - ';
             })
             ->addColumn('actions', function ($data) {
-//                $deleteUrl = route('regain.patients.destroy', [
-//                    'patientId' => $data->id,
-//                ]);
+                $deleteUrl = route('regain.patients.destroy', [
+                    'patient' => $data->id,
+                ]);
 
                 $html = '<div class="btn-group">';
 
@@ -106,11 +112,11 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
 //                             <i class="ti ti-edit ti-xs"></i>
 //                        </a>';
 //
-//                $html .= '<a href="#" class="btn btn-icon btn-gradient-danger"
-//                           data-bs-toggle="modal" data-bs-target="#deleteModal"
-//                           onclick="deleteForm(\'' . $deleteUrl . '\')">
-//                            <i class="ti ti-trash ti-xs"></i>
-//                       </a>';
+                $html .= '<a href="#" class="btn btn-icon btn-gradient-danger"
+                           data-bs-toggle="modal" data-bs-target="#deleteModal"
+                           onclick="deleteForm(\'' . $deleteUrl . '\')">
+                            <i class="ti ti-trash ti-xs"></i>
+                       </a>';
 
                 $html .= '</div>';
                 return $html;
@@ -128,7 +134,11 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
         return  [
             'id'=> ['name' => 'id', 'table' => 'patient_data.id', 'searchable' => 'false', 'sortable' => 'true'],
 
-            'name' => ['name' => 'name', 'table' => 'users.name', 'searchable' => 'false', 'sortable' => 'true'],
+            'name' => ['name' => 'Patient Name', 'table' => 'users.name', 'searchable' => 'false', 'sortable' => 'false'],
+            'registered' => ['name' => 'Registered', 'table' => 'users.created_at', 'searchable' => 'false', 'sortable' => 'false'],
+//            'region' => ['name' => 'Region', 'table' => 'region.name', 'searchable' => 'false', 'sortable' => 'false'],
+
+            'status' => ['name' => 'Status', 'table' => 'status', 'searchable' => 'false', 'sortable' => 'false'],
 
         ];
 

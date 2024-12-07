@@ -3,6 +3,7 @@
 namespace App\Domains\Patient\Models;
 
 use App\Domains\Auth\Models\User;
+use App\Domains\Patient\Enums\StatusEnum;
 use App\Models\CactusEntity;
 use Illuminate\Http\Request;
 use Nette\Utils\DateTime;
@@ -71,6 +72,13 @@ class PatientData extends CactusEntity
      * @JMS\Serializer\Annotation\Type("string")
      */
     private ?string $notes;
+
+    /**
+     * @var StatusEnum $status
+     * @JMS\Serializer\Annotation\SerializedName("status")
+     * @JMS\Serializer\Annotation\Type("enum<'App\Domains\Patient\Enums\StatusEnum'>")
+     */
+    private StatusEnum $status = StatusEnum::PROCESSING;
 
     /**
      * @var ?User $user
@@ -210,6 +218,17 @@ class PatientData extends CactusEntity
         return $this;
     }
 
+    public function getStatus(): StatusEnum
+    {
+        return $this->status;
+    }
+
+    public function setStatus(StatusEnum $status): PatientData
+    {
+        $this->status = $status;
+        return $this;
+    }
+
     public function getUser(): ?User
     {
         return $this->user;
@@ -233,7 +252,8 @@ class PatientData extends CactusEntity
             ->setPrimaryPhone($request['primary_phone'])
             ->setSecondaryPhone($request['secondary_phone'])
             ->setAccessibleMobility($request['accessible_mobility'])
-            ->setNotes($request['notes']);
+            ->setNotes($request['notes'])
+            ->setStatus($request['status'] ?? StatusEnum::PROCESSING);
     }
 
 }
