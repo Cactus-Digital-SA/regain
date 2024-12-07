@@ -25,6 +25,7 @@ class PatientController extends Controller
 
     public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
+        //bill made custom request, uncomment region (StorePatientRequest)?
         $userDTO = new User();
         $userDTO->setName($request['name']);
         $userDTO->setEmail($request['email']);

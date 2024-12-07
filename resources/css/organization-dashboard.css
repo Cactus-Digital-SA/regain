@@ -24,7 +24,7 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     max-width: 90vw;
-    min-height: 400px;
+    min-height: 600px;
 }
 
 .column {
@@ -218,6 +218,11 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+}
+
+.new-patient-input {
+    background-color: rgba(221, 222, 241, 1);
+    min-width: 400px;
 }
 
 
