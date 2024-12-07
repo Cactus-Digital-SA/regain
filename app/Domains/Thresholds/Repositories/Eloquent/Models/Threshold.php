@@ -21,7 +21,7 @@ class Threshold extends Model
     /**
      * @return BelongsTo
      */
-    public function tests(): BelongsTo
+    public function test(): BelongsTo
     {
         return $this->belongsTo(Test::class);
     }
@@ -29,7 +29,7 @@ class Threshold extends Model
     /**
      * @return BelongsTo
      */
-    public function subscales(): BelongsTo
+    public function subscale(): BelongsTo
     {
         return $this->belongsTo(Subscale::class);
     }
@@ -37,5 +37,10 @@ class Threshold extends Model
     public function subscaleLimits(): HasMany
     {
         return $this->hasMany(ThresholdSubscaleLimit::class);
+    }
+
+    public function testLimits(): HasMany
+    {
+        return $this->hasMany(ThresholdTestLimit::class);
     }
 }

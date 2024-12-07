@@ -4,7 +4,7 @@ namespace App\Domains\Thresholds\Models;
 
 use App\Models\CactusEntity;
 
-class ThresholdSubscaleLimit extends CactusEntity
+class ThresholdTestLimit extends CactusEntity
 {
     /**
      * @var int $id
@@ -54,7 +54,7 @@ class ThresholdSubscaleLimit extends CactusEntity
         return $this->id;
     }
 
-    public function setId(int $id): ThresholdSubscaleLimit
+    public function setId(int $id): ThresholdTestLimit
     {
         $this->id = $id;
 
@@ -66,7 +66,7 @@ class ThresholdSubscaleLimit extends CactusEntity
         return $this->thresholdId;
     }
 
-    public function setThresholdId(int $thresholdId): ThresholdSubscaleLimit
+    public function setThresholdId(int $thresholdId): ThresholdTestLimit
     {
         $this->thresholdId = $thresholdId;
 
@@ -78,7 +78,7 @@ class ThresholdSubscaleLimit extends CactusEntity
         return $this->low;
     }
 
-    public function setLow(int $low): ThresholdSubscaleLimit
+    public function setLow(int $low): ThresholdTestLimit
     {
         $this->low = $low;
 
@@ -90,7 +90,7 @@ class ThresholdSubscaleLimit extends CactusEntity
         return $this->high;
     }
 
-    public function setHigh(int $high): ThresholdSubscaleLimit
+    public function setHigh(int $high): ThresholdTestLimit
     {
         $this->high = $high;
 
@@ -102,7 +102,7 @@ class ThresholdSubscaleLimit extends CactusEntity
         return $this->label;
     }
 
-    public function setLabel(string $label): ThresholdSubscaleLimit
+    public function setLabel(string $label): ThresholdTestLimit
     {
         $this->label = $label;
 
@@ -114,7 +114,7 @@ class ThresholdSubscaleLimit extends CactusEntity
         return $this->notes;
     }
 
-    public function setNotes(?string $notes): ThresholdSubscaleLimit
+    public function setNotes(?string $notes): ThresholdTestLimit
     {
         $this->notes = $notes;
 
@@ -148,7 +148,7 @@ class ThresholdSubscaleLimit extends CactusEntity
         return $this->threshold;
     }
 
-    public function setThreshold(Threshold $threshold): ThresholdSubscaleLimit
+    public function setThreshold(Threshold $threshold): ThresholdTestLimit
     {
         $this->threshold = $threshold;
 

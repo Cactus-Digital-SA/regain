@@ -4,6 +4,7 @@ namespace App\Domains\Thresholds\Models;
 
 use App\Domains\Subscales\Models\Subscale;
 use App\Domains\Tests\Models\Test;
+use App\Domains\Thresholds\Models\Constants\ThresholdDisplayType;
 use App\Models\CactusEntity;
 
 class Threshold extends CactusEntity
@@ -25,43 +26,49 @@ class Threshold extends CactusEntity
      * @JMS\Serializer\Annotation\SerializedName("subscale_id")
      * @JMS\Serializer\Annotation\Type("int")
      */
-    private ?int $subscaleId;
+    private ?int $subscaleId = null;
     /**
      * @var ?int $questionStart
      * @JMS\Serializer\Annotation\SerializedName("question_start")
      * @JMS\Serializer\Annotation\Type("int")
      */
-    private ?int $questionStart;
+    private ?int $questionStart = null;
     /**
      * @var ?int $questionEnd
      * @JMS\Serializer\Annotation\SerializedName("question_end")
      * @JMS\Serializer\Annotation\Type("int")
      */
-    private ?int $questionEnd;
+    private ?int $questionEnd = null;
     /**
-     * @var ?int $displayType
+     * @var ThresholdDisplayType $displayType
      * @JMS\Serializer\Annotation\SerializedName("display_type")
-     * @JMS\Serializer\Annotation\Type("int")
+     * @JMS\Serializer\Annotation\Type("enum<'App\Domains\Thresholds\Models\Constants\ThresholdDisplayType'>")
      */
-    private ?int $displayType;
+    private ThresholdDisplayType $displayType;
     /**
      * @var ?Test $test
      * @JMS\Serializer\Annotation\SerializedName("test")
-     * @JMS\Serializer\Annotation\Type("array<App\Domains\Tests\Models\Test>")
+     * @JMS\Serializer\Annotation\Type("App\Domains\Tests\Models\Test")
      */
-    private ?Test $test;
+    private ?Test $test = null;
     /**
      * @var ?Subscale subscale
      * @JMS\Serializer\Annotation\SerializedName("subscale")
-     * @JMS\Serializer\Annotation\Type("App\Domains\Subscales\Models\EloqSubscale")
+     * @JMS\Serializer\Annotation\Type("App\Domains\Subscales\Models\Subscale")
      */
-    private ?Subscale $subscale;
+    private ?Subscale $subscale = null;
     /**
-     * @var ThresholdSubscaleLimit[] subscale
+     * @var ThresholdSubscaleLimit[] subscaleLimits
      * @JMS\Serializer\Annotation\SerializedName("subscaleLimits")
      * @JMS\Serializer\Annotation\Type("array<App\Domains\Thresholds\Models\ThresholdSubscaleLimit>")
      */
-    private array $subscaleLimits;
+    private array $subscaleLimits = [];
+    /**
+     * @var ThresholdTestLimit[] testLimits
+     * @JMS\Serializer\Annotation\SerializedName("testLimits")
+     * @JMS\Serializer\Annotation\Type("array<App\Domains\Thresholds\Models\ThresholdTestLimit>")
+     */
+    private array $testLimits = [];
 
     public function getId(): int
     {
@@ -123,40 +130,16 @@ class Threshold extends CactusEntity
         return $this;
     }
 
-    public function getDisplayType(): ?int
+    public function getDisplayType(): ThresholdDisplayType
     {
         return $this->displayType;
     }
 
-    public function setDisplayType(?int $displayType): Threshold
+    public function setDisplayType(ThresholdDisplayType $displayType): Threshold
     {
         $this->displayType = $displayType;
 
         return $this;
-    }
-
-    /**
-     * @param bool $withRelations
-     * @return array
-     */
-    public function getValues(bool $withRelations = true): array
-    {
-        $data = [
-            'id'             => $this->id,
-            'test_id'        => $this->testId,
-            'subscale_id'    => $this->subscaleId ?? null,
-            'question_start' => $this->questionStart,
-            'question_end'   => $this->questionEnd,
-            'display_type'   => $this->displayType,
-        ];
-
-        if ($withRelations) {
-            $data['tests']                   = $this->getTest();
-            $data['subscales']               = $this->getSubscale();
-            $data['thresholdSubscaleLimits'] = $this->getSubscaleLimits();
-        }
-
-        return $data;
     }
 
     public function getTest(): ?Test
@@ -200,5 +183,42 @@ class Threshold extends CactusEntity
         $this->subscaleLimits = $subscaleLimits;
 
         return $this;
+    }
+
+    public function getTestLimits(): array
+    {
+        return $this->testLimits;
+    }
+
+    public function setTestLimits(array $testLimits): Threshold
+    {
+        $this->testLimits = $testLimits;
+
+        return $this;
+    }
+
+    /**
+     * @param bool $withRelations
+     * @return array
+     */
+    public function getValues(bool $withRelations = true): array
+    {
+        $data = [
+            'id'             => $this->id,
+            'test_id'        => $this->testId,
+            'subscale_id'    => $this->subscaleId ?? null,
+            'question_start' => $this->questionStart,
+            'question_end'   => $this->questionEnd,
+            'display_type'   => $this->displayType,
+        ];
+
+        if ($withRelations) {
+            $data['tests']          = $this->getTest();
+            $data['subscales']      = $this->getSubscale();
+            $data['subscaleLimits'] = $this->getSubscaleLimits();
+            $data['testLimits']     = $this->getTestLimits();
+        }
+
+        return $data;
     }
 }
