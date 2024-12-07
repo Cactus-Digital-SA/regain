@@ -106,6 +106,13 @@ readonly class QuestionsService
         if ($activeQuestion === null) {
             return $questions;
         }
+        if (!$this->isReadyForSkillsTest() && in_array(
+                $activeQuestion->getTest()->getCategoryId(),
+                $this->questionnaireFlowService->getFlowCategories(QuestionnaireFlowType::SKILLS)->pluck('id')->toArray(), true)
+        ) {
+            return $questions;
+        }
+
         $questions[$activeQuestion->getId()] = $activeQuestion;
 
         $questionLoop = $activeQuestion;;

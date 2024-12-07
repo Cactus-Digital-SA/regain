@@ -128,6 +128,7 @@
                     requiredForm = document.getElementById(`input-form_` + requiredQuestionId);
                     requiredQuestionResponseIds = JSON.parse(form.dataset.conditionRequiredResponseIds);
                     parentForm = document.getElementById(`input-form_` + requiredQuestionId);
+                    questionContainer = form.closest('.container');
                     if (parentForm) {
                         requiredFormInputs = parentForm.querySelectorAll(`input:checked`);
                         if (requiredFormInputs.length > 0) {
@@ -137,7 +138,6 @@
                             );
 
                             if (containsAnyId) {
-                                questionContainer = form.closest('.container');
                                 if (questionContainer) {
                                     questionContainer.classList.remove('hidden');
                                 }

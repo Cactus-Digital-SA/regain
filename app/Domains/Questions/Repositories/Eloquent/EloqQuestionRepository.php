@@ -235,7 +235,7 @@ class EloqQuestionRepository implements QuestionRepositoryInterface
             return null;
         }
 
-        $question->load(['responses', 'references', 'languages', 'test', 'subscale', 'instruction', 'requiredQuestion', 'requiredResponses']);
+        $question->load(['responses', 'references', 'languages', 'test', 'subscale', 'instruction', 'requiredResponses']);
 
         return ObjectSerializer::deserialize($question->toJson() ?? "{}", Question::class, 'json');
     }

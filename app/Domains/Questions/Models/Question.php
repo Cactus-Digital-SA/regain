@@ -148,7 +148,6 @@ class Question extends CactusEntity
             $data['references']           = $this->getReferences();
             $data['responses']            = $this->getResponses();
             $data['language']             = $this->getLanguages();
-            $data['required_question']    = $this->getRequiredQuestion();
             $data['required_responses']   = $this->getRequiredResponses();
             $data['required_professions'] = $this->getRequiredProfessions();
         }
