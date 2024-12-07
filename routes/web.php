@@ -49,6 +49,17 @@ Route::group([
     Route::post('/submit-answers', [PatientController::class, 'submitAnswers'])->name('submit-answers');
 });
 
+Route::group([
+    'prefix'     => '',
+    'as'         => 'regain.',
+    'middleware' => ['role.administrator', 'auth'],
+], function () {
+
+    Route::resource('/patients', \App\Domains\Regain\Http\PatientController::class);
+    Route::post('patients/table', [\App\Domains\Regain\Http\PatientController::class, 'datatable'])->name('patients.datatable');
+});
+
+
 ////2fa fortify
 //Route::post('/2fa-confirm', [TwoFactorAuthController::class, 'confirm'])->name('fortify.two-factor.confirm');
 //
