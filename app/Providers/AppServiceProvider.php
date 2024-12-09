@@ -30,6 +30,8 @@ use App\Domains\Tests\Repositories\Eloquent\EloqTestRepository;
 use App\Domains\Tests\Repositories\TestRepositoryInterface;
 use App\Domains\Thresholds\Repositories\Eloquent\EloqThresholdRepository;
 use App\Domains\Thresholds\Repositories\ThresholdRepositoryInterface;
+use App\Domains\UserQuestionnaire\Repositories\Eloquent\UserQuestionnaireRepository;
+use App\Domains\UserQuestionnaire\Repositories\UserQuestionnaireRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -55,6 +57,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(PatientDataRepositoryInterface::class, EloqPatientDataRepository::class);
         $this->app->singleton(QuestionResponseRepositoryInterface::class, EloqQuestionResponseRepository::class);
         $this->app->singleton(ThresholdRepositoryInterface::class, EloqThresholdRepository::class);
+        $this->app->singleton(UserQuestionnaireRepositoryInterface::class, UserQuestionnaireRepository::class);
     }
 
     /**

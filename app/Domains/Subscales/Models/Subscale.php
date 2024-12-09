@@ -25,11 +25,11 @@ class Subscale extends CactusEntity
      */
     private ?int $sort;
     /**
-     * @var int $requiredQuestions
+     * @var ?int $requiredQuestions
      * @JMS\Serializer\Annotation\SerializedName("required_questions")
      * @JMS\Serializer\Annotation\Type("int")
      */
-    private int $requiredQuestions;
+    private ?int $requiredQuestions;
     /** @var Test $test
      * @JMS\Serializer\Annotation\SerializedName("test")
      * @JMS\Serializer\Annotation\Type("App\Domains\Tests\Models\Test")
@@ -54,7 +54,7 @@ class Subscale extends CactusEntity
             'name'               => $this->name,
             'test_id'            => $this->testId,
             'sort'               => $this->sort ?? null,
-            'required_questions' => $this->requiredQuestions ?? 0
+            'required_questions' => $this->requiredQuestions
         ];
 
         if ($withRelations) {
@@ -152,18 +152,18 @@ class Subscale extends CactusEntity
     }
 
     /**
-     * @return int
+     * @return ?int
      */
-    public function getRequiredQuestions(): int
+    public function getRequiredQuestions(): ?int
     {
         return $this->requiredQuestions;
     }
 
     /**
-     * @param int $requiredQuestions
+     * @param ?int $requiredQuestions
      * @return Subscale
      */
-    public function setRequiredQuestions(int $requiredQuestions): Subscale
+    public function setRequiredQuestions(?int $requiredQuestions): Subscale
     {
         $this->requiredQuestions = $requiredQuestions;
 

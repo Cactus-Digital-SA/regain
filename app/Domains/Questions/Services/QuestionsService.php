@@ -8,6 +8,8 @@ use App\Domains\Questions\Models\Question;
 use App\Domains\Questions\Repositories\Eloquent\Models\Question as EloquentQuestion;
 use App\Domains\Questions\Repositories\Eloquent\Models\QuestionResponse;
 use App\Domains\Questions\Repositories\QuestionRepositoryInterface;
+use App\Domains\UserQuestionnaire\Models\UserQuestionnaire;
+use App\Domains\UserQuestionnaire\Services\UserQuestionnaireService;
 use App\Domains\UserResponse\Repositories\Eloquent\Models\UserResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +19,7 @@ readonly class QuestionsService
     public function __construct(
         private QuestionRepositoryInterface $repository,
         private QuestionnaireFlowService $questionnaireFlowService,
+        private UserQuestionnaireService $userQuestionnaireService,
     ) {
     }
 
@@ -115,7 +118,7 @@ readonly class QuestionsService
 
         $questions[$activeQuestion->getId()] = $activeQuestion;
 
-        $questionLoop = $activeQuestion;;
+        $questionLoop = $activeQuestion;
         for ($i = 0; $i < $take; $i++) {
             $nextQuestion = $this->getNextQuestion($questionLoop);
 
@@ -137,25 +140,7 @@ readonly class QuestionsService
         return $questions;
     }
 
-    public function getNextQuestion(?Question $currentQuestion): ?Question
-    {
-        $nextQuestionId = null;
-        if ($currentQuestion !== null) {
-            /** @var EloquentQuestion $question */
-            $nextQuestion   = $this->repository->getById($currentQuestion->getId() + 1);
-            $nextQuestionId = $nextQuestion?->getId();
-        }
-
-        if ($nextQuestionId !== null) {
-            $nextQuestion = $this->repository->getById($nextQuestionId);
-
-            return $this->populateHiddenData($nextQuestion);
-        }
-
-        return null;
-    }
-
-    public function getActiveQuestion(int $userId): ?Question
+    public function getLatestAnsweredQuestion(int $userId): ?Question
     {
         /** @var UserResponse|null $latestResponse */
         $latestResponse = UserResponse::query()
@@ -164,21 +149,21 @@ readonly class QuestionsService
                                       ->first();
 
         if ($latestResponse !== null) {
-            $activeQuestionId = $latestResponse?->questionResponse->question->id + 1;
-        } else {
-            $activeQuestionId = $this->questionnaireFlowService
-                ->getFlowCategories(QuestionnaireFlowType::PRE_ASSESSMENT)
-                ->first()
-                ->tests()
-                ->first()
-                ?->questions()
-                ->get(["id"])
-                ->first()->id;
+            $activeQuestionId = $latestResponse?->questionResponse->question->id;
+
+            return $this->getById($activeQuestionId);
         }
 
-        $activeQuestion = $this->getById($activeQuestionId);
+        return null;
+    }
 
-        return $this->populateHiddenData($activeQuestion);
+    /**
+     * @param int $id
+     * @return Question|null
+     */
+    public function getById(int $id): ?Question
+    {
+        return $this->repository->getById($id);
     }
 
     private function populateHiddenData(?Question $question): ?Question
@@ -220,18 +205,124 @@ readonly class QuestionsService
                            ->first();
     }
 
-    /**
-     * @param int $id
-     * @return Question|null
-     */
-    public function getById(int $id): ?Question
-    {
-        return $this->repository->getById($id);
-    }
-
     private function isReadyForSkillsTest(): bool
     {
         // needs medical history record
         return false;
+    }
+
+    public function getNextQuestion(?Question $currentQuestion): ?Question
+    {
+        $nextQuestionId = null;
+        if ($currentQuestion !== null) {
+            /** @var EloquentQuestion $question */
+            $nextQuestion   = $this->repository->getById($currentQuestion->getId() + 1);
+            $nextQuestionId = $nextQuestion?->getId();
+        }
+
+        if ($nextQuestionId !== null) {
+            $nextQuestion = $this->repository->getById($nextQuestionId);
+
+            return $this->populateHiddenData($nextQuestion);
+        }
+
+        return null;
+    }
+
+    /**
+     * @param int $userId
+     * @param int $take
+     * @return Question[]
+     */
+    public function fetchQuestionsAlt(int $userId, int $take = 1): array
+    {
+        $questionsPool  = $this->getQuestionIdsForPatient($userId);
+        $activeQuestion = $this->getLatestAnsweredQuestion($userId);
+        $questions      = [];
+
+        $index = 0;
+        if ($activeQuestion !== null) {
+            foreach ($questionsPool as $i => $value) {
+                if ($value > $activeQuestion->getId()) {
+                    $index = $i; // Return the index if the item is greater
+                    break;
+                }
+            }
+
+            return [];
+        }
+
+        if ($take + $index > count($questionsPool)) {
+            $take = (int)(count($questionsPool) - $index);
+        }
+
+        $questionsToAsk = array_slice($questionsPool, $index, $take);
+        foreach ($questionsToAsk as $questionId) {
+            $question = $this->getById($questionId);
+            $this->populateHiddenData($question);
+            $questions[] = $question;
+        }
+
+        return $questions;
+    }
+
+    /**
+     * @param int $userId
+     * @return int[]
+     */
+    private function getQuestionIdsForPatient(int $userId): array
+    {
+        if (!$this->isReadyForSkillsTest()) {
+            $questionIds = $this->userQuestionnaireService->getForUserAndFlow($userId, QuestionnaireFlowType::PRE_ASSESSMENT);
+            if (count($questionIds) > 0) {
+                return $questionIds;
+            }
+
+            $flow      = QuestionnaireFlowType::PRE_ASSESSMENT;
+            $questions = EloquentQuestion::whereIn('test_id', function ($query) use ($flow) {
+                $query->select('id')
+                      ->from('tests')
+                      ->whereIn('category_id', function ($subQuery) use ($flow) {
+                          $subQuery->select('category_id')
+                                   ->from('questionnaire_flows')
+                                   ->where('flow_type', $flow->value);
+                      });
+            })->with(['subscale'])->get();
+            // $questions = $this->repository->getByFlow(QuestionnaireFlowType::PRE_ASSESSMENT);
+            $userQuestions            = [];
+            $randomSubscalesProcessed = [];
+            foreach ($questions as $question) {
+                if ($question->subscale_id !== null && array_key_exists($question->subscale_id, $randomSubscalesProcessed)) {
+                    continue;
+                }
+
+                if (
+                    $question->subscale !== null &&
+                    $question->subscale->required_questions > 0
+                ) {
+                    $subscaleQuestions = $question->subscale->questions;
+                    $requiredCount     = $question->subscale->required_questions;
+                    $randomQuestions   = $subscaleQuestions->shuffle()->take($requiredCount);
+                    $sortedQuestions   = $randomQuestions->sortBy('id'); // You can replace 'id' with any field that defines the order in your case.
+                    foreach ($sortedQuestions as $sortedQuestion) {
+                        $userQuestions[] = $sortedQuestion->id; // Efficiently append using [] operator
+                    }
+                    $randomSubscalesProcessed[$question->subscale_id] = true;
+                } else {
+                    $userQuestions[] = $question->id;
+                }
+            }
+
+            $this->userQuestionnaireService->store(
+                (new UserQuestionnaire())
+                    ->setUserId($userId)
+                    ->setQuestionnaireFlowType($flow)
+                    ->setQuestionIds($userQuestions)
+            );
+
+            return $userQuestions;
+        }
+
+        return [];
     }
 }

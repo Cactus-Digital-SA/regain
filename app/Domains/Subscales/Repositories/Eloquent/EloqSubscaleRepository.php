@@ -60,15 +60,27 @@ class EloqSubscaleRepository implements SubscaleRepositoryInterface
         throw new NotImplementedException();
     }
 
+    private function getRequiredQuestions(int $testId): ?int
+    {
+        return match ($testId) {
+            12      => 5,
+            16      => 4,
+            17, 18  => 2,
+            20, 21  => 3,
+            default => null
+        };
+    }
+
     public function findOrCreate(string $name, int $test_id, int $requiredQuestions, ?int $sort): Subscale
     {
         $subscale = $this->model
             ->firstOrCreate([
-                'name' => $name,
+                'name'    => $name,
+                'test_id' => $test_id,
             ],
                 [
                     'test_id'            => $test_id,
-                    'required_questions' => $requiredQuestions,
+                    'required_questions' => $this->getRequiredQuestions($test_id),
                     'sort'               => $sort
                 ]);
 

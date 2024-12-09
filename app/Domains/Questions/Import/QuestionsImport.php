@@ -107,7 +107,7 @@ class QuestionsImport implements WithMultipleSheets
      */
     public static function createSubscale(string $subscale, int $testId): ?int
     {
-        if ($subscale != null && $subscale != '-') {
+        if ($subscale !== null && $subscale !== '-') {
             try {
                 $subscaleService = Container::getInstance()->get(SubscaleService::class);
 
@@ -263,11 +263,11 @@ class QuestionsImport implements WithMultipleSheets
     public function sheets(): array
     {
         return [
-//            5 => new ReferenceImport(),
-//            0 => new SociodemographicImport(),
-//            1 => new PreAssessmentsImport(),
-//            2 => new SkillsImport(),
-//            3 => new ScoresImport(),
+            5 => new ReferenceImport(),
+            0 => new SociodemographicImport(),
+            1 => new PreAssessmentsImport(),
+            2 => new SkillsImport(),
+            3 => new ScoresImport(),
             4 => new ThresholdImport(),
         ];
     }

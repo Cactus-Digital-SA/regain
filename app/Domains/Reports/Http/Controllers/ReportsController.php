@@ -2,21 +2,17 @@
 
 namespace App\Domains\Reports\Http\Controllers;
 
-use App\Domains\Questions\Repositories\Eloquent\Models\QuestionResponse;
 use App\Domains\Reports\Http\Dtos\ReportPlainResponse;
 use App\Domains\Reports\Http\Dtos\ReportResults;
 use App\Domains\Reports\Http\Dtos\ReportTestResult;
 use App\Domains\Reports\Http\Dtos\ReportTestResultSubscaleResult;
 use App\Domains\Reports\Http\Dtos\ReportTestResultTotalResult;
 use App\Domains\Reports\Http\Requests\ReportRequest;
-use App\Domains\Responses\Repositories\Eloquent\Models\Response;
-use App\Domains\Scores\Repositories\Eloquent\UserSubscaleScore;
-use App\Domains\Scores\Repositories\Eloquent\UserTestScore;
 use App\Domains\Thresholds\Models\Constants\ThresholdDisplayType;
 use App\Domains\Thresholds\Services\ThresholdService;
 use App\Domains\UserResponse\Repositories\Eloquent\Models\UserResponse;
-use App\Domains\UserResponse\Services\UserResponseService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 
 class ReportsController
 {
@@ -25,7 +21,7 @@ class ReportsController
     ) {
     }
 
-    public function report(ReportRequest $request): void
+    public function report(ReportRequest $request): View
     {
         $form = $request->getReportForm();
 
@@ -80,25 +76,25 @@ class ReportsController
                     if (count($subscales) > 0) {
                         $subscaleResults = [];
                         foreach ($subscales as $subscale) {
-                            $subscaleScore = DB::select("
-    SELECT label, notes
-    FROM (
+                            $subscalesList  = DB::select("
         SELECT
+            ROW_NUMBER() OVER (ORDER BY threshold_subscale_limits.low) AS row_index,
             threshold_subscale_limits.*, 
-            (SELECT score FROM user_subscale_scores WHERE user_id = ? AND subscale_id = ?) AS userScore 
+            (SELECT score FROM user_subscale_scores WHERE user_id = ? AND subscale_id = ?) AS user_score 
         FROM threshold_subscale_limits
         INNER JOIN thresholds ON thresholds.id = threshold_subscale_limits.threshold_id
-        WHERE thresholds.test_id = ?
-    ) AS final
-    WHERE final.userScore BETWEEN final.low AND final.high;
-                 ", [$form->getUserId(), $subscale->getId(), $test->getId()]);
-                            if (count($subscaleScore) === 1) {
-                                $subscaleResult = new ReportTestResultSubscaleResult();
-                                $subscaleResult->setResultLabel($subscaleScore[0]->label);
-                                $subscaleResult->setResultNotes($subscaleScore[0]->notes ?? "");
-                                $subscaleResult->setSubscaleName($subscale->getName());
-                                $subscaleResults[] = $subscaleResult;
+        WHERE thresholds.test_id = ?", [$form->getUserId(), $subscale->getId(), $test->getId()]);
+                            $subscaleResult = new ReportTestResultSubscaleResult();
+                            $testResult->setSubscaleItems(count($subscalesList));
+                            $subscaleResult->setSubscaleName($subscale->getName());
+                            foreach ($subscalesList as $subscaleListItem) {
+                                if ($subscaleListItem->user_score >= $subscaleListItem->low && $subscaleListItem->user_score <= $subscaleListItem->high) {
+                                    $subscaleResult->setResultLabel($subscaleListItem->label);
+                                    $subscaleResult->setResultNotes($subscaleListItem->notes ?? "");
+                                    $subscaleResult->setSubscaleIndex($subscaleListItem->row_index);
+                                }
                             }
+                            $subscaleResults[] = $subscaleResult;
                         }
                         $testResult->setSubscaleResults($subscaleResults);
                     }
@@ -107,6 +103,8 @@ class ReportsController
             }
         }
 
-        return;
+        return view('reports.flows.result')->with(
+            ["result" => $result]
+        );
     }
 }

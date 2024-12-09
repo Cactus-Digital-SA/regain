@@ -10,6 +10,8 @@ class ReportTestResultSubscaleResult
     private string $resultLabel;
     private string $resultNotes;
     private string $subscaleName;
+    private int $subscaleItems;
+    private int $subscaleIndex;
 
     public function getResultLabel(): string
     {
@@ -43,6 +45,30 @@ class ReportTestResultSubscaleResult
     public function setSubscaleName(string $subscaleName): ReportTestResultSubscaleResult
     {
         $this->subscaleName = $subscaleName;
+
+        return $this;
+    }
+
+    public function getSubscaleItems(): int
+    {
+        return $this->subscaleItems;
+    }
+
+    public function setSubscaleItems(int $subscaleItems): ReportTestResultSubscaleResult
+    {
+        $this->subscaleItems = $subscaleItems;
+
+        return $this;
+    }
+
+    public function getSubscaleIndex(): int
+    {
+        return $this->subscaleIndex;
+    }
+
+    public function setSubscaleIndex(int $subscaleIndex): ReportTestResultSubscaleResult
+    {
+        $this->subscaleIndex = $subscaleIndex;
 
         return $this;
     }

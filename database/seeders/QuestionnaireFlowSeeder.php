@@ -34,12 +34,12 @@ class QuestionnaireFlowSeeder extends Seeder
                 'created_at'  => now(),
                 'updated_at'  => now(),
             ],
-            [
-                'category_id' => 4,
-                'flow_type'   => QuestionnaireFlowType::MEDICAL_HISTORY->value,
-                'created_at'  => now(),
-                'updated_at'  => now(),
-            ]
+//            [
+//                'category_id' => 4,
+//                'flow_type'   => QuestionnaireFlowType::MEDICAL_HISTORY->value,
+//                'created_at'  => now(),
+//                'updated_at'  => now(),
+//            ]
         ];
 
         QuestionnaireFlow::insert($questionnaireFlows);
