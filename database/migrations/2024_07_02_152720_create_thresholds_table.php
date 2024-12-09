@@ -13,17 +13,17 @@ return new class extends Migration {
         Schema::create('thresholds', function (Blueprint $table) {
             $table->id();
             $table->foreignId('test_id')->constrained('tests')->cascadeOnDelete();
-            $table->foreignId('subscale_id')->nullable()->constrained('subscales')->nullOnDelete();
             $table->foreignId('question_start')->nullable()->constrained('questions')->nullOnDelete();
             $table->foreignId('question_end')->nullable()->constrained('questions')->nullOnDelete();
             $table->smallInteger('display_type');
-            $table->unique(['test_id', 'subscale_id']);
+            $table->unique(['test_id']);
             $table->timestamps();
         });
 
         Schema::create('threshold_subscale_limits', function (Blueprint $table) {
             $table->id();
             $table->foreignId('threshold_id')->constrained('thresholds')->cascadeOnDelete();
+            $table->foreignId('subscale_id')->constrained('subscales')->cascadeOnDelete();
             $table->integer('low');
             $table->integer('high');
             $table->string('label');
@@ -47,8 +47,8 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('thresholds');
         Schema::dropIfExists('threshold_subscale_limits');
         Schema::dropIfExists('threshold_test_limits');
+        Schema::dropIfExists('thresholds');
     }
 };

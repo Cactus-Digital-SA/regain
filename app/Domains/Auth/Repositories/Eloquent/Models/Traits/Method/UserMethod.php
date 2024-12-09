@@ -28,11 +28,35 @@ trait UserMethod
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
     public function isAdmin(): bool
     {
-        if ($this->hasRole('Administrator|super-admin')):
+        if ($this->hasRole(RolesEnum::SuperAdmin->value)):
+            return true;
+        else:
+            return false;
+        endif;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function isRegainUser(): bool
+    {
+        if ($this->hasRole(RolesEnum::Administrator->value)):
+            return true;
+        else:
+            return false;
+        endif;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function isPractitioner(): bool
+    {
+        if ($this->hasRole(RolesEnum::Practitioner->value)):
             return true;
         else:
             return false;

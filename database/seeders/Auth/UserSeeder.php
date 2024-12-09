@@ -27,9 +27,25 @@ class UserSeeder extends Seeder
         ]);
 
         User::create([
-            'name'              => 'Cactus',
-            'email'             => 'dimitris@cactusweb.gr',
-            'password'          => bcrypt('1425lx36'),
+            'name'              => 'Regain user',
+            'email'             => 'user@regain',
+            'password'          => bcrypt('123456'),
+            'email_verified_at' => now(),
+            'active'            => true,
+        ]);
+
+        User::create([
+            'name'              => 'practitioner',
+            'email'             => 'practitioner@regain',
+            'password'          => bcrypt('123456'),
+            'email_verified_at' => now(),
+            'active'            => true,
+        ]);
+
+        User::create([
+            'name'              => 'patient',
+            'email'             => 'patient@regain',
+            'password'          => bcrypt('123456'),
             'email_verified_at' => now(),
             'active'            => true,
         ]);

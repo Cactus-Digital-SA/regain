@@ -8,7 +8,7 @@ use App\Http\Middleware\AdministratorMiddleware;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\LocaleMiddleware;
-use App\Http\Middleware\PatientMiddleware;
+use App\Http\Middleware\RedirectMiddleware;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\TrimStrings;
@@ -102,7 +102,9 @@ class Kernel extends HttpKernel
     ];
     protected $routeMiddleware = [
         // Other middleware
-        'role.patient' => PatientMiddleware::class,
+        'role.patient'       => RedirectMiddleware::class,
+        'role.regainUser'    => RedirectMiddleware::class,
+        'role.practitioner'  => RedirectMiddleware::class,
         'role.administrator' => AdministratorMiddleware::class,
     ];
 }

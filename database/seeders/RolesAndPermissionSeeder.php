@@ -5,8 +5,8 @@ namespace Database\Seeders;
 use App\Domains\Auth\Models\RolesEnum;
 use App\Domains\Auth\Repositories\Eloquent\Models\Permission;
 use App\Domains\Auth\Repositories\Eloquent\Models\Role;
-use App\Domains\Auth\Repositories\Eloquent\Models\User;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\PermissionRegistrar;
 
 class RolesAndPermissionSeeder extends Seeder
 {
@@ -15,10 +15,10 @@ class RolesAndPermissionSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         // Reset cached roles and permissions
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         $role = Role::firstOrCreate(['id' => RolesEnum::SuperAdmin->value, 'name' => 'super-admin']);
         $role->syncPermissions(Permission::all());
@@ -27,6 +27,10 @@ class RolesAndPermissionSeeder extends Seeder
         $role = Role::firstOrCreate(['id' => RolesEnum::Administrator->value, 'name' => 'Administrator',]);
         $role->syncPermissions(Permission::all());
 
+        $role = Role::firstOrCreate(['id' => RolesEnum::Practitioner->value, 'name' => 'Practitioner',]);
+        $role->syncPermissions(Permission::all());
+
         $role = Role::firstOrCreate(['id' => RolesEnum::Patient->value, 'name' => 'Patient',]);
+        $role->syncPermissions(Permission::all());
     }
 }

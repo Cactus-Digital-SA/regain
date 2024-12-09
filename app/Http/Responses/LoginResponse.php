@@ -8,7 +8,16 @@ class LoginResponse implements LoginResponseContract
 {
     public function toResponse($request)
     {
-        $route = auth()->user()->isAdmin() ? route('admin.tests.questions.index') : route('patient.home');
+        $route = null;
+        if (auth()->user()->isAdmin()) {
+            $route = route('admin.tests.questions.index');
+        } elseif (auth()->user()->isRegainUser()) {
+            $route = route('regain.patients.create');
+        } elseif (auth()->user()->isPractitioner()) {
+            $route = route('pratitioners.index');
+        } elseif (auth()->user()->isPatient()) {
+            $route = route('patient.home');
+        }
 
         return $request->wantsJson()
             ? response()->json(['two_factor' => false])

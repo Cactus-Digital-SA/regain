@@ -2,6 +2,7 @@
 
 namespace App\Domains\Thresholds\Models;
 
+use App\Domains\Subscales\Models\Subscale;
 use App\Models\CactusEntity;
 
 class ThresholdSubscaleLimit extends CactusEntity
@@ -18,6 +19,12 @@ class ThresholdSubscaleLimit extends CactusEntity
      * @JMS\Serializer\Annotation\Type("int")
      */
     private int $thresholdId;
+    /**
+     * @var int $subscaleId
+     * @JMS\Serializer\Annotation\SerializedName("subscale_id")
+     * @JMS\Serializer\Annotation\Type("int")
+     */
+    private int $subscaleId;
     /**
      * @var int $low
      * @JMS\Serializer\Annotation\SerializedName("low")
@@ -48,6 +55,12 @@ class ThresholdSubscaleLimit extends CactusEntity
      * @JMS\Serializer\Annotation\Type("<App\Domains\Thresholds\Models\Threshold>")
      */
     private Threshold $threshold;
+    /**
+     * @var Subscale $subscale
+     * @JMS\Serializer\Annotation\SerializedName("subscale")
+     * @JMS\Serializer\Annotation\Type("<App\Domains\Subscales\Models\Subscale>")
+     */
+    private Subscale $subscale;
 
     public function getId(): int
     {
@@ -69,6 +82,18 @@ class ThresholdSubscaleLimit extends CactusEntity
     public function setThresholdId(int $thresholdId): ThresholdSubscaleLimit
     {
         $this->thresholdId = $thresholdId;
+
+        return $this;
+    }
+
+    public function getSubscaleId(): int
+    {
+        return $this->subscaleId;
+    }
+
+    public function setSubscaleId(int $subscaleId): ThresholdSubscaleLimit
+    {
+        $this->subscaleId = $subscaleId;
 
         return $this;
     }
@@ -130,6 +155,7 @@ class ThresholdSubscaleLimit extends CactusEntity
         $data = [
             'id'           => $this->id,
             'threshold_id' => $this->thresholdId,
+            'subscale_id'  => $this->subscaleId,
             'low'          => $this->low,
             'high'         => $this->high,
             'label'        => $this->label,
@@ -138,6 +164,7 @@ class ThresholdSubscaleLimit extends CactusEntity
 
         if ($withRelations) {
             $data['threshold'] = $this->getThreshold();
+            $data['subscale']  = $this->getSubscale();
         }
 
         return $data;
@@ -151,6 +178,18 @@ class ThresholdSubscaleLimit extends CactusEntity
     public function setThreshold(Threshold $threshold): ThresholdSubscaleLimit
     {
         $this->threshold = $threshold;
+
+        return $this;
+    }
+
+    public function getSubscale(): Subscale
+    {
+        return $this->subscale;
+    }
+
+    public function setSubscale(Subscale $subscale): ThresholdSubscaleLimit
+    {
+        $this->subscale = $subscale;
 
         return $this;
     }

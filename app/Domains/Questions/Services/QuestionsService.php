@@ -167,7 +167,7 @@ readonly class QuestionsService
             $activeQuestionId = $latestResponse?->questionResponse->question->id + 1;
         } else {
             $activeQuestionId = $this->questionnaireFlowService
-                ->getFlowCategories(QuestionnaireFlowType::SOCIODEMOGRAPHIC_ASSESSMENT)
+                ->getFlowCategories(QuestionnaireFlowType::PRE_ASSESSMENT)
                 ->first()
                 ->tests()
                 ->first()

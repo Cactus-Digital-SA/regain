@@ -28,6 +28,8 @@ use App\Domains\Subscales\Repositories\Eloquent\EloqSubscaleRepository;
 use App\Domains\Subscales\Repositories\SubscaleRepositoryInterface;
 use App\Domains\Tests\Repositories\Eloquent\EloqTestRepository;
 use App\Domains\Tests\Repositories\TestRepositoryInterface;
+use App\Domains\Thresholds\Repositories\Eloquent\EloqThresholdRepository;
+use App\Domains\Thresholds\Repositories\ThresholdRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -42,16 +44,17 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(PermissionRepositoryInterface::class, EloqPermissionRepository::class);
 
         //Tests
-        $this->app->bind(InstructionRepositoryInterface::class, EloqInstructionRepository::class);
-        $this->app->bind(QuestionRepositoryInterface::class, EloqQuestionRepository::class);
-        $this->app->bind(TestRepositoryInterface::class, EloqTestRepository::class);
-        $this->app->bind(LanguageRepositoryInterface::class, EloqLanguageRepository::class);
-        $this->app->bind(SubscaleRepositoryInterface::class, EloqSubscaleRepository::class);
-        $this->app->bind(CategoryRepositoryInterface::class, EloqCategoryRepository::class);
-        $this->app->bind(ReferenceRepositoryInterface::class, EloqReferenceRepository::class);
-        $this->app->bind(ResponseRepositoryInterface::class, EloqResponseRepository::class);
-        $this->app->bind(PatientDataRepositoryInterface::class, EloqPatientDataRepository::class);
+        $this->app->singleton(InstructionRepositoryInterface::class, EloqInstructionRepository::class);
+        $this->app->singleton(QuestionRepositoryInterface::class, EloqQuestionRepository::class);
+        $this->app->singleton(TestRepositoryInterface::class, EloqTestRepository::class);
+        $this->app->singleton(LanguageRepositoryInterface::class, EloqLanguageRepository::class);
+        $this->app->singleton(SubscaleRepositoryInterface::class, EloqSubscaleRepository::class);
+        $this->app->singleton(CategoryRepositoryInterface::class, EloqCategoryRepository::class);
+        $this->app->singleton(ReferenceRepositoryInterface::class, EloqReferenceRepository::class);
+        $this->app->singleton(ResponseRepositoryInterface::class, EloqResponseRepository::class);
+        $this->app->singleton(PatientDataRepositoryInterface::class, EloqPatientDataRepository::class);
         $this->app->singleton(QuestionResponseRepositoryInterface::class, EloqQuestionResponseRepository::class);
+        $this->app->singleton(ThresholdRepositoryInterface::class, EloqThresholdRepository::class);
     }
 
     /**

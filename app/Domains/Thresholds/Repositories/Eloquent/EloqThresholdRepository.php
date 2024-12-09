@@ -2,6 +2,9 @@
 
 namespace App\Domains\Thresholds\Repositories\Eloquent;
 
+use App\Domains\QuestionnaireFlow\Constants\QuestionnaireFlowType;
+use App\Domains\QuestionnaireFlow\Models\QuestionnaireFlow;
+use App\Domains\Tests\Repositories\Eloquent\Models\Test as EloqTest;
 use App\Domains\Thresholds\Models\Threshold;
 use App\Domains\Thresholds\Repositories\Eloquent\Models\ThresholdSubscaleLimit as ElogThresholdSubscaleLimit;
 use App\Domains\Thresholds\Repositories\Eloquent\Models\ThresholdTestLimit as ElogThresholdTestLimit;
@@ -19,10 +22,32 @@ class EloqThresholdRepository implements ThresholdRepositoryInterface
     ) {
     }
 
-    public function getById(string $id): ?CactusEntity
+    public function getById(string $id): ?Threshold
     {
-        // TODO: Implement getById() method.
-        throw new NotImplementedException();
+        $threshold = $this->model->where('id', $id)->first();
+        $threshold->load('test', 'subscaleLimits', 'testLimits', 'test.subscales');
+
+        return ObjectSerializer::deserialize($threshold->toJson() ?? '{}', Threshold::class, 'json');
+    }
+
+    public function addSubscaleLimits(Threshold $threshold, array $subscaleLimits): void
+    {
+        $eloqThreshold = EloqThreshold::find($threshold->getId());
+
+        if (count($threshold->getSubscaleLimits()) > 0) {
+            $eloquentModels = array_map(static function ($item) use ($threshold) {
+                return ElogThresholdSubscaleLimit::firstOrCreate([
+                    'threshold_id' => $threshold->getId(),
+                    'subscale_id'  => $item->getSubscaleId(),
+                    'low'          => $item->getlow(),
+                    'high'         => $item->gethigh(),
+                    'label'        => $item->getlabel(),
+                    'notes'        => $item->getnotes(),
+                ]);
+            }, $threshold->getSubscaleLimits());
+
+            $eloqThreshold->subscaleLimits()->saveMany($eloquentModels);
+        }
     }
 
     public function store(Threshold|CactusEntity $entity): Threshold
@@ -30,25 +55,15 @@ class EloqThresholdRepository implements ThresholdRepositoryInterface
         $threshold = new EloqThreshold();
 
         $threshold->test_id        = $entity->gettestId();
-        $threshold->subscale_id    = $entity->getsubscaleId();
         $threshold->question_start = $entity->getquestionStart();
         $threshold->question_end   = $entity->getquestionEnd();
         $threshold->display_type   = $entity->getdisplayType()->value;
 
         $threshold->save();
 
+        $entity->setId($threshold->id);
         if (count($entity->getSubscaleLimits()) > 0) {
-            $eloquentModels = array_map(static function ($item) use ($threshold) {
-                return ElogThresholdSubscaleLimit::firstOrCreate([
-                    'threshold_id' => $threshold->id,
-                    'low'          => $item->getlow(),
-                    'high'         => $item->gethigh(),
-                    'label'        => $item->getlabel(),
-                    'notes'        => $item->getnotes(),
-                ]);
-            }, $entity->getSubscaleLimits());
-
-            $threshold->subscaleLimits()->saveMany($eloquentModels);
+            $this->addSubscaleLimits($entity, $entity->getsubscaleLimits());
         }
 
         if (count($entity->getTestLimits()) > 0) {
@@ -65,7 +80,7 @@ class EloqThresholdRepository implements ThresholdRepositoryInterface
             $threshold->testLimits()->saveMany($eloquentModels);
         }
 
-        $threshold->load('subscale', 'test', 'subscaleLimits', 'testLimits');
+        $threshold->load('test', 'subscaleLimits', 'testLimits');
 
         return ObjectSerializer::deserialize($threshold->toJson() ?? '{}', Threshold::class, 'json');
     }
@@ -93,17 +108,33 @@ class EloqThresholdRepository implements ThresholdRepositoryInterface
 
     public function findOrCreate(Threshold|CactusEntity $entity): Threshold
     {
-        $threshold = $this->model
-            ->where('test_id', $entity->getTestId())
-            ->where('subscale_id', $entity->getSubscaleId())
-            ->firstOrCreate([
-                'interpretation' => $entity->getInterpretation(),
-                'range_start'    => $entity->getRangeStart(),
-                'range_end'      => $entity->getRangeEnd(),
-                'test_id'        => $entity->getTestId(),
-                'subscale_id'    => $entity->getSubscaleId(),
-            ]);
+        // TODO: Implement dataTable() method.
+        throw new NotImplementedException();
+    }
 
-        return ObjectSerializer::deserialize($threshold->toJson() ?? '{}', Threshold::class, 'json');
+    /**
+     * @param QuestionnaireFlowType $type
+     * @return Threshold[]
+     */
+    public function getThresholdsByFlow(QuestionnaireFlowType $type): array
+    {
+        $eloqThresholds = $this->model
+            ->whereIn('test_id', function ($query) use ($type) {
+                $query->select('id')
+                      ->from('tests')
+                      ->whereIn('category_id', function ($subQuery) use ($type) {
+                          $subQuery->select('category_id')
+                                   ->from('questionnaire_flows')
+                                   ->where('flow_type', $type);
+                      });
+            })
+            ->get("id");
+
+        $thresholds = [];
+        foreach ($eloqThresholds as $eloqThreshold) {
+            $thresholds[] = $this->getById($eloqThreshold->id);
+        }
+
+        return $thresholds;
     }
 }

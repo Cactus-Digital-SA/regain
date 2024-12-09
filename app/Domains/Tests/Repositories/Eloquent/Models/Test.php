@@ -4,8 +4,8 @@ namespace App\Domains\Tests\Repositories\Eloquent\Models;
 
 use App\Domains\Categories\Repositories\Eloquent\Models\Category;
 use App\Domains\Questions\Repositories\Eloquent\Models\Question;
-use App\Domains\Results\Repositories\Eloquent\Models\Threshold;
 use App\Domains\Subscales\Repositories\Eloquent\Models\Subscale;
+use App\Domains\Thresholds\Repositories\Eloquent\Models\Threshold;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -43,8 +43,8 @@ class Test extends Model
     /**
      * @return BelongsToMany
      */
-    public function subscales(): BelongsToMany
+    public function subscales(): HasMany
     {
-        return $this->belongsToMany(Subscale::class);
+        return $this->hasMany(Subscale::class);
     }
 }

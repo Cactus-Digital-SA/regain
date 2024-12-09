@@ -6,6 +6,7 @@ namespace App\Domains\QuestionnaireFlow\Constants;
 
 enum QuestionnaireFlowType: int
 {
-    case SOCIODEMOGRAPHIC_ASSESSMENT = 1;
-    case SKILLS                      = 2;
+    case PRE_ASSESSMENT  = 1;
+    case SKILLS          = 2;
+    case MEDICAL_HISTORY = 3;
 }

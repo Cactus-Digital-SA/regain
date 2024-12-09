@@ -2,6 +2,8 @@
 
 use App\Domains\Auth\CustomLoginController;
 use App\Domains\Patient\Http\Controllers\PatientController;
+use App\Domains\Regain\Http\Controllers\PatientController as RegainPatientController;
+use App\Domains\Reports\Http\Controllers\ReportsController;
 use App\Http\Controllers\LanguageController;
 use Illuminate\Support\Facades\Route;
 
@@ -55,10 +57,11 @@ Route::group([
     'middleware' => ['role.administrator', 'auth'],
 ], function () {
 
-    Route::resource('/patients', \App\Domains\Regain\Http\Controllers\PatientController::class);
-    Route::post('patients/table', [\App\Domains\Regain\Http\Controllers\PatientController::class, 'datatable'])->name('patients.datatable');
+    Route::resource('/patients', RegainPatientController::class);
+    Route::post('patients/table', [RegainPatientController::class, 'datatable'])->name('patients.datatable');
 });
 
+Route::get('report/', [ReportsController::class, 'report'])->name('report');
 
 ////2fa fortify
 //Route::post('/2fa-confirm', [TwoFactorAuthController::class, 'confirm'])->name('fortify.two-factor.confirm');

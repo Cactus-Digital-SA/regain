@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Validation\UnauthorizedException;
 
-class PatientMiddleware
+class RedirectMiddleware
 {
     /**
      * Handle an incoming request.
@@ -19,10 +19,16 @@ class PatientMiddleware
     {
         // Check if the logged-in user has the 'patient' role
         if (auth()->check()) {
+            if (auth()->user()->isAdmin()) {
+                return redirect()->route('admin.home');
+            }
+
             if (auth()->user()->isPatient()) {
                 return $next($request); // Proceed to the next middleware or controller
-            } elseif (auth()->user()->isAdmin()) {
-                return redirect()->route('admin.home');
+            }
+
+            if (auth()->user()->isRegainUser()) {
+                return redirect()->route('regain.user.home');
             }
         }
 

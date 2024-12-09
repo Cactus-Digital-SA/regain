@@ -12,7 +12,6 @@ class Threshold extends Model
 {
     protected $fillable = [
         'test_id',
-        'subscale_id',
         'question_start',
         'question_end',
         'display_type',
@@ -24,14 +23,6 @@ class Threshold extends Model
     public function test(): BelongsTo
     {
         return $this->belongsTo(Test::class);
-    }
-
-    /**
-     * @return BelongsTo
-     */
-    public function subscale(): BelongsTo
-    {
-        return $this->belongsTo(Subscale::class);
     }
 
     public function subscaleLimits(): HasMany

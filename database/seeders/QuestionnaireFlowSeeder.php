@@ -18,19 +18,25 @@ class QuestionnaireFlowSeeder extends Seeder
         $questionnaireFlows = [
             [
                 'category_id' => 1,
-                'flow_type'   => QuestionnaireFlowType::SOCIODEMOGRAPHIC_ASSESSMENT->value,
+                'flow_type'   => QuestionnaireFlowType::PRE_ASSESSMENT->value,
                 'created_at'  => now(),
                 'updated_at'  => now(),
             ],
             [
                 'category_id' => 2,
-                'flow_type'   => QuestionnaireFlowType::SOCIODEMOGRAPHIC_ASSESSMENT->value,
+                'flow_type'   => QuestionnaireFlowType::PRE_ASSESSMENT->value,
                 'created_at'  => now(),
                 'updated_at'  => now(),
             ],
             [
                 'category_id' => 3,
                 'flow_type'   => QuestionnaireFlowType::SKILLS->value,
+                'created_at'  => now(),
+                'updated_at'  => now(),
+            ],
+            [
+                'category_id' => 4,
+                'flow_type'   => QuestionnaireFlowType::MEDICAL_HISTORY->value,
                 'created_at'  => now(),
                 'updated_at'  => now(),
             ]
