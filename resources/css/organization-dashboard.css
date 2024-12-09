@@ -13,6 +13,7 @@ body {
         radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 15vw 60vh / 250px 250px,
         radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 90vw 20vh / 350px 350px;
     background-repeat:no-repeat;
+    overflow-y: auto;
 }
 
 .container {
@@ -32,6 +33,10 @@ body {
     flex-direction: column;
     margin: 0;
     padding: 0.5rem 0;
+}
+
+.main-menu{
+
 }
 
 .container-fluid {
@@ -60,14 +65,12 @@ body {
 
 .nav-link {
     color: rgba(28, 27, 31, 1);
-    font-size: 19px;
+    font-size: 0.95em;
     font-weight: 500;
     line-height: 28.5px;
     text-align: left;
     text-underline-position: from-font;
     text-decoration-skip-ink: none;
-
-
 }
 
 .nav-link.active {
@@ -135,7 +138,6 @@ body {
 .input {
     padding: 10px;
     width: auto;
-    min-width: 400px;
     height: 2.5rem;
     background: none;
     border: 2px solid rgba(221, 222, 241, 1);
@@ -223,6 +225,52 @@ body {
 .new-patient-input {
     background-color: rgba(221, 222, 241, 1);
     min-width: 400px;
+}
+
+.practitioner-directory-tab, .patient-directory-tab{
+    text-wrap: nowrap;
+}
+
+@media (max-width: 1300px){
+    .breadcrumb-item{
+        font-size: 14px;
+    }
+    .practitioner-directory-tab, .patient-directory-tab{
+        text-wrap: auto;
+    }
+    .ministry-logo{
+        font-size: 18px;
+    }
+    .input{
+        width: 150px;
+    }
+    .add-pract-button{
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 25px;
+        text-align: center;
+        text-underline-position: from-font;
+        text-decoration-skip-ink: none;
+    }
+
+    .card-title{
+        font-size: 20px;
+    }
+
+    .card-subtitle{
+        font-size: 14px;
+    }
+
+    .container{
+        max-width: 98vw !important;
+    }
+    .main-menu {
+        padding: 1rem 1.5rem;
+    }
+    .box {
+        display: none;
+    }
+
 }
 
 

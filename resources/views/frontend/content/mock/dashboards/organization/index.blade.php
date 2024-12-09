@@ -22,24 +22,24 @@
 
 <div class="container">
     <div class="row h-100 p-4">
-        <div class="col-2 bg-light me-0 rounded-4">
-            <div class="h-100 d-flex row flex-column p-4">
+        <div class="col-3 col-xxl-2 bg-light me-0 rounded-4 main-menu">
+            <div class="h-100 d-flex row flex-column p-xl-3 p-1">
                 <!-- Logo at the top -->
-                <div class="text-left mb-3">
+                <div class="text-center mb-3">
                     <img src="{{Vite::asset('resources/images/logo/regainLogo.svg')}}" alt="Logo" class="img-fluid">
                 </div>
                 <div class="flex-grow-1 d-flex align-items-top ps-0">
                     <div>
                         <div class="row">
-                            <div class="my-5 ms-2">
-                                <a class="nav-link text-left text-nowrap" id="v-pills-patient-tab" data-bs-toggle="pill"
-                                   data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home"
+                            <div class="my-1 my-lg-5">
+                                <a class="nav-link text-left" id="v-pills-patient-registration-tab" data-bs-toggle="pill"
+                                   data-bs-target="#v-pills-patient-registration" type="button" role="tab" aria-controls="v-pills-patient-registration"
                                    aria-selected="true" style="color:#000; font-weight:bold;">
                                     Patient Registration
                                 </a>
-                                <a class="nav-link text-left text-nowrap mt-3" id="v-pills-practitioner-tab"
-                                   data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab"
-                                   aria-controls="v-pills-profile" aria-selected="false"
+                                <a class="nav-link text-left mt-1 mt-sm-3" id="v-pills-add-practitioner-tab"
+                                   data-bs-toggle="pill" data-bs-target="#v-pills-add-practitioner" type="button" role="tab"
+                                   aria-controls="v-pills-add-practitioner" aria-selected="false"
                                    style="color:#000; font-weight:bold;">
                                     Add Practitioner
                                 </a>
@@ -47,19 +47,19 @@
                             <div class="d-flex flex-column justify-content-between ms-0 ps-0">
                                 <div class="nav flex-column nav-pills nav-pills-custom" id="v-pills-tab" role="tablist"
                                      aria-orientation="vertical">
-                                    <a class="nav-link text-left text-nowrap" id="v-pills-patient-tab"
-                                       data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab"
-                                       aria-controls="v-pills-home" aria-selected="true">
+                                    <a class="nav-link text-left patient-directory-tab" id="v-pills-patient-directory-tab"
+                                       data-bs-toggle="pill" data-bs-target="#v-pills-patient-directory" type="button" role="tab"
+                                       aria-controls="v-pills-patient-directory" aria-selected="true">
                                         <i class="ti ti-man-filled me-2"></i> Patient Directory
                                     </a>
-                                    <a class="nav-link active text-left text-nowrap" id="v-pills-practitioner-tab"
-                                       data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab"
-                                       aria-controls="v-pills-profile" aria-selected="false">
+                                    <a class="nav-link active text-left practitioner-directory-tab" id="v-pills-practitioner-directory-tab"
+                                       data-bs-toggle="pill" data-bs-target="#v-pills-practitioner-directory" type="button" role="tab"
+                                       aria-controls="v-pills-practitioner-directory" aria-selected="false">
                                         <i class="ti ti-user-screen me-2"></i> Practitioner Directory
                                     </a>
                                     <a class="nav-link text-left" id="v-pills-calendar-tab" data-bs-toggle="pill"
-                                       data-bs-target="#v-pills-messages" type="button" role="tab"
-                                       aria-controls="v-pills-messages" aria-selected="false">
+                                       data-bs-target="#v-pills-calendar" type="button" role="tab"
+                                       aria-controls="v-pills-calendar" aria-selected="false">
                                         <i class="ti ti-calendar me-2"></i> Calendar
                                     </a>
                                     <a class="nav-link text-left" id="v-pills-settings-tab" data-bs-toggle="pill"
@@ -68,8 +68,8 @@
                                         <i class="ti ti-settings me-2"></i> Settings
                                     </a>
                                     <a class="nav-link text-left" id="v-pills-help-tab" data-bs-toggle="pill"
-                                       data-bs-target="#v-pills-settings" type="button" role="tab"
-                                       aria-controls="v-pills-settings" aria-selected="false">
+                                       data-bs-target="#v-pills-help" type="button" role="tab"
+                                       aria-controls="v-pills-help" aria-selected="false">
                                         <i class="ti ti-help me-2"></i> Help Center
                                     </a>
                                 </div>
@@ -77,18 +77,18 @@
                         </div>
                     </div>
                 </div>
-                <button class="btn text-center mt-3 d-flex justify-content-center align-items-center"
+                <button class="btn text-center mt-md-3 mt-1 d-flex justify-content-center align-items-center"
                         style="border: 2px solid; border-radius: 10px; font-weight: 700; font-size: 15px;">
                     <i class="ti ti-logout me-2"></i> Log Out
                 </button>
             </div>
         </div>
-        <div class="col-10">
+        <div class="col-9 col-xxl-10">
             <div class="right-side">
                 <nav class="navbar navbar-expand-lg navbar-light bg-light custom-navbar rounded-3">
                     <div class="container-fluid">
                         <div class="nav-brand">
-                            <span class="ministry-logo">Ministry of Regain</span>
+                            <h6 class="ministry-logo mb-0">Ministry of Regain</h6>
                             <ol class="breadcrumb mb-0">
                                 <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">Organization</li>
@@ -123,7 +123,7 @@
                             <div class="row">
                                 <div class="col-3">
                                     <div class="card" style="border-radius: 20px">
-                                        <div class="card-body px-5">
+                                        <div class="card-body px-xl-3 px-2">
                                             <h5 class="card-title mb-0">142</h5>
                                             <span class="card-subtitle text-muted">Total Practitioners</span>
                                         </div>
@@ -131,7 +131,7 @@
                                 </div>
                                 <div class="col-3">
                                     <div class="card" style="border-radius: 20px">
-                                        <div class="card-body px-5">
+                                        <div class="card-body px-xl-3 px-2">
                                             <h5 class="card-title mb-0">12</h5>
                                             <span class="card-subtitle text-muted">Total Practitioners</span>
                                         </div>
@@ -139,7 +139,7 @@
                                 </div>
                                 <div class="col-3">
                                     <div class="card" style="border-radius: 20px">
-                                        <div class="card-body px-5">
+                                        <div class="card-body px-xl-3 px-2">
                                             <h5 class="card-title mb-0" style="color: rgba(40, 199, 111, 1)">74%</h5>
                                             <span class="card-subtitle text-muted">Patient Satisfaction</span>
                                         </div>

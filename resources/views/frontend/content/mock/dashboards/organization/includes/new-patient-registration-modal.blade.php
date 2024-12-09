@@ -4,7 +4,7 @@
         <div class="modal-content p-3 p-md-5" style="background-color: rgba(255, 255, 255, 1);">
             <form>
                 <div class="form-group">
-                    <input type="text" id="name" class="form-control" name="name">
+                    <input type="hidden" id="name" class="form-control" name="name">
                     <input type="hidden" id="birthday" class="form-control" name="birthday">
                     <input type="hidden" id="region_id" class="form-control" name="region_id">
                     <input type="hidden" id="post_code" class="form-control" name="post_code">
@@ -70,7 +70,7 @@
 
             let name = document.getElementById('name-visible').value;
             let dateOfBirthday = document.getElementById('date-of-birthday-visible').value;
-            let region = document.getElementById('region-visible').value;
+            let region = document.getElementById('region-visible').selectedOptions[0].value;
             let postCode = document.getElementById('post-code-visible').value;
             let primaryPhone = document.getElementById('primary-phone-visible').value;
             let email = document.getElementById('email-visible').value;
