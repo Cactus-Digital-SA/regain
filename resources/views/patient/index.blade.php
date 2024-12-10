@@ -31,7 +31,7 @@
             <form id="input-form_{{$question->getId()}}" class="collect-question" data-question-id="{{$question->getId()}}" data-condition-question-id="{{$question->getRequiredQuestionId()}}" data-condition-required-response-ids="[{{implode(", ", $question->getRequiredQuestionResponseIds())}}]">
                 @csrf
                 <div class="question mb-5">
-                    <span class="question-span">{{$question->getTitle()}}</span>
+                    <span class="question-span">{{$question->getTitle()}} ({{$question->getInstruction()->getContent()}})</span>
                     <ul class="list-unstyled grid-layout mt-3">
                         @foreach ($question->getResponses() as $response)
                             <li>
@@ -104,24 +104,20 @@
 
         // Event listener for checkboxes
         checkboxes.forEach(checkbox => {
-            checkbox.addEventListener('click', function () {
+            checkbox.addEventListener('click', function (event) {
                 const questionId = this.dataset.questionId;
 
-                // Enforce max selections (limit to 2)
-                enforceMaxSelections(questionId);
-
-                // Update the hidden input for responses
-                const form = document.getElementById(`submit-form`);
-                const responseInputs = form.querySelectorAll('input[name="questionResponseIds[]"]');
-                responseInputs.forEach(input => input.remove());
-
-                // Collect selected response IDs
-                const selectedResponses = [];
-                document.querySelectorAll(`input[name="response-${questionId}[]"]:checked`)
-                    .forEach(checkbox => {
-                        selectedResponses.push(parseInt(checkbox.dataset.responseId));
+                const inputForm = document.getElementById(`input-form_` + questionId);
+                const formAvailableCheckBoxes = inputForm.querySelectorAll('input[name="response-' + questionId + '[]"]');
+                const formCheckedBoxes = Array.from(formAvailableCheckBoxes).filter(checkbox => checkbox.checked);
+                if (formCheckedBoxes.length > 1) {
+                    formAvailableCheckBoxes.forEach(cb => {
+                        if (cb !== event.currentTarget) {
+                            cb.checked = false;
+                        }
                     });
-
+                }
+                // enforceMaxSelections(questionId);
 
                 const dependantForms = document.querySelectorAll('form[data-condition-question-id]:not([data-condition-question-id=""])');
                 dependantForms.forEach(form => {
