@@ -57,17 +57,18 @@ class ReportsController
                 $totalScoreResult = DB::select("SELECT label, notes
                 FROM (
                     SELECT threshold_test_limits.*, 
-                    (SELECT score FROM user_test_scores WHERE user_id = ? AND test_id = ?) AS userScore
+                    (SELECT score FROM user_test_scores WHERE user_id = ? AND test_id = ?) AS user_score
                     FROM threshold_test_limits
                     INNER JOIN thresholds ON thresholds.id = threshold_test_limits.threshold_id
                     WHERE thresholds.test_id = ?
                 ) AS final
-                WHERE final.userScore BETWEEN final.low AND final.high
+                WHERE final.user_score BETWEEN final.low AND final.high
                  ", [$form->getUserId(), $test->getId(), $test->getId()]);
                 if (count($totalScoreResult) === 1) {
                     $testResult->setTestResult((new ReportTestResultTotalResult())
                         ->setResultLabel($totalScoreResult[0]->label)
                         ->setResultNotes($totalScoreResult[0]->notes ?? "")
+                        ->setScore($totalScoreResult[0]->user_score ?? 0)
                     );
                 }
 

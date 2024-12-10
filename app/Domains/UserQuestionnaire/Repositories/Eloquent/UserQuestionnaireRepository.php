@@ -19,7 +19,7 @@ class UserQuestionnaireRepository implements UserQuestionnaireRepositoryInterfac
      * @param QuestionnaireFlowType $flow
      * @return int[]
      */
-    public function getForUserAndFlow(int $userId, QuestionnaireFlowType $flow): array
+    public function getQuestionsForUserAndFlow(int $userId, QuestionnaireFlowType $flow): array
     {
         $questions = UserQuestionnaireEloquent::where("user_id", $userId)
                                               ->where("questionnaire_flow_type", $flow->value)
@@ -29,6 +29,20 @@ class UserQuestionnaireRepository implements UserQuestionnaireRepositoryInterfac
         }
 
         return unserialize($questions[0]->generated_questions, ["allowed_classes" => true]);
+    }
+
+    /**
+     * @param int                   $userId
+     * @param QuestionnaireFlowType $flow
+     * @return bool
+     */
+    public function getCompleted(int $userId, QuestionnaireFlowType $flow): bool
+    {
+        $completed = UserQuestionnaireEloquent::where("user_id", $userId)
+                                              ->where("questionnaire_flow_type", $flow->value)
+                                              ->get("completed");
+
+        return $completed;
     }
 
     public function get(): ?array
@@ -45,6 +59,16 @@ class UserQuestionnaireRepository implements UserQuestionnaireRepositoryInterfac
         ]);
 
         return ObjectSerializer::deserialize($userQuestionnaire?->toJson() ?? "{}", UserQuestionnaire::class, 'json');
+    }
+
+    public function setCompleted(int $userId, QuestionnaireFlowType $type, bool $completed): int
+    {
+        return UserQuestionnaireEloquent::where([
+            'user_id'                 => $userId,
+            'questionnaire_flow_type' => $type->value,
+        ])->update([
+            'completed' => $completed
+        ]);
     }
 
     public function update(CactusEntity $entity, string $id): ?CactusEntity

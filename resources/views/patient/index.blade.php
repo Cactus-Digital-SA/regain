@@ -1,6 +1,6 @@
 @php
     /**
-     * @var App\Domains\Questions\Models\Question[] $questions
+     * @var App\Domains\Questions\Models\QuestionsPresenter[] $presenter
     */
 @endphp
 
@@ -26,37 +26,42 @@
 @include('frontend.content.mock.includes.navbar')
 
 <div class="dob-container">
-    @foreach ($questions as $question)
-        <div class="container px-3 py-2 {{$question->isHiddenBecauseOfRequired() ? "hidden" : ""}}" data-hide="{{$question->isHiddenBecauseOfRequired() ? "true" : "false"}}">
-            <form id="input-form_{{$question->getId()}}" class="collect-question" data-question-id="{{$question->getId()}}" data-condition-question-id="{{$question->getRequiredQuestionId()}}" data-condition-required-response-ids="[{{implode(", ", $question->getRequiredQuestionResponseIds())}}]">
-                @csrf
-                <div class="question mb-5">
-                    <span class="question-span">{{$question->getTitle()}} ({{$question->getInstruction()->getContent()}})</span>
-                    <ul class="list-unstyled grid-layout mt-3">
-                        @foreach ($question->getResponses() as $response)
-                            <li>
-                                <input
-                                        type="checkbox"
-                                        class="select-response radio-label round"
-                                        data-question-id="{{$question->getId()}}"
-                                        data-response-id="{{$response->getId()}}"
-                                        id="response-{{$question->getId()}}-{{$response->getId()}}"
-                                        name="response-{{$question->getId()}}[]">
-                                <label for="response-{{$question->getId()}}-{{$response->getId()}}" class="toggle">
-                                    <span class="radio-label round">{{ $response->getTitle() }}</span>
-                                </label>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
+    @if ($presenter->isCompleted())
+        Completed!!
+    @else
+        @foreach ($presenter->getQuestions() as $question)
+            <div class="container px-3 py-2 {{$question->isHiddenBecauseOfRequired() ? "hidden" : ""}}" data-hide="{{$question->isHiddenBecauseOfRequired() ? "true" : "false"}}">
+                <form id="input-form_{{$question->getId()}}" class="collect-question" data-question-id="{{$question->getId()}}" data-condition-question-id="{{$question->getRequiredQuestionId()}}" data-condition-required-response-ids="[{{implode(", ", $question->getRequiredQuestionResponseIds())}}]">
+                    @csrf
+                    <div class="question mb-5">
+                        <span class="question-span">{{$question->getTitle()}} ({{$question->getInstruction()->getContent()}})</span>
+                        <ul class="list-unstyled grid-layout mt-3">
+                            @foreach ($question->getResponses() as $response)
+                                <li>
+                                    <input
+                                            type="checkbox"
+                                            class="select-response radio-label round"
+                                            data-question-id="{{$question->getId()}}"
+                                            data-response-id="{{$response->getId()}}"
+                                            id="response-{{$question->getId()}}-{{$response->getId()}}"
+                                            name="response-{{$question->getId()}}[]">
+                                    <label for="response-{{$question->getId()}}-{{$response->getId()}}" class="toggle">
+                                        <span class="radio-label round">{{ $response->getTitle() }}</span>
+                                    </label>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </form>
+            </div>
+        @endforeach
+
+        <div class="d-flex justify-content-center">
+            <form id="submit-form">
+                <button type="button" class="btn btn-primary mt-3" id="next-button" disabled>Next</button>
             </form>
         </div>
-    @endforeach
-    <div class="d-flex justify-content-center">
-        <form id="submit-form">
-            <button type="button" class="btn btn-primary mt-3" id="next-button" disabled>Next</button>
-        </form>
-    </div>
+    @endif
 </div>
 <div id="overlay" class="overlay">
     <div class="spinner"></div>
@@ -84,23 +89,6 @@
             nextButton.disabled = missing;
         }
 
-        // Function to handle max selections logic
-        function enforceMaxSelections(questionId) {
-            const form = document.getElementById(`input-form_${questionId}`);
-            const checkboxes = form.querySelectorAll('input[name="response-' + questionId + '[]"]');
-            const selectedResponses = Array.from(checkboxes).filter(checkbox => checkbox.checked);
-
-            // Limit to max 2 selections
-            if (selectedResponses.length > 1) {
-                alert('You can select up to 1 responses only.');
-                // Uncheck the last selected checkbox to respect the max selection
-                selectedResponses[selectedResponses.length - 1].checked = false;
-            }
-
-            // Update the Next button state
-            updateNextButtonState();
-        }
-
 
         // Event listener for checkboxes
         checkboxes.forEach(checkbox => {
@@ -117,7 +105,6 @@
                         }
                     });
                 }
-                // enforceMaxSelections(questionId);
 
                 const dependantForms = document.querySelectorAll('form[data-condition-question-id]:not([data-condition-question-id=""])');
                 dependantForms.forEach(form => {
@@ -144,7 +131,8 @@
                                 questionContainer.dataset.hide = "true"
                             }
                         } else {
-                            questionContainer.classList.add('true');
+                            questionContainer.classList.add('hidden');
+                            questionContainer.dataset.hide = "true"
                         }
                     }
 
@@ -165,16 +153,19 @@
                 let selectedResponsesFinal = [];
                 document.querySelectorAll(`.collect-question`)
                     .forEach(questionForm => {
-                        questionData = {};
-                        questionData.questionId = parseInt(questionForm.dataset.questionId);
-                        questionData.responses = [];
+                        questionContainer = questionForm.closest('.container');
+                        if (questionContainer.dataset.hide === "false") {
+                            questionData = {};
+                            questionData.questionId = parseInt(questionForm.dataset.questionId);
+                            questionData.responses = [];
 
-                        // Add the selected response ID to the questionData object
-                        responses = questionForm.querySelectorAll(`.select-response:checked`).forEach(response => {
-                            questionData.responses.push(parseInt(response.dataset.responseId));
-                        });
+                            // Add the selected response ID to the questionData object
+                            responses = questionForm.querySelectorAll(`.select-response:checked`).forEach(response => {
+                                questionData.responses.push(parseInt(response.dataset.responseId));
+                            });
 
-                        selectedResponsesFinal.push(questionData);
+                            selectedResponsesFinal.push(questionData);
+                        }
                     });
 
                 if (selectedResponsesFinal.length > 0) {
@@ -200,11 +191,11 @@
             }
         );
 
-        overlay.style.display = 'none'; // Hide the overlay if no responses were selected
+        overlay.style.display = 'none';
         nextButton.disabled = false;
 
         // Initialize the "Next" button state
-        updateNextButtonState(); // Check if the "Next" button should be enabled
+        updateNextButtonState();
     });
 </script>
 </body>

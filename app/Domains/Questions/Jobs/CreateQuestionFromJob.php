@@ -69,6 +69,8 @@ class CreateQuestionFromJob implements ShouldQueue
         $instructions = (string)$row['instructions'];
         $question     = (string)$row['question'];
 
+        $selectMultiple = array_key_exists('multiple', $row->toArray()) && (int)$row['multiple'] === 1;
+
         $requiredQuestion  = array_key_exists('required_question', $row->toArray()) ? $row['required_question'] : null;
         $requiredResponses = array_key_exists('required_response', $row->toArray()) ? $row['required_response'] : null;
         $userInput         = array_key_exists('user_input', $row->toArray()) ? $row['user_input'] ?? false : false;
@@ -170,6 +172,7 @@ class CreateQuestionFromJob implements ShouldQueue
         $questionDTO->setRequiredResponses($requiredResponsesIds);
         $questionDTO->setLanguages([$language_id => ['question' => $question]]);
         $questionDTO->setUserInput($userInput);
+        $questionDTO->setSelectMultiple($selectMultiple);
 
         $questionService->storeWithId($questionDTO, $id);
     }

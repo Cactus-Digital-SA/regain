@@ -21,11 +21,21 @@ class UserQuestionnaireService
      */
     public function getForUserAndFlow(int $userId, QuestionnaireFlowType $flow): array
     {
-        return $this->repository->getForUserAndFlow($userId, $flow);
+        return $this->repository->getQuestionsForUserAndFlow($userId, $flow);
     }
 
     public function store(CactusEntity $entity): ?CactusEntity
     {
         return $this->repository->store($entity);
+    }
+
+    public function getCompleted(int $userId, QuestionnaireFlowType $flow): bool
+    {
+        return $this->repository->getCompleted($userId, $flow);
+    }
+
+    public function setCompleted(int $userId, QuestionnaireFlowType $flow, bool $completed): int
+    {
+        return $this->repository->setCompleted($userId, $flow, $completed);
     }
 }

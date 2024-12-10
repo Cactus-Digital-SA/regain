@@ -34,7 +34,7 @@ class QuestionsImport implements WithMultipleSheets
      */
     public static function createInstruction(string $instruction, int $language_id): ?int
     {
-        if ($instruction != null && $instruction != '-') {
+        if ($instruction != null && $instruction !== '-') {
             /** @var InstructionService $instructionService */
             $instructionService = Container::getInstance()->get(InstructionService::class);
 

@@ -31,10 +31,10 @@ class PatientController extends Controller
      */
     public function index(): View
     {
-        $questions = $this->questionsService->fetchQuestionsAlt(Auth::id(), 10);
+        $presenter = $this->questionsService->fetchQuestionsAlt(Auth::id(), 10);
 
         return view('patient.index')->with(
-            ["questions" => $questions]
+            ["presenter" => $presenter]
         );
     }
 

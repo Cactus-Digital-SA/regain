@@ -40,7 +40,7 @@ class Question extends CactusEntity
     /**
      * @var ?bool $selectMultiple
      * @JMS\Serializer\Annotation\SerializedName("select_multiple")
-     * @JMS\Serializer\Annotation\Type("int")
+     * @JMS\Serializer\Annotation\Type("bool")
      */
     private ?bool $selectMultiple = null;
     /**

@@ -34,6 +34,12 @@ class UserQuestionnaire extends CactusEntity
      */
     private array $questionIds;
     /**
+     * @var bool
+     * @JMS\Serializer\Annotation\SerializedName("completed")
+     * @JMS\Serializer\Annotation\Type("bool")
+     */
+    private bool $completed;
+    /**
      * @var ?User $user
      * @JMS\Serializer\Annotation\SerializedName("user")
      * @JMS\Serializer\Annotation\Type("App\Domains\Auth\Models\User")
@@ -84,6 +90,18 @@ class UserQuestionnaire extends CactusEntity
     public function setQuestionIds(array $questionIds): UserQuestionnaire
     {
         $this->questionIds = $questionIds;
+
+        return $this;
+    }
+
+    public function isCompleted(): bool
+    {
+        return $this->completed;
+    }
+
+    public function setCompleted(bool $completed): UserQuestionnaire
+    {
+        $this->completed = $completed;
 
         return $this;
     }

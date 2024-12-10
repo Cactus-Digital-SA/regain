@@ -1,8 +1,9 @@
-@php use App\Domains\Reports\Http\Dtos\ReportResults; @endphp
 @php
-    /**
-     * @var ReportResults $result
-    */
+    use App\Domains\Reports\Http\Dtos\ReportResults;
+    use \App\Domains\Thresholds\Models\Constants\ThresholdDisplayType;
+/**
+* @var ReportResults $result
+*/
 @endphp
 
         <!DOCTYPE html>
@@ -19,12 +20,10 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
             background-color: #f0f0f0;
         }
 
         table {
-            width: 80%; /* 80% of the screen width */
             border-collapse: collapse; /* Collapse borders for a cleaner look */
             border: 1px solid black; /* Outer border */
             text-align: left; /* Default alignment for table content */
@@ -54,11 +53,30 @@
         <br><br>
         <hr>
         <div>
-            {{$testResult->getTest()->getName()}}
+            {{$testResult->getTest()->getName()}}<br>
+            @if ($testResult !== null && $testResult->getTestResult() !== null)
+                {{$testResult->getTestResult()->getResultLabel()}}
+                @if ($testResult->getTestResult()->getResultNotes() !== null)
+                    <br>
+                    {{$testResult?->getTestResult()?->getResultNotes()}}
+                @endif
+            @endif
         </div>
         <hr>
+        @if ($testResult->getDisplayType()  === ThresholdDisplayType::DISPLAY)
+            <table>
+                @foreach ($testResult->getPlainResponses() as $plainResponse)
+                    <tr>
+                        <td>{{$plainResponse->getQuestion()}}</td>
+                        <td>{{$plainResponse->getAnswer()}}</td>
+                    </tr>
+                @endforeach
+            </table>
+        @endif
+        @if ($testResult->getDisplayType()  === ThresholdDisplayType::TOTAL_SCORE)
+            <div>Total Score: {{$testResult->getTestResult()->getScore()}}</div>
+        @endif
         @if ($testResult->getSubscaleItems() > 0)
-            <b>{{$testResult->getSubscaleItems()}}</b>
             <table>
                 <tr>
                     <td><h3>{{$testResult->getTest()->getName()}} Subscales</h3></td>

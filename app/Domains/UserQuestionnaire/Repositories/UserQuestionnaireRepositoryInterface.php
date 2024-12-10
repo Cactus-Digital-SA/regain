@@ -16,7 +16,11 @@ interface UserQuestionnaireRepositoryInterface extends RepositoryInterface
      * @param QuestionnaireFlowType $flow
      * @return int[]
      */
-    public function getForUserAndFlow(int $userId, QuestionnaireFlowType $flow): array;
+    public function getQuestionsForUserAndFlow(int $userId, QuestionnaireFlowType $flow): array;
 
     public function store(UserQuestionnaire|CactusEntity $entity): ?CactusEntity;
+
+    public function getCompleted(int $userId, QuestionnaireFlowType $flow): bool;
+
+    public function setCompleted(int $userId, QuestionnaireFlowType $type, bool $completed): int;
 }

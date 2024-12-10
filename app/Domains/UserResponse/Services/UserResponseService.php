@@ -4,9 +4,11 @@ declare(strict_types = 1);
 
 namespace App\Domains\UserResponse\Services;
 
+use App\Domains\QuestionnaireFlow\Constants\QuestionnaireFlowType;
 use App\Domains\Questions\Repositories\Eloquent\Models\Question;
 use App\Domains\Questions\Repositories\Eloquent\Models\QuestionResponse;
 use App\Domains\Scores\Services\UserScoreService;
+use App\Domains\UserQuestionnaire\Services\UserQuestionnaireService;
 use App\Domains\UserResponse\Http\Dtos\SubmittedUserResponsesForm;
 use App\Domains\UserResponse\Http\Dtos\SubmittedUserResponsesQuestionForm;
 use App\Domains\UserResponse\Repositories\Eloquent\Models\UserResponse;
@@ -16,6 +18,7 @@ readonly class UserResponseService
 {
     public function __construct(
         private UserScoreService $userScoreService,
+        private UserQuestionnaireService $userQuestionnaireService,
     ) {
     }
 
@@ -70,5 +73,12 @@ readonly class UserResponseService
         }
 
         return $status;
+    }
+
+    public function userHasCompletedFlow(int $userId, QuestionnaireFlowType $type): bool
+    {
+        $userQuestions = $this->userQuestionnaireService->getForUserAndFlow($userId, $type);
+
+        return false;
     }
 }
