@@ -2,24 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Organization Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.24.0/dist/tabler-icons.min.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.slim.js"
-            integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.24.0/dist/tabler-icons.min.css">
+    @include('includes.datatable_styles')
+    @include('includes.datatable_scripts')
+    @vite(['resources/css/organization-dashboard.css'])
 </head>
-<style>
-</style>
 <body>
-
-@include('includes.datatable_styles')
-@include('includes.datatable_scripts')
-@vite(['resources/css/organization-dashboard.css'])
 @include('frontend.content.mock.dashboards.organization.includes.new-patient-registration-modal')
-
+@include('frontend.content.mock.dashboards.organization.includes.new-patient-registration-second-modal')
 <div class="container">
     <div class="row h-100 p-4">
         <div class="col-3 col-xxl-2 bg-light me-0 rounded-4 main-menu">
@@ -32,13 +33,16 @@
                     <div>
                         <div class="row">
                             <div class="my-1 my-lg-5">
-                                <a class="nav-link text-left" id="v-pills-patient-registration-tab" data-bs-toggle="pill"
-                                   data-bs-target="#v-pills-patient-registration" type="button" role="tab" aria-controls="v-pills-patient-registration"
+                                <a class="nav-link text-left" id="v-pills-patient-registration-tab"
+                                   data-bs-toggle="pill"
+                                   data-bs-target="#v-pills-patient-registration" type="button" role="tab"
+                                   aria-controls="v-pills-patient-registration"
                                    aria-selected="true" style="color:#000; font-weight:bold;">
                                     Patient Registration
                                 </a>
                                 <a class="nav-link text-left mt-1 mt-sm-3" id="v-pills-add-practitioner-tab"
-                                   data-bs-toggle="pill" data-bs-target="#v-pills-add-practitioner" type="button" role="tab"
+                                   data-bs-toggle="pill" data-bs-target="#v-pills-add-practitioner" type="button"
+                                   role="tab"
                                    aria-controls="v-pills-add-practitioner" aria-selected="false"
                                    style="color:#000; font-weight:bold;">
                                     Add Practitioner
@@ -47,13 +51,17 @@
                             <div class="d-flex flex-column justify-content-between ms-0 ps-0">
                                 <div class="nav flex-column nav-pills nav-pills-custom" id="v-pills-tab" role="tablist"
                                      aria-orientation="vertical">
-                                    <a class="nav-link text-left patient-directory-tab" id="v-pills-patient-directory-tab"
-                                       data-bs-toggle="pill" data-bs-target="#v-pills-patient-directory" type="button" role="tab"
+                                    <a class="nav-link text-left patient-directory-tab"
+                                       id="v-pills-patient-directory-tab"
+                                       data-bs-toggle="pill" data-bs-target="#v-pills-patient-directory" type="button"
+                                       role="tab"
                                        aria-controls="v-pills-patient-directory" aria-selected="true">
                                         <i class="ti ti-man-filled me-2"></i> Patient Directory
                                     </a>
-                                    <a class="nav-link active text-left practitioner-directory-tab" id="v-pills-practitioner-directory-tab"
-                                       data-bs-toggle="pill" data-bs-target="#v-pills-practitioner-directory" type="button" role="tab"
+                                    <a class="nav-link active text-left practitioner-directory-tab"
+                                       id="v-pills-practitioner-directory-tab"
+                                       data-bs-toggle="pill" data-bs-target="#v-pills-practitioner-directory"
+                                       type="button" role="tab"
                                        aria-controls="v-pills-practitioner-directory" aria-selected="false">
                                         <i class="ti ti-user-screen me-2"></i> Practitioner Directory
                                     </a>
@@ -103,7 +111,7 @@
                             </div>
                             <div class="nav-buttons col-auto">
                                 <button type="button" class="btn btn-success add-pract-button" data-bs-toggle="modal"
-                                        data-bs-target="#newPatientRegistration"><i
+                                        data-bs-target="#newPatientRegistrationSecond"><i
                                         class="ti ti-plus"></i> Add Practitioner
                                 </button>
                                 <button href="#" class="btn btn-lg notification-button rounded-pill"
@@ -118,75 +126,143 @@
                 <div class="tab-content mt-4" id="v-pills-tabContent">
                     <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
                          aria-labelledby="v-pills-home-tab">
-                        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
-                             aria-labelledby="v-pills-home-tab">
-                            <div class="row">
-                                <div class="col-3">
-                                    <div class="card" style="border-radius: 20px">
-                                        <div class="card-body px-xl-3 px-2">
-                                            <h5 class="card-title mb-0">142</h5>
-                                            <span class="card-subtitle text-muted">Total Practitioners</span>
-                                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="card" style="border-radius: 20px">
+                                    <div class="card-body px-xl-3 px-2">
+                                        <h5 class="card-title mb-0">142</h5>
+                                        <span class="card-subtitle text-muted">Total Practitioners</span>
                                     </div>
                                 </div>
-                                <div class="col-3">
-                                    <div class="card" style="border-radius: 20px">
-                                        <div class="card-body px-xl-3 px-2">
-                                            <h5 class="card-title mb-0">12</h5>
-                                            <span class="card-subtitle text-muted">Total Practitioners</span>
-                                        </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="card" style="border-radius: 20px">
+                                    <div class="card-body px-xl-3 px-2">
+                                        <h5 class="card-title mb-0">12</h5>
+                                        <span class="card-subtitle text-muted">Total Practitioners</span>
                                     </div>
                                 </div>
-                                <div class="col-3">
-                                    <div class="card" style="border-radius: 20px">
-                                        <div class="card-body px-xl-3 px-2">
-                                            <h5 class="card-title mb-0" style="color: rgba(40, 199, 111, 1)">74%</h5>
-                                            <span class="card-subtitle text-muted">Patient Satisfaction</span>
-                                        </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="card" style="border-radius: 20px">
+                                    <div class="card-body px-xl-3 px-2">
+                                        <h5 class="card-title mb-0" style="color: rgba(40, 199, 111, 1)">74%</h5>
+                                        <span class="card-subtitle text-muted">Patient Satisfaction</span>
                                     </div>
                                 </div>
-                                <div class="col-3">
-                                    <select class="dropdown-select" name="month">
-                                        <option value="">Filter by month</option>
-                                        @foreach (['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] as $month)
-                                            <option value="{{ $month }}">{{ $month }}</option>
-                                        @endforeach
-                                    </select>
-                                    <select class="dropdown-select mt-2" name="year">
-                                        <option value="">Filter by year</option>
-                                        @for ($i = date('Y'); $i >= 1900; $i--)
-                                            <option value="{{ $i }}">{{ $i }}</option>
-                                        @endfor
-                                    </select>
-                                </div>
+                            </div>
+                            <div class="col-3">
+                                <select class="dropdown-select" name="month">
+                                    <option value="">Filter by month</option>
+                                    @foreach (['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] as $month)
+                                        <option value="{{ $month }}">{{ $month }}</option>
+                                    @endforeach
+                                </select>
+                                <select class="dropdown-select mt-2" name="year">
+                                    <option value="">Filter by year</option>
+                                    @for ($i = date('Y'); $i >= 1900; $i--)
+                                        <option value="{{ $i }}">{{ $i }}</option>
+                                    @endfor
+                                </select>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card overflow-hidden mt-4" style="border-radius: 20px">
+                <div
+                    class="filters-container mb-0 mt-4 d-flex align-items-center justify-content-center flex-wrap gap-3">
+                    <div class="search-container position-relative d-flex align-items-center flex-grow-1">
+                        <input type="text" class="form-control filter-input rounded-pill px-3"
+                               placeholder="Search by Name, ID" style="padding-right: 40px; width:100%;">
+                        <span class="search-icon position-absolute end-0 me-3" style="cursor:pointer;">
+                            <i class="ti ti-search"></i>
+                        </span>
+                    </div>
+
+                    <div class="dropdown-container flex-grow-1">
+                        <button
+                            class="filter-dropdown-btn rounded-pill w-100 text-start d-flex justify-content-between align-items-center"
+                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Description <i class="ti ti-chevron-down"></i>
+                        </button>
+                        <ul class="dropdown-menu w-100">
+                            <li><a class="dropdown-item" href="#">Option 1</a></li>
+                            <li><a class="dropdown-item" href="#">Option 2</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="dropdown-container flex-grow-1">
+                        <button
+                            class="filter-dropdown-btn rounded-pill w-100 text-start d-flex justify-content-between align-items-center"
+                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Region <i class="ti ti-chevron-down"></i>
+                        </button>
+                        <ul class="dropdown-menu w-100">
+                            <li><a class="dropdown-item" href="#">Region 1</a></li>
+                            <li><a class="dropdown-item" href="#">Region 2</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="dropdown-container flex-grow-1">
+                        <button
+                            class="filter-dropdown-btn rounded-pill w-100 text-start d-flex justify-content-between align-items-center"
+                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Status <i class="ti ti-chevron-down"></i>
+                        </button>
+                        <ul class="dropdown-menu w-100">
+                            <li><a class="dropdown-item" href="#">Active</a></li>
+                            <li><a class="dropdown-item" href="#">Inactive</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="dropdown-container">
+                        <button class="filter-dropdown-btn rounded-pill" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                            10 <i class="ti ti-chevron-down"></i>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">10</a></li>
+                            <li><a class="dropdown-item" href="#">25</a></li>
+                            <li><a class="dropdown-item" href="#">50</a></li>
+                            <li><a class="dropdown-item" href="#">100</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="dropdown-container">
+                        <button class="filter-dropdown-btn rounded-pill d-flex align-items-center gap-2" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false" style="background-color:rgba(221, 222, 241, 1)">
+                            <i class="ti ti-download"></i> Export <i class="ti ti-chevron-down"></i>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Print</a></li>
+                            <li><a class="dropdown-item" href="#">CSV</a></li>
+                            <li><a class="dropdown-item" href="#">Excel</a></li>
+                            <li><a class="dropdown-item" href="#">PDF</a></li>
+                            <li><a class="dropdown-item" href="#">Copy</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card overflow-hidden"
+                     style=" border-radius: 20px; border-top-left-radius: 0; border-top-right-radius: 0;">
                     <div class="card-body p-0 m-0">
                         <div class="row">
                             <section id="column-selectors">
-                                <div class="table-responsive">
-                                    <table class="table datatable-practitioners dt-select-table">
-                                        <thead>
-                                        <tr class="text-center">
-                                            <th>#</th>
-                                            <th>Practitioner ID</th>
-                                            <th>Practitioner Name</th>
-                                            <th>Description</th>
-                                            <th>Registered</th>
-                                            <th>Region</th>
-                                            <th>Patients</th>
-                                            <th>Status</th>
-                                            <th class="text-end">##</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody class="text-center">
+                                <section id="column-selectors">
+                                    <div class="table-responsive">
+                                        <table class="table patients-datatable dt-select-table w-100">
+                                            <thead>
+                                            <tr class="text-center">
+                                                @foreach($columns as $column)
+                                                    <th> {{ __($column['name']) }}</th>
+                                                @endforeach
+                                                <th class="text-end">{{ __('Actions') }}</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody class="text-center">
 
-                                        </tbody>
-                                    </table>
-                                </div>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </section>
                             </section>
                         </div>
                     </div>
@@ -200,96 +276,109 @@
 
 
 <script type="module">
-    let dt_table = $('.datatable-practitioners');
-    if (dt_table.length) {
-        search();
+    $(function () {
+        let dt_basic_table = $('.patients-datatable');
 
-        function search() {
-            if ($.fn.DataTable.isDataTable('.datatable-practitioners')) {
-                dt_table.DataTable().destroy();
-            }
-            dt_table.DataTable({
-                scrollX: true,
-                responsive: false,
-                deferRender: true,
-                processing: true,
-                serverSide: true,
-                searching: false,
-                serverMethod: 'post',
-                ajax: {
-                    url: "",
-                    headers: {
-                        'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-                    },
-                    data: function (data) {
+        if (dt_basic_table.length) {
+            checkUrlParamsAndSetInputs()
 
-                    }
-                },
-                pageLength: 15,
-                lengthMenu: [
-                    [15, 30, 100],
-                    ['15', '30', '100']
-                ],
-                columns: [
-                    {data: 'id', orderable: false},
-                    {data: 'practitioner_id'},
-                    {data: 'practitioner_name'},
-                    {data: 'description'},
-                    {data: 'registered'},
-                    {data: 'region'},
-                    {data: 'patients'},
-                    {data: 'status'},
-                ],
-                columnDefs: [{
-                    className: 'control',
-                    orderable: false,
-                    responsivePriority: 2,
-                    targets: 0,
-                    visible: false,
-                },],
-                dom: '<"d-flex justify-content-between align-items-center mx-2 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"<"dt-action-buttons text-end"B>f>>t<"d-flex justify-content-between mx-0 row"<"d-flex justify-content-center col-12"i><"d-flex justify-content-center col-12"p>>',
-                "oLanguage": {
-                    "sSearch": "Filter Data"
-                },
-                "iDisplayLength": -1,
-                "sPaginationType": "full_numbers",
-                buttons: [{
-                    extend: 'collection',
-                    className: 'btn btn-outline-secondary dropdown-toggle me-2',
-                    text: '<i class="ti ti-logout rotate-n90 me-2"></i>' + '{{ __('locale.Export') }}',
-                    buttons: [{
-                        extend: 'print',
-                        text: '<i class="ti ti-printer me-2" ></i>Print',
-                        className: 'dropdown-item',
-                    },
-                        {
-                            extend: 'csv',
-                            text: '<i class="ti ti-file-text me-2" ></i>Csv',
-                            className: 'dropdown-item',
-                            charset: 'utf-8',
-                            bom: true,
+            mySearch();
+
+            function mySearch(filters) {
+                if ($.fn.DataTable.isDataTable('.patients-datatable')) {
+                    dt_basic_table.DataTable().destroy();
+                }
+
+                let currentFilters = filters;
+
+                let dt_basic = dt_basic_table.DataTable({
+                    processing: true,
+                    serverSide: true,
+                    searching: false,
+                    serverMethod: 'post',
+                    ajax: {
+                        url: "{{ route('mock.patients.datatable') }}",
+                        headers: {
+                            'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
                         },
-                        {
-                            extend: 'excel',
-                            text: '<i class="ti ti-file-spreadsheet me-2"></i>Excel',
-                            className: 'dropdown-item',
-                        },
-                        {
-                            extend: 'pdf',
-                            text: '<i class="ti ti-file-text me-2"></i>Pdf',
-                            className: 'dropdown-item',
-                        },
-                        {
-                            extend: 'copy',
-                            text: '<i class="ti ti-copy me-1" ></i>Copy',
-                            className: 'dropdown-item',
+                        data: function (data) {
+                            if (currentFilters && typeof currentFilters === 'object') {
+                                Object.keys(currentFilters).forEach(function (key) {
+                                    data[key] = currentFilters[key];
+                                });
+                            }
                         }
+                    },
+                    columns: [
+                        {data: 'id', searchable: false, orderable: false},
+                        {data: 'name', name: 'user.name', searchable: false, orderable: true},
+                        {data: 'registered', name: 'users.created_at', searchable: false, orderable: false},
+                        {data: 'status', name: 'status', searchable: false, orderable: false},
+                        {data: 'actions', searchable: false, orderable: false, className: 'text-end'},
                     ],
-                }],
+                    columnDefs: [],
+                    dom: 't<"d-flex justify-content-between mx-0 row"<"d-flex justify-content-center col-12"i><"d-flex justify-content-center col-12"p>>',
+                        paginate: {
+                            previous: '&nbsp;',
+                            next: '&nbsp;'
+                        },
+                        "search": "",
+                        "info": "",
+                        "infoEmpty": "",
+                        "emptyTable": "",
+                        "loadingRecords": "",
+                        language: {
+                            processing: '',
+                        },
+                        initComplete: function () {
+                            $('.dataTables_paginate > .pagination').addClass('pagination-rounded');
+                        }
+                });
+
+            }
+
+            $('#search').on("click", function () {
+                mySearch(filters);
+            });
+
+            function updateUrlWithFilters(filters) {
+                let searchParams = new URLSearchParams(window.location.search);
+
+                Object.keys(filters).forEach(function (key) {
+                    if (filters[key] && filters[key] != '') {
+                        searchParams.set(key, filters[key]);
+                    } else {
+                        searchParams.delete(key);
+                    }
+                });
+
+                const newUrl = window.location.pathname + '?' + searchParams.toString();
+                history.pushState(null, '', newUrl);
+            }
+
+            function checkUrlParamsAndSetInputs() {
+                // let searchParams = new URLSearchParams(window.location.search);
+                // if (searchParams.has('filterPatientName')) {
+                //     $('#filter_patient_name').val(searchParams.get('filterPatientName'));
+                // }
+            }
+
+            let elementsArray = document.querySelectorAll(".enter_filter");
+
+            elementsArray.forEach(function (elem) {
+                elem.addEventListener("keypress", function () {
+                    if (event.key === "Enter") {
+                        mySearch();
+                    }
+                });
             });
         }
-    }
+    });
 </script>
+
+<style>
+
+</style>
 
 </body>
 </html>

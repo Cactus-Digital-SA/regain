@@ -1,5 +1,4 @@
-<!-- Add Role Modal -->
-<div class="modal fade" id="newPatientRegistration" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="newPatientRegistrationSecond" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 60%; max-height: 100%">
         <div class="modal-content p-3 p-md-5" style="background-color: rgba(255, 255, 255, 1);">
             <form>
@@ -14,23 +13,26 @@
                 <h3 class="text-center mb-4" style="color: rgba(10, 19, 58, 1); font-weight: 700; font-size: 24px;">New Patient Registration</h3>
                 <form id="new-patient-registration-form" method="POST" onsubmit="return false">
                     <div class="row g-4">
-                        <div class="col-md-6">
-                            <label for="mobility-visible" class="form-label">Input 8</label>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="mobility-visible" id="mobility-yes" value="yes" required>
-                                <label class="form-check-label" for="mobility-yes">Yes</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="mobility-visible" id="mobility-no" value="no" required>
-                                <label class="form-check-label" for="mobility-no">No</label>
+                        <div class="col-md-12">
+                            <label for="mobility-visible" class="form-label">Accessible Mobility</label>
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="radio" class="btn-check" name="mobility-visible" id="mobility-yes" value="yes" required>
+                                    <label class="btn w-100 mobility-button new-patient-input d-flex align-items-center justify-content-center" for="mobility-yes">Yes</label>
+                                </div>
+                                <div class="col-6">
+                                    <input type="radio" class="btn-check" name="mobility-visible" id="mobility-no" value="no" required>
+                                    <label class="btn w-100 mobility-button new-patient-input d-flex align-items-center justify-content-center" for="mobility-no">No</label>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <label for="note-visible" class="form-label">Input 9</label>
-                            <textarea id="note-visible" class="form-control new-patient-input" required style="max-height: 250px"></textarea>
+                        <div class="col-md-12">
+                            <label for="note-visible" class="form-label">Notes (Optional)</label>
+                            <textarea id="note-visible" class="form-control new-patient-input" style="min-height: 200px"></textarea>
                         </div>
-                        <div class="col-md-6 mt-5">
-                            <button type="submit" class="btn btn-primary btn-next" id="btn-next">Next</button>
+                        <div class="col-md-12 mt-5 d-flex justify-content-between">
+                            <button type="button" class="custom-back-btn" id="btn-back">Back</button>
+                            <button type="submit" class="custom-next-btn" id="btn-next">Register</button>
                         </div>
                     </div>
                 </form>

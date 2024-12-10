@@ -2,6 +2,7 @@
 
 namespace App\Domains\MockFront\Http\Controllers;
 
+use App\Domains\Patient\Services\PatientDataService;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -10,6 +11,10 @@ use Faker\Factory as Faker;
 
 class MockFrontController extends  Controller
 {
+    public function __construct(private PatientDataService $patientDataService)
+    {
+
+    }
 
     /**
      * @return View
@@ -58,7 +63,8 @@ class MockFrontController extends  Controller
 
     public function showOrganizationDashboard(): View
     {
-        return view('frontend.content.mock.dashboards.organization.index');
+        $columns = $this->patientDataService->getTableColumns();
+        return view('frontend.content.mock.dashboards.organization.index')->with('columns', $columns);
     }
 
 }
