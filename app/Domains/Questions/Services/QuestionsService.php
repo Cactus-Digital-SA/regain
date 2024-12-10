@@ -242,14 +242,18 @@ readonly class QuestionsService
 
         $index = 0;
         if ($activeQuestion !== null) {
+            $found = false;
             foreach ($questionsPool as $i => $value) {
                 if ($value > $activeQuestion->getId()) {
-                    $index = $i; // Return the index if the item is greater
+                    $index = $i;
+                    $found = true;
                     break;
                 }
             }
 
-            return [];
+            if (!$found) {
+                return $questions;
+            }
         }
 
         if ($take + $index > count($questionsPool)) {

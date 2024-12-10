@@ -67,13 +67,21 @@
         const nextButton = document.getElementById('next-button');
         const checkboxes = document.querySelectorAll('.select-response');
 
-        // Initialize an object to track if all questions have been answered
-        const answeredQuestions = {};
-
         // Function to handle checkbox change and update the 'Next' button state
         function updateNextButtonState() {
-            const allAnswered = Object.values(answeredQuestions).every(isAnswered => isAnswered);
-            nextButton.disabled = !allAnswered; // Enable "Next" only if all questions are answered
+            let missing = false;
+            checkboxes.forEach(checkbox => {
+                const questionId = checkbox.dataset.questionId;
+                const form = document.getElementById(`input-form_${questionId}`);
+                const container = form.closest('.container');
+                if (container && container.dataset.hide !== "true") {
+                    const checkboxesForQuestion = form.querySelectorAll('input[name="response-' + questionId + '[]"]:checked');
+                    if (checkboxesForQuestion.length === 0) {
+                        missing = true;
+                    }
+                }
+            });
+            nextButton.disabled = missing;
         }
 
         // Function to handle max selections logic
@@ -93,17 +101,10 @@
             updateNextButtonState();
         }
 
-        // Initialize answeredQuestions by checking the current state of all questions
-        checkboxes.forEach(checkbox => {
-            const questionId = checkbox.dataset.questionId;
-            const form = document.getElementById(`input-form_${questionId}`);
-            const checkboxesForQuestion = form.querySelectorAll('input[name="response-' + questionId + '[]"]:checked');
-            answeredQuestions[questionId] = checkboxesForQuestion.length > 0;
-        });
 
         // Event listener for checkboxes
         checkboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', function () {
+            checkbox.addEventListener('click', function () {
                 const questionId = this.dataset.questionId;
 
                 // Enforce max selections (limit to 2)
@@ -140,19 +141,18 @@
                             if (containsAnyId) {
                                 if (questionContainer) {
                                     questionContainer.classList.remove('hidden');
+                                    questionContainer.dataset.hide = "false"
                                 }
                             } else {
                                 questionContainer.classList.add('hidden');
+                                questionContainer.dataset.hide = "true"
                             }
                         } else {
-                            questionContainer.classList.add('hidden');
+                            questionContainer.classList.add('true');
                         }
                     }
 
                 });
-
-                // Track if this question is answered
-                answeredQuestions[questionId] = selectedResponses.length > 0;
                 updateNextButtonState();
             });
         });
@@ -209,10 +209,7 @@
 
         // Initialize the "Next" button state
         updateNextButtonState(); // Check if the "Next" button should be enabled
-
-
-    })
-    ;
+    });
 </script>
 </body>
 </html>
