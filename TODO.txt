@@ -1,62 +1,25 @@
-1) Practitioner
-    Practitioner Dashboard (need figma)
-        Medical Record (front & backend)
-        Show personal data (dynamic)
-        Show some tags from medical history
-        View & Download medical history
-        In appointment dates show the medical history and the submission of the socio-demographic & pre-assesment test
+ Check figma for final specs along with dimitris
 
-        Only show patients when they have completed the test (list patients)
+ Organization dashboard:
+     seed regions
+     show regions on patient creation
+     Seed practitioners for each region
 
-        Assign patients to practitioners based on geographic region
-        Seed practitioners for each region
-
-        Report generation (modal to show scores & pdf generation)
-
-2) Organization
-       Register patient (figma?)
-       List practitioners & patients (figma)
-
-3) Patient
-    save subscale score & test score (per question)
-    when they have completed the first 2 tests assign them automatically based on region
-    if they have completed the medical record then show the skills test
+ Practitioner Dashboard (need figma)
+     implement medical history flow
+     Show patient personal data
+     Show some tags from medical history
+     View & Download medical history
+     In appointment dates show the medical history and the submission of the socio-demographic & pre-assesment test
+     Only show patients to practitioners when they have completed the test (list patients)
+     css for report generation
+     create pdf (once created store and return the generated pdf for speed)
+     implement chatgpt call to populate report data
 
 
-    completion flow table
+General:
+    send email when user gets created
+    when the user completes the pre-assessment assign him to practitioner based on region
 
-
-
-
-Reference queries
-
-
-
-
-
-SELECT
-        ur.user_id,
-        q.test_id,
-        SUM(CASE
-                WHEN ur.score IS NOT NULL THEN ur.score
-                ELSE CAST(qr.score AS UNSIGNED)
-            END) AS total_score
-    FROM user_responses ur
-             INNER JOIN question_response qr ON ur.question_response_id = qr.id
-             INNER JOIN questions q ON qr.question_id = q.id
-    GROUP BY ur.user_id, q.test_id;
-
-    SELECT
-    	questions.title,
-      tests.name,
-      tests.id,
-      (SELECT
-	       question_response.score FROM question_response
-       WHERE question_response.id = user_responses.question_response_id AND question_response.question_id = user_responses.question_id)
-    FROM user_responses
-    INNER JOIN questions ON questions.id = user_responses.question_id
-    INNER JOIN tests ON tests.id = questions.test_id
-
-
-
-
+Patient
+    show skills questionnaire when user has completed medical history flow
