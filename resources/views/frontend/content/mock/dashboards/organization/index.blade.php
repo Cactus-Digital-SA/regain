@@ -34,15 +34,14 @@
                         <div class="row">
                             <div class="my-1 my-lg-5">
                                 <a class="nav-link text-left" id="v-pills-patient-registration-tab"
-                                   data-bs-toggle="pill"
-                                   data-bs-target="#v-pills-patient-registration" type="button" role="tab"
                                    aria-controls="v-pills-patient-registration"
+                                   type="button" data-bs-toggle="modal"
+                                   data-bs-target="#newPatientRegistration"
                                    aria-selected="true" style="color:#000; font-weight:bold;">
                                     Patient Registration
                                 </a>
                                 <a class="nav-link text-left mt-1 mt-sm-3" id="v-pills-add-practitioner-tab"
                                    data-bs-toggle="pill" data-bs-target="#v-pills-add-practitioner" type="button"
-                                   role="tab"
                                    aria-controls="v-pills-add-practitioner" aria-selected="false"
                                    style="color:#000; font-weight:bold;">
                                     Add Practitioner
@@ -111,7 +110,7 @@
                             </div>
                             <div class="nav-buttons col-auto">
                                 <button type="button" class="btn btn-success add-pract-button" data-bs-toggle="modal"
-                                        data-bs-target="#newPatientRegistrationSecond"><i
+                                        data-bs-target=""><i
                                         class="ti ti-plus"></i> Add Practitioner
                                 </button>
                                 <button href="#" class="btn btn-lg notification-button rounded-pill"
