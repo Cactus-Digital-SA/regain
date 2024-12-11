@@ -1,4 +1,4 @@
-<!-- Add Role Modal -->
+
 <div class="modal fade" id="newPatientRegistration" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 60%; max-height: 100%">
         <div class="modal-content p-3 p-md-5" style="background-color: rgba(255, 255, 255, 1);">
@@ -20,39 +20,39 @@
                 <form id="new-patient-registration-form" method="POST" onsubmit="return false">
                     <div class="row g-4">
                         <div class="col-md-6">
-                            <label for="name-visible" class="form-label">Input 1</label>
-                            <input type="text" id="name-visible" class="form-control new-patient-input" required>
+                            <label for="name-visible" class="form-label">Name and Surname</label>
+                            <input type="text" id="name-visible" class="form-control new-patient-input" placeholder="ex. Olha Maximova" required>
                         </div>
                         <div class="col-md-6">
-                            <label for="date-of-birthday-visible" class="form-label">Input 2</label>
-                            <input type="text" id="date-of-birthday-visible" class="form-control new-patient-input" required>
+                            <label for="date-of-birthday-visible" class="form-label">Date of Birth</label>
+                            <input type="text" id="date-of-birthday-visible" class="form-control new-patient-input" placeholder="DD/MM/YYYY" required>
                         </div>
                         <div class="col-md-6">
-                            <label for="region-visible" class="form-label">Input 3</label>
-                            <select id="region-visible" class="form-control new-patient-input" required>
+                            <label for="region-visible" class="form-label">Region</label>
+                            <select id="region-visible" class="form-control new-patient-input" placeholder="Select region" required>
                                 <option value="1">Region 1</option>
                                 <option value="2">Region 2</option>
                                 <option value="3">Region 3</option>
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label for="post-code-visible" class="form-label">Input 4</label>
-                            <input type="text" id="post-code-visible" class="form-control new-patient-input" required>
+                            <label for="post-code-visible" class="form-label">Post Code</label>
+                            <input type="text" id="post-code-visible" class="form-control new-patient-input" placeholder="ex. 54624" required>
                         </div>
                         <div class="col-md-6">
-                            <label for="primary-phone-visible" class="form-label">Input 5</label>
-                            <input type="text" id="primary-phone-visible" class="form-control new-patient-input" required>
+                            <label for="primary-phone-visible" class="form-label">Primary Phone Number</label>
+                            <input type="text" id="primary-phone-visible" class="form-control new-patient-input" placeholder="ex. +123 456 789" required>
                         </div>
                         <div class="col-md-6">
-                            <label for="email-visible" class="form-label">Input 6</label>
-                            <input type="text" id="email-visible" class="form-control new-patient-input" required>
+                            <label for="email-visible" class="form-label">Email</label>
+                            <input type="text" id="email-visible" class="form-control new-patient-input" placeholder="ex. maximova@gmail.com" required>
                         </div>
                         <div class="col-md-6">
-                            <label for="secondary-phone-visible" class="form-label">Input 7</label>
-                            <input type="text" id="secondary-phone-visible" class="form-control new-patient-input" required>
+                            <label for="secondary-phone-visible" class="form-label">Secondary Phone Number (Optional)</label>
+                            <input type="text" id="secondary-phone-visible" class="form-control new-patient-input" placeholder="ex. +123 456 789" required>
                         </div>
-                        <div class="col-md-6 mt-5">
-                            <button type="submit" class="btn btn-primary btn-next" id="btn-next">Next</button>
+                        <div class="col-md-6 mt-5 d-flex justify-content-end align-items-center">
+                            <button type="submit" class="custom-next-btn" id="btn-next">Next</button>
                         </div>
                     </div>
                 </form>
