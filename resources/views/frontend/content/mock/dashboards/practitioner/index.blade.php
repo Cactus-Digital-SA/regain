@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Organization Dashboard</title>
+    <title>Practitioner Dashboard</title>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
@@ -18,7 +18,7 @@
 
     @include('includes.datatable_styles')
     @include('includes.datatable_scripts')
-    @vite(['resources/css/organization-dashboard.css', 'resources/css/dashboard-common.css'])
+    @vite(['resources/css/practitioner-dashboard.css', 'resources/css/dashboard-common.css'])
 </head>
 <body>
 @include('frontend.content.mock.dashboards.organization.includes.new-patient-registration-modal')
@@ -41,13 +41,7 @@
                                    type="button" data-bs-toggle="modal"
                                    data-bs-target="#newPatientRegistration"
                                    aria-selected="true" style="color:#000; font-weight:bold;">
-                                    Patient Registration
-                                </a>
-                                <a class="nav-link text-left mt-1 mt-sm-3" id="v-pills-add-practitioner-tab"
-                                   data-bs-toggle="pill" data-bs-target="#v-pills-add-practitioner" type="button"
-                                   aria-controls="v-pills-add-practitioner" aria-selected="false"
-                                   style="color:#000; font-weight:bold;">
-                                    Add Practitioner
+                                    Patient Registration <span class="notification-count-patient d-flex justify-content-center align-items-center">1</span>
                                 </a>
                             </div>
                             <div class="d-flex flex-column justify-content-between ms-0 ps-0">
@@ -58,24 +52,12 @@
                                        data-bs-toggle="pill" data-bs-target="#v-pills-patient-directory" type="button"
                                        role="tab"
                                        aria-controls="v-pills-patient-directory" aria-selected="true">
-                                        <i class="ti ti-man-filled me-2"></i> Patient Directory
-                                    </a>
-                                    <a class="nav-link active text-left practitioner-directory-tab"
-                                       id="v-pills-practitioner-directory-tab"
-                                       data-bs-toggle="pill" data-bs-target="#v-pills-practitioner-directory"
-                                       type="button" role="tab"
-                                       aria-controls="v-pills-practitioner-directory" aria-selected="false">
-                                        <i class="ti ti-user-screen me-2"></i> Practitioner Directory
+                                        <i class="ti ti-man-filled me-2"></i> Patients
                                     </a>
                                     <a class="nav-link text-left" id="v-pills-calendar-tab" data-bs-toggle="pill"
                                        data-bs-target="#v-pills-calendar" type="button" role="tab"
                                        aria-controls="v-pills-calendar" aria-selected="false">
                                         <i class="ti ti-calendar me-2"></i> Calendar
-                                    </a>
-                                    <a class="nav-link text-left" id="v-pills-settings-tab" data-bs-toggle="pill"
-                                       data-bs-target="#v-pills-settings" type="button" role="tab"
-                                       aria-controls="v-pills-settings" aria-selected="false">
-                                        <i class="ti ti-settings me-2"></i> Settings
                                     </a>
                                     <a class="nav-link text-left" id="v-pills-help-tab" data-bs-toggle="pill"
                                        data-bs-target="#v-pills-help" type="button" role="tab"
@@ -98,10 +80,9 @@
                 <nav class="navbar navbar-expand-lg navbar-light bg-light custom-navbar rounded-3">
                     <div class="container-fluid">
                         <div class="nav-brand">
-                            <h6 class="navbar-logo mb-0">Ministry of Regain</h6>
+                            <h6 class="navbar-logo mb-0">Dr Andriy Semikhodov</h6>
                             <ol class="breadcrumb mb-0">
-                                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Organization</li>
+                                <li class="breadcrumb-item"><a href="#">Ministry of Regain</a></li>
                             </ol>
                         </div>
                         <div class="nav-search row">
@@ -170,81 +151,8 @@
                         </div>
                     </div>
                 </div>
-                <div
-                    class="filters-container mb-0 mt-4 d-flex align-items-center justify-content-center flex-wrap gap-3">
-                    <div class="search-container position-relative d-flex align-items-center flex-grow-1">
-                        <input type="text" class="form-control filter-input rounded-pill px-3"
-                               placeholder="Search by Name, ID" style="padding-right: 40px; width:100%;">
-                        <span class="search-icon position-absolute end-0 me-3" style="cursor:pointer;">
-                            <i class="ti ti-search"></i>
-                        </span>
-                    </div>
-
-                    <div class="dropdown-container flex-grow-1">
-                        <button
-                            class="filter-dropdown-btn rounded-pill w-100 text-start d-flex justify-content-between align-items-center"
-                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Description <i class="ti ti-chevron-down"></i>
-                        </button>
-                        <ul class="dropdown-menu w-100">
-                            <li><a class="dropdown-item" href="#">Option 1</a></li>
-                            <li><a class="dropdown-item" href="#">Option 2</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="dropdown-container flex-grow-1">
-                        <button
-                            class="filter-dropdown-btn rounded-pill w-100 text-start d-flex justify-content-between align-items-center"
-                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Region <i class="ti ti-chevron-down"></i>
-                        </button>
-                        <ul class="dropdown-menu w-100">
-                            <li><a class="dropdown-item" href="#">Region 1</a></li>
-                            <li><a class="dropdown-item" href="#">Region 2</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="dropdown-container flex-grow-1">
-                        <button
-                            class="filter-dropdown-btn rounded-pill w-100 text-start d-flex justify-content-between align-items-center"
-                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Status <i class="ti ti-chevron-down"></i>
-                        </button>
-                        <ul class="dropdown-menu w-100">
-                            <li><a class="dropdown-item" href="#">Active</a></li>
-                            <li><a class="dropdown-item" href="#">Inactive</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="dropdown-container">
-                        <button class="filter-dropdown-btn rounded-pill" type="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                            10 <i class="ti ti-chevron-down"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">10</a></li>
-                            <li><a class="dropdown-item" href="#">25</a></li>
-                            <li><a class="dropdown-item" href="#">50</a></li>
-                            <li><a class="dropdown-item" href="#">100</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="dropdown-container">
-                        <button class="filter-dropdown-btn rounded-pill d-flex align-items-center gap-2" type="button"
-                                data-bs-toggle="dropdown" aria-expanded="false" style="background-color:rgba(221, 222, 241, 1)">
-                            <i class="ti ti-download"></i> Export <i class="ti ti-chevron-down"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Print</a></li>
-                            <li><a class="dropdown-item" href="#">CSV</a></li>
-                            <li><a class="dropdown-item" href="#">Excel</a></li>
-                            <li><a class="dropdown-item" href="#">PDF</a></li>
-                            <li><a class="dropdown-item" href="#">Copy</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="card overflow-hidden"
-                     style=" border-radius: 20px; border-top-left-radius: 0; border-top-right-radius: 0;">
+                <div class="card overflow-hidden mb-0 mt-4"
+                     style=" border-radius: 20px;">
                     <div class="card-body p-0 m-0">
                         <div class="row">
                             <section id="column-selectors">
@@ -320,21 +228,21 @@
                     ],
                     columnDefs: [],
                     dom: 't<"d-flex justify-content-between mx-0 row"<"d-flex justify-content-center col-12"i><"d-flex justify-content-center col-12"p>>',
-                        paginate: {
-                            previous: '&nbsp;',
-                            next: '&nbsp;'
-                        },
-                        "search": "",
-                        "info": "",
-                        "infoEmpty": "",
-                        "emptyTable": "",
-                        "loadingRecords": "",
-                        language: {
-                            processing: '',
-                        },
-                        initComplete: function () {
-                            $('.dataTables_paginate > .pagination').addClass('pagination-rounded');
-                        }
+                    paginate: {
+                        previous: '&nbsp;',
+                        next: '&nbsp;'
+                    },
+                    "search": "",
+                    "info": "",
+                    "infoEmpty": "",
+                    "emptyTable": "",
+                    "loadingRecords": "",
+                    language: {
+                        processing: '',
+                    },
+                    initComplete: function () {
+                        $('.dataTables_paginate > .pagination').addClass('pagination-rounded');
+                    }
                 });
 
             }

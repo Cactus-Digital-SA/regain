@@ -89,6 +89,8 @@ export default defineConfig({
                 ...FontsScssFiles,
                 'resources/css/patient-index.css',
                 'resources/css/organization-dashboard.css',
+                'resources/css/dashboard-common.css',
+                'resources/css/practitioner-dashboard.css',
                 'resources/css/app.scss',
                 'resources/css/palette-gradient.scss',
                 'resources/css/palette-variables.scss'
