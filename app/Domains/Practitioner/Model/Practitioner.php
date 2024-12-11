@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\CareProvider\Model;
+namespace App\Domains\Practitioner\Model;
 
 use App\Domains\Auth\Models\User;
 

@@ -4,13 +4,13 @@ namespace App\Domains\Patient\Repositories\Eloquent\Models;
 
 use App\Domains\Auth\Repositories\Eloquent\Models\User;
 use App\Domains\Patient\Enums\StatusEnum;
+use App\Domains\Region\Repositories\Eloquent\Models\Region;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PatientData extends Model
 {
     protected $table = 'patient_data';
-
     protected $fillable = [
         'user_id',
         'birthday',
@@ -22,7 +22,6 @@ class PatientData extends Model
         'notes',
         'status'
     ];
-
     protected $casts = [
         'status' => StatusEnum::class,
     ];
@@ -32,9 +31,8 @@ class PatientData extends Model
         return $this->belongsTo(User::class);
     }
 
-//    public function region(): BelongsTo
-//    {
-//        return $this->belongsTo(Region::class, 'region_id');
-//    }
-
+    public function region(): BelongsTo
+    {
+        return $this->belongsTo(Region::class, 'region_id');
+    }
 }

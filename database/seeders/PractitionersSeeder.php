@@ -1,0 +1,58 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Domains\Auth\Models\RolesEnum;
+use App\Domains\Auth\Repositories\Eloquent\Models\Role;
+use App\Domains\Auth\Repositories\Eloquent\Models\User;
+use App\Domains\Practitioner\Repositories\Eloquent\Practitioner;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Faker\Factory as Faker;
+
+class PractitionersSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run(): void
+    {
+        $faker = Faker::create('uk_UA');  // Ukrainian locale
+
+        // Get all the regions
+        $regions = DB::table('regions')->pluck('id', 'name')->toArray();
+
+        // Create 25 practitioners
+        $index = 1;
+        foreach ($regions as $regionName => $regionId) {
+            // Create a user for the practitioner
+            $user = User::create([
+                'name'     => $faker->firstName . ' ' . $faker->lastName,
+                'email'    => "practitioner{$index}@example.com",
+                'password' => bcrypt('password'), // Set a default password
+            ]);
+
+            // Assign the practitioner role to the user
+            $role = Role::query()->where('id', RolesEnum::Practitioner->value)->first();
+            $user->roles()->attach($role->id);
+
+            // Create the practitioner record and associate with the region
+            Practitioner::create([
+                'user_id'   => $user->id,
+                'region_id' => $regionId,
+            ]);
+            $index++;
+        }
+
+        $patient = User::create([
+            'name'     => $faker->firstName . ' ' . $faker->lastName,
+            'email'    => "patient@example.com",
+            'password' => bcrypt('password'), // Set a default password
+        ]);
+
+        $role = Role::query()->where('id', RolesEnum::Patient->value)->first();
+        $patient->roles()->attach($role->id);
+    }
+}
