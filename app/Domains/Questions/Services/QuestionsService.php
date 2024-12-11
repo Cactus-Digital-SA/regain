@@ -28,7 +28,7 @@ readonly class QuestionsService
      * @param array $filters
      * @return JsonResponse
      */
-    public function dataTable(array $filters = []): \Illuminate\Http\JsonResponse
+    public function dataTable(array $filters = []): JsonResponse
     {
         return $this->repository->dataTable($filters);
     }
@@ -65,7 +65,7 @@ readonly class QuestionsService
                 // complete flow
                 // this needs to be re-worked to take in account the edge case
                 // that the last question is conditional, fine for now
-                $this->userQuestionnaireService->setCompleted($userId, QuestionnaireFlowType::PRE_ASSESSMENT, true);
+                $this->userQuestionnaireService->setCompleted($userId, $flow, true);
 
                 return $presenter->setQuestions([])->setCompleted(true);
             }
@@ -95,7 +95,8 @@ readonly class QuestionsService
     }
 
     /**
-     * @param int $userId
+     * @param int                   $userId
+     * @param QuestionnaireFlowType $flow
      * @return int[]
      */
     private function getQuestionIdsForPatient(int $userId, QuestionnaireFlowType $flow): array

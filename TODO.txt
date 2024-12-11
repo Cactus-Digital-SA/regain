@@ -20,7 +20,8 @@
 General:
     send email when user gets created
     when the user completes the pre-assessment assign him to practitioner based on region
-    allow for multiple choices (only need js implementation)
+    css for completed questionnaire flow
+    css for login (different for patient and organization/practitioner)
 
 Patient
     show skills questionnaire when user has completed medical history flow

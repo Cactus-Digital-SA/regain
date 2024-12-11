@@ -31,7 +31,18 @@
     @else
         @foreach ($presenter->getQuestions() as $question)
             <div class="container px-3 py-2 {{$question->isHiddenBecauseOfRequired() ? "hidden" : ""}}" data-hide="{{$question->isHiddenBecauseOfRequired() ? "true" : "false"}}">
-                <form id="input-form_{{$question->getId()}}" class="collect-question" data-question-id="{{$question->getId()}}" data-condition-question-id="{{$question->getRequiredQuestionId()}}" data-condition-required-response-ids="[{{implode(", ", $question->getRequiredQuestionResponseIds())}}]">
+                <form
+                        id="input-form_{{$question->getId()}}"
+                        class="collect-question"
+                        data-question-id="{{$question->getId()}}"
+                        data-condition-question-id="{{$question->getRequiredQuestionId()}}"
+                        data-condition-required-response-ids="[{{implode(", ", $question->getRequiredQuestionResponseIds())}}]"
+                        @if ($question->isSelectMultiple())
+                            data-max-selections="{{count($question->getResponses())}}"
+                        @else
+                            data-max-selections="1"
+                        @endif
+                >
                     @csrf
                     <div class="question mb-5">
                         <span class="question-span">{{$question->getTitle()}} ({{$question->getInstruction()->getContent()}})</span>
@@ -96,9 +107,10 @@
                 const questionId = this.dataset.questionId;
 
                 const inputForm = document.getElementById(`input-form_` + questionId);
+                const maxSelections = inputForm.dataset.maxSelections;
                 const formAvailableCheckBoxes = inputForm.querySelectorAll('input[name="response-' + questionId + '[]"]');
                 const formCheckedBoxes = Array.from(formAvailableCheckBoxes).filter(checkbox => checkbox.checked);
-                if (formCheckedBoxes.length > 1) {
+                if (formCheckedBoxes.length > maxSelections) {
                     formAvailableCheckBoxes.forEach(cb => {
                         if (cb !== event.currentTarget) {
                             cb.checked = false;

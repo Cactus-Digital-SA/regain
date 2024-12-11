@@ -26,4 +26,23 @@ class QuestionnaireFlowService
                        ->whereIn('id', $categoryIds)
                        ->get();
     }
+
+    public function createFlowByCategory(int $categoryId): void
+    {
+        $flow = match ($categoryId) {
+            1, 2    => QuestionnaireFlowType::PRE_ASSESSMENT,
+            3       => QuestionnaireFlowType::SKILLS,
+            4       => QuestionnaireFlowType::MEDICAL_HISTORY,
+            default => null,
+        };
+
+        if ($flow === null) {
+            return;
+        }
+
+        QuestionnaireFlow::createOrFirst([
+            "flow_type"   => $flow->value,
+            "category_id" => $categoryId
+        ]);
+    }
 }
