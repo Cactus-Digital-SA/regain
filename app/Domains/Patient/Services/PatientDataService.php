@@ -2,7 +2,6 @@
 
 namespace App\Domains\Patient\Services;
 
-use App\Domains\Auth\Models\RolesEnum;
 use App\Domains\Patient\Repositories\PatientDataRepositoryInterface;
 use App\Models\CactusEntity;
 use Illuminate\Http\JsonResponse;

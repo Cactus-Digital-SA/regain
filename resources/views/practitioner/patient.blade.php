@@ -1,7 +1,9 @@
 @php
+    use App\Domains\Patient\Models\PatientData;
     use App\Domains\Practitioner\Models\Practitioner;
 /**
-* @vPractitioner $practitioner
+* @var Practitioner $practitioner
+ * @var PatientData $patientData
 */
 @endphp
 
@@ -127,12 +129,17 @@
                                         </button>
                                         <h5 class="patient-name">Olha Maximova</h5>
 
-                                        <p class="patient-detail"><span>Patient ID:</span>&nbsp; #P12345</p>
-                                        <p class="patient-detail"><span>Date of Birth:</span>&nbsp; 04/03/1985</p>
-                                        <p class="patient-detail"><span>Phone Number:</span>&nbsp; (123) 456-789</p>
-                                        <p class="patient-detail"><span>Email:</span>&nbsp; maximova85@gmail.com</p>
+                                        <p class="patient-detail">
+                                            <span>Patient ID:</span>&nbsp; #P{{$patientData->getId()}}</p>
+                                        <p class="patient-detail">
+                                            <span>Date of Birth:</span>&nbsp; {{$patientData->getBirthday()->format("d/m/Y")}}
+                                        </p>
+                                        <p class="patient-detail">
+                                            <span>Phone Number:</span>&nbsp; {{$patientData->getPrimaryPhone()}}</p>
+                                        <p class="patient-detail">
+                                            <span>Email:</span>&nbsp; {{$patientData->getUser()->getEmail()}}</p>
                                         <p class="patient-detail last-detail"><span>Registration:</span>&nbsp;
-                                            07/11/2024</p>
+                                            {{$patientData->getUser()->getCreatedAt()->format("d/m/Y")}}</p>
 
                                         <a href="#" class="btn pre-assesment-btn">Pre-Assesment Report</a>
                                     </div>

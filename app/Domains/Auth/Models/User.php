@@ -3,6 +3,7 @@
 namespace App\Domains\Auth\Models;
 
 use App\Models\CactusEntity;
+use DateTime;
 use Illuminate\Http\Request;
 
 class User extends CactusEntity
@@ -73,6 +74,12 @@ class User extends CactusEntity
      * @JMS\Serializer\Annotation\Type("string")
      */
     private ?string $profile_photo_url = null;
+    /**
+     * @var ?DateTime $createdAt
+     * @JMS\Serializer\Annotation\SerializedName("created_at")
+     * @JMS\Serializer\Annotation\Type("DateTime<'Y-m-d\TH:i:s.up'>")
+     */
+    private ?DateTime $createdAt = null;
     /**
      * @var string|null $twoFactorSecret
      * @JMS\Serializer\Annotation\SerializedName("two_factor_secret")
@@ -151,6 +158,7 @@ class User extends CactusEntity
             'last_login_ip'       => $this->last_login_ip,
             'to_be_logged_out'    => $this->to_be_logged_out,
             'profile_photo_url'   => $this->profile_photo_url,
+            'created_at'          => $this->createdAt,
         ];
 
         if ($withRelations) {
@@ -175,6 +183,7 @@ class User extends CactusEntity
             'last_login_ip'       => $this->last_login_ip,
             'to_be_logged_out'    => $this->to_be_logged_out,
             'profile_photo_url'   => $this->profile_photo_url,
+            'created_at'          => $this->createdAt,
         ];
 
         return json_encode($data);
@@ -398,6 +407,18 @@ class User extends CactusEntity
     public function setPermissions(array $permissions): User
     {
         $this->permissions = $permissions;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?DateTime
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?DateTime $createdAt): User
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }
