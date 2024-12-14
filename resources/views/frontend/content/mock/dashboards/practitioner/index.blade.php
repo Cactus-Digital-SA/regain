@@ -25,6 +25,8 @@
 
 @include('frontend.content.mock.dashboards.practitioner.includes.medical-history-modal-alcohol')
 @include('frontend.content.mock.dashboards.practitioner.includes.medical-history-modal-hepatitis')
+
+@include('frontend.content.mock.dashboards.includes.success-modal-regain')
 @include('backend.components.delete_modal')
 <div class="container">
     <div class="row h-100 p-4">
@@ -112,7 +114,8 @@
                                 <div class="card patient-card">
                                     <div class="card-body patient-card-body">
                                         <span class="patient-profile-label">Patient Profile</span>
-                                        <button class="more-button position-absolute btn" style="right: 1rem; top: 1rem;"
+                                        <button class="more-button position-absolute btn"
+                                                style="right: 1rem; top: 1rem;"
                                                 data-bs-toggle="modal" data-bs-target="#patientInformation"><i
                                                 class="ti ti-dots-vertical"></i>
                                         </button>

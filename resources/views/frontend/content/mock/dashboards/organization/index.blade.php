@@ -23,6 +23,8 @@
 <body>
 @include('frontend.content.mock.dashboards.organization.includes.new-patient-registration-modal')
 @include('frontend.content.mock.dashboards.organization.includes.new-patient-registration-second-modal')
+
+@include('frontend.content.mock.dashboards.includes.success-modal-regain')
 @include('backend.components.delete_modal')
 <div class="container">
     <div class="row h-100 p-4">
