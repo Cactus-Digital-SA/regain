@@ -10,6 +10,7 @@ use Database\Seeders\Auth\UserRoleSeeder;
 use Database\Seeders\Auth\UserSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\PermissionRegistrar;
 
 /**
@@ -34,10 +35,9 @@ class AuthSeeder extends Seeder
         $this->call(UserRoleSeeder::class);
 
         $role = Role::findById(RolesEnum::SuperAdmin->value);
-        $role->syncPermissions(\Spatie\Permission\Models\Permission::all());
+        $role->syncPermissions(Permission::all());
 
-        $role=Role::findById(RolesEnum::Administrator->value);
-        $role->syncPermissions(\Spatie\Permission\Models\Permission::all());
-
+        $role = Role::findById(RolesEnum::Administrator->value);
+        $role->syncPermissions(Permission::all());
     }
 }

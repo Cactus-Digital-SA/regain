@@ -10,11 +10,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @property int id
- * @property int user_id
- * @property int subscale
- * @property int question_response_id
- * @property int score
+ * @property int    id
+ * @property int    user_id
+ * @property int    for_user_id
+ * @property int    subscale
+ * @property int    question_response_id
+ * @property int    score
  * @property Carbon created_at
  * @property Carbon updated_at
  */
@@ -22,6 +23,7 @@ class UserResponse extends Model
 {
     protected $fillable = [
         'user_id',
+        'for_user_id',
         'subscale',
         'question_response_id',
         'score'
@@ -30,12 +32,21 @@ class UserResponse extends Model
         'question_response_id' => 'int',
         'score'                => 'int',
         'user_id'              => 'int',
+        'for_user_id'          => 'int',
         'subscale'             => 'int'
     ];
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Relationship to the user for whom the response was created (nullable).
+     */
+    public function forUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'for_user_id');
     }
 
     public function questionResponse(): BelongsTo

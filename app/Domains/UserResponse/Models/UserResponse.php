@@ -22,6 +22,11 @@ class UserResponse implements CactusEntityInterface
      */
     private ?int $userId;
     /**
+     * @JMS\Serializer\Annotation\SerializedName("for_user_id")
+     * @JMS\Serializer\Annotation\Type("int")
+     */
+    private ?int $forUserId;
+    /**
      * @JMS\Serializer\Annotation\SerializedName("subscale_id")
      * @JMS\Serializer\Annotation\Type("int")
      */
@@ -41,6 +46,11 @@ class UserResponse implements CactusEntityInterface
      * @JMS\Serializer\Annotation\Type("App\Domains\Auth\Models\User")
      */
     private ?User $user;
+    /**
+     * @JMS\Serializer\Annotation\SerializedName("forUser")
+     * @JMS\Serializer\Annotation\Type("App\Domains\Auth\Models\User")
+     */
+    private ?User $forUser;
     /**
      * @JMS\Serializer\Annotation\SerializedName("subscale")
      * @JMS\Serializer\Annotation\Type("App\Domains\Subscales\Models\Subscale")
@@ -72,6 +82,18 @@ class UserResponse implements CactusEntityInterface
     public function setUserId(?int $userId): UserResponse
     {
         $this->userId = $userId;
+
+        return $this;
+    }
+
+    public function getForUserId(): ?int
+    {
+        return $this->forUserId;
+    }
+
+    public function setForUserId(?int $forUserId): UserResponse
+    {
+        $this->forUserId = $forUserId;
 
         return $this;
     }
@@ -124,6 +146,18 @@ class UserResponse implements CactusEntityInterface
         return $this;
     }
 
+    public function getForUser(): ?User
+    {
+        return $this->forUser;
+    }
+
+    public function setForUser(?User $forUser): UserResponse
+    {
+        $this->forUser = $forUser;
+
+        return $this;
+    }
+
     public function getSubscale(): ?Subscale
     {
         return $this->subscale;
@@ -153,6 +187,7 @@ class UserResponse implements CactusEntityInterface
         $data = [
             'id'                   => $this->id,
             'user_id'              => $this->userId,
+            'for_user_id'          => $this->forUserId,
             'subscale_id'          => $this->subscaleId,
             'question_response_id' => $this->questionResponseId,
             'score'                => $this->score,
@@ -160,6 +195,7 @@ class UserResponse implements CactusEntityInterface
 
         if ($withRelations) {
             $data['user']              = $this->getUser();
+            $data['forUser']           = $this->getForUser();
             $data['subscale']          = $this->getSubscale();
             $data['question_response'] = $this->getQuestionResponse();
         }
