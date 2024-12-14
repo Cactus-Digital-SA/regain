@@ -30,8 +30,7 @@
 <body>
 @include('frontend.content.mock.dashboards.practitioner.includes.patient-information-modal')
 
-@include('frontend.content.mock.dashboards.practitioner.includes.medical-history-modal-alcohol')
-@include('frontend.content.mock.dashboards.practitioner.includes.medical-history-modal-hepatitis')
+@include('practitioner.includes.medical-history-modal')
 
 @include('frontend.content.mock.dashboards.includes.success-modal-regain')
 @include('backend.components.delete_modal')
@@ -185,7 +184,7 @@
                                                     {{--                                                    </a>--}}
                                                 </div>
                                                 <a href="#" class="btn mh-btn" data-bs-toggle="modal"
-                                                   data-bs-target="#medicalHistoryHepatitis">Medical History</a>
+                                                   data-bs-target="#medicalHistory">Medical History</a>
                                             </div>
                                         </div>
                                     </div>

@@ -22,6 +22,7 @@ class PractitionerController extends Controller
      */
     public function __construct(
         private readonly PractitionersService $practitionerService,
+        private readonly QuestionsService $questionsService,
     ) {
     }
 
@@ -35,5 +36,12 @@ class PractitionerController extends Controller
         return view('practitioner.index')
             ->with('columns', [])
             ->with('practitioner', $practitioner);
+    }
+
+    public function getMedicalHistoryQuestions()
+    {
+
+
+        return view('patient.index');
     }
 }
