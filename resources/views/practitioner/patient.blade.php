@@ -81,10 +81,13 @@
                         </div>
                     </div>
                 </div>
-                <button class="btn text-center mt-md-3 mt-1 d-flex justify-content-center align-items-center"
-                        style="border: 2px solid; border-radius: 10px; font-weight: 700; font-size: 15px;">
-                    <i class="ti ti-logout me-2"></i> Log Out
-                </button>
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn text-center mt-md-3 mt-1 d-flex justify-content-center align-items-center"
+                            style="border: 2px solid; border-radius: 10px; font-weight: 700; font-size: 15px;">
+                        <i class="ti ti-logout me-2"></i> Log Out
+                    </button>
+                </form>
             </div>
         </div>
         <div class="col-9 col-xxl-10">
