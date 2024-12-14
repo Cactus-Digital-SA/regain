@@ -57,15 +57,17 @@
                             <div class="d-flex flex-column justify-content-between ms-0 ps-0">
                                 <div class="nav flex-column nav-pills nav-pills-custom" id="v-pills-tab" role="tablist"
                                      aria-orientation="vertical">
-                                    <a class="nav-link text-left patient-directory-tab"
+                                    <a class="active nav-link text-left patient-directory-tab"
                                        id="v-pills-patient-directory-tab"
-                                       data-bs-toggle="pill" data-bs-target="#v-pills-patient-directory" type="button"
+                                       type="button"
                                        role="tab"
+                                       href="{{route("practitioner.patients")}}"
                                        aria-controls="v-pills-patient-directory" aria-selected="true">
                                         <i class="ti ti-man-filled me-2"></i> Patients
                                     </a>
-                                    <a class="nav-link text-left" id="v-pills-calendar-tab" data-bs-toggle="pill"
-                                       data-bs-target="#v-pills-calendar" type="button" role="tab"
+                                    <a class="nav-link text-left" id="v-pills-calendar-tab"
+                                       type="button" role="tab"
+                                       href="{{route("practitioner.home")}}"
                                        aria-controls="v-pills-calendar" aria-selected="false">
                                         <i class="ti ti-calendar me-2"></i> Calendar
                                     </a>

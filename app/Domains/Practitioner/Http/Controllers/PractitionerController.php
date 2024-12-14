@@ -52,10 +52,13 @@ class PractitionerController extends Controller
             ->with('practitioner', $practitioner);
     }
 
-    public function patient(Request $request, int $userId): View
+    public function patient(Request $request, int $userId)
     {
         $practitioner = $this->practitionerService->getByUserId((string)Auth::id());
         $patientData  = $this->patientDataService->getByUserId((string)$userId);
+        if ($patientData === null) {
+            return redirect()->route('practitioner.patients');
+        }
 
         return view('practitioner.patient')
             ->with('columns', [])

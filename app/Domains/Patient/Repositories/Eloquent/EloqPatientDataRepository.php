@@ -34,11 +34,12 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
 
     public function getByUserId(string $userId): ?PatientData
     {
-        $patientData = $this->model::where('user_id', $userId)->first();
+        $patientData = $this->model::where('user_id', $userId)->with("user")->first();
+        if ($patientData) {
+            return ObjectSerializer::deserialize($patientData?->toJson() ?? "{}", PatientData::class, 'json');
+        }
 
-        $patientData->load('user');
-
-        return ObjectSerializer::deserialize($patientData?->toJson() ?? "{}", PatientData::class, 'json');
+        return null;
     }
 
     public function store(CactusEntity|PatientData $entity): ?PatientData
