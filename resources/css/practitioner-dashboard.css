@@ -1,5 +1,10 @@
 body{
-    background-color: rgba(149, 154, 185, 1) !important;}
+    background-color: rgba(149, 154, 185, 1) !important;
+}
+
+.container{
+    max-height: unset !important;
+}
 
 .notification-count-patient{
     position: relative;
@@ -14,7 +19,7 @@ body{
     margin-left: 5px;
 }
 
-.right-side{
+.right-side {
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -324,3 +329,33 @@ body{
     flex-direction: column;
     justify-content: flex-start;
 }
+
+
+/*CALENDAR*/
+
+.custom-calendar {
+    height: 100%;
+    background-color: #dddef1 !important;
+}
+
+.color-calendar{
+    background-color: #dddef1 !important;
+}
+
+
+
+.appointment-overview {
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f4f4f4;
+    cursor: pointer;
+}
+
+.appointment-overview:hover {
+    background-color: #eaeaea;
+}
+
+
+

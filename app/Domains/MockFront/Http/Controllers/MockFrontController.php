@@ -73,4 +73,10 @@ class MockFrontController extends  Controller
         return view('frontend.content.mock.dashboards.practitioner.index')->with('columns', $columns);
     }
 
+    public function showPractitionerCalendarDashboard(): View
+    {
+        $columns = $this->patientDataService->getTableColumns();
+        return view('frontend.content.mock.dashboards.practitioner.practinioner-calendar.index')->with('columns', $columns);
+    }
+
 }
