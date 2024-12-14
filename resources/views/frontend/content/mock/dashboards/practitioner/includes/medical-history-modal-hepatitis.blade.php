@@ -50,8 +50,8 @@
                                 <option value="none">None</option>
                             </select>
                         </div>
-                        <div class="col-md-12 mt-5 d-flex justify-content-between">
-                            <button type="button" class="custom-back-btn" id="btn-back-hepatitis">Back</button>
+                        <div class="col-md-12 mt-5 d-flex justify-content-end">
+{{--                            <button type="button" class="custom-back-btn" id="btn-back-hepatitis">Back</button>--}}
                             <button type="submit" class="custom-next-btn" id="btn-next-hepatitis">Next</button>
                         </div>
                     </div>
