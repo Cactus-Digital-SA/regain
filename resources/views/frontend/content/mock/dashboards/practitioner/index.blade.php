@@ -21,10 +21,10 @@
     @vite(['resources/css/practitioner-dashboard.css', 'resources/css/dashboard-common.css'])
 </head>
 <body>
-@include('frontend.content.mock.dashboards.organization.includes.new-patient-registration-modal')
-@include('frontend.content.mock.dashboards.practitioner.includes.medical-history-modal')
 @include('frontend.content.mock.dashboards.practitioner.includes.patient-information-modal')
-@include('frontend.content.mock.dashboards.practitioner.includes.medical-history-modal')
+
+@include('frontend.content.mock.dashboards.practitioner.includes.medical-history-modal-alcohol')
+@include('frontend.content.mock.dashboards.practitioner.includes.medical-history-modal-hepatitis')
 @include('backend.components.delete_modal')
 <div class="container">
     <div class="row h-100 p-4">
@@ -39,8 +39,9 @@
                         <div class="row">
                             <div class="my-1 my-lg-5 ms-2">
                                 <span class="nav-link text-left" id="v-pills-patient-registration-tab"
-                                   aria-selected="true" style="color:#000; font-weight:bold;">
-                                    New Patient <span class="notification-count-patient d-flex justify-content-center align-items-center">1</span>
+                                      aria-selected="true" style="color:#000; font-weight:bold;">
+                                    New Patient <span
+                                        class="notification-count-patient d-flex justify-content-center align-items-center">1</span>
                                 </span>
                             </div>
                             <div class="d-flex flex-column justify-content-between ms-0 ps-0">
@@ -111,14 +112,18 @@
                                 <div class="card patient-card">
                                     <div class="card-body patient-card-body">
                                         <span class="patient-profile-label">Patient Profile</span>
-                                        <button class="more-button position-absolute btn" style="right: 1rem; top: 1rem;"><i class="ti ti-dots-vertical"></i></button>
+                                        <button class="more-button position-absolute btn" style="right: 1rem; top: 1rem;"
+                                                data-bs-toggle="modal" data-bs-target="#patientInformation"><i
+                                                class="ti ti-dots-vertical"></i>
+                                        </button>
                                         <h5 class="patient-name">Olha Maximova</h5>
 
                                         <p class="patient-detail"><span>Patient ID:</span>&nbsp; #P12345</p>
                                         <p class="patient-detail"><span>Date of Birth:</span>&nbsp; 04/03/1985</p>
                                         <p class="patient-detail"><span>Phone Number:</span>&nbsp; (123) 456-789</p>
                                         <p class="patient-detail"><span>Email:</span>&nbsp; maximova85@gmail.com</p>
-                                        <p class="patient-detail last-detail"><span>Registration:</span>&nbsp; 07/11/2024</p>
+                                        <p class="patient-detail last-detail"><span>Registration:</span>&nbsp;
+                                            07/11/2024</p>
 
                                         <a href="#" class="btn pre-assesment-btn">Pre-Assesment Report</a>
                                     </div>
@@ -135,20 +140,20 @@
                                         <h6 class="section-title">Details</h6>
                                         <div class="tags-container">
                                             <span class="detail-tag tag-purple">-</span>
-{{--                                            <span class="detail-tag tag-purple">Accessible Mobility</span>--}}
-{{--                                            <span class="detail-tag tag-purple">Diabetes</span>--}}
-{{--                                            <span class="detail-tag tag-purple">COPD</span>--}}
-{{--                                            <span class="detail-tag tag-purple">Depression</span>--}}
-{{--                                            <button class="view-more-btn">View More</button>--}}
+                                            {{--                                            <span class="detail-tag tag-purple">Accessible Mobility</span>--}}
+                                            {{--                                            <span class="detail-tag tag-purple">Diabetes</span>--}}
+                                            {{--                                            <span class="detail-tag tag-purple">COPD</span>--}}
+                                            {{--                                            <span class="detail-tag tag-purple">Depression</span>--}}
+                                            {{--                                            <button class="view-more-btn">View More</button>--}}
                                         </div>
 
                                         <h6 class="section-title">Medication</h6>
                                         <div class="tags-container">
                                             <span class="detail-tag">-</span>
-{{--                                            <span class="detail-tag">Tiotropium</span>--}}
-{{--                                            <span class="detail-tag">Carbocisteine</span>--}}
-{{--                                            <span class="detail-tag">Mirtazapine</span>--}}
-{{--                                            <button class="view-more-btn">View More</button>--}}
+                                            {{--                                            <span class="detail-tag">Tiotropium</span>--}}
+                                            {{--                                            <span class="detail-tag">Carbocisteine</span>--}}
+                                            {{--                                            <span class="detail-tag">Mirtazapine</span>--}}
+                                            {{--                                            <button class="view-more-btn">View More</button>--}}
                                         </div>
                                     </div>
                                 </div>
@@ -158,18 +163,19 @@
                                     <div class="card medical-history-card">
                                         <div class="card-body medical-history-card-body">
                                             <span class="card-label">Medical History</span>
-{{--                                            <p class="mh-date"><strong>Date of Medical History:</strong> 06/11/2024 <span class="mh-self-filled">(self-filled)</span></p>--}}
+                                            {{--                                            <p class="mh-date"><strong>Date of Medical History:</strong> 06/11/2024 <span class="mh-self-filled">(self-filled)</span></p>--}}
                                             <p class="mh-date"><strong>-</strong></p>
                                             <div class="mh-actions">
                                                 <div class="d-flex flex-column align-items-start">
-{{--                                                    <a href="#" class="mh-link">--}}
-{{--                                                        <i class="ti ti-eye"></i> View--}}
-{{--                                                    </a>--}}
-{{--                                                    <a href="#" class="mh-link mt-1">--}}
-{{--                                                        <i class="ti ti-download"></i> Download--}}
-{{--                                                    </a>--}}
+                                                    {{--                                                    <a href="#" class="mh-link">--}}
+                                                    {{--                                                        <i class="ti ti-eye"></i> View--}}
+                                                    {{--                                                    </a>--}}
+                                                    {{--                                                    <a href="#" class="mh-link mt-1">--}}
+                                                    {{--                                                        <i class="ti ti-download"></i> Download--}}
+                                                    {{--                                                    </a>--}}
                                                 </div>
-                                                <a href="#" class="btn mh-btn" data-bs-toggle="modal" data-bs-target="#medicalHistory">Medical History</a>
+                                                <a href="#" class="btn mh-btn" data-bs-toggle="modal"
+                                                   data-bs-target="#medicalHistoryHepatitis">Medical History</a>
                                             </div>
                                         </div>
                                     </div>
@@ -181,7 +187,7 @@
                                             <div class="d-flex justify-content-between align-items-start">
                                                 <div class="appointment-info">
                                                     <div class="appointment-date">-</div>
-{{--                                                    <div class="appointment-date">19/11/2024</div>--}}
+                                                    {{--                                                    <div class="appointment-date">19/11/2024</div>--}}
                                                     <div class="appointment-subtext">Next Appointment</div>
                                                 </div>
                                                 <div class="appointment-actions d-flex flex-column align-items-end">
