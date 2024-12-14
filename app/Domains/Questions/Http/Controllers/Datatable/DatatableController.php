@@ -7,6 +7,7 @@ use App\Domains\Questions\Services\QuestionsService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DatatableController extends Controller
 {
@@ -34,13 +35,13 @@ class DatatableController extends Controller
         $filters['filterTest']      = $request['filterTest'];
         $filters['filterCategory']  = $request['filterCategory'];
 
-        return $this->questionsService->dataTable($filters);
+        return $this->questionsService->dataTable(Auth::id(), $filters);
     }
 
     public function instructions(Request $request): JsonResponse
     {
         $filters = [];
 
-        return $this->instructionService->dataTable($filters);
+        return $this->instructionService->dataTable(Auth::id(), $filters);
     }
 }
