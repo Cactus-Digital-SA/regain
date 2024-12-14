@@ -22,6 +22,7 @@
 </head>
 <body>
 @include('frontend.content.mock.dashboards.organization.includes.new-patient-registration-modal')
+@include('frontend.content.mock.dashboards.practitioner.includes.medical-history-modal')
 @include('frontend.content.mock.dashboards.practitioner.includes.patient-information-modal')
 @include('frontend.content.mock.dashboards.practitioner.includes.medical-history-modal')
 @include('backend.components.delete_modal')
@@ -36,14 +37,11 @@
                 <div class="flex-grow-1 d-flex align-items-top ps-0">
                     <div>
                         <div class="row">
-                            <div class="my-1 my-lg-5">
-                                <a class="nav-link text-left" id="v-pills-patient-registration-tab"
-                                   aria-controls="v-pills-patient-registration"
-                                   type="button" data-bs-toggle="modal"
-                                   data-bs-target="#newPatientRegistration"
+                            <div class="my-1 my-lg-5 ms-2">
+                                <span class="nav-link text-left" id="v-pills-patient-registration-tab"
                                    aria-selected="true" style="color:#000; font-weight:bold;">
-                                    Patient Registration <span class="notification-count-patient d-flex justify-content-center align-items-center">1</span>
-                                </a>
+                                    New Patient <span class="notification-count-patient d-flex justify-content-center align-items-center">1</span>
+                                </span>
                             </div>
                             <div class="d-flex flex-column justify-content-between ms-0 ps-0">
                                 <div class="nav flex-column nav-pills nav-pills-custom" id="v-pills-tab" role="tablist"
@@ -94,10 +92,8 @@
                                 <i class="ti ti-search"></i>
                             </div>
                             <div class="nav-buttons col-auto">
-                                <button type="button" class="btn btn-success navbar-button" data-bs-toggle="modal"
-                                        data-bs-target=""><i
-                                        class="ti ti-plus"></i> Add Practitioner
-                                </button>
+                                <span class="navbar-status"> Accepting
+                                </span>
                                 <button href="#" class="btn btn-lg notification-button rounded-pill"
                                         data-bs-toggle="tooltip" data-bs-placement="bottom" title="Notifications"><span
                                         class="notification-count">3</span><i class="ti ti-bell"></i></button>
@@ -138,19 +134,21 @@
 
                                         <h6 class="section-title">Details</h6>
                                         <div class="tags-container">
-                                            <span class="detail-tag">Accessible Mobility</span>
-                                            <span class="detail-tag">Diabetes</span>
-                                            <span class="detail-tag">COPD</span>
-                                            <span class="detail-tag">Depression</span>
-                                            <button class="view-more-btn">View More</button>
+                                            <span class="detail-tag tag-purple">-</span>
+{{--                                            <span class="detail-tag tag-purple">Accessible Mobility</span>--}}
+{{--                                            <span class="detail-tag tag-purple">Diabetes</span>--}}
+{{--                                            <span class="detail-tag tag-purple">COPD</span>--}}
+{{--                                            <span class="detail-tag tag-purple">Depression</span>--}}
+{{--                                            <button class="view-more-btn">View More</button>--}}
                                         </div>
 
                                         <h6 class="section-title">Medication</h6>
                                         <div class="tags-container">
-                                            <span class="detail-tag">Tiotropium</span>
-                                            <span class="detail-tag">Carbocisteine</span>
-                                            <span class="detail-tag">Mirtazapine</span>
-                                            <button class="view-more-btn">View More</button>
+                                            <span class="detail-tag">-</span>
+{{--                                            <span class="detail-tag">Tiotropium</span>--}}
+{{--                                            <span class="detail-tag">Carbocisteine</span>--}}
+{{--                                            <span class="detail-tag">Mirtazapine</span>--}}
+{{--                                            <button class="view-more-btn">View More</button>--}}
                                         </div>
                                     </div>
                                 </div>
@@ -160,15 +158,18 @@
                                     <div class="card medical-history-card">
                                         <div class="card-body medical-history-card-body">
                                             <span class="card-label">Medical History</span>
-                                            <p class="mh-date"><strong>Date of Medical History:</strong> 06/11/2024 <span class="mh-self-filled">(self-filled)</span></p>
+{{--                                            <p class="mh-date"><strong>Date of Medical History:</strong> 06/11/2024 <span class="mh-self-filled">(self-filled)</span></p>--}}
+                                            <p class="mh-date"><strong>-</strong></p>
                                             <div class="mh-actions">
-                                                <a href="#" class="mh-link">
-                                                    <i class="ti ti-eye"></i> View
-                                                </a>
-                                                <a href="#" class="mh-link">
-                                                    <i class="ti ti-download"></i> Download
-                                                </a>
-                                                <a href="#" class="btn mh-btn">Medical History</a>
+                                                <div class="d-flex flex-column align-items-start">
+{{--                                                    <a href="#" class="mh-link">--}}
+{{--                                                        <i class="ti ti-eye"></i> View--}}
+{{--                                                    </a>--}}
+{{--                                                    <a href="#" class="mh-link mt-1">--}}
+{{--                                                        <i class="ti ti-download"></i> Download--}}
+{{--                                                    </a>--}}
+                                                </div>
+                                                <a href="#" class="btn mh-btn" data-bs-toggle="modal" data-bs-target="#medicalHistory">Medical History</a>
                                             </div>
                                         </div>
                                     </div>
@@ -179,12 +180,13 @@
                                             <span class="card-label">Appointment</span>
                                             <div class="d-flex justify-content-between align-items-start">
                                                 <div class="appointment-info">
-                                                    <div class="appointment-date">19/11/2024</div>
+                                                    <div class="appointment-date">-</div>
+{{--                                                    <div class="appointment-date">19/11/2024</div>--}}
                                                     <div class="appointment-subtext">Next Appointment</div>
                                                 </div>
                                                 <div class="appointment-actions d-flex flex-column align-items-end">
-                                                    <a href="#" class="btn app-create-btn">Create</a>
-                                                    <a href="#" class="btn app-cancel-btn">Cancel</a>
+                                                    <a href="#" class="btn app-create-btn disabled">Create</a>
+                                                    <a href="#" class="btn app-cancel-btn disabled">Cancel</a>
                                                 </div>
                                             </div>
                                         </div>

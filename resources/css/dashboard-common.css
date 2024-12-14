@@ -58,6 +58,19 @@ body {
     text-decoration-skip-ink: none;
 }
 
+.navbar-status{
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 20.57px;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    background-color: rgba(40, 199, 111, 1);
+    border-radius: 20px;
+    color: white;
+    padding: 10px 30px;
+    text-align: center;
+}
+
 .nav-link i {
     color: rgba(28, 27, 31, 1);
 }
@@ -382,6 +395,3 @@ td:last-child {
 [data-bs-toggle="tooltip"] {
     position: relative;
 }
-
-
-
