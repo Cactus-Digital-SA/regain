@@ -1,5 +1,7 @@
 /*for organization dt*/
-
+body{
+    background-color: rgba(80, 78, 132, 1) !important;
+}
 /*dt filters*/
 .filters-container {
     background-color: #f7f7fb;

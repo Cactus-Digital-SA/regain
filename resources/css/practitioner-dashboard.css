@@ -1,3 +1,6 @@
+body{
+    background-color: rgba(149, 154, 185, 1) !important;}
+
 .notification-count-patient{
     position: relative;
     background-color: red;
@@ -9,4 +12,290 @@
     height: 20px;
     width: 20px;
     margin-left: 5px;
+}
+
+.right-side{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.patient-card {
+    border-radius: 20px;
+    background-color: rgba(221, 222, 241, 1);
+    height: 100% !important;
+    position: relative;
+}
+
+.patient-card-body {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    position: relative;
+}
+
+.patient-profile-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.patient-name {
+    font-weight: 600;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    font-size: 20px;
+    color: #000;
+}
+
+.patient-detail {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    font-size: 18px;
+    color: #000;
+}
+
+.last-detail {
+    margin-bottom: 1.5rem;
+}
+
+.more-button {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    background: none;
+    border: none;
+    color: #6c757d;
+    cursor: pointer;
+}
+
+.pre-assesment-btn {
+    border-radius: 10px;
+    font-weight: 500;
+    background-color: rgba(117, 124, 160, 1);
+    color: #fff;
+    margin-top: auto;
+    align-self: flex-start;
+}
+
+.info-card {
+    border-radius: 20px;
+    background-color: rgba(244, 245, 255, 1);
+    height: 100% !important;
+    position: relative;
+}
+.info-card-body {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    position: relative;
+}
+
+.patient-profile-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.info-icon-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: #6c757d;
+    cursor: pointer;
+}
+
+.section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    color: #000;
+}
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.detail-tag {
+    display: inline-block;
+    background-color: rgba(117, 124, 160, 0.3);
+    padding: 0.5rem 0.75rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    color: #000;
+    font-weight: 500;
+}
+
+.view-more-btn {
+    background: none;
+    border: 1px solid rgba(117, 124, 160, 1);
+    border-radius: 10px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+    color: rgba(117, 124, 160, 1);
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.view-more-btn:hover {
+    background-color: rgba(117, 124, 160, 0.1);
+}
+
+.medical-history-card {
+    border-radius: 20px;
+    background-color: rgba(244, 245, 255, 1);
+    position: relative;
+}
+
+.medical-history-card-body {
+    padding: 1.5rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.card-label {
+    display: block;
+    color: #6c757d;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.mh-icon {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.mh-date {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #000;
+    margin: 0;
+}
+
+.mh-self-filled {
+    font-weight: 400;
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-left: 0.25rem;
+}
+
+.mh-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.mh-link {
+    color: #5c3df6;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.95rem;
+}
+
+.mh-link i {
+    font-size: 1rem;
+}
+
+.mh-btn {
+    background-color: #000046;
+    color: #fff;
+    font-weight: 500;
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+    text-decoration: none;
+    border: none;
+}
+
+.appointment-card {
+    border-radius: 20px;
+    background-color: rgba(221, 222, 241, 1);
+    position: relative;
+    height: 100%;
+}
+
+.appointment-card-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-label {
+    display: block;
+    margin-bottom: 1rem;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.appointment-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.appointment-date {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #000;
+}
+
+.appointment-subtext {
+    font-size: 0.9rem;
+    color: #6c757d;
+    font-weight: 500;
+    margin-top: 0.25rem;
+}
+
+.appointment-actions {
+    margin-left: 1rem;
+}
+
+.app-create-btn {
+    background-color: #000046;
+    color: #fff;
+    font-weight: 500;
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+    border: none;
+    text-decoration: none;
+    width: 100%;
+    text-align: center;
+}
+
+.app-cancel-btn {
+    border: 1px solid #000;
+    color: #000;
+    font-weight: 500;
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+    background: #fff;
+    text-decoration: none;
+    margin-top: 0.5rem;
+    width: 100%;
+    text-align: center;
+}
+
+.app-create-btn:hover, .app-cancel-btn:hover {
+    opacity: 0.9;
 }

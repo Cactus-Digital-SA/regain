@@ -22,7 +22,8 @@
 </head>
 <body>
 @include('frontend.content.mock.dashboards.organization.includes.new-patient-registration-modal')
-@include('frontend.content.mock.dashboards.organization.includes.new-patient-registration-second-modal')
+@include('frontend.content.mock.dashboards.practitioner.includes.patient-information-modal')
+@include('frontend.content.mock.dashboards.practitioner.includes.medical-history-modal')
 @include('backend.components.delete_modal')
 <div class="container">
     <div class="row h-100 p-4">
@@ -110,49 +111,91 @@
                     <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
                          aria-labelledby="v-pills-home-tab">
                         <div class="row">
-                            <div class="col-3">
-                                <div class="card" style="border-radius: 20px">
-                                    <div class="card-body px-xl-3 px-2">
-                                        <h5 class="card-title mb-0">142</h5>
-                                        <span class="card-subtitle text-muted">Total Practitioners</span>
+                            <div class="col-4">
+                                <div class="card patient-card">
+                                    <div class="card-body patient-card-body">
+                                        <span class="patient-profile-label">Patient Profile</span>
+                                        <button class="more-button position-absolute btn" style="right: 1rem; top: 1rem;"><i class="ti ti-dots-vertical"></i></button>
+                                        <h5 class="patient-name">Olha Maximova</h5>
+
+                                        <p class="patient-detail"><span>Patient ID:</span>&nbsp; #P12345</p>
+                                        <p class="patient-detail"><span>Date of Birth:</span>&nbsp; 04/03/1985</p>
+                                        <p class="patient-detail"><span>Phone Number:</span>&nbsp; (123) 456-789</p>
+                                        <p class="patient-detail"><span>Email:</span>&nbsp; maximova85@gmail.com</p>
+                                        <p class="patient-detail last-detail"><span>Registration:</span>&nbsp; 07/11/2024</p>
+
+                                        <a href="#" class="btn pre-assesment-btn">Pre-Assesment Report</a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-3">
-                                <div class="card" style="border-radius: 20px">
-                                    <div class="card-body px-xl-3 px-2">
-                                        <h5 class="card-title mb-0">12</h5>
-                                        <span class="card-subtitle text-muted">Total Practitioners</span>
+                            <div class="col-4">
+                                <div class="card info-card">
+                                    <div class="card-body info-card-body">
+                                        <span class="patient-profile-label">Information</span>
+                                        <button class="info-icon-button btn" type="button">
+                                            <i class="ti ti-info-circle-filled"></i>
+                                        </button>
+
+                                        <h6 class="section-title">Details</h6>
+                                        <div class="tags-container">
+                                            <span class="detail-tag">Accessible Mobility</span>
+                                            <span class="detail-tag">Diabetes</span>
+                                            <span class="detail-tag">COPD</span>
+                                            <span class="detail-tag">Depression</span>
+                                            <button class="view-more-btn">View More</button>
+                                        </div>
+
+                                        <h6 class="section-title">Medication</h6>
+                                        <div class="tags-container">
+                                            <span class="detail-tag">Tiotropium</span>
+                                            <span class="detail-tag">Carbocisteine</span>
+                                            <span class="detail-tag">Mirtazapine</span>
+                                            <button class="view-more-btn">View More</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-3">
-                                <div class="card" style="border-radius: 20px">
-                                    <div class="card-body px-xl-3 px-2">
-                                        <h5 class="card-title mb-0" style="color: rgba(40, 199, 111, 1)">74%</h5>
-                                        <span class="card-subtitle text-muted">Patient Satisfaction</span>
+                            <div class="col-4">
+                                <div class="col-12">
+                                    <div class="card medical-history-card">
+                                        <div class="card-body medical-history-card-body">
+                                            <span class="card-label">Medical History</span>
+                                            <p class="mh-date"><strong>Date of Medical History:</strong> 06/11/2024 <span class="mh-self-filled">(self-filled)</span></p>
+                                            <div class="mh-actions">
+                                                <a href="#" class="mh-link">
+                                                    <i class="ti ti-eye"></i> View
+                                                </a>
+                                                <a href="#" class="mh-link">
+                                                    <i class="ti ti-download"></i> Download
+                                                </a>
+                                                <a href="#" class="btn mh-btn">Medical History</a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-3">
-                                <select class="dropdown-select" name="month">
-                                    <option value="">Filter by month</option>
-                                    @foreach (['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] as $month)
-                                        <option value="{{ $month }}">{{ $month }}</option>
-                                    @endforeach
-                                </select>
-                                <select class="dropdown-select mt-2" name="year">
-                                    <option value="">Filter by year</option>
-                                    @for ($i = date('Y'); $i >= 1900; $i--)
-                                        <option value="{{ $i }}">{{ $i }}</option>
-                                    @endfor
-                                </select>
+                                <div class="col-12 mt-3">
+                                    <div class="card appointment-card">
+                                        <div class="card-body appointment-card-body">
+                                            <span class="card-label">Appointment</span>
+                                            <div class="d-flex justify-content-between align-items-start">
+                                                <div class="appointment-info">
+                                                    <div class="appointment-date">19/11/2024</div>
+                                                    <div class="appointment-subtext">Next Appointment</div>
+                                                </div>
+                                                <div class="appointment-actions d-flex flex-column align-items-end">
+                                                    <a href="#" class="btn app-create-btn">Create</a>
+                                                    <a href="#" class="btn app-cancel-btn">Cancel</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="card overflow-hidden mb-0 mt-4"
-                     style=" border-radius: 20px;">
+                     style=" border-radius: 20px; height: 100% !important">
                     <div class="card-body p-0 m-0">
                         <div class="row">
                             <section id="column-selectors">
