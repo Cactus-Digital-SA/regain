@@ -51,7 +51,7 @@
                         </div>
                         <div class="col-md-12 mt-5 d-flex justify-content-between">
                             <button type="button" class="custom-back-btn" id="btn-back">Back</button>
-                            <button type="submit" class="custom-next-btn" id="btn-next">Register</button>
+                            <button type="submit" class="custom-next-btn" id="btn-next">Next</button>
                         </div>
                     </div>
                 </form>
