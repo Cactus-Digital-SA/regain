@@ -135,7 +135,7 @@
                                         <h5 class="patient-name">Olha Maximova</h5>
 
                                         <p class="patient-detail">
-                                            <span>Patient ID:</span>&nbsp; #P{{$patientData->getId()}}</p>
+                                            <span>Patient ID:</span>&nbsp; #P{{$patientData->getUser()->getId()}}</p>
                                         <p class="patient-detail">
                                             <span>Date of Birth:</span>&nbsp; {{$patientData->getBirthday()->format("d/m/Y")}}
                                         </p>
