@@ -70,7 +70,7 @@ class PractitionerController extends Controller
     {
         $presenter = $this->questionsService->fetchMedicalHistoryQuestions(Auth::id(), $forUserId);
 
-        return view('patient.index')->with('presenter', $presenter);
+        return view('practitioner.medical-history-questions')->with('presenter', $presenter);
     }
 
     public function datatable(Request $request)

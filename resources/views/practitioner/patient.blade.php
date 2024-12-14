@@ -161,20 +161,11 @@
                                         <h6 class="section-title">Details</h6>
                                         <div class="tags-container">
                                             <span class="detail-tag tag-purple">-</span>
-                                            {{--                                            <span class="detail-tag tag-purple">Accessible Mobility</span>--}}
-                                            {{--                                            <span class="detail-tag tag-purple">Diabetes</span>--}}
-                                            {{--                                            <span class="detail-tag tag-purple">COPD</span>--}}
-                                            {{--                                            <span class="detail-tag tag-purple">Depression</span>--}}
-                                            {{--                                            <button class="view-more-btn">View More</button>--}}
                                         </div>
 
                                         <h6 class="section-title">Medication</h6>
                                         <div class="tags-container">
                                             <span class="detail-tag">-</span>
-                                            {{--                                            <span class="detail-tag">Tiotropium</span>--}}
-                                            {{--                                            <span class="detail-tag">Carbocisteine</span>--}}
-                                            {{--                                            <span class="detail-tag">Mirtazapine</span>--}}
-                                            {{--                                            <button class="view-more-btn">View More</button>--}}
                                         </div>
                                     </div>
                                 </div>
@@ -184,19 +175,15 @@
                                     <div class="card medical-history-card">
                                         <div class="card-body medical-history-card-body">
                                             <span class="card-label">Medical History</span>
-                                            {{--                                            <p class="mh-date"><strong>Date of Medical History:</strong> 06/11/2024 <span class="mh-self-filled">(self-filled)</span></p>--}}
                                             <p class="mh-date"><strong>-</strong></p>
                                             <div class="mh-actions">
                                                 <div class="d-flex flex-column align-items-start">
-                                                    {{--                                                    <a href="#" class="mh-link">--}}
-                                                    {{--                                                        <i class="ti ti-eye"></i> View--}}
-                                                    {{--                                                    </a>--}}
-                                                    {{--                                                    <a href="#" class="mh-link mt-1">--}}
-                                                    {{--                                                        <i class="ti ti-download"></i> Download--}}
-                                                    {{--                                                    </a>--}}
                                                 </div>
                                                 <a href="#" class="btn mh-btn" data-bs-toggle="modal"
-                                                   data-bs-target="#medicalHistory">Medical History</a>
+                                                   data-bs-target="#medicalHistory"
+                                                   id="load-medical-history">
+                                                    Medical History
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
@@ -355,11 +342,52 @@
             });
         }
     });
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const modalContainer = document.getElementById('medical-history-content');
+        const loadMedicalHistoryBtn = document.getElementById('load-medical-history');
+        const medicalHistoryModal = new bootstrap.Modal(document.getElementById('medicalHistory'));  // Initialize modal using Bootstrap
+
+        // Function to fetch medical history data
+        function fetchMedicalHistory(userId) {
+            // Send POST request to fetch medical history data
+            fetch(`{{ route("practitioner.medical-history", $patientData->getUserId()) }}`, {
+                method: 'POST',  // Change the method to POST
+                headers: {
+                    'Content-Type': 'application/json',  // Set content type to JSON
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    user_id: userId  // Send any data (e.g., userId) if needed
+                })
+            })
+                .then(response => response.text())
+                .then(data => {
+                    // Replace modal content with the fetched data
+                    modalContainer.innerHTML = data;
+
+                    // Show the modal after the content is fetched and set
+                    medicalHistoryModal.show();
+                })
+                .catch(error => {
+                    console.error('Error fetching medical history content:', error);
+                });
+        }
+
+        // Listen for the modal show event and fetch data when the modal is shown
+        loadMedicalHistoryBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            const userId = loadMedicalHistoryBtn.getAttribute('data-user-id');
+
+            // Before fetching, make sure the modal is hidden
+            modalContainer.innerHTML = ''; // Clear previous content
+            medicalHistoryModal.hide(); // Hide modal initially
+
+            // Fetch the medical history and show the modal after content is updated
+            fetchMedicalHistory(userId);
+        });
+    });
 </script>
-
-<style>
-
-</style>
-
 </body>
 </html>

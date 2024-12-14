@@ -61,7 +61,7 @@ Route::group([
     Route::get('/patients', [PractitionerController::class, 'patients'])->name('patients');
     Route::get('/patients/table', [PractitionerController::class, 'datatable'])->name('datatable');
     Route::get('/patients/{userId}', [PractitionerController::class, 'patient'])->name('patient');
-    Route::get('/patients/medical-history/{userId}', [PractitionerController::class, 'getMedicalHistoryQuestions'])->name('medical-history');
+    Route::post('/patients/medical-history/{userId}', [PractitionerController::class, 'getMedicalHistoryQuestions'])->name('medical-history');
 });
 
 Route::group([
