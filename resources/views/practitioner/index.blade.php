@@ -25,6 +25,8 @@
 
 @include('frontend.content.mock.dashboards.practitioner.includes.medical-history-modal-alcohol')
 @include('frontend.content.mock.dashboards.practitioner.includes.medical-history-modal-hepatitis')
+
+@include('frontend.content.mock.dashboards.includes.success-modal-regain')
 @include('backend.components.delete_modal')
 <div class="container">
     <div class="row h-100 p-4">
@@ -41,7 +43,7 @@
                                 <span class="nav-link text-left" id="v-pills-patient-registration-tab"
                                       aria-selected="true" style="color:#000; font-weight:bold;">
                                     New Patient <span
-                                        class="notification-count-patient d-flex justify-content-center align-items-center">1</span>
+                                            class="notification-count-patient d-flex justify-content-center align-items-center">1</span>
                                 </span>
                             </div>
                             <div class="d-flex flex-column justify-content-between ms-0 ps-0">
@@ -97,7 +99,7 @@
                                 </span>
                                 <button href="#" class="btn btn-lg notification-button rounded-pill"
                                         data-bs-toggle="tooltip" data-bs-placement="bottom" title="Notifications"><span
-                                        class="notification-count">3</span><i class="ti ti-bell"></i></button>
+                                            class="notification-count">3</span><i class="ti ti-bell"></i></button>
                                 <button href="#" class="btn btn-lg profile-button rounded-pill" data-bs-toggle="tooltip"
                                         data-bs-placement="bottom" title="Profile"><i class="ti ti-user"></i></button>
                             </div>
@@ -112,9 +114,10 @@
                                 <div class="card patient-card">
                                     <div class="card-body patient-card-body">
                                         <span class="patient-profile-label">Patient Profile</span>
-                                        <button class="more-button position-absolute btn" style="right: 1rem; top: 1rem;"
+                                        <button class="more-button position-absolute btn"
+                                                style="right: 1rem; top: 1rem;"
                                                 data-bs-toggle="modal" data-bs-target="#patientInformation"><i
-                                                class="ti ti-dots-vertical"></i>
+                                                    class="ti ti-dots-vertical"></i>
                                         </button>
                                         <h5 class="patient-name">Olha Maximova</h5>
 
@@ -234,7 +237,6 @@
         </div>
     </div>
 </div>
-
 
 <script type="module">
     $(function () {
