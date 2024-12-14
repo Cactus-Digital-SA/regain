@@ -102,6 +102,10 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
                              return '#OP' . $data->id;
                          })
                          ->editColumn('name', function ($data) use ($user) {
+                             if (!$user) {
+                                 return e($data->user->name);
+                             }
+
                              if ($user->isPractitioner()) {
                                  $url = route('practitioner.patient', ['userId' => $data->user->id]);
 
@@ -120,6 +124,10 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
                              $deleteUrl = route('regain.patients.destroy', [
                                  'patient' => $data->id,
                              ]);
+
+                             if (!$user) {
+                                 return '<div class="btn-group">-</div>';
+                             }
 
                              $html = '<div class="btn-group">';
 
