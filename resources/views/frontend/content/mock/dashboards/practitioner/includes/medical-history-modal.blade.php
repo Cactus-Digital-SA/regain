@@ -14,28 +14,28 @@
                 <form id="new-patient-registration-form" method="POST" onsubmit="return false">
                     <div class="row g-4">
                         <div class="col-md-12">
-                            <label for="mobility-visible" class="form-label">Has the patient experienced any recent blackouts?</label>
+                            <label for="mobility-blackout" class="form-label">Has the patient experienced any recent blackouts?</label>
                             <div class="row">
                                 <div class="col-6">
-                                    <input type="radio" class="btn-check" name="mobility-visible" id="mobility-yes" value="yes" required>
-                                    <label class="btn w-100 mobility-button new-patient-input d-flex align-items-center justify-content-center" for="mobility-yes">Yes</label>
+                                    <input type="radio" class="btn-check" name="blackout" id="blackout-yes" value="yes" required>
+                                    <label class="btn w-100 mobility-button new-patient-input d-flex align-items-center justify-content-center" for="blackout-yes">Yes</label>
                                 </div>
                                 <div class="col-6">
-                                    <input type="radio" class="btn-check" name="mobility-visible" id="mobility-no" value="no" required>
-                                    <label class="btn w-100 mobility-button new-patient-input d-flex align-items-center justify-content-center" for="mobility-no">No</label>
+                                    <input type="radio" class="btn-check" name="blackout" id="blackout-no" value="no" required>
+                                    <label class="btn w-100 mobility-button new-patient-input d-flex align-items-center justify-content-center" for="blackout-no">No</label>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <label for="mobility-visible" class="form-label">Does the patient drink alcohol?</label>
+                            <label for="mobility-alcohol" class="form-label">Does the patient drink alcohol?</label>
                             <div class="row">
                                 <div class="col-6">
-                                    <input type="radio" class="btn-check" name="mobility-visible" id="mobility-yes" value="yes" required>
-                                    <label class="btn w-100 mobility-button new-patient-input d-flex align-items-center justify-content-center" for="mobility-yes">Yes</label>
+                                    <input type="radio" class="btn-check" name="alcohol" id="alcohol-yes" value="yes" required>
+                                    <label class="btn w-100 mobility-button new-patient-input d-flex align-items-center justify-content-center" for="alcohol-yes">Yes</label>
                                 </div>
                                 <div class="col-6">
-                                    <input type="radio" class="btn-check" name="mobility-visible" id="mobility-no" value="no" required>
-                                    <label class="btn w-100 mobility-button new-patient-input d-flex align-items-center justify-content-center" for="mobility-no">No</label>
+                                    <input type="radio" class="btn-check" name="alcohol" id="alcohol-no" value="no" required>
+                                    <label class="btn w-100 mobility-button new-patient-input d-flex align-items-center justify-content-center" for="alcohol-no">No</label>
                                 </div>
                             </div>
                         </div>
@@ -67,11 +67,11 @@
         nextButton.addEventListener('click', function (e) {
             e.preventDefault();
 
-            let mobility = document.getElementById('name-visible').value;
-            let note = document.querySelector('input[name="mobility-visible"]:checked').value;
+            let blackout = document.querySelector('input[name="blackout"]:checked')?.value || '';
+            let alcohol = document.querySelector('input[name="alcohol"]:checked')?.value || '';
 
-            document.getElementById('mobility').value = mobility;
-            document.getElementById('notes').value = note;
+            document.getElementById('mobility').value = blackout;
+            document.getElementById('notes').value = alcohol;
 
             let modal = document.getElementById('modal-container');
             // modal.innerHTML = '';
