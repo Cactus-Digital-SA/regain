@@ -100,6 +100,9 @@ readonly class QuestionsService
 
         $activeQuestion = $this->getLatestAnsweredMedicalHistoryQuestion($userId, $forUserId);
         $questions      = $this->getMedicalHistoryQuestions($take, $activeQuestion?->getId() ?? 0);
+        foreach ($questions as $question) {
+            $this->populateHiddenData($question);
+        }
 
         return $presenter->setQuestions($questions)->setCompleted(false);
     }

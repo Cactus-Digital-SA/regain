@@ -247,7 +247,6 @@
         </div>
     </div>
 </div>
-
 <script type="module">
     $(function () {
         let dt_basic_table = $('.patients-datatable');
@@ -371,9 +370,9 @@
                 .then(data => {
                     // Replace modal content with the fetched data
                     modalContainer.innerHTML = data;
-
                     // Show the modal after the content is fetched and set
                     medicalHistoryModal.show();
+                    bootModal();
                 })
                 .catch(error => {
                     console.error('Error fetching medical history content:', error);
@@ -394,5 +393,158 @@
         });
     });
 </script>
+
+<script>
+    function bootModal() {
+        const nextButton = document.getElementById('next-button');
+        const forms = document.querySelectorAll('form.collect-question');
+        const checkboxes = document.querySelectorAll('.select-response');
+        document.getElementById('overlay').style.visibility = 'hidden';
+
+        // Function to handle checkbox change and update the 'Next' button state
+        function updateNextButtonState() {
+            let missing = false;
+            forms.forEach(form => {
+                    const container = form.closest('.question-container');
+                    questionId = form.dataset.questionId;
+                    if (container && container.dataset.hide !== "true") {
+                        if (container.dataset.userInput === "false") {
+                            const checkboxesForQuestion = form.querySelectorAll('input[name="response-' + questionId + '"]:checked');
+                            if (checkboxesForQuestion.length === 0) {
+                                missing = true;
+                            }
+                        } else {
+                            if (form.querySelector(`.select-response`).value.trim().length === 0) {
+                                missing = true;
+                            }
+                        }
+                    }
+                }
+            )
+            nextButton.disabled = missing;
+        }
+
+        function handleInputChange(e) {
+            const questionId = this.dataset.questionId;
+            const inputForm = document.getElementById(`input-form_${questionId}`);
+            const maxSelections = inputForm.dataset.maxSelections;
+            const formAvailableCheckBoxes = inputForm.querySelectorAll(`input[name="response-${questionId}"]`);
+            const formCheckedBoxes = Array.from(formAvailableCheckBoxes).filter(checkbox => checkbox.checked);
+
+            if (formCheckedBoxes.length > maxSelections) {
+                formAvailableCheckBoxes.forEach(cb => {
+                    if (cb !== event.currentTarget) {
+                        cb.checked = false;
+                    }
+                });
+            }
+
+            const dependantForms = document.querySelectorAll('form[data-condition-question-id]:not([data-condition-question-id=""])');
+            dependantForms.forEach(form => {
+                const requiredQuestionId = form.dataset.conditionQuestionId;
+                const requiredForm = document.getElementById(`input-form_${requiredQuestionId}`);
+                const requiredQuestionResponseIds = JSON.parse(form.dataset.conditionRequiredResponseIds);
+                const parentForm = document.getElementById(`input-form_${requiredQuestionId}`);
+                const questionContainer = form.closest('.question-container');
+
+                if (parentForm) {
+                    const requiredFormInputs = parentForm.querySelectorAll('input:checked');
+                    if (requiredFormInputs.length > 0) {
+                        // Check if any selected inputs have a response ID that matches any in the required response IDs array
+                        const containsAnyId = Array.from(requiredFormInputs).some(input =>
+                            requiredQuestionResponseIds.includes(parseInt(input.dataset.responseId))
+                        );
+
+                        if (containsAnyId) {
+                            if (questionContainer) {
+                                questionContainer.classList.remove('hidden');
+                                questionContainer.dataset.hide = "false";
+                            }
+                        } else {
+                            questionContainer.classList.add('hidden');
+                            questionContainer.dataset.hide = "true";
+                        }
+                    } else {
+                        questionContainer.classList.add('hidden');
+                        questionContainer.dataset.hide = "true";
+                    }
+                }
+            });
+
+            updateNextButtonState();
+        }
+
+
+        // Event listener for checkboxes
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('click', handleInputChange);
+            checkbox.addEventListener('keydown', handleInputChange);
+        });
+
+
+        // Handle Next button click
+        nextButton.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                // Show the overlay and disable the button
+                overlay.style.display = 'flex';
+                nextButton.disabled = true;
+
+                // Collect the selected response IDs for this question
+                let selectedResponsesFinal = [];
+                document.querySelectorAll(`.collect-question`)
+                    .forEach(questionForm => {
+                        questionContainer = questionForm.closest('.question-container');
+                        if (questionContainer.dataset.hide === "false") {
+                            questionData = {};
+                            questionData.questionId = parseInt(questionForm.dataset.questionId);
+                            questionData.responses = [];
+
+                            if (questionContainer.dataset.userInput === "false") {
+                                responses = questionForm.querySelectorAll(`.select-response:checked`).forEach(response => {
+                                    questionData.responses.push(parseInt(response.dataset.responseId));
+                                });
+                                selectedResponsesFinal.push(questionData);
+                            } else {
+                                textResponse = questionForm.querySelector(`.text-response`);
+                                if (textResponse) {
+                                    questionData.responses.push(textResponse);
+                                }
+                            }
+
+                        }
+                    });
+
+                if (selectedResponsesFinal.length > 0) {
+                    document.getElementById('overlay').style.visibility = 'visible';
+                    /*
+                    // Send the collected data via JSON
+                    fetch('{{ route('patient.submit-answers') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({questions: selectedResponsesFinal})
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            // Handle the response from the server (e.g., show a success message, redirect)
+                            window.location.href = '{{ route('patient.home') }}';
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                        */
+                }
+            }
+        );
+
+        nextButton.disabled = false;
+
+        updateNextButtonState();
+    }
+</script>
+
 </body>
 </html>

@@ -2,9 +2,8 @@
 
  Practitioner Dashboard (need figma)
      implement medical history flow
-     Show patient personal data
      Show some tags from medical history
-     View & Download medical history
+     View & Download medical history``
      In appointment dates show the medical history and the submission of the socio-demographic & pre-assesment test
      Only show patients to practitioners when they have completed the test (list patients)
      css for report generation

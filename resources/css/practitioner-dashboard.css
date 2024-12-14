@@ -1,12 +1,12 @@
-body{
+body {
     background-color: rgba(149, 154, 185, 1) !important;
 }
 
-.container{
+.container {
     max-height: unset !important;
 }
 
-.notification-count-patient{
+.notification-count-patient {
     position: relative;
     background-color: red;
     color: white;
@@ -90,6 +90,7 @@ body{
     height: 100% !important;
     position: relative;
 }
+
 .info-card-body {
     display: flex;
     flex-direction: column;
@@ -139,7 +140,7 @@ body{
     font-weight: 500;
 }
 
-.tag-purple{
+.tag-purple {
     background-color: rgba(169, 188, 235, 1) !important;
     color: rgba(74, 93, 140, 1) !important;
 }
@@ -338,10 +339,9 @@ body{
     background-color: #dddef1 !important;
 }
 
-.color-calendar{
+.color-calendar {
     background-color: #dddef1 !important;
 }
-
 
 
 .appointment-overview {
@@ -357,5 +357,8 @@ body{
     background-color: #eaeaea;
 }
 
+.hidden {
+    display: none;
+}
 
 
