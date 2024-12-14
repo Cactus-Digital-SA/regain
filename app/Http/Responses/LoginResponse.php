@@ -14,7 +14,7 @@ class LoginResponse implements LoginResponseContract
         } elseif (auth()->user()->isRegainUser()) {
             $route = route('regain.patients.create');
         } elseif (auth()->user()->isPractitioner()) {
-            $route = route('pratitioners.index');
+            $route = route('practitioner.home');
         } elseif (auth()->user()->isPatient()) {
             $route = route('patient.home');
         }

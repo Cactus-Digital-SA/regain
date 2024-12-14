@@ -2,6 +2,7 @@
 
 use App\Domains\Auth\CustomLoginController;
 use App\Domains\Patient\Http\Controllers\PatientController;
+use App\Domains\Practitioner\Http\Controllers\PractitionerController;
 use App\Domains\Regain\Http\Controllers\PatientController as RegainPatientController;
 use App\Domains\Reports\Http\Controllers\ReportsController;
 use App\Http\Controllers\LanguageController;
@@ -36,7 +37,7 @@ Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 Route::group([
     'prefix'     => 'admin',
     'as'         => 'admin.',
-    'middleware' => ['auth']
+    'middleware' => ['role.super-admin', 'auth']
 ], function () {
     require_once(__DIR__ . '/admin.php');
 });
@@ -49,6 +50,14 @@ Route::group([
     Route::get('/', [PatientController::class, 'index'])->name('home');
     Route::post('/submit-answer', [PatientController::class, 'submitAnswer'])->name('submit-answer');
     Route::post('/submit-answers', [PatientController::class, 'submitAnswers'])->name('submit-answers');
+});
+
+Route::group([
+    'prefix'     => 'practitioner',
+    'as'         => 'practitioner.',
+    'middleware' => ['role.practitioner', 'auth'],
+], function () {
+    Route::get('/', [PractitionerController::class, 'index'])->name('home');
 });
 
 Route::group([
@@ -112,6 +121,6 @@ Route::group([
     Route::get('/disability-disorder', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showDisabilityDisorder'])->name('disability-disorder');
 
 //    Dashboards
-    Route::get('organization/dashboard',[\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showOrganizationDashboard'])->name('organization-dashboard');
-    Route::get('practitioner/dashboard',[\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showPractitionerDashboard'])->name('practitioner-dashboard');
+    Route::get('organization/dashboard', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showOrganizationDashboard'])->name('organization-dashboard');
+//    Route::get('practitioner/dashboard', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showPractitionerDashboard'])->name('practitioner-dashboard');
 });

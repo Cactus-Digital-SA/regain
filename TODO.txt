@@ -1,10 +1,5 @@
  Check figma for final specs along with dimitris
 
- Organization dashboard:
-     seed regions
-     show regions on patient creation
-     Seed practitioners for each region
-
  Practitioner Dashboard (need figma)
      implement medical history flow
      Show patient personal data
@@ -15,7 +10,6 @@
      css for report generation
      create pdf (once created store and return the generated pdf for speed)
      implement chatgpt call to populate report data
-
 
 General:
     send email when user gets created

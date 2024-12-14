@@ -20,15 +20,35 @@ class RedirectMiddleware
         // Check if the logged-in user has the 'patient' role
         if (auth()->check()) {
             if (auth()->user()->isAdmin()) {
-                return redirect()->route('admin.home');
+                if (!$request->routeIs('admin.*')) {
+                    return redirect()->route('admin.home');
+                }
+
+                return $next($request);
             }
 
             if (auth()->user()->isPatient()) {
+                if (!$request->routeIs('patient.*')) {
+                    return redirect()->route('patient.home');
+                }
+
                 return $next($request); // Proceed to the next middleware or controller
             }
 
             if (auth()->user()->isRegainUser()) {
-                return redirect()->route('regain.user.home');
+                if (!$request->routeIs('regain.user.*')) {
+                    return redirect()->route('regain.user.home');
+                }
+
+                return $next($request);
+            }
+
+            if (auth()->user()->isPractitioner()) {
+                if (!$request->routeIs('practitioner.*')) {
+                    return redirect()->route('practitioner.home');
+                }
+
+                return $next($request);
             }
         }
 

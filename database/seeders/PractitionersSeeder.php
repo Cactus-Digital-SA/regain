@@ -5,10 +5,10 @@ namespace Database\Seeders;
 use App\Domains\Auth\Models\RolesEnum;
 use App\Domains\Auth\Repositories\Eloquent\Models\Role;
 use App\Domains\Auth\Repositories\Eloquent\Models\User;
-use App\Domains\Practitioner\Repositories\Eloquent\Practitioner;
+use App\Domains\Practitioner\Repositories\Eloquent\Models\Practitioner;
+use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Faker\Factory as Faker;
 
 class PractitionersSeeder extends Seeder
 {

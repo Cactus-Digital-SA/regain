@@ -105,6 +105,7 @@ class Kernel extends HttpKernel
         'role.patient'       => RedirectMiddleware::class,
         'role.regainUser'    => RedirectMiddleware::class,
         'role.practitioner'  => RedirectMiddleware::class,
-        'role.administrator' => AdministratorMiddleware::class,
+        'role.administrator' => RedirectMiddleware::class,
+        'role.super-admin'   => RedirectMiddleware::class,
     ];
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\Practitioner\Repositories\Eloquent;
+namespace App\Domains\Practitioner\Repositories\Eloquent\Models;
 
 use App\Domains\Auth\Repositories\Eloquent\Models\User;
 use App\Domains\Region\Repositories\Eloquent\Models\Region;

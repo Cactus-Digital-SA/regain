@@ -164,6 +164,16 @@ readonly class QuestionsService
         return $this->repository->store($entity);
     }
 
+    /**
+     * @param Question    $entity
+     * @param string|null $id
+     * @return Question|null
+     */
+    public function storeWithId(Question $entity, ?string $id): ?Question
+    {
+        return $this->repository->storeWithId($entity, $id);
+    }
+
     public function getLatestAnsweredQuestion(int $userId): ?Question
     {
         /** @var UserResponse|null $latestResponse */
