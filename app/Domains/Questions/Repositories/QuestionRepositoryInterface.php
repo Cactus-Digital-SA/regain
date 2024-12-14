@@ -63,5 +63,5 @@ interface QuestionRepositoryInterface extends RepositoryInterface
      * @param array $filters
      * @return JsonResponse
      */
-    public function dataTable(array $filters = []): JsonResponse;
+    public function dataTable(?int $userId = null, array $filters = []): JsonResponse;
 }

@@ -2,6 +2,7 @@
 
 namespace App\Domains\Patient\Services;
 
+use App\Domains\Auth\Models\RolesEnum;
 use App\Domains\Patient\Repositories\PatientDataRepositoryInterface;
 use App\Models\CactusEntity;
 use Illuminate\Http\JsonResponse;
@@ -22,6 +23,11 @@ class PatientDataService
         return $this->repository->getById($id);
     }
 
+    public function getByUserId(string $userId): ?CactusEntity
+    {
+        return $this->repository->getByUserId($userId);
+    }
+
     public function store(CactusEntity $entity): ?CactusEntity
     {
         return $this->repository->store($entity);
@@ -37,14 +43,13 @@ class PatientDataService
         return $this->repository->deleteById($id);
     }
 
-    public function dataTable(array $filters = []): JsonResponse
+    public function dataTable(?int $userId = null, array $filters = []): JsonResponse
     {
-        return $this->repository->dataTable($filters);
+        return $this->repository->dataTable($userId, $filters);
     }
 
     public function getTableColumns(): array
     {
         return $this->repository->getTableColumns();
     }
-
 }

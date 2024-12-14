@@ -29,12 +29,14 @@ class EloqRoleRepository implements RoleRepositoryInterface
     public function getById(string $id): ?Role
     {
         $role = $this->model->with('permissions')->findOrFail($id);
+
         return ObjectSerializer::deserialize($role->toJson() ?? "{}", Role::class, 'json');
     }
 
     public function getByName(string $roleName): ?Role
     {
         $role = $this->model->where('name', $roleName)->first();
+
         return ObjectSerializer::deserialize($role->toJson() ?? "{}", Role::class, 'json');
     }
 
@@ -46,7 +48,6 @@ class EloqRoleRepository implements RoleRepositoryInterface
         $roles = $this->model::where('name', '!=', 'super-admin')->get();
 
         return ObjectSerializer::deserialize($roles->toJson() ?? "{}", 'array<' . Role::class . '>', 'json');
-
     }
 
     /**
@@ -60,7 +61,6 @@ class EloqRoleRepository implements RoleRepositoryInterface
 
         return $user->roles->pluck('id')->toArray();
     }
-
 
     /**
      * @throws GeneralException
@@ -78,7 +78,6 @@ class EloqRoleRepository implements RoleRepositoryInterface
             }
 
             $role->syncPermissions($permissions ?? []);
-
 
             app()->make(PermissionRegistrar::class)->forgetCachedPermissions();
         } catch (Exception $e) {
@@ -110,7 +109,6 @@ class EloqRoleRepository implements RoleRepositoryInterface
 
             $role->syncPermissions($permissions ?? []);
 
-
             app()->make(PermissionRegistrar::class)->forgetCachedPermissions();
         } catch (Exception $e) {
             DB::rollBack();
@@ -129,8 +127,8 @@ class EloqRoleRepository implements RoleRepositoryInterface
     public function deleteById(string $id): bool
     {
         $role = EloquentRole::where('id', '!=', 1)
-            ->where('id', '!=', 2)
-            ->find($id);
+                            ->where('id', '!=', 2)
+                            ->find($id);
 
         if (!$role || $role->users()->count()) {
             return false;
@@ -149,29 +147,30 @@ class EloqRoleRepository implements RoleRepositoryInterface
      */
     public function rolesDatatable(array $filters = []): JsonResponse
     {
-        $roles = EloquentRole::where('name' ,'!=', 'super-admin');
+        $roles = EloquentRole::where('name', '!=', 'super-admin');
+
         return Datatables::of($roles)
-            ->addColumn('actions', function (EloquentRole $role){
-                return '
+                         ->addColumn('actions', function (EloquentRole $role) {
+                             return '
                 <div class="d-flex align-items-center">
-                <a href="'.route("admin.roles.edit",$role->id).'" data-type="edit" class="btn-sm btn item-edit">'
-                    .'<i class="fas fa-pen"></i>'.
-                    '</a>
-                        <form class="delete-form" method="POST" action="'.route('admin.roles.delete',$role->id).'">
+                <a href="' . route("admin.roles.edit", $role->id) . '" data-type="edit" class="btn-sm btn item-edit">'
+                                 . '<i class="fas fa-pen"></i>' .
+                                 '</a>
+                        <form class="delete-form" method="POST" action="' . route('admin.roles.delete', $role->id) . '">
                             <input type="hidden" name="_method" value="delete" />
-                            <input type="hidden" name="_token" value="'. csrf_token() .'" />
+                            <input type="hidden" name="_token" value="' . csrf_token() . '" />
                             <button type="submit" class="delete delete-button btn btn-sm btn-flat-danger">
                               <i class="fas fa-times"></i>
                             </button>
                             </form>
                         </div>';
-            })
-            ->blacklist(['actions'])
-            ->rawColumns(['actions'])
-            ->toJson();
+                         })
+                         ->blacklist(['actions'])
+                         ->rawColumns(['actions'])
+                         ->toJson();
     }
 
-    public function dataTable(array $filters = []): JsonResponse
+    public function dataTable(?int $userId = null, array $filters = []): JsonResponse
     {
         // TODO: Implement dataTable() method.
     }

@@ -22,11 +22,11 @@ class UserRoleSeeder extends Seeder
     {
         $this->disableForeignKeys();
 
-        $adminRole = Role::findById(RolesEnum::SuperAdmin->value);
-        User::find(1)->assignRole($adminRole);
+        $superAdminRole = Role::findById(RolesEnum::SuperAdmin->value);
+        User::find(1)->assignRole($superAdminRole);
 
-        $superAdminRole = Role::findById(RolesEnum::Administrator->value);
-        User::find(2)->assignRole($superAdminRole);
+        $adminRole = Role::findById(RolesEnum::Administrator->value);
+        User::find(2)->assignRole($adminRole);
 
         $practitionerRole = Role::findById(RolesEnum::Practitioner->value);
         User::find(3)->assignRole($practitionerRole);

@@ -28,9 +28,9 @@ readonly class QuestionsService
      * @param array $filters
      * @return JsonResponse
      */
-    public function dataTable(array $filters = []): JsonResponse
+    public function dataTable(?int $userId = null, array $filters = []): JsonResponse
     {
-        return $this->repository->dataTable($filters);
+        return $this->repository->dataTable($userId, $filters);
     }
 
     /**
@@ -81,6 +81,25 @@ readonly class QuestionsService
             $this->populateHiddenData($question);
             $questions[] = $question;
         }
+
+        return $presenter->setQuestions($questions)->setCompleted(false);
+    }
+
+    /**
+     * @param int $userId
+     * @param int $take
+     * @return QuestionsPresenter
+     */
+    public function fetchMedicalHistoryQuestions(int $userId, int $forUserId, int $take = 2): QuestionsPresenter
+    {
+        $presenter = new QuestionsPresenter();
+
+        $flow = QuestionnaireFlowType::MEDICAL_HISTORY;
+
+        $presenter->setType($flow);
+
+        $activeQuestion = $this->getLatestAnsweredMedicalHistoryQuestion($userId, $forUserId);
+        $questions      = $this->getMedicalHistoryQuestions($take, $activeQuestion?->getId() ?? 0);
 
         return $presenter->setQuestions($questions)->setCompleted(false);
     }
@@ -179,6 +198,50 @@ readonly class QuestionsService
         /** @var UserResponse|null $latestResponse */
         $latestResponse = UserResponse::query()
                                       ->where('user_id', $userId)
+                                      ->orderBy('question_response_id', 'desc')
+                                      ->first();
+
+        if ($latestResponse !== null) {
+            $activeQuestionId = $latestResponse->questionResponse->question->id;
+
+            return $this->getById($activeQuestionId);
+        }
+
+        return null;
+    }
+
+    public function getMedicalHistoryQuestions(int $take = 2, int $startFrom = 0): array
+    {
+        $eloqQuestions = EloquentQuestion::whereIn('test_id', static function ($query) {
+            $query->select('id')
+                  ->from('tests')
+                  ->whereIn('category_id', function ($subQuery) {
+                      $subQuery->select('category_id')
+                               ->from('questionnaire_flows')
+                               ->where('flow_type', QuestionnaireFlowType::MEDICAL_HISTORY->value);
+                  });
+        });
+
+        if ($startFrom > 0) {
+            $eloqQuestions = $eloqQuestions->where('id', '>', $startFrom);
+        }
+
+        $eloqQuestions = $eloqQuestions->orderBy("id")->take($take)->get();
+
+        $questions = [];
+        foreach ($eloqQuestions as $question) {
+            $questions[] = $this->getById($question->id);
+        }
+
+        return $questions;
+    }
+
+    public function getLatestAnsweredMedicalHistoryQuestion(int $userId, int $forUserId): ?Question
+    {
+        /** @var UserResponse|null $latestResponse */
+        $latestResponse = UserResponse::query()
+                                      ->where('user_id', $userId)
+                                      ->where('for_user_id', $forUserId)
                                       ->orderBy('question_response_id', 'desc')
                                       ->first();
 

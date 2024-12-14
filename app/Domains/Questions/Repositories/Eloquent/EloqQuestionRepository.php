@@ -107,7 +107,7 @@ class EloqQuestionRepository implements QuestionRepositoryInterface
      * @return JsonResponse
      * @throws Exception
      */
-    public function dataTable(array $filters = []): JsonResponse
+    public function dataTable(?int $userId = null, array $filters = []): JsonResponse
     {
         $questions = EloqQuestion::with(['languages', 'responses.languages', 'instruction', 'references', 'test.category', 'subscale']);
         $questions = $questions->select('questions.*');

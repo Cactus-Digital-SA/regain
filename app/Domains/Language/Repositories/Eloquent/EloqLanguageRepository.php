@@ -72,7 +72,7 @@ class EloqLanguageRepository implements LanguageRepositoryInterface
         throw new NotImplementedException();
     }
 
-    public function dataTable(array $filters = []): JsonResponse
+    public function dataTable(?int $userId = null, array $filters = []): JsonResponse
     {
         // TODO: Implement dataTable() method.
         throw new NotImplementedException();

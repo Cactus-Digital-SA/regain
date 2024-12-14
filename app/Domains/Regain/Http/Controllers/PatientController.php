@@ -8,7 +8,9 @@ use App\Domains\Patient\Models\PatientData;
 use App\Domains\Patient\Services\PatientDataService;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PatientController extends Controller
 {
@@ -16,6 +18,7 @@ class PatientController extends Controller
     {
 
     }
+
     public function index()
     {
         $columns = $this->patientDataService->getTableColumns();
@@ -48,17 +51,17 @@ class PatientController extends Controller
     public function destroy(string $patient): \Illuminate\Http\RedirectResponse
     {
         $response = $this->patientDataService->deleteById($patient);
-        if($response){
+        if ($response) {
             return redirect()->back()->with('success', 'Patient deleted successfully');
         }
 
         return redirect()->back()->with('error', 'There was a problem deleting the patient.');
     }
 
-    public function datatable(Request $request): \Illuminate\Http\JsonResponse
+    public function datatable(Request $request): JsonResponse
     {
         $filters = Helpers::filters($request);
-        return $this->patientDataService->dataTable($filters);
-    }
 
+        return $this->patientDataService->dataTable(Auth::id(), $filters);
+    }
 }

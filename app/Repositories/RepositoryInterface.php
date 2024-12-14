@@ -11,14 +11,16 @@ use Illuminate\Http\JsonResponse;
 interface RepositoryInterface
 {
     public function getById(string $id): ?CactusEntity;
+
     public function store(CactusEntity $entity): ?CactusEntity;
+
     public function update(CactusEntity $entity, string $id): ?CactusEntity;
+
     public function deleteById(string $id): bool;
 
     /**
      * @param array $filters
      * @return JsonResponse
      */
-    public function dataTable(array $filters = []): JsonResponse;
-
+    public function dataTable(?int $userId = null, array $filters = []): JsonResponse;
 }

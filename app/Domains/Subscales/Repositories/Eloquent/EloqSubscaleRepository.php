@@ -89,7 +89,7 @@ class EloqSubscaleRepository implements SubscaleRepositoryInterface
         return ObjectSerializer::deserialize($subscale->toJson() ?? "{}", Subscale::class, 'json');
     }
 
-    public function dataTable(array $filters = []): JsonResponse
+    public function dataTable(?int $userId = null, array $filters = []): JsonResponse
     {
         // TODO: Implement dataTable() method.
         throw new NotImplementedException();

@@ -59,7 +59,7 @@ class EloqResponseRepository implements ResponseRepositoryInterface
         return ObjectSerializer::deserialize($response->toJson() ?? "{}", Response::class, 'json');
     }
 
-    public function dataTable(array $filters = []): JsonResponse
+    public function dataTable(?int $userId = null, array $filters = []): JsonResponse
     {
         // TODO: Implement dataTable() method.
         throw new NotImplementedException();

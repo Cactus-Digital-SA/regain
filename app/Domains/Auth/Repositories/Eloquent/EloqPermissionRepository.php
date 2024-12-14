@@ -101,7 +101,7 @@ class EloqPermissionRepository implements PermissionRepositoryInterface
         return false;
     }
 
-    public function dataTable(array $filters = []): JsonResponse
+    public function dataTable(?int $userId = null, array $filters = []): JsonResponse
     {
         // TODO: Implement dataTable() method.
         return new JsonResponse();

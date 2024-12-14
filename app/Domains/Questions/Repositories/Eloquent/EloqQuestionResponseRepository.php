@@ -69,7 +69,7 @@ class EloqQuestionResponseRepository implements QuestionResponseRepositoryInterf
         return $this->model->newQuery()->find($id)?->delete();
     }
 
-    public function dataTable(array $filters = []): JsonResponse
+    public function dataTable(?int $userId = null, array $filters = []): JsonResponse
     {
         throw new NotImplementedException();
     }

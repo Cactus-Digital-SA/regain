@@ -91,7 +91,7 @@ class UserQuestionnaireRepository implements UserQuestionnaireRepositoryInterfac
         throw new NotImplementedException();
     }
 
-    public function dataTable(array $filters = []): JsonResponse
+    public function dataTable(?int $userId = null, array $filters = []): JsonResponse
     {
         throw new NotImplementedException();
     }

@@ -105,7 +105,7 @@ class EloqTestRepository implements TestRepositoryInterface
         return ObjectSerializer::deserialize("{}", 'array<' . Test::class . '>', 'json');
     }
 
-    public function dataTable(array $filters = []): JsonResponse
+    public function dataTable(?int $userId = null, array $filters = []): JsonResponse
     {
         // TODO: Implement dataTable() method.
         throw new NotImplementedException();

@@ -45,8 +45,8 @@ class InstructionService
      * @param array $filters
      * @return JsonResponse
      */
-    public function dataTable(array $filters = []): JsonResponse
+    public function dataTable(?int $userId = null, array $filters = []): JsonResponse
     {
-        return $this->repository->dataTable($filters);
+        return $this->repository->dataTable($userId, $filters);
     }
 }

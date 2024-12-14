@@ -2,6 +2,9 @@
 
 namespace App\Domains\Patient\Repositories;
 
+use App\Domains\Auth\Models\Role;
+use App\Domains\Auth\Models\RolesEnum;
+use App\Domains\Auth\Models\User;
 use App\Domains\Patient\Models\PatientData;
 use App\Models\CactusEntity;
 use App\Repositories\RepositoryInterface;
@@ -28,7 +31,7 @@ interface PatientDataRepositoryInterface extends RepositoryInterface
 
     /**
      * @param CactusEntity|PatientData $entity
-     * @param string $userId
+     * @param string                   $userId
      * @return PatientData|null
      */
     public function updateByUserId(CactusEntity|PatientData $entity, string $userId): ?PatientData;
@@ -43,10 +46,12 @@ interface PatientDataRepositoryInterface extends RepositoryInterface
      * @param array $filters
      * @return JsonResponse
      */
-    public function dataTable(array $filters = []): JsonResponse;
+    public function dataTable(?int $userId = null, array $filters = []): JsonResponse;
 
     /**
      * @return array
      */
     public function getTableColumns(): array;
+
+    public function getByUserId(string $userId): ?PatientData;
 }

@@ -109,7 +109,7 @@ class EloqInstructionRepository implements InstructionRepositoryInterface
      * @return JsonResponse
      * @throws Exception
      */
-    public function dataTable(array $filters = []): JsonResponse
+    public function dataTable(?int $userId = null, array $filters = []): JsonResponse
     {
         $instructions = $this->model->with(['language', 'questions']);
         $instructions = $instructions->select('instructions.*');

@@ -5,8 +5,8 @@ namespace App\Domains\Patient\Models;
 use App\Domains\Auth\Models\User;
 use App\Domains\Patient\Enums\StatusEnum;
 use App\Models\CactusEntity;
+use DateTime;
 use Illuminate\Http\Request;
-use Nette\Utils\DateTime;
 
 class PatientData extends CactusEntity
 {
@@ -16,77 +16,66 @@ class PatientData extends CactusEntity
      * @JMS\Serializer\Annotation\Type("int")
      */
     private int $id;
-
     /**
      * @var int|null $userId
      * @JMS\Serializer\Annotation\SerializedName("user_id")
      * @JMS\Serializer\Annotation\Type("int")
      */
     private ?int $userId;
-
     /**
      * @var DateTime|null $birthday
      * @JMS\Serializer\Annotation\SerializedName("birthday")
      * @JMS\Serializer\Annotation\Type("DateTime<'Y-m-d'>")
      */
     private ?DateTime $birthday = null;
-
     /**
      * @var int|null $regionId
      * @JMS\Serializer\Annotation\SerializedName("region_id")
      * @JMS\Serializer\Annotation\Type("int")
      */
     private ?int $regionId;
-
     /**
      * @var int|null $postCode
      * @JMS\Serializer\Annotation\SerializedName("post_code")
      * @JMS\Serializer\Annotation\Type("int")
      */
     private ?int $postCode;
-
     /**
      * @var string|null $primaryPhone
      * @JMS\Serializer\Annotation\SerializedName("primary_phone")
      * @JMS\Serializer\Annotation\Type("string")
      */
     private ?string $primaryPhone;
-
     /**
      * @var string|null $secondaryPhone
      * @JMS\Serializer\Annotation\SerializedName("secondary_phone")
      * @JMS\Serializer\Annotation\Type("string")
      */
     private ?string $secondaryPhone;
-
     /**
      * @var string|null $accessibleMobility
      * @JMS\Serializer\Annotation\SerializedName("accessible_mobility")
      * @JMS\Serializer\Annotation\Type("string")
      */
     private ?string $accessibleMobility;
-
     /**
      * @var string|null $notes
      * @JMS\Serializer\Annotation\SerializedName("notes")
      * @JMS\Serializer\Annotation\Type("string")
      */
     private ?string $notes;
-
     /**
      * @var StatusEnum $status
      * @JMS\Serializer\Annotation\SerializedName("status")
      * @JMS\Serializer\Annotation\Type("enum<'App\Domains\Patient\Enums\StatusEnum'>")
      */
     private StatusEnum $status = StatusEnum::PROCESSING;
-
     /**
      * @var ?User $user
      * @JMS\Serializer\Annotation\SerializedName("user")
      * @JMS\Serializer\Annotation\Type("App\Domains\Auth\Models\User")
      */
     private ?User $user;
-
 //    /**
 //     * @var ?Region $region
 //     * @JMS\Serializer\Annotation\SerializedName("residence_area")
@@ -101,15 +90,15 @@ class PatientData extends CactusEntity
     public function getValues(bool $withRelations = true): array
     {
         $data = [
-            'id'          => $this->id,
-            'userId'     => $this->userId,
-            'birthday'    => $this->birthday,
-            'regionId'   => $this->regionId,
-            'post_code'   => $this->postCode,
-            'primaryPhone' => $this->primaryPhone,
-            'secondaryPhone' => $this->secondaryPhone,
+            'id'                 => $this->id,
+            'userId'             => $this->userId,
+            'birthday'           => $this->birthday,
+            'regionId'           => $this->regionId,
+            'post_code'          => $this->postCode,
+            'primaryPhone'       => $this->primaryPhone,
+            'secondaryPhone'     => $this->secondaryPhone,
             'accessibleMobility' => $this->accessibleMobility,
-            'notes'       => $this->notes,
+            'notes'              => $this->notes,
         ];
 
         if ($withRelations) {
@@ -127,6 +116,7 @@ class PatientData extends CactusEntity
     public function setId(int $id): PatientData
     {
         $this->id = $id;
+
         return $this;
     }
 
@@ -138,6 +128,7 @@ class PatientData extends CactusEntity
     public function setUserId(?int $userId): PatientData
     {
         $this->userId = $userId;
+
         return $this;
     }
 
@@ -149,6 +140,7 @@ class PatientData extends CactusEntity
     public function setBirthday(?DateTime $birthday): PatientData
     {
         $this->birthday = $birthday;
+
         return $this;
     }
 
@@ -160,6 +152,7 @@ class PatientData extends CactusEntity
     public function setRegionId(?int $regionId): PatientData
     {
         $this->regionId = $regionId;
+
         return $this;
     }
 
@@ -171,6 +164,7 @@ class PatientData extends CactusEntity
     public function setPostCode(?int $postCode): PatientData
     {
         $this->postCode = $postCode;
+
         return $this;
     }
 
@@ -182,6 +176,7 @@ class PatientData extends CactusEntity
     public function setPrimaryPhone(?string $primaryPhone): PatientData
     {
         $this->primaryPhone = $primaryPhone;
+
         return $this;
     }
 
@@ -193,6 +188,7 @@ class PatientData extends CactusEntity
     public function setSecondaryPhone(?string $secondaryPhone): PatientData
     {
         $this->secondaryPhone = $secondaryPhone;
+
         return $this;
     }
 
@@ -204,6 +200,7 @@ class PatientData extends CactusEntity
     public function setAccessibleMobility(?string $accessibleMobility): PatientData
     {
         $this->accessibleMobility = $accessibleMobility;
+
         return $this;
     }
 
@@ -215,6 +212,7 @@ class PatientData extends CactusEntity
     public function setNotes(?string $notes): PatientData
     {
         $this->notes = $notes;
+
         return $this;
     }
 
@@ -226,6 +224,7 @@ class PatientData extends CactusEntity
     public function setStatus(StatusEnum $status): PatientData
     {
         $this->status = $status;
+
         return $this;
     }
 
@@ -237,6 +236,7 @@ class PatientData extends CactusEntity
     public function setUser(?User $user): PatientData
     {
         $this->user = $user;
+
         return $this;
     }
 
@@ -255,5 +255,4 @@ class PatientData extends CactusEntity
             ->setNotes($request['notes'])
             ->setStatus($request['status'] ?? StatusEnum::PROCESSING);
     }
-
 }

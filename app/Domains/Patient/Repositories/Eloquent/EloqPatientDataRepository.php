@@ -2,6 +2,7 @@
 
 namespace App\Domains\Patient\Repositories\Eloquent;
 
+use App\Domains\Auth\Repositories\Eloquent\Models\User;
 use App\Domains\Patient\Models\PatientData;
 use App\Domains\Patient\Repositories\PatientDataRepositoryInterface;
 use App\Facades\ObjectSerializer;
@@ -17,8 +18,9 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
 
     public function get(): ?array
     {
-        $patientData = $this->model::all();
-        return ObjectSerializer::deserialize($patientData?->toJson() ?? "{}",  "array<". PatientData::class . ">" , 'json');
+        $patientData = $this->model::all()->load('user');
+
+        return ObjectSerializer::deserialize($patientData?->toJson() ?? "{}", "array<" . PatientData::class . ">", 'json');
     }
 
     public function getById(string $id): ?PatientData
@@ -27,24 +29,49 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
 
         $patientData->load('user');
 
-        return ObjectSerializer::deserialize($patientData?->toJson() ?? "{}",  PatientData::class , 'json');
+        return ObjectSerializer::deserialize($patientData?->toJson() ?? "{}", PatientData::class, 'json');
+    }
+
+    public function getByUserId(string $userId): ?PatientData
+    {
+        $patientData = $this->model::where('user_id', $userId)->first();
+
+        $patientData->load('user');
+
+        return ObjectSerializer::deserialize($patientData?->toJson() ?? "{}", PatientData::class, 'json');
     }
 
     public function store(CactusEntity|PatientData $entity): ?PatientData
     {
         $patientData = $this->model::create([
-            'user_id' => $entity->getUserId(),
-            'birthday' => $entity->getBirthday(),
-            'region_id' => $entity->getRegionId(),
-            'post_code' => $entity->getPostCode(),
-            'primary_phone' => $entity->getPrimaryPhone(),
-            'secondary_phone' => $entity->getSecondaryPhone(),
+            'user_id'             => $entity->getUserId(),
+            'birthday'            => $entity->getBirthday(),
+            'region_id'           => $entity->getRegionId(),
+            'post_code'           => $entity->getPostCode(),
+            'primary_phone'       => $entity->getPrimaryPhone(),
+            'secondary_phone'     => $entity->getSecondaryPhone(),
             'accessible_mobility' => $entity->getAccessibleMobility(),
-            'notes' => $entity->getNotes(),
+            'notes'               => $entity->getNotes(),
         ]);
 
+        return ObjectSerializer::deserialize($patientData?->toJson() ?? "{}", PatientData::class, 'json');
+    }
 
-        return ObjectSerializer::deserialize($patientData?->toJson() ?? "{}",  PatientData::class , 'json');
+    public function updateByUserId(CactusEntity|PatientData $entity, string $userId): ?PatientData
+    {
+        $patientData = $this->model->where('user_id', $userId)->firstOrFail();
+
+        $patientData->update([
+            'birthday'            => $entity->getBirthday(),
+            'region_id'           => $entity->getRegionId(),
+            'post_code'           => $entity->getPostCode(),
+            'primary_phone'       => $entity->getPrimaryPhone(),
+            'secondary_phone'     => $entity->getSecondaryPhone(),
+            'accessible_mobility' => $entity->getAccessibleMobility(),
+            'notes'               => $entity->getNotes(),
+        ]);
+
+        return ObjectSerializer::deserialize($patientData->toJson() ?? "{}", PatientData::class, 'json');
     }
 
     public function update(CactusEntity|PatientData $entity, string $id): ?PatientData
@@ -52,74 +79,68 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
 
     }
 
-    public function updateByUserId(CactusEntity|PatientData $entity, string $userId): ?PatientData
-    {
-        $patientData = $this->model->where('user_id',$userId)->firstOrFail();
-
-        $patientData->update([
-            'birthday' => $entity->getBirthday(),
-            'region_id' => $entity->getRegionId(),
-            'post_code' => $entity->getPostCode(),
-            'primary_phone' => $entity->getPrimaryPhone(),
-            'secondary_phone' => $entity->getSecondaryPhone(),
-            'accessible_mobility' => $entity->getAccessibleMobility(),
-            'notes' => $entity->getNotes(),
-        ]);
-
-
-        return ObjectSerializer::deserialize($patientData->toJson() ?? "{}", PatientData::class, 'json');
-    }
-
     public function deleteById(string $id): bool
     {
         $patientData = $this->model->findOrFail($id);
         $patientData->user->delete();
+
         return $patientData->delete();
     }
 
     /**
      * @inheritDoc
      */
-    public function dataTable(array $filters = []): JsonResponse
+    public function dataTable(?int $userId = null, array $filters = []): JsonResponse
     {
+        $user = User::find($userId);
+
         $patientData = $this->model->with('user')->select('patient_data.*');
 
         return DataTables::of($patientData)
-            ->editColumn('id', function ($data) {
-                return '#OP' . $data->id;
-            })
-            ->editColumn('name', function ($data) {
-                return $data?->user?->name ?? ' - ';
-            })
-            ->editColumn('registered', function ($data) {
-                return $data?->user?->created_at?->format('d-m-Y') ?? ' - ';
-            })
-            ->editColumn('status', function ($data) {
-                return $data?->status?->value ?? ' - ';
-            })
-            ->addColumn('actions', function ($data) {
-                $deleteUrl = route('regain.patients.destroy', [
-                    'patient' => $data->id,
-                ]);
+                         ->editColumn('id', function ($data) {
+                             return '#OP' . $data->id;
+                         })
+                         ->editColumn('name', function ($data) use ($user) {
+                             if ($user->isPractitioner()) {
+                                 $url = route('practitioner.patient', ['userId' => $data->user->id]);
 
-                $html = '<div class="btn-group">';
+                                 return '<a href="' . $url . '">' . e($data->user->name) . '</a>';
+                             }
+
+                             return e($data->user->name);
+                         })
+                         ->editColumn('registered', function ($data) {
+                             return $data?->user?->created_at?->format('d-m-Y') ?? ' - ';
+                         })
+                         ->editColumn('status', function ($data) {
+                             return $data?->status?->value ?? ' - ';
+                         })
+                         ->addColumn('actions', function ($data) use ($user) {
+                             $deleteUrl = route('regain.patients.destroy', [
+                                 'patient' => $data->id,
+                             ]);
+
+                             $html = '<div class="btn-group">';
 
 //                $html .= '<a href="' . route('regain.patients.edit', $data->id) . '" class="btn btn-icon btn-gradient-warning">
 //                             <i class="ti ti-edit ti-xs"></i>
 //                        </a>';
 //
-                $html .= '<a href="#" class="btn btn-icon btn-gradient-danger"
+                             if ($user->isRegainUser()) {
+                                 $html .= '<a href="#" class="btn btn-icon btn-gradient-danger"
                            data-bs-toggle="modal" data-bs-target="#deleteModal"
                            onclick="deleteForm(\'' . $deleteUrl . '\')">
                             <i class="ti ti-trash ti-xs"></i>
                        </a>';
+                             }
 
-                $html .= '</div>';
-                return $html;
-            })
-            ->makeHidden(['created_at', 'updated_at', 'deleted_at'])
-            ->rawColumns(['actions'])
-            ->toJson();
+                             $html .= '</div>';
+
+                             return $html;
+                         })
+                         ->makeHidden(['created_at', 'updated_at', 'deleted_at'])
+                         ->rawColumns(['actions', 'name'])
+                         ->toJson();
     }
 
     /**
@@ -127,17 +148,15 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
      */
     public function getTableColumns(): array
     {
-        return  [
-            'id'=> ['name' => 'id', 'table' => 'patient_data.id', 'searchable' => 'false', 'sortable' => 'true'],
+        return [
+            'id' => ['name' => 'id', 'table' => 'patient_data.id', 'searchable' => 'false', 'sortable' => 'true'],
 
-            'name' => ['name' => 'Patient Name', 'table' => 'users.name', 'searchable' => 'false', 'sortable' => 'false'],
+            'name'       => ['name' => 'Patient Name', 'table' => 'users.name', 'searchable' => 'false', 'sortable' => 'false'],
             'registered' => ['name' => 'Registered', 'table' => 'users.created_at', 'searchable' => 'false', 'sortable' => 'false'],
 //            'region' => ['name' => 'Region', 'table' => 'region.name', 'searchable' => 'false', 'sortable' => 'false'],
 
             'status' => ['name' => 'Status', 'table' => 'status', 'searchable' => 'false', 'sortable' => 'false'],
 
         ];
-
     }
-
 }

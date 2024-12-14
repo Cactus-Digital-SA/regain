@@ -58,6 +58,10 @@ Route::group([
     'middleware' => ['role.practitioner', 'auth'],
 ], function () {
     Route::get('/', [PractitionerController::class, 'index'])->name('home');
+    Route::get('/patients', [PractitionerController::class, 'patients'])->name('patients');
+    Route::get('/patients/table', [PractitionerController::class, 'datatable'])->name('datatable');
+    Route::get('/patients/{userId}', [PractitionerController::class, 'patient'])->name('patient');
+    Route::get('/patients/medical-history/{userId}', [PractitionerController::class, 'getMedicalHistoryQuestions'])->name('medical-history');
 });
 
 Route::group([
@@ -124,5 +128,4 @@ Route::group([
     Route::get('organization/dashboard', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showOrganizationDashboard'])->name('organization-dashboard');
     Route::get('practitioner/dashboard', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showPractitionerDashboard'])->name('practitioner-dashboard');
     Route::get('practitioner/dashboard/calendar', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showPractitionerCalendarDashboard'])->name('practitioner-dashboard');
-
 });

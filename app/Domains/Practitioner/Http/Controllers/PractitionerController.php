@@ -9,8 +9,10 @@ use App\Domains\Practitioner\Services\PractitionersService;
 use App\Domains\Questions\Services\QuestionsService;
 use App\Domains\UserResponse\Http\Requests\SubmitUserResponsesRequest;
 use App\Domains\UserResponse\Services\UserResponseService;
+use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
@@ -23,6 +25,7 @@ class PractitionerController extends Controller
     public function __construct(
         private readonly PractitionersService $practitionerService,
         private readonly QuestionsService $questionsService,
+        private readonly PatientDataService $patientDataService,
     ) {
     }
 
@@ -33,15 +36,44 @@ class PractitionerController extends Controller
     {
         $practitioner = $this->practitionerService->getByUserId((string)Auth::id());
 
-        return view('practitioner.index')
+        return view('practitioner.home')
             ->with('columns', [])
             ->with('practitioner', $practitioner);
     }
 
-    public function getMedicalHistoryQuestions()
+    public function patients(): View
     {
+        $practitioner = $this->practitionerService->getByUserId((string)Auth::id());
+        $patientData  = $this->patientDataService->get();
 
+        return view('practitioner.patients')
+            ->with('patientData', $patientData)
+            ->with('columns', $this->patientDataService->getTableColumns())
+            ->with('practitioner', $practitioner);
+    }
 
-        return view('patient.index');
+    public function patient(Request $request, int $userId): View
+    {
+        $practitioner = $this->practitionerService->getByUserId((string)Auth::id());
+        $patientData  = $this->patientDataService->getByUserId((string)$userId);
+
+        return view('practitioner.patient')
+            ->with('columns', [])
+            ->with('practitioner', $practitioner)
+            ->with('patientData', $patientData);
+    }
+
+    public function getMedicalHistoryQuestions(Request $request, int $forUserId)
+    {
+        $presenter = $this->questionsService->fetchMedicalHistoryQuestions(Auth::id(), $forUserId);
+
+        return view('patient.index')->with('presenter', $presenter);
+    }
+
+    public function datatable(Request $request)
+    {
+        $filters = Helpers::filters($request);
+
+        return $this->patientDataService->dataTable(Auth::id(), $filters);
     }
 }
