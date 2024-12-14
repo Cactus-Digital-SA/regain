@@ -2,9 +2,10 @@
 
 namespace App\Domains\Region\Repositories\Eloquent\Models;
 
-class Region
+use Illuminate\Database\Eloquent\Model;
+
+class Region extends Model
 {
-    protected $table = 'patient_data';
     protected $fillable = [
         'name',
     ];

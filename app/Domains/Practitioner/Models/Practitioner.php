@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Domains\Practitioner\Model;
+namespace App\Domains\Practitioner\Models;
 
 use App\Domains\Auth\Models\User;
 use App\Domains\Patient\Models\PatientData;
-use App\Domains\Region\Repositories\Eloquent\Models\Region;
+use App\Domains\Region\Models\Region;
 
 class Practitioner extends User
 {
@@ -35,7 +35,7 @@ class Practitioner extends User
     /**
      * @var Region $region
      * @JMS\Serializer\Annotation\SerializedName("region")
-     * @JMS\Serializer\Annotation\Type("App\Domains\Region\Repositories\Eloquent\Models\Region")
+     * @JMS\Serializer\Annotation\Type("App\Domains\Region\Models\Region")
      */
     private Region $region;
     /**

@@ -2,7 +2,7 @@
 
 namespace App\Domains\Practitioner\Repositories\Eloquent;
 
-use App\Domains\Practitioner\Model\Practitioner;
+use App\Domains\Practitioner\Models\Practitioner;
 use App\Domains\Practitioner\Repositories\Eloquent\Models\Practitioner as EloquentPractitioner;
 use App\Domains\Practitioner\Repositories\PractitionerRepositoryInterface;
 use App\Facades\ObjectSerializer;
@@ -14,7 +14,18 @@ class PractitionerRepository implements PractitionerRepositoryInterface
 {
     public function getById(string $id): ?Practitioner
     {
-        $practitionerData = EloquentPractitioner::with(['user', 'region'])->get();
+        $practitionerData = EloquentPractitioner::where('id', '=', $id)->with(['user', 'region'])->get();
+
+        return ObjectSerializer::deserialize($practitionerData?->toJson() ?? "{}", Practitioner::class, 'json');
+    }
+
+    public function getByUserId(string $userId): ?Practitioner
+    {
+        $practitionerData = EloquentPractitioner::whereIn('user_id', static function ($query) use ($userId) {
+            $query->select('id')
+                  ->from('users')
+                  ->where('id', "=", $userId);
+        })->with(['user', 'region'])->get()->first();
 
         return ObjectSerializer::deserialize($practitionerData?->toJson() ?? "{}", Practitioner::class, 'json');
     }

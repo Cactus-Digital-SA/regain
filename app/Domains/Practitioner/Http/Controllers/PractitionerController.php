@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Domains\Practitioner\Http\Controllers;
 
 use App\Domains\Patient\Services\PatientDataService;
+use App\Domains\Practitioner\Services\PractitionersService;
 use App\Domains\Questions\Services\QuestionsService;
 use App\Domains\UserResponse\Http\Requests\SubmitUserResponsesRequest;
 use App\Domains\UserResponse\Services\UserResponseService;
@@ -20,9 +21,7 @@ class PractitionerController extends Controller
      * Create a new controller instance.
      */
     public function __construct(
-        private readonly QuestionsService $questionsService,
-        private readonly UserResponseService $responseService,
-        private readonly PatientDataService $patientDataService
+        private readonly PractitionersService $practitionerService,
     ) {
     }
 
@@ -31,9 +30,10 @@ class PractitionerController extends Controller
      */
     public function index(): View
     {
-        // $presenter = $this->questionsService->fetchQuestionsAlt(Auth::id(), 10);
-        $patients = $this->patientDataService->getTableColumns();
+        $practitioner = $this->practitionerService->getByUserId((string)Auth::id());
 
-        return view('practitioner.index')->with('columns', $patients);
+        return view('practitioner.index')
+            ->with('columns', [])
+            ->with('practitioner', $practitioner);
     }
 }

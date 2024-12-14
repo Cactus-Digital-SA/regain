@@ -3,7 +3,7 @@
 namespace App\Domains\Practitioner\Services;
 
 use App\Domains\Patient\Repositories\PatientDataRepositoryInterface;
-use App\Domains\Practitioner\Model\Practitioner;
+use App\Domains\Practitioner\Models\Practitioner;
 use App\Domains\Practitioner\Repositories\PractitionerRepositoryInterface;
 use App\Models\CactusEntity;
 use Illuminate\Http\JsonResponse;
@@ -14,13 +14,13 @@ class PractitionersService
     {
     }
 
-    public function getById(string $userId): Practitioner
+    public function getById(string $id): Practitioner
     {
-        return $this->repository->getById($userId);
+        return $this->repository->getById($id);
     }
 
-    public function getTableColumns(): array
+    public function getByUserId(string $userId): Practitioner
     {
-        return $this->repository->getTableColumns();
+        return $this->repository->getByUserId($userId);
     }
 }
