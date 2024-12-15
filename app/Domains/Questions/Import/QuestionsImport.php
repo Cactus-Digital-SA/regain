@@ -188,26 +188,47 @@ class QuestionsImport implements WithMultipleSheets
         // create flows
         $category = Category::where('name', '=', "SOCIO-DEMOGRAPHIC & WELLBEING")->first();
         if ($category) {
-            DB::table('questionnaire_flows')->insert([
+            $exists = DB::table('questionnaire_flows')->where([
                 'category_id' => $category->id,
                 'flow_type'   => QuestionnaireFlowType::PRE_ASSESSMENT
-            ]);
+            ])->exists();
+
+            if (!$exists) {
+                DB::table('questionnaire_flows')->insert([
+                    'category_id' => $category->id,
+                    'flow_type'   => QuestionnaireFlowType::PRE_ASSESSMENT
+                ]);
+            }
         }
 
         $category = Category::where('name', '=', "PRE-ASSESSMENT")->first();
         if ($category) {
-            DB::table('questionnaire_flows')->insert([
+            $exists = DB::table('questionnaire_flows')->where([
                 'category_id' => $category->id,
                 'flow_type'   => QuestionnaireFlowType::PRE_ASSESSMENT
-            ]);
+            ])->exists();
+
+            if (!$exists) {
+                DB::table('questionnaire_flows')->insert([
+                    'category_id' => $category->id,
+                    'flow_type'   => QuestionnaireFlowType::PRE_ASSESSMENT
+                ]);
+            }
         }
 
         $category = Category::where('name', '=', "SKILLS")->first();
         if ($category) {
-            DB::table('questionnaire_flows')->insert([
+            $exists = DB::table('questionnaire_flows')->where([
                 'category_id' => $category->id,
                 'flow_type'   => QuestionnaireFlowType::SKILLS
-            ]);
+            ])->exists();
+
+            if (!$exists) {
+                DB::table('questionnaire_flows')->insert([
+                    'category_id' => $category->id,
+                    'flow_type'   => QuestionnaireFlowType::SKILLS
+                ]);
+            }
         }
     }
 
