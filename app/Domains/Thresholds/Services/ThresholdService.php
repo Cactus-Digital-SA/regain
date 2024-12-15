@@ -27,6 +27,11 @@ class ThresholdService
         return $this->repository->getThresholdsByFlow($flowType);
     }
 
+    public function getThresholdByTest(int $testId): ?Threshold
+    {
+        return $this->repository->getThresholdByTest($testId);
+    }
+
     public function getById(int $id): ?Threshold
     {
         return $this->repository->getById($id);

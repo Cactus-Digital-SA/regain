@@ -9,6 +9,7 @@ use App\Domains\Patient\Enums\StatusEnum;
 use App\Domains\Patient\Models\PatientData;
 use App\Models\CactusEntity;
 use App\Repositories\RepositoryInterface;
+use Cassandra\Custom;
 use Illuminate\Http\JsonResponse;
 
 interface PatientDataRepositoryInterface extends RepositoryInterface
@@ -42,6 +43,8 @@ interface PatientDataRepositoryInterface extends RepositoryInterface
      * @return bool
      */
     public function deleteById(string $id): bool;
+
+    public function update(PatientData|CactusEntity $entity, string $id): ?PatientData;
 
     /**
      * @param array $filters

@@ -19,22 +19,22 @@ class PatientDataService
         return $this->repository->get();
     }
 
-    public function getById(string $id): ?CactusEntity
+    public function getById(string $id): ?PatientData
     {
         return $this->repository->getById($id);
     }
 
-    public function getByUserId(string $userId): ?CactusEntity
+    public function getByUserId(string $userId): ?PatientData
     {
         return $this->repository->getByUserId($userId);
     }
 
-    public function store(CactusEntity $entity): ?CactusEntity
+    public function store(PatientData $entity): ?PatientData
     {
         return $this->repository->store($entity);
     }
 
-    public function update(CactusEntity $entity, string $id): ?CactusEntity
+    public function update(PatientData $entity, string $id): ?PatientData
     {
         return $this->repository->update($entity, $id);
     }

@@ -23,8 +23,11 @@ class EloqTestRepository implements TestRepositoryInterface
 
     public function getById(string $id): ?Test
     {
-        // TODO: Implement getById() method.
-        throw new NotImplementedException();
+        $model = $this->model->where("id", "=", $id)?->with(['category', 'questions', 'subscales'])->first();
+
+        return $model ?
+            ObjectSerializer::deserialize($model->toJson() ?? "{}", Test::class, 'json') :
+            null;
     }
 
     public function deleteById(string $id): bool

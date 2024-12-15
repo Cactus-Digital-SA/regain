@@ -25,6 +25,11 @@ class TestService
         return $this->repository->get();
     }
 
+    public function getById(int $id): Test
+    {
+        return $this->repository->getById($id);
+    }
+
     /**
      * @param string $name
      * @param bool   $withRelations

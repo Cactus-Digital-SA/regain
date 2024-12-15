@@ -137,4 +137,13 @@ class EloqThresholdRepository implements ThresholdRepositoryInterface
 
         return $thresholds;
     }
+
+    public function getThresholdByTest(int $testId): ?Threshold
+    {
+        $eloqThreshold = $this->model->where('test_id', "=", $testId)->get("id")->first();
+
+        return $eloqThreshold ?
+            $this->getById($eloqThreshold->id) :
+            null;
+    }
 }

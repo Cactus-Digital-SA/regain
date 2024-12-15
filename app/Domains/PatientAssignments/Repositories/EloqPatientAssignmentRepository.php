@@ -60,9 +60,11 @@ readonly class EloqPatientAssignmentRepository implements PatientAssignmentRepos
         $patientRegion        = PatientData::where('user_id', "=", $patientUserId)->first()?->region_id;
         $practitionerByRegion = Practitioner::where("region_id", "=", $patientRegion)->first();
 
-        $this->store((new PatientAssignment())
-            ->setPractitionerId($practitionerByRegion->user_id)
-            ->setPatientUserId($patientUserId));
+        $values = [
+            'practitioner_user_id' => $practitionerByRegion->user_id,
+            'patient_user_id'      => $patientUserId,
+        ];
+        $this->model->firstOrCreate($values, $values);
     }
 
     public function store(PatientAssignment|CactusEntity $entity): ?PatientAssignment

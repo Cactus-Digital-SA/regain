@@ -62,6 +62,7 @@ Route::group([
     Route::get('/patients/table', [PractitionerController::class, 'datatable'])->name('datatable');
     Route::get('/patients/{userId}', [PractitionerController::class, 'patient'])->name('patient');
     Route::post('/patients/medical-history/{userId}', [PractitionerController::class, 'getMedicalHistoryQuestions'])->name('medical-history');
+    Route::get('/patients/report/{userId}/{testId}', [ReportsController::class, 'testReport'])->name('test-report');
     Route::post('/patients/medical-history/{userId}/submit', [PractitionerController::class, 'submitMedicalHistoryQuestions'])->name('medical-history-submit');
 });
 
@@ -74,8 +75,6 @@ Route::group([
     Route::resource('/patients', RegainPatientController::class);
     Route::post('patients/table', [RegainPatientController::class, 'datatable'])->name('patients.datatable');
 });
-
-Route::get('report/', [ReportsController::class, 'report'])->name('report');
 
 ////2fa fortify
 //Route::post('/2fa-confirm', [TwoFactorAuthController::class, 'confirm'])->name('fortify.two-factor.confirm');

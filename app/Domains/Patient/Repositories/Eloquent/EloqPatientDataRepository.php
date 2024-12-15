@@ -12,6 +12,7 @@ use App\Facades\ObjectSerializer;
 use App\Models\CactusEntity;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\UnauthorizedException;
+use Nette\NotImplementedException;
 use Yajra\DataTables\DataTables;
 
 class EloqPatientDataRepository implements PatientDataRepositoryInterface
@@ -81,9 +82,9 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
         return ObjectSerializer::deserialize($patientData->toJson() ?? "{}", PatientData::class, 'json');
     }
 
-    public function update(CactusEntity|PatientData $entity, string $id): ?PatientData
+    public function update(PatientData|CactusEntity $entity, string $id): ?PatientData
     {
-
+        throw new NotImplementedException();
     }
 
     public function deleteById(string $id): bool

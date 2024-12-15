@@ -27,6 +27,8 @@ interface ThresholdRepositoryInterface extends RepositoryInterface
      */
     public function getThresholdsByFlow(QuestionnaireFlowType $type): array;
 
+    public function getThresholdByTest(int $testId): ?Threshold;
+
     public function getById(string $id): ?Threshold;
 
     public function addSubscaleLimits(Threshold $threshold, array $subscaleLimits): void;

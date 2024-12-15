@@ -2,6 +2,8 @@
 
 namespace App\Domains\Reports\Http\Dtos;
 
+use App\Domains\Auth\Models\User;
+use App\Domains\Patient\Models\PatientData;
 use App\Domains\Tests\Models\Test;
 use App\Domains\Thresholds\Models\Constants\ThresholdDisplayType;
 
@@ -9,6 +11,8 @@ class ReportTestResult
 {
     private Test $test;
     private ThresholdDisplayType $displayType;
+    private User $user;
+    private PatientData $patientData;
     /**
      * @var ReportPlainResponse[]
      */
@@ -40,6 +44,30 @@ class ReportTestResult
     public function setDisplayType(ThresholdDisplayType $displayType): ReportTestResult
     {
         $this->displayType = $displayType;
+
+        return $this;
+    }
+
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): ReportTestResult
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getPatientData(): PatientData
+    {
+        return $this->patientData;
+    }
+
+    public function setPatientData(PatientData $patientData): ReportTestResult
+    {
+        $this->patientData = $patientData;
 
         return $this;
     }
