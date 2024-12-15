@@ -13,6 +13,7 @@ use App\Domains\UserResponse\Http\Requests\SubmitUserResponsesRequest;
 use App\Domains\UserResponse\Services\UserResponseService;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -58,6 +59,14 @@ class PractitionerController extends Controller
 
     public function patient(Request $request, int $userId)
     {
+        $assignedPatients    = $this->patientAssignmentService->getByPractitionerUserId((string)Auth::id());
+        $practitionerUserIds = array_map(static fn ($user) => $user->getPatientUserId(), $assignedPatients);
+
+        // Check if $userId is in the list of practitioner user IDs
+        if (!in_array($userId, $practitionerUserIds, true)) {
+            throw new AuthorizationException("User ID $userId is not authorized to access this report.");
+        }
+
         $practitioner = $this->practitionerService->getByUserId((string)Auth::id());
         $patientData  = $this->patientDataService->getByUserId((string)$userId);
         if ($patientData === null) {
@@ -72,6 +81,14 @@ class PractitionerController extends Controller
 
     public function getMedicalHistoryQuestions(Request $request, int $forUserId)
     {
+        $assignedPatients    = $this->patientAssignmentService->getByPractitionerUserId((string)Auth::id());
+        $practitionerUserIds = array_map(static fn ($user) => $user->getPatientUserId(), $assignedPatients);
+
+        // Check if $userId is in the list of practitioner user IDs
+        if (!in_array($forUserId, $practitionerUserIds, true)) {
+            throw new AuthorizationException("User ID $forUserId is not authorized to access this report.");
+        }
+
         $presenter = $this->questionsService->fetchMedicalHistoryQuestions(Auth::id(), $forUserId);
 
         return view('practitioner.medical-history-questions')->with('presenter', $presenter);

@@ -30,7 +30,6 @@
     @vite(['resources/css/practitioner-dashboard.css', 'resources/css/dashboard-common.css'])
 </head>
 <body>
-@include('frontend.content.mock.dashboards.practitioner.includes.patient-information-modal')
 
 <div class="modal fade" id="medicalHistory" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 60%; max-height: 100%">
@@ -132,12 +131,7 @@
                                 <div class="card patient-card">
                                     <div class="card-body patient-card-body">
                                         <span class="patient-profile-label">Patient Profile</span>
-                                        <button class="more-button position-absolute btn"
-                                                style="right: 1rem; top: 1rem;"
-                                                data-bs-toggle="modal" data-bs-target="#patientInformation"><i
-                                                    class="ti ti-dots-vertical"></i>
-                                        </button>
-                                        <h5 class="patient-name">Olha Maximova</h5>
+                                        <h5 class="patient-name">{{$patientData->getUser()->getName()}}</h5>
 
                                         <p class="patient-detail">
                                             <span>Patient ID:</span>&nbsp; #P{{$patientData->getUser()->getId()}}</p>
