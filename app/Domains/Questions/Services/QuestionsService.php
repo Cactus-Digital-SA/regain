@@ -245,11 +245,11 @@ readonly class QuestionsService
         $latestResponse = UserResponse::query()
                                       ->where('user_id', $userId)
                                       ->where('for_user_id', $forUserId)
-                                      ->orderBy('question_response_id', 'desc')
+                                      ->orderBy('question_id', 'desc')
                                       ->first();
 
         if ($latestResponse !== null) {
-            $activeQuestionId = $latestResponse->questionResponse->question->id;
+            $activeQuestionId = $latestResponse->question_id;
 
             return $this->getById($activeQuestionId);
         }

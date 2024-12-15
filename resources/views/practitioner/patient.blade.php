@@ -491,51 +491,55 @@
                 nextButton.disabled = true;
 
                 // Collect the selected response IDs for this question
-                let selectedResponsesFinal = [];
+                let selectedResponsesFinal = {};
+                selectedResponsesFinal.questions = [];
+                selectedResponsesFinal.textQuestions = [];
                 document.querySelectorAll(`.collect-question`)
                     .forEach(questionForm => {
                         questionContainer = questionForm.closest('.question-container');
                         if (questionContainer.dataset.hide === "false") {
                             questionData = {};
                             questionData.questionId = parseInt(questionForm.dataset.questionId);
-                            questionData.responses = [];
 
                             if (questionContainer.dataset.userInput === "false") {
+                                questionData.responses = [];
                                 responses = questionForm.querySelectorAll(`.select-response:checked`).forEach(response => {
                                     questionData.responses.push(parseInt(response.dataset.responseId));
                                 });
-                                selectedResponsesFinal.push(questionData);
+                                selectedResponsesFinal.questions.push(questionData);
                             } else {
-                                textResponse = questionForm.querySelector(`.text-response`);
+                                questionData.response = '';
+                                textResponse = questionForm.querySelector(`.select-response`);
                                 if (textResponse) {
-                                    questionData.responses.push(textResponse);
+                                    questionData.response = textResponse.value;
                                 }
+                                selectedResponsesFinal.textQuestions.push(questionData);
                             }
 
                         }
                     });
 
-                if (selectedResponsesFinal.length > 0) {
+                if (selectedResponsesFinal.questions.length > 0 || selectedResponsesFinal.textQuestions.length > 0) {
+                    const modalContainer = document.getElementById('medical-history-content');
                     document.getElementById('overlay').style.visibility = 'visible';
-                    /*
                     // Send the collected data via JSON
-                    fetch('{{ route('patient.submit-answers') }}', {
+                    fetch('{{ route('practitioner.medical-history-submit', $patientData->getUserId()) }}', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                             'X-CSRF-TOKEN': '{{ csrf_token() }}'
                         },
-                        body: JSON.stringify({questions: selectedResponsesFinal})
+                        body: JSON.stringify({data: selectedResponsesFinal})
                     })
-                        .then(response => response.json())
+                        .then(response => response.text())
                         .then(data => {
-                            // Handle the response from the server (e.g., show a success message, redirect)
-                            window.location.href = '{{ route('patient.home') }}';
+                            // Replace modal content with the fetched data
+                            modalContainer.innerHTML = data;
+                            bootModal();
                         })
                         .catch(error => {
                             console.error('Error:', error);
                         });
-                        */
                 }
             }
         );

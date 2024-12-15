@@ -7,6 +7,7 @@ namespace App\Domains\Practitioner\Http\Controllers;
 use App\Domains\Patient\Services\PatientDataService;
 use App\Domains\Practitioner\Services\PractitionersService;
 use App\Domains\Questions\Services\QuestionsService;
+use App\Domains\UserResponse\Http\Requests\SubmitMedicalHistoryResponsesRequest;
 use App\Domains\UserResponse\Http\Requests\SubmitUserResponsesRequest;
 use App\Domains\UserResponse\Services\UserResponseService;
 use App\Helpers\Helpers;
@@ -26,6 +27,7 @@ class PractitionerController extends Controller
         private readonly PractitionersService $practitionerService,
         private readonly QuestionsService $questionsService,
         private readonly PatientDataService $patientDataService,
+        private readonly UserResponseService $responseService,
     ) {
     }
 
@@ -71,6 +73,24 @@ class PractitionerController extends Controller
         $presenter = $this->questionsService->fetchMedicalHistoryQuestions(Auth::id(), $forUserId);
 
         return view('practitioner.medical-history-questions')->with('presenter', $presenter);
+    }
+
+    public function submitMedicalHistoryQuestions(SubmitMedicalHistoryResponsesRequest $request): View
+    {
+        $submittedData = $request->getSubmittedMedicalHistoryResponseForm();
+        $submitted     = $this->responseService->submitAnswers($submittedData);
+
+        if ($submitted) {
+            $presenter = $this->questionsService->fetchMedicalHistoryQuestions(Auth::id(), $submittedData->getForUserId());
+
+            return view('practitioner.medical-history-questions')->with('presenter', $presenter);
+        }
+
+        Log::error('Could not submit answer for user ' . $submittedData->getUserId(), [
+            'questionIs' => $submittedData,
+        ]);
+
+        abort(500);
     }
 
     public function datatable(Request $request)

@@ -62,6 +62,7 @@ Route::group([
     Route::get('/patients/table', [PractitionerController::class, 'datatable'])->name('datatable');
     Route::get('/patients/{userId}', [PractitionerController::class, 'patient'])->name('patient');
     Route::post('/patients/medical-history/{userId}', [PractitionerController::class, 'getMedicalHistoryQuestions'])->name('medical-history');
+    Route::post('/patients/medical-history/{userId}/submit', [PractitionerController::class, 'submitMedicalHistoryQuestions'])->name('medical-history-submit');
 });
 
 Route::group([
@@ -129,5 +130,4 @@ Route::group([
     Route::get('practitioner/dashboard', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showPractitionerDashboard'])->name('practitioner-dashboard');
     Route::get('practitioner/dashboard/calendar', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showPractitionerCalendarDashboard'])->name('practitioner-dashboard');
     Route::get('practitioner/dashboard/export-pdf', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'previewReport']);
-
 });

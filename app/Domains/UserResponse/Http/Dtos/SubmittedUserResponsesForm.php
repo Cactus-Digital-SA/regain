@@ -8,7 +8,12 @@ class SubmittedUserResponsesForm
 {
     /** @var SubmittedUserResponsesQuestionForm[] */
     private array $questions = [];
+    /**
+     * @var SubmittedUserResponsesTextQuestionForm[]
+     */
+    private array $textQuestions = [];
     private int $userId;
+    private ?int $forUserId = null;
 
     /**
      * @return SubmittedUserResponsesQuestionForm[]
@@ -29,6 +34,25 @@ class SubmittedUserResponsesForm
         return $this;
     }
 
+    /**
+     * @return SubmittedUserResponsesTextQuestionForm[]
+     */
+    public function getTextQuestions(): array
+    {
+        return $this->textQuestions;
+    }
+
+    /**
+     * @param SubmittedUserResponsesTextQuestionForm[] $textQuestions
+     * @return $this
+     */
+    public function setTextQuestions(array $textQuestions): SubmittedUserResponsesForm
+    {
+        $this->textQuestions = $textQuestions;
+
+        return $this;
+    }
+
     public function getUserId(): int
     {
         return $this->userId;
@@ -37,6 +61,18 @@ class SubmittedUserResponsesForm
     public function setUserId(int $userId): SubmittedUserResponsesForm
     {
         $this->userId = $userId;
+
+        return $this;
+    }
+
+    public function getForUserId(): ?int
+    {
+        return $this->forUserId;
+    }
+
+    public function setForUserId(?int $forUserId): SubmittedUserResponsesForm
+    {
+        $this->forUserId = $forUserId;
 
         return $this;
     }

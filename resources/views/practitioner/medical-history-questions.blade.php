@@ -47,8 +47,6 @@
                             <div class="col-md-12">
                                 <textarea
                                         data-question-id="{{$question->getId()}}"
-                                        data-response-id="{{$response->getId()}}"
-                                        id="response-{{$question->getId()}}-{{$response->getId()}}"
                                         name="response-{{$question->getId()}}"
                                         class="form-control select-response" style="min-height: 200px"></textarea>
                             </div>

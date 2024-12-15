@@ -11,6 +11,7 @@ use App\Domains\Scores\Services\UserScoreService;
 use App\Domains\UserQuestionnaire\Services\UserQuestionnaireService;
 use App\Domains\UserResponse\Http\Dtos\SubmittedUserResponsesForm;
 use App\Domains\UserResponse\Http\Dtos\SubmittedUserResponsesQuestionForm;
+use App\Domains\UserResponse\Http\Dtos\SubmittedUserResponsesTextQuestionForm;
 use App\Domains\UserResponse\Repositories\Eloquent\Models\UserResponse;
 use Illuminate\Support\Collection;
 
@@ -22,9 +23,44 @@ readonly class UserResponseService
     ) {
     }
 
-    public function submitAnswer(SubmittedUserResponsesQuestionForm $form, int $userId): bool
+    public function submitTextAnswer(SubmittedUserResponsesTextQuestionForm $questionForm, SubmittedUserResponsesForm $form): bool
     {
-        $questionId = $form->getQuestionId();
+        $questionId = $questionForm->getQuestionId();
+
+        /** @var Question $question */
+        $question = Question::query()->find($questionId);
+
+        $updatedId = UserResponse::query()
+                                 ->upsert(
+                                     [
+                                         'user_id'     => $form->getUserId(),
+                                         'for_user_id' => $form->getForUserId(),
+                                         'question_id' => $questionForm->getQuestionId(),
+                                         'text'        => $questionForm->getTextResponse(),
+                                     ],
+                                     ['user_id', 'question_id', 'for_user_id'],
+                                     ['text']
+                                 );
+
+        return $updatedId > 0;
+    }
+
+    public function submitAnswers(SubmittedUserResponsesForm $form): bool
+    {
+        $status = true;
+        foreach ($form->getQuestions() as $formQuestion) {
+            $status = $this->submitAnswer($formQuestion, $form);
+        }
+        foreach ($form->getTextQuestions() as $formQuestion) {
+            $status = $this->submitTextAnswer($formQuestion, $form);
+        }
+
+        return $status;
+    }
+
+    public function submitAnswer(SubmittedUserResponsesQuestionForm $questionForm, SubmittedUserResponsesForm $form): bool
+    {
+        $questionId = $questionForm->getQuestionId();
 
         /** @var Question $question */
         $question = Question::query()->find($questionId);
@@ -32,16 +68,16 @@ readonly class UserResponseService
         /** @var Collection<mixed, QuestionResponse> $questionResponses */
         $questionResponses = QuestionResponse::query()
                                              ->where('question_id', '=', $questionId)
-                                             ->whereIn('response_id', $form->getResponseIds())
+                                             ->whereIn('response_id', $questionForm->getResponseIds())
                                              ->get();
-
-        $updatedIds = [];
+        $updatedIds        = [];
 
         foreach ($questionResponses as $questionResponse) {
             $updatedId = UserResponse::query()
                                      ->upsert(
                                          [
-                                             'user_id'              => $userId,
+                                             'user_id'              => $form->getUserId(),
+                                             'for_user_id'          => $form->getForUserId(),
                                              'question_id'          => $questionId,
                                              'subscale_id'          => $question->subscale_id,
                                              'question_response_id' => $questionResponse->id,
@@ -52,10 +88,10 @@ readonly class UserResponseService
                                      );
 
             if ($question->subscale_id > 0) {
-                $this->userScoreService->calculateSubscaleScore($userId, $question->subscale_id);
+                $this->userScoreService->calculateSubscaleScore($form->getUserId(), $question->subscale_id);
             }
 
-            $this->userScoreService->calculateTestScore($userId, $questionId);
+            $this->userScoreService->calculateTestScore($form->getUserId(), $questionId);
 
             if ($updatedId > 0) {
                 $updatedIds[] = $updatedId;
@@ -63,16 +99,6 @@ readonly class UserResponseService
         }
 
         return count($updatedIds) > 0;
-    }
-
-    public function submitAnswers(SubmittedUserResponsesForm $form): bool
-    {
-        $status = true;
-        foreach ($form->getQuestions() as $formQuestion) {
-            $status = $this->submitAnswer($formQuestion, $form->getUserId());
-        }
-
-        return $status;
     }
 
     public function userHasCompletedFlow(int $userId, QuestionnaireFlowType $type): bool
