@@ -2,6 +2,8 @@
 
 namespace App\Domains\Questions\Import\Sheets;
 
+use App\Domains\Categories\Repositories\Eloquent\Models\Category;
+use App\Domains\QuestionnaireFlow\Constants\QuestionnaireFlowType;
 use App\Domains\Subscales\Repositories\Eloquent\EloqSubscaleRepository;
 use App\Domains\Subscales\Repositories\Eloquent\Models\Subscale;
 use App\Domains\Subscales\Services\SubscaleService;
@@ -17,6 +19,7 @@ use App\Domains\Thresholds\Repositories\Eloquent\Models\Threshold as EloqThresho
 use App\Domains\Thresholds\Services\ThresholdService;
 use Exception;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -135,6 +138,39 @@ class ThresholdImport implements ToCollection, WithHeadingRow
             }
         } catch (Exception $exception) {
             Log::error($exception);
+        }
+        
+        // create flows
+        $category = Category::where('name', '=', "SOCIO-DEMOGRAPHIC & WELLBEING")->first();
+        if ($category) {
+            DB::table('questionnaire_flows')->insert([
+                'category_id' => $category->id,
+                'flow_type'   => QuestionnaireFlowType::PRE_ASSESSMENT
+            ]);
+        }
+
+        $category = Category::where('name', '=', "PRE-ASSESSMENT")->first();
+        if ($category) {
+            DB::table('questionnaire_flows')->insert([
+                'category_id' => $category->id,
+                'flow_type'   => QuestionnaireFlowType::PRE_ASSESSMENT
+            ]);
+        }
+
+        $category = Category::where('name', '=', "SKILLS")->first();
+        if ($category) {
+            DB::table('questionnaire_flows')->insert([
+                'category_id' => $category->id,
+                'flow_type'   => QuestionnaireFlowType::SKILLS
+            ]);
+        }
+
+        $category = Category::where('name', '=', "MEDICAL HISTORY")->first();
+        if ($category) {
+            DB::table('questionnaire_flows')->insert([
+                'category_id' => $category->id,
+                'flow_type'   => QuestionnaireFlowType::MEDICAL_HISTORY
+            ]);
         }
     }
 
