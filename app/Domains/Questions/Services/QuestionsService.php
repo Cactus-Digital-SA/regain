@@ -310,4 +310,23 @@ readonly class QuestionsService
                            ->where("user_id", "=", Auth::user()->id)
                            ->first();
     }
+
+    /**
+     * @param Question $entity
+     * @param int      $id
+     * @return Question|null
+     */
+    public function syncReferences(Question $entity, int $id): ?Question
+    {
+        return $this->repository->syncReferences($entity, $id);
+    }
+
+    /**
+     * @param int $id
+     * @return Question|null
+     */
+    public function getByIdWithRelations(int $id): ?Question
+    {
+        return $this->repository->getByIdWithRelations($id);
+    }
 }
