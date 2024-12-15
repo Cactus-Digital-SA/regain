@@ -3,16 +3,14 @@
  Practitioner Dashboard (need figma)
      implement medical history flow
      Show some tags from medical history
-     View & Download medical history``
+     View & Download medical history
      In appointment dates show the medical history and the submission of the socio-demographic & pre-assesment test
-     Only show patients to practitioners when they have completed the test (list patients)
      css for report generation
      create pdf (once created store and return the generated pdf for speed)
      implement chatgpt call to populate report data
 
 General:
     send email when user gets created
-    when the user completes the pre-assessment assign him to practitioner based on region
     css for completed questionnaire flow
     css for login (different for patient and organization/practitioner)
 

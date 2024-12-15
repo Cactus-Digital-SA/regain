@@ -2,6 +2,8 @@
 
 namespace App\Domains\Questions\Services;
 
+use App\Domains\Patient\Enums\StatusEnum;
+use App\Domains\Patient\Services\PatientDataService;
 use App\Domains\PatientAssignments\Models\PatientAssignment;
 use App\Domains\PatientAssignments\Services\PatientAssignmentService;
 use App\Domains\QuestionnaireFlow\Constants\QuestionnaireFlowType;
@@ -24,6 +26,7 @@ readonly class QuestionsService
         private UserQuestionnaireService $userQuestionnaireService,
         private UserResponseService $userResponseService,
         private PatientAssignmentService $patientAssignmentService,
+        private PatientDataService $patientDataService,
     ) {
     }
 
@@ -71,6 +74,8 @@ readonly class QuestionsService
                 $this->userQuestionnaireService->setCompleted($userId, $flow, true);
                 if ($flow === QuestionnaireFlowType::PRE_ASSESSMENT) {
                     $this->patientAssignmentService->assignPatientByRegion($userId);
+                    // update the status
+                    $this->patientDataService->updateStatus($userId, StatusEnum::ALLOCATED);
                 }
 
                 return $presenter->setQuestions([])->setCompleted(true);
@@ -130,7 +135,7 @@ readonly class QuestionsService
     private function getQuestionIdsForPatient(int $userId, QuestionnaireFlowType $flow): array
     {
 
-        $questionIds = $this->userQuestionnaireService->getForUserAndFlow($userId, QuestionnaireFlowType::PRE_ASSESSMENT);
+        $questionIds = $this->userQuestionnaireService->getForUserAndFlow($userId, $flow);
         if (count($questionIds) > 0) {
             return $questionIds;
         }
@@ -174,6 +179,11 @@ readonly class QuestionsService
                 ->setQuestionnaireFlowType($flow)
                 ->setQuestionIds($userQuestions)
         );
+
+        if ($flow === QuestionnaireFlowType::PRE_ASSESSMENT) {
+            // change his status to processing
+            $this->patientDataService->updateStatus($userId, StatusEnum::PROCESSING);
+        }
 
         return $userQuestions;
     }

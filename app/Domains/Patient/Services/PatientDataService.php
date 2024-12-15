@@ -2,6 +2,8 @@
 
 namespace App\Domains\Patient\Services;
 
+use App\Domains\Patient\Enums\StatusEnum;
+use App\Domains\Patient\Models\PatientData;
 use App\Domains\Patient\Repositories\PatientDataRepositoryInterface;
 use App\Models\CactusEntity;
 use Illuminate\Http\JsonResponse;
@@ -35,6 +37,11 @@ class PatientDataService
     public function update(CactusEntity $entity, string $id): ?CactusEntity
     {
         return $this->repository->update($entity, $id);
+    }
+
+    public function updateStatus(string $userId, StatusEnum $status): void
+    {
+        $this->repository->updateStatus($userId, $status);
     }
 
     public function deleteById(string $id): bool

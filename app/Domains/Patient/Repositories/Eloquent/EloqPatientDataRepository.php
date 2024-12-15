@@ -3,6 +3,7 @@
 namespace App\Domains\Patient\Repositories\Eloquent;
 
 use App\Domains\Auth\Repositories\Eloquent\Models\User;
+use App\Domains\Patient\Enums\StatusEnum;
 use App\Domains\Patient\Models\PatientData;
 use App\Domains\Patient\Repositories\Eloquent\Models\PatientData as EloqPatientData;
 use App\Domains\Patient\Repositories\PatientDataRepositoryInterface;
@@ -91,6 +92,11 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
         $patientData->user->delete();
 
         return $patientData->delete();
+    }
+
+    public function updateStatus(string $userId, StatusEnum $status): void
+    {
+        $this->model->where('user_id', $userId)->update(['status' => $status->value]);
     }
 
     /**
