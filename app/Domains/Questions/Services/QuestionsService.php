@@ -2,6 +2,8 @@
 
 namespace App\Domains\Questions\Services;
 
+use App\Domains\PatientAssignments\Models\PatientAssignment;
+use App\Domains\PatientAssignments\Services\PatientAssignmentService;
 use App\Domains\QuestionnaireFlow\Constants\QuestionnaireFlowType;
 use App\Domains\Questions\Models\Question;
 use App\Domains\Questions\Models\QuestionsPresenter;
@@ -21,6 +23,7 @@ readonly class QuestionsService
         private QuestionRepositoryInterface $repository,
         private UserQuestionnaireService $userQuestionnaireService,
         private UserResponseService $userResponseService,
+        private PatientAssignmentService $patientAssignmentService,
     ) {
     }
 
@@ -66,6 +69,9 @@ readonly class QuestionsService
                 // this needs to be re-worked to take in account the edge case
                 // that the last question is conditional, fine for now
                 $this->userQuestionnaireService->setCompleted($userId, $flow, true);
+                if ($flow === QuestionnaireFlowType::PRE_ASSESSMENT) {
+                    $this->patientAssignmentService->assignPatientByRegion($userId);
+                }
 
                 return $presenter->setQuestions([])->setCompleted(true);
             }

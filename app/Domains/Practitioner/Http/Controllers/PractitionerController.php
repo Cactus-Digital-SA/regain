@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Domains\Practitioner\Http\Controllers;
 
 use App\Domains\Patient\Services\PatientDataService;
+use App\Domains\PatientAssignments\Services\PatientAssignmentService;
 use App\Domains\Practitioner\Services\PractitionersService;
 use App\Domains\Questions\Services\QuestionsService;
 use App\Domains\UserResponse\Http\Requests\SubmitMedicalHistoryResponsesRequest;
@@ -28,6 +29,7 @@ class PractitionerController extends Controller
         private readonly QuestionsService $questionsService,
         private readonly PatientDataService $patientDataService,
         private readonly UserResponseService $responseService,
+        private readonly PatientAssignmentService $patientAssignmentService,
     ) {
     }
 
