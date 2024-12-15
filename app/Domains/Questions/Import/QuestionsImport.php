@@ -2,9 +2,11 @@
 
 namespace App\Domains\Questions\Import;
 
+use App\Domains\Categories\Repositories\Eloquent\Models\Category;
 use App\Domains\Categories\Services\CategoryService;
 use App\Domains\Instructions\Services\InstructionService;
 use App\Domains\Language\Services\LanguageService;
+use App\Domains\QuestionnaireFlow\Constants\QuestionnaireFlowType;
 use App\Domains\Questions\Import\Sheets\PreAssessmentsImport;
 use App\Domains\Questions\Import\Sheets\ReferenceImport;
 use App\Domains\Questions\Import\Sheets\ScoresImport;
@@ -181,6 +183,31 @@ class QuestionsImport implements WithMultipleSheets
             }
 
             DB::commit();
+        }
+
+        // create flows
+        $category = Category::where('name', '=', "SOCIO-DEMOGRAPHIC & WELLBEING")->first();
+        if ($category) {
+            DB::table('questionnaire_flows')->insert([
+                'category_id' => $category->id,
+                'flow_type'   => QuestionnaireFlowType::PRE_ASSESSMENT
+            ]);
+        }
+
+        $category = Category::where('name', '=', "PRE-ASSESSMENT")->first();
+        if ($category) {
+            DB::table('questionnaire_flows')->insert([
+                'category_id' => $category->id,
+                'flow_type'   => QuestionnaireFlowType::PRE_ASSESSMENT
+            ]);
+        }
+
+        $category = Category::where('name', '=', "SKILLS")->first();
+        if ($category) {
+            DB::table('questionnaire_flows')->insert([
+                'category_id' => $category->id,
+                'flow_type'   => QuestionnaireFlowType::SKILLS
+            ]);
         }
     }
 

@@ -3,7 +3,6 @@
 namespace App\Domains\PatientAssignments\Models;
 
 use App\Domains\Auth\Models\User;
-use App\Domains\Patient\Models\PatientData;
 use App\Models\CactusEntity;
 
 class PatientAssignment extends CactusEntity
@@ -22,20 +21,20 @@ class PatientAssignment extends CactusEntity
     private int $practitionerUserId;
     /**
      * @var int $patientUserId
-     * @JMS\Serializer\Annotation\SerializedName("practitioner_id")
+     * @JMS\Serializer\Annotation\SerializedName("patient_user_id")
      * @JMS\Serializer\Annotation\Type("int")
      */
     private int $patientUserId;
     /**
      * @var User $practitionerUser
-     * @JMS\Serializer\Annotation\SerializedName("practitioner")
-     * @JMS\Serializer\Annotation\Type("int")
+     * @JMS\Serializer\Annotation\SerializedName("practitioner_user")
+     * @JMS\Serializer\Annotation\Type("App\Domains\Auth\Models\User")
      */
     private User $practitionerUser;
     /**
      * @var User $patientUser
-     * @JMS\Serializer\Annotation\SerializedName("practitioner")
-     * @JMS\Serializer\Annotation\Type("int")
+     * @JMS\Serializer\Annotation\SerializedName("patient_user")
+     * @JMS\Serializer\Annotation\Type("App\Domains\Auth\Models\User")
      */
     private User $patientUser;
 
@@ -71,6 +70,18 @@ class PatientAssignment extends CactusEntity
     public function setPatientUserId(int $patientUserId): PatientAssignment
     {
         $this->patientUserId = $patientUserId;
+
+        return $this;
+    }
+
+    public function getPractitionerUserId(): int
+    {
+        return $this->practitionerUserId;
+    }
+
+    public function setPractitionerUserId(int $practitionerUserId): PatientAssignment
+    {
+        $this->practitionerUserId = $practitionerUserId;
 
         return $this;
     }

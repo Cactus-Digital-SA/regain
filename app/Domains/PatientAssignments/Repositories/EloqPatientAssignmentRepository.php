@@ -33,9 +33,9 @@ readonly class EloqPatientAssignmentRepository implements PatientAssignmentRepos
      */
     public function getByPractitionerUserId(string $userId): array
     {
-        $model = $this->model::where('practitioner_user_id', $userId)->with("patientUser", "practitionerUser")->first();
+        $model = $this->model::where('practitioner_user_id', $userId)->with("patientUser", "practitionerUser")->get();
         if ($model) {
-            return ObjectSerializer::deserialize($model?->toJson() ?? "{}", "<" . PatientAssignment::class . ">", 'json');
+            return ObjectSerializer::deserialize($model?->toJson() ?? "{}", "array<" . PatientAssignment::class . ">", 'json');
         }
 
         return [];

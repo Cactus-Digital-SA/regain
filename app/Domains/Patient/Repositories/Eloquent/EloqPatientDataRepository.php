@@ -4,16 +4,21 @@ namespace App\Domains\Patient\Repositories\Eloquent;
 
 use App\Domains\Auth\Repositories\Eloquent\Models\User;
 use App\Domains\Patient\Models\PatientData;
+use App\Domains\Patient\Repositories\Eloquent\Models\PatientData as EloqPatientData;
 use App\Domains\Patient\Repositories\PatientDataRepositoryInterface;
+use App\Domains\PatientAssignments\Services\PatientAssignmentService;
 use App\Facades\ObjectSerializer;
 use App\Models\CactusEntity;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\UnauthorizedException;
 use Yajra\DataTables\DataTables;
 
 class EloqPatientDataRepository implements PatientDataRepositoryInterface
 {
-    public function __construct(protected readonly Models\PatientData $model)
-    {
+    public function __construct(
+        protected readonly Models\PatientData $model,
+        protected readonly PatientAssignmentService $patientAssignmentService
+    ) {
     }
 
     public function get(): ?array
@@ -95,7 +100,18 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
     {
         $user = User::find($userId);
 
-        $patientData = $this->model->with('user')->select('patient_data.*');
+        $patientData = null;
+        if ($user->isPractitioner()) {
+            // get assigned patients
+            $availablePatientIds = array_map(static function ($patient) {
+                return $patient->getPatientUserId();
+            }, $this->patientAssignmentService->getByPractitionerUserId($user->id));
+            $patientData         = EloqPatientData::whereIn("user_id", $availablePatientIds)->with("user")->select('patient_data.*');
+        } elseif ($user->isRegainUser()) {
+            $patientData = $this->model->with('user')->select('patient_data.*');
+        } else {
+            throw new UnauthorizedException();
+        }
 
         return DataTables::of($patientData)
                          ->editColumn('id', function ($data) {

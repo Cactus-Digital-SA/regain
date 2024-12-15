@@ -139,39 +139,6 @@ class ThresholdImport implements ToCollection, WithHeadingRow
         } catch (Exception $exception) {
             Log::error($exception);
         }
-        
-        // create flows
-        $category = Category::where('name', '=', "SOCIO-DEMOGRAPHIC & WELLBEING")->first();
-        if ($category) {
-            DB::table('questionnaire_flows')->insert([
-                'category_id' => $category->id,
-                'flow_type'   => QuestionnaireFlowType::PRE_ASSESSMENT
-            ]);
-        }
-
-        $category = Category::where('name', '=', "PRE-ASSESSMENT")->first();
-        if ($category) {
-            DB::table('questionnaire_flows')->insert([
-                'category_id' => $category->id,
-                'flow_type'   => QuestionnaireFlowType::PRE_ASSESSMENT
-            ]);
-        }
-
-        $category = Category::where('name', '=', "SKILLS")->first();
-        if ($category) {
-            DB::table('questionnaire_flows')->insert([
-                'category_id' => $category->id,
-                'flow_type'   => QuestionnaireFlowType::SKILLS
-            ]);
-        }
-
-        $category = Category::where('name', '=', "MEDICAL HISTORY")->first();
-        if ($category) {
-            DB::table('questionnaire_flows')->insert([
-                'category_id' => $category->id,
-                'flow_type'   => QuestionnaireFlowType::MEDICAL_HISTORY
-            ]);
-        }
     }
 
     public function headingRow(): int
