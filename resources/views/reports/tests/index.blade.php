@@ -170,7 +170,7 @@
     <table>
         <thead>
         @php
-            $columns = $result->getSubscaleItems() - 1;
+            $columns = $result->getSubscaleItems();
             $fills = [];
             for ($i = 0; $i < $columns; $i++) {
                 $columnFills = [];

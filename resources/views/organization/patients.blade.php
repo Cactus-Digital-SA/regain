@@ -21,11 +21,6 @@
     @vite(['resources/css/organization-dashboard.css', 'resources/css/dashboard-common.css'])
 </head>
 <body>
-@include('frontend.content.mock.dashboards.organization.includes.new-patient-registration-modal')
-@include('frontend.content.mock.dashboards.organization.includes.new-patient-registration-second-modal')
-
-@include('frontend.content.mock.dashboards.includes.success-modal-regain')
-@include('backend.components.delete_modal')
 <div class="container">
     <div class="row h-100 p-4">
         <div class="col-3 col-xxl-2 bg-light me-0 rounded-4 main-menu">
@@ -277,6 +272,12 @@
     </div>
 </div>
 
+@include('organization.includes.new-patient-registration-modal')
+@include('organization.includes.new-patient-registration-second-modal')
+@include('organization.includes.success-modal-regain')
+
+@include('organization.includes.delete_modal')
+
 <script type="module">
     $(function () {
         let dt_basic_table = $('.patients-datatable');
@@ -377,10 +378,5 @@
         }
     });
 </script>
-
-<style>
-
-</style>
-
 </body>
 </html>
