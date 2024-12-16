@@ -67,17 +67,18 @@ Route::group([
 });
 
 Route::group([
-    'prefix'     => '',
+    'prefix'     => 'organization',
     'as'         => 'organization.',
     'middleware' => ['role.administrator', 'auth'],
 ], function () {
 
-    Route::get('/organization', [RegainPatientController::class, 'patients'])->name('home');
-    Route::get('/organization/patients', [RegainPatientController::class, 'patients'])->name('patients');
-    Route::get('/organization/patients/destroy', [RegainPatientController::class, 'patientsDestroy'])->name('patients.destroy');
-    Route::post('/organization/patients/table', [RegainPatientController::class, 'patientsDatatable'])->name('patients.datatable');
-    Route::get('/organization/practitioners', [RegainPatientController::class, 'practitioners'])->name('practitioners');
-    Route::post('/organization/practitioners/table', [RegainPatientController::class, 'practitionersDatatable'])->name('practitioners.datatable');
+    Route::get('/', [RegainPatientController::class, 'patients'])->name('home');
+    Route::get('/patients', [RegainPatientController::class, 'patients'])->name('patients');
+    Route::get('/patients/destroy', [RegainPatientController::class, 'patientsDestroy'])->name('patients.destroy');
+    Route::post('/patients/table', [RegainPatientController::class, 'patientsDatatable'])->name('patients.datatable');
+    Route::post('/patients/create-page/{page}', [RegainPatientController::class, 'createPatientPage'])->name('patients.create-page');
+    Route::get('/practitioners', [RegainPatientController::class, 'practitioners'])->name('practitioners');
+    Route::post('/practitioners/table', [RegainPatientController::class, 'practitionersDatatable'])->name('practitioners.datatable');
 });
 
 ////2fa fortify

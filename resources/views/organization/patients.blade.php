@@ -1,4 +1,10 @@
-<!DOCTYPE html>
+@php use App\Domains\Region\Models\Region; @endphp
+@php
+    /**
+    * @var Region[] $regions
+    */
+@endphp
+        <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -21,6 +27,14 @@
     @vite(['resources/css/organization-dashboard.css', 'resources/css/dashboard-common.css'])
 </head>
 <body>
+
+<div class="modal fade" id="newPatientRegistration" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 60%; max-height: 100%">
+        <div id="patient-modal-content" class="modal-content p-3 p-md-5" style="background-color: rgba(255, 255, 255, 1);">
+        </div>
+    </div>
+</div>
+
 <div class="container">
     <div class="row h-100 p-4">
         <div class="col-3 col-xxl-2 bg-light me-0 rounded-4 main-menu">
@@ -33,11 +47,8 @@
                     <div>
                         <div class="row">
                             <div class="my-1 my-lg-5">
-                                <a class="nav-link text-left" id="v-pills-patient-registration-tab"
-                                   aria-controls="v-pills-patient-registration"
-                                   type="button" data-bs-toggle="modal"
-                                   data-bs-target="#newPatientRegistration"
-                                   aria-selected="true" style="color:#000; font-weight:bold;">
+                                <a class="nav-link text-left" id="register"
+                                   type="button" style="color:#000; font-weight:bold;">
                                     Patient Registration
                                 </a>
                                 <a class="nav-link text-left mt-1 mt-sm-3" id="v-pills-add-practitioner-tab"
@@ -272,10 +283,6 @@
     </div>
 </div>
 
-@include('organization.includes.new-patient-registration-modal')
-@include('organization.includes.new-patient-registration-second-modal')
-@include('organization.includes.success-modal-regain')
-
 @include('organization.includes.delete_modal')
 
 <script type="module">
@@ -377,6 +384,107 @@
             });
         }
     });
+</script>
+<script>
+    var storePatientData = {};
+    document.addEventListener('DOMContentLoaded', function () {
+        const modalContainer = document.getElementById('patient-modal-content');
+        const loadModalButton = document.getElementById('register');
+        const modal = new bootstrap.Modal(document.getElementById('newPatientRegistration'), {
+            backdrop: 'static'
+        });
+
+        // Function to fetch medical history data
+        function fetchPatientForm() {
+            // Send POST request to fetch medical history data
+            fetch(`{{route("organization.patients.create-page", ["page" => 1])}}`, {
+                method: 'POST',  // Change the method to POST
+                headers: {
+                    'Content-Type': 'application/json',  // Set content type to JSON
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+            })
+                .then(response => response.text())
+                .then(data => {
+                    // Replace modal content with the fetched data
+                    modalContainer.innerHTML = data;
+                    // Show the modal after the content is fetched and set
+                    modal.show();
+                    bootModal();
+                })
+                .catch(error => {
+                    console.error('Error fetching medical history content:', error);
+                });
+        }
+
+        // Listen for the modal show event and fetch data when the modal is shown
+        loadModalButton.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            // Before fetching, make sure the modal is hidden
+            modalContainer.innerHTML = ''; // Clear previous content
+            modal.hide(); // Hide modal initially
+
+            // Fetch the medical history and show the modal after content is updated
+            fetchPatientForm();
+        });
+    });
+
+    function bootModal() {
+        let nextButton = document.getElementById('btn-next');
+        formFields = document.querySelectorAll('.new-patient-input');
+
+        function validateForm() {
+            let allFilled = Array.from(formFields).every(function (field) {
+                return field.value.trim() !== '';
+            });
+            nextButton.disabled = !allFilled;
+        }
+
+        formFields.forEach(function (field) {
+            field.addEventListener('input', function () {
+                validateForm();
+            });
+        });
+
+        validateForm();
+
+        nextButton.addEventListener('click', function (event) {
+            event.preventDefault();
+
+            page = document.getElementById('modal-container').dataset.pageId;
+
+            if (page === "1") {
+                storePatientData.name = document.getElementById('name-visible').value;
+                storePatientData.birthday = document.getElementById('date-of-birthday-visible').value;
+                storePatientData.region = document.getElementById('region-visible').value;
+                storePatientData.postCode = document.getElementById('post-code-visible').value;
+                storePatientData.primaryPhone = document.getElementById('primary-phone-visible').value;
+                storePatientData.email = document.getElementById('email-visible').value;
+                storePatientData.secondaryPhone = document.getElementById('secondary-phone-visible').value;
+
+                fetch(`{{route("organization.patients.create-page", ["page" => 2])}}`, {
+                    method: 'POST',  // Change the method to POST
+                    headers: {
+                        'Content-Type': 'application/json',  // Set content type to JSON
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                })
+                    .then(response => response.text())
+                    .then(data => {
+                        // Replace modal content with the fetched data
+                        const modalContainer = document.getElementById('patient-modal-content');
+                        modalContainer.innerHTML = data;
+                        // Show the modal after the content is fetched and set
+                        modal.show();
+                        bootModal();
+                    })
+                    .catch(error => {
+                        console.error('Error fetching medical history content:', error);
+                    });
+            }
+        });
+    }
 </script>
 </body>
 </html>

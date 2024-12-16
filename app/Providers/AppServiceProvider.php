@@ -26,6 +26,8 @@ use App\Domains\Questions\Repositories\QuestionRepositoryInterface;
 use App\Domains\Questions\Repositories\QuestionResponseRepositoryInterface;
 use App\Domains\References\Repositories\Eloquent\EloqReferenceRepository;
 use App\Domains\References\Repositories\ReferenceRepositoryInterface;
+use App\Domains\Region\Repositories\Eloquent\RegionRepository;
+use App\Domains\Region\Repositories\RegionRepositoryInterface;
 use App\Domains\Responses\Repositories\Eloquent\EloqResponseRepository;
 use App\Domains\Responses\Repositories\ResponseRepositoryInterface;
 use App\Domains\Subscales\Repositories\Eloquent\EloqSubscaleRepository;
@@ -64,6 +66,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(UserQuestionnaireRepositoryInterface::class, UserQuestionnaireRepository::class);
         $this->app->singleton(PractitionerRepositoryInterface::class, PractitionerRepository::class);
         $this->app->singleton(PatientAssignmentRepositoryInterface::class, EloqPatientAssignmentRepository::class);
+        $this->app->singleton(RegionRepositoryInterface::class, RegionRepository::class);
     }
 
     /**
