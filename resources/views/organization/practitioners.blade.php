@@ -256,7 +256,6 @@
                                                 @foreach($columns as $column)
                                                     <th> {{ __($column['name']) }}</th>
                                                 @endforeach
-                                                <th class="text-end">{{ __('Actions') }}</th>
                                             </tr>
                                             </thead>
                                             <tbody class="text-center">
@@ -313,9 +312,8 @@
                     columns: [
                         {data: 'id', searchable: false, orderable: false},
                         {data: 'name', name: 'user.name', searchable: false, orderable: true},
+                        {data: 'region', name: 'region', searchable: false, orderable: false},
                         {data: 'registered', name: 'users.created_at', searchable: false, orderable: false},
-                        {data: 'status', name: 'status', searchable: false, orderable: false},
-                        {data: 'actions', searchable: false, orderable: false, className: 'text-end'},
                     ],
                     columnDefs: [],
                     dom: 't<"d-flex justify-content-between mx-0 row"<"d-flex justify-content-center col-12"i><"d-flex justify-content-center col-12"p>>',
@@ -376,10 +374,5 @@
         }
     });
 </script>
-
-<style>
-
-</style>
-
 </body>
 </html>

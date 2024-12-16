@@ -77,7 +77,7 @@ Route::group([
     Route::get('/organization/patients/destroy', [RegainPatientController::class, 'patientsDestroy'])->name('patients.destroy');
     Route::post('/organization/patients/table', [RegainPatientController::class, 'patientsDatatable'])->name('patients.datatable');
     Route::get('/organization/practitioners', [RegainPatientController::class, 'practitioners'])->name('practitioners');
-    Route::post('/organization/practitioners/table', [RegainPatientController::class, 'datatable'])->name('practitioners.datatable');
+    Route::post('/organization/practitioners/table', [RegainPatientController::class, 'practitionersDatatable'])->name('practitioners.datatable');
 });
 
 ////2fa fortify

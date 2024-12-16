@@ -10,4 +10,6 @@ interface PractitionerRepositoryInterface extends RepositoryInterface
     public function getById(string $id): ?Practitioner;
 
     public function getByUserId(string $userId): ?Practitioner;
+
+    public function getTableColumns(): array;
 }

@@ -2,8 +2,8 @@
 
  Practitioner Dashboard (need figma)
      finalize user creation
-     implement medical history flow
-     Show some tags from medical history
+     finalize medical history flow (check for complete and show completed)
+     Show some tags from medical history (on practitioner page)
      View & Download medical history
      In appointment dates show the medical history and the submission of the socio-demographic & pre-assesment test
      implement chatgpt call to populate report data

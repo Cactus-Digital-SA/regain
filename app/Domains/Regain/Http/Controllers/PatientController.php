@@ -6,6 +6,7 @@ use App\Domains\Auth\Models\User;
 use App\Domains\Auth\Services\UserService;
 use App\Domains\Patient\Models\PatientData;
 use App\Domains\Patient\Services\PatientDataService;
+use App\Domains\Practitioner\Services\PractitionersService;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
@@ -17,7 +18,8 @@ class PatientController extends Controller
 {
     public function __construct(
         private PatientDataService $patientDataService,
-        private UserService $userService
+        private UserService $userService,
+        private PractitionersService $practitionersService,
     ) {
 
     }
@@ -31,12 +33,12 @@ class PatientController extends Controller
 
     public function practitioners()
     {
-        $columns = $this->patientDataService->getTableColumns();
+        $columns = $this->practitionersService->getTableColumns();
 
         return view('organization.practitioners', compact('columns'));
     }
 
-    public function store(Request $request): RedirectResponse
+    public function storePatient(Request $request): RedirectResponse
     {
         //bill made custom request, uncomment region (StorePatientRequest)?
         $userDTO = new User();
@@ -73,5 +75,12 @@ class PatientController extends Controller
         $filters = Helpers::filters($request);
 
         return $this->patientDataService->dataTable(Auth::id(), $filters);
+    }
+
+    public function practitionersDatatable(Request $request): JsonResponse
+    {
+        $filters = Helpers::filters($request);
+
+        return $this->practitionersService->dataTable(Auth::id(), $filters);
     }
 }

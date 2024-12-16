@@ -23,4 +23,14 @@ class PractitionersService
     {
         return $this->repository->getByUserId($userId);
     }
+
+    public function getTableColumns(): array
+    {
+        return $this->repository->getTableColumns();
+    }
+
+    public function dataTable(?int $userId = null, array $filters = []): JsonResponse
+    {
+        return $this->repository->dataTable($userId, $filters);
+    }
 }
