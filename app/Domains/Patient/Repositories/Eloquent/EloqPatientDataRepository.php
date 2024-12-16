@@ -144,7 +144,7 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
                              return $data?->status?->value ?? ' - ';
                          })
                          ->addColumn('actions', function ($data) use ($user) {
-                             $deleteUrl = route('regain.patients.destroy', [
+                             $deleteUrl = route('organization.patients.destroy', [
                                  'patient' => $data->id,
                              ]);
 
@@ -154,7 +154,7 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
 
                              $html = '<div class="btn-group">';
 
-//                $html .= '<a href="' . route('regain.patients.edit', $data->id) . '" class="btn btn-icon btn-gradient-warning">
+//                $html .= '<a href="' . route('organization.patients.edit', $data->id) . '" class="btn btn-icon btn-gradient-warning">
 //                             <i class="ti ti-edit ti-xs"></i>
 //                        </a>';
 //

@@ -1,18 +1,16 @@
  Check figma for final specs along with dimitris
 
  Practitioner Dashboard (need figma)
+     finalize user creation
      implement medical history flow
      Show some tags from medical history
      View & Download medical history
      In appointment dates show the medical history and the submission of the socio-demographic & pre-assesment test
-     css for report generation
-     create pdf (once created store and return the generated pdf for speed)
      implement chatgpt call to populate report data
+     implement references modal
 
 General:
     send email when user gets created
-    css for completed questionnaire flow
-    css for login (different for patient and organization/practitioner)
 
 Patient
     show skills questionnaire when user has completed medical history flow
@@ -23,3 +21,4 @@ FrontEnd:
     • Modal for Reports (Dashboard)
     • Emails Page (Dashboard)
     • login pages (Dashboard amd Questionnaire)
+    - css for report pdf (should be inline)

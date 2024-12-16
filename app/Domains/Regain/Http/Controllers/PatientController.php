@@ -9,24 +9,34 @@ use App\Domains\Patient\Services\PatientDataService;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PatientController extends Controller
 {
-    public function __construct(private PatientDataService $patientDataService, private UserService $userService)
-    {
+    public function __construct(
+        private PatientDataService $patientDataService,
+        private UserService $userService
+    ) {
 
     }
 
-    public function index()
+    public function patients()
     {
         $columns = $this->patientDataService->getTableColumns();
 
-        return view('regain.patients.index', compact('columns'));
+        return view('organization.patients', compact('columns'));
     }
 
-    public function store(Request $request): \Illuminate\Http\RedirectResponse
+    public function practitioners()
+    {
+        $columns = $this->patientDataService->getTableColumns();
+
+        return view('organization.practitioners', compact('columns'));
+    }
+
+    public function store(Request $request): RedirectResponse
     {
         //bill made custom request, uncomment region (StorePatientRequest)?
         $userDTO = new User();
@@ -40,7 +50,7 @@ class PatientController extends Controller
         $patientDTO = PatientData::fromRequest($request);
         $this->patientDataService->store($patientDTO);
 
-        return redirect()->route('regain.patients.index')->with('success', 'Patient created successfully');
+        return redirect()->route('organization.index')->with('success', 'Patient created successfully');
     }
 
     public function update(Request $request, string $patient)
@@ -48,7 +58,7 @@ class PatientController extends Controller
 
     }
 
-    public function destroy(string $patient): \Illuminate\Http\RedirectResponse
+    public function patientsDestroy(string $patient): RedirectResponse
     {
         $response = $this->patientDataService->deleteById($patient);
         if ($response) {
@@ -58,7 +68,7 @@ class PatientController extends Controller
         return redirect()->back()->with('error', 'There was a problem deleting the patient.');
     }
 
-    public function datatable(Request $request): JsonResponse
+    public function patientsDatatable(Request $request): JsonResponse
     {
         $filters = Helpers::filters($request);
 

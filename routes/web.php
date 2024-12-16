@@ -68,12 +68,16 @@ Route::group([
 
 Route::group([
     'prefix'     => '',
-    'as'         => 'regain.',
+    'as'         => 'organization.',
     'middleware' => ['role.administrator', 'auth'],
 ], function () {
 
-    Route::resource('/patients', RegainPatientController::class);
-    Route::post('patients/table', [RegainPatientController::class, 'datatable'])->name('patients.datatable');
+    Route::get('/organization', [RegainPatientController::class, 'patients'])->name('home');
+    Route::get('/organization/patients', [RegainPatientController::class, 'patients'])->name('patients');
+    Route::get('/organization/patients/destroy', [RegainPatientController::class, 'patientsDestroy'])->name('patients.destroy');
+    Route::post('/organization/patients/table', [RegainPatientController::class, 'patientsDatatable'])->name('patients.datatable');
+    Route::get('/organization/practitioners', [RegainPatientController::class, 'practitioners'])->name('practitioners');
+    Route::post('/organization/practitioners/table', [RegainPatientController::class, 'datatable'])->name('practitioners.datatable');
 });
 
 ////2fa fortify
