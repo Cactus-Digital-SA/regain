@@ -25,6 +25,8 @@
 
 @include('frontend.content.mock.dashboards.practitioner.includes.medical-history-modal-alcohol')
 @include('frontend.content.mock.dashboards.practitioner.includes.medical-history-modal-hepatitis')
+@include('frontend.content.mock.dashboards.practitioner.includes.pre-assessment-report-modal')
+
 
 @include('frontend.content.mock.dashboards.includes.success-modal-regain')
 @include('backend.components.delete_modal')
@@ -128,7 +130,10 @@
                                         <p class="patient-detail last-detail"><span>Registration:</span>&nbsp;
                                             07/11/2024</p>
 
-                                        <a href="#" class="btn pre-assesment-btn">Pre-Assesment Report</a>
+                                        <button
+                                                data-bs-toggle="modal" data-bs-target="#preAssessmentReportModal"
+
+                                            class="btn pre-assesment-btn">Pre-Assesment Report</button>
                                     </div>
                                 </div>
                             </div>

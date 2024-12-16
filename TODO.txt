@@ -18,7 +18,8 @@ Patient
 FrontEnd:
     • Dashboard htm 100% zoom for 1600px max media
     • Thank you, Page (Questionnaire)
-    • Modal for Reports (Dashboard)
+    • Modal for Reports (Dashboard) // TODO included in the patient.blade the new modal @include('frontend.content.mock.dashboards.practitioner.includes.pre-assessment-report-modal')
+    • Second modal for Reports (Dashboard)
     • Emails Page (Dashboard)
     • login pages (Dashboard amd Questionnaire)
     • Report make the svs -> images. 3 column for the graph with 3 answer types and same for four. Fix css.

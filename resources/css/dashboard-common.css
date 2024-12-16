@@ -399,7 +399,7 @@ td:last-child {
 @media (max-width: 1600px) {
 
     html {
-        zoom: 95% !important;
+        zoom: 100% !important;
     }
 
     .container {
