@@ -21,4 +21,5 @@ FrontEnd:
     • Modal for Reports (Dashboard)
     • Emails Page (Dashboard)
     • login pages (Dashboard amd Questionnaire)
+    • Report make the svs -> images. 3 column for the graph with 3 answer types and same for four. Fix css.
     - css for report pdf (should be inline)
