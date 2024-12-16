@@ -8,12 +8,12 @@
                 <label for="mobility-visible" class="form-label">Accessible Mobility</label>
                 <div class="row">
                     <div class="col-6">
-                        <input type="radio" class="btn-check" name="mobility-visible" id="mobility-yes" value="yes" required>
-                        <label class="btn w-100 mobility-button new-patient-input d-flex align-items-center justify-content-center" for="mobility-yes">Yes</label>
+                        <input type="radio" class="btn-check new-patient-input" name="mobility-visible" id="mobility-yes" value="1" required>
+                        <label class="btn w-100 mobility-button  d-flex align-items-center justify-content-center" for="mobility-yes">Yes</label>
                     </div>
                     <div class="col-6">
-                        <input type="radio" class="btn-check" name="mobility-visible" id="mobility-no" value="no" required>
-                        <label class="btn w-100 mobility-button new-patient-input d-flex align-items-center justify-content-center" for="mobility-no">No</label>
+                        <input type="radio" class="btn-check new-patient-input" name="mobility-visible" id="mobility-no" value="0" required>
+                        <label class="btn w-100 mobility-button d-flex align-items-center justify-content-center" for="mobility-no">No</label>
                     </div>
                 </div>
             </div>

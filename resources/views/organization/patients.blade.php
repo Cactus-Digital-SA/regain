@@ -452,37 +452,32 @@
         nextButton.addEventListener('click', function (event) {
             event.preventDefault();
 
-            page = document.getElementById('modal-container').dataset.pageId;
+            storePatientData.name = document.getElementById('name-visible').value;
+            storePatientData.birthday = document.getElementById('date-of-birthday-visible').value;
+            storePatientData.region = document.getElementById('region-visible').value;
+            storePatientData.postCode = document.getElementById('post-code-visible').value;
+            storePatientData.primaryPhone = document.getElementById('primary-phone-visible').value;
+            storePatientData.email = document.getElementById('email-visible').value;
+            storePatientData.secondaryPhone = document.getElementById('secondary-phone-visible').value;
 
-            if (page === "1") {
-                storePatientData.name = document.getElementById('name-visible').value;
-                storePatientData.birthday = document.getElementById('date-of-birthday-visible').value;
-                storePatientData.region = document.getElementById('region-visible').value;
-                storePatientData.postCode = document.getElementById('post-code-visible').value;
-                storePatientData.primaryPhone = document.getElementById('primary-phone-visible').value;
-                storePatientData.email = document.getElementById('email-visible').value;
-                storePatientData.secondaryPhone = document.getElementById('secondary-phone-visible').value;
-
-                fetch(`{{route("organization.patients.create-page", ["page" => 2])}}`, {
-                    method: 'POST',  // Change the method to POST
-                    headers: {
-                        'Content-Type': 'application/json',  // Set content type to JSON
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
+            fetch(`{{route("organization.patients.create-page", ["page" => 2])}}`, {
+                method: 'POST',  // Change the method to POST
+                headers: {
+                    'Content-Type': 'application/json',  // Set content type to JSON
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+            })
+                .then(response => response.text())
+                .then(data => {
+                    // Replace modal content with the fetched data
+                    const modalContainer = document.getElementById('patient-modal-content');
+                    modalContainer.innerHTML = data;
+                    // Show the modal after the content is fetched and set
+                    bootModal();
                 })
-                    .then(response => response.text())
-                    .then(data => {
-                        // Replace modal content with the fetched data
-                        const modalContainer = document.getElementById('patient-modal-content');
-                        modalContainer.innerHTML = data;
-                        // Show the modal after the content is fetched and set
-                        modal.show();
-                        bootModal();
-                    })
-                    .catch(error => {
-                        console.error('Error fetching medical history content:', error);
-                    });
-            }
+                .catch(error => {
+                    console.error('Error fetching second page content:', error);
+                });
         });
     }
 </script>

@@ -29,7 +29,7 @@
                 <select id="region-visible" class="form-control new-patient-input" placeholder="Select region" required>
                     <option value="" selected disabled>Select region</option>
                     @foreach ($regions as $region)
-                        <option value="{{$region->getName()}}">{{$region->getName()}}</option>
+                        <option value="{{$region->getId()}}">{{$region->getName()}}</option>
                     @endforeach
                 </select>
             </div>
