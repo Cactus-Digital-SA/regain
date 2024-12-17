@@ -71,6 +71,18 @@ class UserQuestionnaireRepository implements UserQuestionnaireRepositoryInterfac
         ]);
     }
 
+    /**
+     * @param int $userId
+     * @return QuestionnaireFlowType[]
+     */
+    public function getCompletedFlows(int $userId): array
+    {
+        return UserQuestionnaireEloquent::where([
+            'user_id'   => $userId,
+            'completed' => true,
+        ])->pluck('questionnaire_flow_type')->toArray();
+    }
+
     public function update(CactusEntity $entity, string $id): ?CactusEntity
     {
         throw new NotImplementedException();

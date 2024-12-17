@@ -124,7 +124,7 @@ Route::group([
     'prefix' => 'mock',
     'as'     => 'mock.',
 ], function () {
-    Route::post('patients/table', [RegainPatientController::class, 'datatable'])->name('patients.datatable'); //remove when done
+    Route::post('patients/table', [RegainPatientController::class, 'patientsDatatable'])->name('patients.datatable'); //remove when done
     Route::get('/date-of-birth', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showDateOfBirth'])->name('date-of-birth');
     Route::get('/current-location', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showCurrentLocation'])->name('current-location');
     Route::get('/disability-disorder', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showDisabilityDisorder'])->name('disability-disorder');
