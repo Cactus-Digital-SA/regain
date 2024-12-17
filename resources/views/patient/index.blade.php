@@ -4,7 +4,7 @@
     */
 @endphp
 
-        <!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -18,8 +18,8 @@
 
 <video class="video-background" autoplay muted loop>
     <source
-            src="https://s3-figma-videos-production-sig.figma.com/video/1309080390110430302/TEAM/1e82/00ac/-1b93-4cf6-acd8-68ac308285fd?Expires=1733702400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=oorEDXdUAETvyCVU7BK8hb7EhdlCg53KlsncAE7Q1cIR8umuliZzbLcggOlyHA41GoRkvXwvzgGEh9Lx-fQiwV0Ri-G7ri5D5ovhDWrLnKcX564t8ughfnmtru1oG3ln6q6C4TNvsPCPAe~zQ9tSnnmDfrha3V7HjNqutPflCKk3kNIDpwHEy4X2Cw3a3c-ZdN9NeRtFabz42~VTvb2IoYcXx5GiOY5NMsjqsXqjOYt~a0JGnc49hTyXHyLDtkOYzhXzSZCGkbPplj28biet78gPFyzVN2fSehm0aYoVgjiEuLbua6BJ~n2Dj0Lf7FeulAQVOp6721-80D39XsAfDw__"
-            type="video/mp4">
+        src="https://s3-figma-videos-production-sig.figma.com/video/1309080390110430302/TEAM/1e82/00ac/-1b93-4cf6-acd8-68ac308285fd?Expires=1733702400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=oorEDXdUAETvyCVU7BK8hb7EhdlCg53KlsncAE7Q1cIR8umuliZzbLcggOlyHA41GoRkvXwvzgGEh9Lx-fQiwV0Ri-G7ri5D5ovhDWrLnKcX564t8ughfnmtru1oG3ln6q6C4TNvsPCPAe~zQ9tSnnmDfrha3V7HjNqutPflCKk3kNIDpwHEy4X2Cw3a3c-ZdN9NeRtFabz42~VTvb2IoYcXx5GiOY5NMsjqsXqjOYt~a0JGnc49hTyXHyLDtkOYzhXzSZCGkbPplj28biet78gPFyzVN2fSehm0aYoVgjiEuLbua6BJ~n2Dj0Lf7FeulAQVOp6721-80D39XsAfDw__"
+        type="video/mp4">
     Your browser does not support the video tag.
 </video>
 
@@ -27,21 +27,31 @@
 
 <div class="dob-container">
     @if ($presenter->isCompleted())
-        Completed!!
+        <div class="container py-5 my-4">
+            <div class="question m-5">
+                <div class="thank-you-content d-flex flex-column align-items-center justify-content-center ">
+                    <span class="question-span text-center">Thank you for your participation!</span>
+                    <div class="d-flex justify-content-center mt-4">
+                        <button type="button" class="btn btn-primary mt-5">Go Back to Regain</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     @else
         @foreach ($presenter->getQuestions() as $question)
-            <div class="container px-3 py-2 {{$question->isHiddenBecauseOfRequired() ? "hidden" : ""}}" data-hide="{{$question->isHiddenBecauseOfRequired() ? "true" : "false"}}">
+            <div class="container px-3 py-2 {{$question->isHiddenBecauseOfRequired() ? "hidden" : ""}}"
+                 data-hide="{{$question->isHiddenBecauseOfRequired() ? "true" : "false"}}">
                 <form
-                        id="input-form_{{$question->getId()}}"
-                        class="collect-question"
-                        data-question-id="{{$question->getId()}}"
-                        data-condition-question-id="{{$question->getRequiredQuestionId()}}"
-                        data-condition-required-response-ids="[{{implode(", ", $question->getRequiredQuestionResponseIds())}}]"
-                        @if ($question->isSelectMultiple())
-                            data-max-selections="{{count($question->getResponses())}}"
-                        @else
-                            data-max-selections="1"
-                        @endif
+                    id="input-form_{{$question->getId()}}"
+                    class="collect-question"
+                    data-question-id="{{$question->getId()}}"
+                    data-condition-question-id="{{$question->getRequiredQuestionId()}}"
+                    data-condition-required-response-ids="[{{implode(", ", $question->getRequiredQuestionResponseIds())}}]"
+                    @if ($question->isSelectMultiple())
+                        data-max-selections="{{count($question->getResponses())}}"
+                    @else
+                        data-max-selections="1"
+                    @endif
                 >
                     @csrf
                     <div class="question mb-5">
@@ -50,12 +60,12 @@
                             @foreach ($question->getResponses() as $response)
                                 <li>
                                     <input
-                                            type="checkbox"
-                                            class="select-response radio-label round"
-                                            data-question-id="{{$question->getId()}}"
-                                            data-response-id="{{$response->getId()}}"
-                                            id="response-{{$question->getId()}}-{{$response->getId()}}"
-                                            name="response-{{$question->getId()}}[]">
+                                        type="checkbox"
+                                        class="select-response radio-label round"
+                                        data-question-id="{{$question->getId()}}"
+                                        data-response-id="{{$response->getId()}}"
+                                        id="response-{{$question->getId()}}-{{$response->getId()}}"
+                                        name="response-{{$question->getId()}}[]">
                                     <label for="response-{{$question->getId()}}-{{$response->getId()}}" class="toggle">
                                         <span class="radio-label round">{{ $response->getTitle() }}</span>
                                     </label>

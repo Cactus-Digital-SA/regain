@@ -16,11 +16,11 @@ Patient
     show skills questionnaire when user has completed medical history flow
 
 FrontEnd:
-    - Dashboard htm 100% zoom for 1600px max media
-    - Thank you, Page (Questionnaire)
-    • Modal for Reports styling (download button)
+    - Thank you, Page (Questionnaire)(DONE)
+    • Modal for Reports styling (download button)(DONE)
     • Second modal for Reports (References)
     • Emails Page (Dashboard)
-    • login pages (Dashboard amd Questionnaire)
-    • Report make the svs -> images. 3 column for the graph with 3 answer types and same for four. Fix css.
+    • login pages (Dashboard and Questionnaire)
+    • Report make the svgs -> images. 3 column for the graph with 3 answer types and same for four. Fix css.
     - css for report pdf (should be inline)
+

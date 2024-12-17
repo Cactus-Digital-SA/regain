@@ -26,7 +26,7 @@
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="pre-assessment" role="tabpanel">
                         <div class="input-group mb-3">
-                            <span class="input-group-text"><i class="bi bi-search"></i></span>
+                            <span class="input-group-text"><i class="ti ti-search"></i></span>
                             <input type="text" class="form-control" placeholder="Search a report">
                         </div>
                         <table class="table table-hover">
@@ -42,32 +42,56 @@
                             <tr>
                                 <td>Neurodevelopmental Disorder Rapid Test</td>
                                 <td>03.11.2024</td>
-                                <td><i class="bi bi-download"></i></td>
-                                <td><i class="bi bi-eye"></i> View</td>
+                                <td><i class="ti ti-download"></i></td>
+                                <td><i class="ti ti-eye"></i> View</td>
                             </tr>
                             <tr>
                                 <td>Mental Health and Mental Pain</td>
                                 <td>03.11.2024</td>
-                                <td><i class="bi bi-download"></i></td>
-                                <td><i class="bi bi-eye"></i> View</td>
+                                <td><i class="ti ti-download"></i></td>
+                                <td><i class="ti ti-eye"></i> View</td>
                             </tr>
                             <tr>
                                 <td>Pain Disability Index</td>
                                 <td>03.11.2024</td>
-                                <td><i class="bi bi-download"></i></td>
-                                <td><i class="bi bi-eye"></i> View</td>
+                                <td><i class="ti ti-download"></i></td>
+                                <td><i class="ti ti-eye"></i> View</td>
                             </tr>
                             <tr>
                                 <td>Indirect Substance Abuse</td>
                                 <td>03.11.2024</td>
-                                <td><i class="bi bi-download"></i></td>
-                                <td><i class="bi bi-eye"></i> View</td>
+                                <td><i class="ti ti-download"></i></td>
+                                <td><i class="ti ti-eye"></i> View</td>
                             </tr>
                             <tr>
                                 <td>Sleep Disorder Index</td>
                                 <td>03.11.2024</td>
-                                <td><i class="bi bi-download"></i></td>
-                                <td><i class="bi bi-eye"></i> View</td>
+                                <td><i class="ti ti-download"></i></td>
+                                <td><i class="ti ti-eye"></i> View</td>
+                            </tr>
+                            <tr>
+                                <td>Sleep Disorder Index</td>
+                                <td>03.11.2024</td>
+                                <td><i class="ti ti-download"></i></td>
+                                <td><i class="ti ti-eye"></i> View</td>
+                            </tr>
+                            <tr>
+                                <td>Sleep Disorder Index</td>
+                                <td>03.11.2024</td>
+                                <td><i class="ti ti-download"></i></td>
+                                <td><i class="ti ti-eye"></i> View</td>
+                            </tr>
+                            <tr>
+                                <td>Sleep Disorder Index</td>
+                                <td>03.11.2024</td>
+                                <td><i class="bi ti-download"></i></td>
+                                <td><i class="ti ti-eye"></i> View</td>
+                            </tr>
+                            <tr>
+                                <td>Sleep Disorder Index</td>
+                                <td>03.11.2024</td>
+                                <td><i class="ti ti-download"></i></td>
+                                <td><i class="ti ti-eye"></i> View</td>
                             </tr>
                             </tbody>
                         </table>
