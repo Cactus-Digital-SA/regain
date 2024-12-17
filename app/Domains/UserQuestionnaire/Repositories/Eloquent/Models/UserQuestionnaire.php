@@ -10,6 +10,7 @@ class UserQuestionnaire extends Model
 {
     protected $fillable = [
         'user_id',
+        'for_user_id',
         'questionnaire_flow_type',
         'generated_questions',
         'completed',

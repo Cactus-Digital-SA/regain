@@ -24,6 +24,10 @@ interface UserQuestionnaireRepositoryInterface extends RepositoryInterface
 
     public function setCompleted(int $userId, QuestionnaireFlowType $type, bool $completed): int;
 
+    public function setCompletedForUser(int $userId, int $forUserId, QuestionnaireFlowType $type, bool $completed): void;
+
+    public function getCompletedForUser(int $userId, int $forUserId, QuestionnaireFlowType $type): bool;
+
     /**
      * @param int $userId
      * @return int[]

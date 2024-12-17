@@ -7,19 +7,13 @@ namespace App\Domains\Practitioner\Http\Controllers;
 use App\Domains\Patient\Services\PatientDataService;
 use App\Domains\PatientAssignments\Services\PatientAssignmentService;
 use App\Domains\Practitioner\Services\PractitionersService;
-use App\Domains\QuestionnaireFlow\Constants\QuestionnaireFlowType;
 use App\Domains\Questions\Services\QuestionsService;
 use App\Domains\Reports\Http\Services\ReportService;
-use App\Domains\Tests\Repositories\Eloquent\Models\Test;
-use App\Domains\Tests\Services\TestService;
-use App\Domains\UserQuestionnaire\Services\UserQuestionnaireService;
 use App\Domains\UserResponse\Http\Requests\SubmitMedicalHistoryResponsesRequest;
-use App\Domains\UserResponse\Http\Requests\SubmitUserResponsesRequest;
 use App\Domains\UserResponse\Services\UserResponseService;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -100,7 +94,9 @@ class PractitionerController extends Controller
 
         $presenter = $this->questionsService->fetchMedicalHistoryQuestions(Auth::id(), $forUserId);
 
-        return view('practitioner.medical-history-questions')->with('presenter', $presenter);
+        return $presenter->isCompleted() ?
+            view('practitioner.medical-history-completed')->with('presenter', $presenter) :
+            view('practitioner.medical-history-questions')->with('presenter', $presenter);
     }
 
     public function submitMedicalHistoryQuestions(SubmitMedicalHistoryResponsesRequest $request): View
@@ -111,7 +107,9 @@ class PractitionerController extends Controller
         if ($submitted) {
             $presenter = $this->questionsService->fetchMedicalHistoryQuestions(Auth::id(), $submittedData->getForUserId());
 
-            return view('practitioner.medical-history-questions')->with('presenter', $presenter);
+            return $presenter->isCompleted() ?
+                view('practitioner.medical-history-completed')->with('presenter', $presenter) :
+                view('practitioner.medical-history-questions')->with('presenter', $presenter);
         }
 
         Log::error('Could not submit answer for user ' . $submittedData->getUserId(), [

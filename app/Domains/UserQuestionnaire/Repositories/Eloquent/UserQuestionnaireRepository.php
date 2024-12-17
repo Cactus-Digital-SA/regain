@@ -71,6 +71,34 @@ class UserQuestionnaireRepository implements UserQuestionnaireRepositoryInterfac
         ]);
     }
 
+    public function setCompletedForUser(int $userId, int $forUserId, QuestionnaireFlowType $type, bool $completed): void
+    {
+        UserQuestionnaireEloquent::updateOrCreate(
+            [
+                'user_id'                 => $userId,
+                'questionnaire_flow_type' => $type->value,
+                'for_user_id'             => $forUserId,
+                'generated_questions'     => Serialize([])
+            ],
+            [
+                'completed' => $completed
+            ]
+        );
+    }
+
+    public function getCompletedForUser(int $userId, int $forUserId, QuestionnaireFlowType $type): bool
+    {
+        $row = UserQuestionnaireEloquent::where(
+            [
+                'user_id'                 => $userId,
+                'questionnaire_flow_type' => $type->value,
+                'for_user_id'             => $forUserId,
+            ],
+        )->pluck('completed')->first();
+
+        return $row === 1;
+    }
+
     /**
      * @param int $userId
      * @return int[]

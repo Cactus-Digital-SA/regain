@@ -7,7 +7,6 @@ use App\Domains\Auth\Services\UserService;
 use App\Domains\Patient\Models\PatientData;
 use App\Domains\Patient\Services\PatientDataService;
 use App\Domains\Practitioner\Services\PractitionersService;
-use App\Domains\Regain\Http\Requests\StorePatientRequest;
 use App\Domains\Region\Services\RegionService;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
@@ -15,16 +14,16 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
+use Nette\NotImplementedException;
 
 class PatientController extends Controller
 {
     public function __construct(
-        private PatientDataService $patientDataService,
-        private UserService $userService,
-        private PractitionersService $practitionersService,
-        private RegionService $regionService,
+        private readonly PatientDataService $patientDataService,
+        private readonly UserService $userService,
+        private readonly PractitionersService $practitionersService,
+        private readonly RegionService $regionService,
     ) {
 
     }
@@ -71,9 +70,9 @@ class PatientController extends Controller
         return redirect()->route('organization.index')->with('success', 'Patient created successfully');
     }
 
-    public function update(Request $request, string $patient)
+    public function update(Request $request, string $patient): void
     {
-
+        throw new NotImplementedException();
     }
 
     public function patientsDestroy(string $patient): RedirectResponse

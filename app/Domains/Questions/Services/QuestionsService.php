@@ -115,7 +115,16 @@ readonly class QuestionsService
             $this->populateHiddenData($question);
         }
 
-        return $presenter->setQuestions($questions)->setCompleted(false);
+        $completed = false;
+        if ($activeQuestion && $questions === []) {
+            if (!$this->userQuestionnaireService->getCompletedForUser($userId, $forUserId, $flow)) {
+                $this->userQuestionnaireService->setCompletedForUser($userId, $forUserId, $flow, true);
+            }
+
+            $completed = true;
+        }
+
+        return $presenter->setQuestions($questions)->setCompleted($completed);
     }
 
     private function getFlowTypeForUser(int $userId): QuestionnaireFlowType

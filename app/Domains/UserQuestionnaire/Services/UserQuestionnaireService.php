@@ -39,6 +39,16 @@ class UserQuestionnaireService
         return $this->repository->setCompleted($userId, $flow, $completed);
     }
 
+    public function setCompletedForUser(int $userId, int $forUserId, QuestionnaireFlowType $flow, bool $completed): void
+    {
+        $this->repository->setCompletedForUser($userId, $forUserId, $flow, $completed);
+    }
+
+    public function getCompletedForUser(int $userId, int $forUserId, QuestionnaireFlowType $flow): bool
+    {
+        return $this->repository->getCompletedForUser($userId, $forUserId, $flow);
+    }
+
     /**
      * @param int $userId
      * @return int[]
