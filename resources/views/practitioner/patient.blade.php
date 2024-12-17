@@ -1,9 +1,11 @@
 @php
     use App\Domains\Patient\Models\PatientData;
     use App\Domains\Practitioner\Models\Practitioner;
+    use App\Domains\Reports\Http\Presenters\FlowsPresenter;
 /**
 * @var Practitioner $practitioner
  * @var PatientData $patientData
+ * @var FlowsPresenter $presenter
 */
 @endphp
 
@@ -30,11 +32,12 @@
     @vite(['resources/css/practitioner-dashboard.css', 'resources/css/dashboard-common.css'])
 </head>
 <body>
-
-@include('practitioner.includes.report-modal', [
-    "completedTestsWithSubscales" => $completedTestsWithSubscales,
-    "userId" => $patientData->getUser()->getId()
-])
+@foreach($presenter->getFlows() as $flow)
+    @include('practitioner.includes.report-modal', [
+        "flow" => $flow,
+        "userId" => $patientData->getUser()->getId()
+    ])
+@endforeach
 
 <div class="modal fade" id="medicalHistory" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 60%; max-height: 100%">
@@ -123,7 +126,8 @@
                                         data-bs-toggle="tooltip" data-bs-placement="bottom" title="Notifications"><span
                                             class="notification-count">3</span><i class="ti ti-bell"></i></button>
                                 <button href="#" class="btn btn-lg profile-button rounded-pill" data-bs-toggle="tooltip"
-                                        data-bs-placement="bottom" title="Profile"><i class="ti ti-user"></i></button>
+                                        data-bs-placement="bottom" title="Profile"><i class="ti ti-user"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -139,7 +143,8 @@
                                         <h5 class="patient-name">{{$patientData->getUser()->getName()}}</h5>
 
                                         <p class="patient-detail">
-                                            <span>Patient ID:</span>&nbsp; #P{{$patientData->getUser()->getId()}}</p>
+                                            <span>Patient ID:</span>&nbsp; #P{{$patientData->getUser()->getId()}}
+                                        </p>
                                         <p class="patient-detail">
                                             <span>Date of Birth:</span>&nbsp; {{$patientData->getBirthday()->format("d/m/Y")}}
                                         </p>
@@ -150,11 +155,14 @@
                                         <p class="patient-detail last-detail"><span>Registration:</span>&nbsp;
                                             {{$patientData->getUser()->getCreatedAt()->format("d/m/Y")}}</p>
 
-                                        <button
-                                                data-bs-toggle="modal" data-bs-target="#preAssessmentReportModal"
-                                                class="btn pre-assesment-btn">
-                                            Pre-Assesment Report
-                                        </button>
+                                        @foreach($presenter->getFlows() as $flow)
+                                            <button
+                                                    data-bs-toggle="modal" data-bs-target="#flow-{{$flow->getFlowType()}}"
+                                                    class="btn pre-assesment-btn">
+                                                {{$flow->getName()}}
+                                            </button>
+                                        @endforeach
+
                                     </div>
                                 </div>
                             </div>

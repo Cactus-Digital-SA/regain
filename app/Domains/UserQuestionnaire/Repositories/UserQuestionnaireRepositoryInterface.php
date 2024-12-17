@@ -26,7 +26,7 @@ interface UserQuestionnaireRepositoryInterface extends RepositoryInterface
 
     /**
      * @param int $userId
-     * @return QuestionnaireFlowType[]
+     * @return int[]
      */
-    public function getCompletedFlows(int $userId): array;
+    public function getCompletedPatientFlows(int $userId): array;
 }

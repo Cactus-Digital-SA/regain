@@ -41,10 +41,10 @@ class UserQuestionnaireService
 
     /**
      * @param int $userId
-     * @return QuestionnaireFlowType[]
+     * @return int[]
      */
-    public function getCompletedFlows(int $userId): array
+    public function getCompletedPatientFlows(int $userId): array
     {
-        return $this->repository->getCompletedFlows($userId);
+        return $this->repository->getCompletedPatientFlows($userId);
     }
 }

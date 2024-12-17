@@ -1,4 +1,12 @@
-<div class="modal fade" id="preAssessmentReportModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+@php use App\Domains\Reports\Http\Presenters\FlowPresenter; @endphp
+@php
+    /**
+     * @var FlowPresenter $presenter
+     * @var int $userId
+    */
+@endphp
+
+<div class="modal fade" id="flow-{{$flow->getFlowType()}}" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 60%;">
         <div class="modal-content p-3 p-md-5">
             <div class="modal-header">
@@ -39,14 +47,14 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach ($completedTestsWithSubscales as $key => $value)
+                            @foreach ($flow->getTests() as $test)
                                 <tr>
-                                    <td>{{$value}}</td>
-                                    <td>03.11.2024</td>
+                                    <td>{{$test->getName()}}</td>
+                                    <td>{{$test->getCompletedAt()->format("d.m.Y")}}</td>
                                     <td>
                                         <a href="{{route("practitioner.test-report", [
                                             "userId" => $userId,
-                                            "testId" => $key
+                                            "testId" => $test->getId()
                                             ])}}"><i class="bi bi-download">Download</i></a>
                                     </td>
                                     <td><i class="bi bi-eye"></i> View</td>

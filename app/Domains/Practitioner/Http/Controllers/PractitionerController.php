@@ -9,6 +9,7 @@ use App\Domains\PatientAssignments\Services\PatientAssignmentService;
 use App\Domains\Practitioner\Services\PractitionersService;
 use App\Domains\QuestionnaireFlow\Constants\QuestionnaireFlowType;
 use App\Domains\Questions\Services\QuestionsService;
+use App\Domains\Reports\Http\Services\ReportService;
 use App\Domains\Tests\Repositories\Eloquent\Models\Test;
 use App\Domains\Tests\Services\TestService;
 use App\Domains\UserQuestionnaire\Services\UserQuestionnaireService;
@@ -35,8 +36,7 @@ class PractitionerController extends Controller
         private readonly PatientDataService $patientDataService,
         private readonly UserResponseService $responseService,
         private readonly PatientAssignmentService $patientAssignmentService,
-        private readonly UserQuestionnaireService $userQuestionnaireService,
-        private readonly TestService $testService,
+        private readonly ReportService $reportService,
     ) {
     }
 
@@ -79,32 +79,13 @@ class PractitionerController extends Controller
             return redirect()->route('practitioner.patients');
         }
 
-        // get completed flows for patient
-        // for now hardwired
-        $flows = $this->userQuestionnaireService->getCompletedFlows($userId);
-
-        $completedTestsWithSubscales = [];
-        foreach ($flows as $flow) {
-            $tests = Test::whereIn('category_id', function ($query) use ($flow) {
-                $query->select("category_id")
-                      ->from("questionnaire_flows")
-                      ->where('flow_type', $flow);
-            })->with('subscales')->get();
-
-            foreach ($tests as $test) {
-                if ($test->subscales()->count() > 0) {
-                    if ($test->id > 6) {
-                        $completedTestsWithSubscales[$test->id] = $test->name;
-                    }
-                }
-            }
-        }
+        $presenter = $this->reportService->getFlowPresenterForUser($userId);
 
         return view('practitioner.patient')
             ->with('columns', [])
             ->with('practitioner', $practitioner)
             ->with('patientData', $patientData)
-            ->with('completedTestsWithSubscales', $completedTestsWithSubscales);
+            ->with('presenter', $presenter);
     }
 
     public function getMedicalHistoryQuestions(Request $request, int $forUserId)

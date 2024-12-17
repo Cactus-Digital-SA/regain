@@ -73,14 +73,17 @@ class UserQuestionnaireRepository implements UserQuestionnaireRepositoryInterfac
 
     /**
      * @param int $userId
-     * @return QuestionnaireFlowType[]
+     * @return int[]
      */
-    public function getCompletedFlows(int $userId): array
+    public function getCompletedPatientFlows(int $userId): array
     {
         return UserQuestionnaireEloquent::where([
             'user_id'   => $userId,
             'completed' => true,
-        ])->pluck('questionnaire_flow_type')->toArray();
+        ])->whereIn(
+            'questionnaire_flow_type',
+            [QuestionnaireFlowType::PRE_ASSESSMENT->value, QuestionnaireFlowType::SKILLS->value]
+        )->pluck('questionnaire_flow_type')->toArray();
     }
 
     public function update(CactusEntity $entity, string $id): ?CactusEntity
