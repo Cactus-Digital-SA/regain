@@ -7,6 +7,7 @@ use App\Domains\Auth\Services\UserService;
 use App\Domains\Patient\Models\PatientData;
 use App\Domains\Patient\Services\PatientDataService;
 use App\Domains\Practitioner\Services\PractitionersService;
+use App\Domains\Regain\Http\Requests\StorePatientRequest;
 use App\Domains\Region\Services\RegionService;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
@@ -16,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Nette\NotImplementedException;
+use Throwable;
 
 class PatientController extends Controller
 {
@@ -53,21 +55,36 @@ class PatientController extends Controller
         };
     }
 
-    public function storePatient(Request $request): RedirectResponse
+    public function storePatient(StorePatientRequest $request): View
     {
-        //bill made custom request, uncomment region (StorePatientRequest)?
-        $userDTO = new User();
-        $userDTO->setName($request['name']);
-        $userDTO->setEmail($request['email']);
-        $userDTO->setPassword('123456');  // todo demo pass
-        $user = $this->userService->store($userDTO);
+        $userModel = (new User())
+            ->setName($request->getName())
+            ->setActive(true)
+            ->setEmail($request->getEmail())
+            ->setPassword('123456');
 
-        $request['user_id'] = $user->getId();
+        try {
+            $user = $this->userService->store($userModel);
+            if ($user->getId() !== null) {
+                $model = (new PatientData())
+                    ->setUserId($user->getId())
+                    ->setRegionId($request->getRegion())
+                    ->setBirthday($request->getBirthday())
+                    ->setPostCode($request->getPostCode())
+                    ->setPrimaryPhone($request->getPhone())
+                    ->setSecondaryPhone($request->getSecondaryPhone())
+                    ->setAccessibleMobility($request->getMobility())
+                    ->setNotes($request->getNotes());
 
-        $patientDTO = PatientData::fromRequest($request);
-        $this->patientDataService->store($patientDTO);
+                $this->patientDataService->store($model);
 
-        return redirect()->route('organization.index')->with('success', 'Patient created successfully');
+                return view("organization.includes.patient-stored");
+            }
+        } catch (Throwable $e) {
+            return view('organization.includes.create-patient-first')->with('regions', $this->regionService->get());
+        }
+
+        return view('organization.includes.create-patient-first')->with('regions', $this->regionService->get());
     }
 
     public function update(Request $request, string $patient): void

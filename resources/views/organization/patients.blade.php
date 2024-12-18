@@ -290,8 +290,8 @@
 
 @include('organization.includes.delete_modal')
 
-<script type="module">
-    $(function () {
+<script>
+    function initializeDT() {
         let dt_basic_table = $('.patients-datatable');
 
         if (dt_basic_table.length) {
@@ -388,9 +388,13 @@
                 });
             });
         }
+    }
+
+    $(function () {
+        initializeDT()
     });
-</script>
-<script>
+
+
     var storePatientData = {};
     document.addEventListener('DOMContentLoaded', function () {
         const modalContainer = document.getElementById('patient-modal-content');
@@ -439,51 +443,81 @@
         let nextButton = document.getElementById('btn-next');
         formFields = document.querySelectorAll('.new-patient-input');
 
-        function validateForm() {
-            let allFilled = Array.from(formFields).every(function (field) {
-                return field.value.trim() !== '';
+        if (nextButton) {
+            function validateForm() {
+                let allFilled = Array.from(formFields).every(function (field) {
+                    return field.value.trim() !== '';
+                });
+                nextButton.disabled = !allFilled;
+            }
+
+            formFields.forEach(function (field) {
+                field.addEventListener('input', function () {
+                    validateForm();
+                });
             });
-            nextButton.disabled = !allFilled;
+
+            validateForm();
+
+            nextButton.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                storePatientData.name = document.getElementById('name').value;
+                storePatientData.birthday = document.getElementById('date-of-birthday').value;
+                storePatientData.region = document.getElementById('region').value;
+                storePatientData.postCode = document.getElementById('post-code').value;
+                storePatientData.primaryPhone = document.getElementById('primary-phone').value;
+                storePatientData.email = document.getElementById('email').value;
+                storePatientData.secondaryPhone = document.getElementById('secondary-phone').value;
+
+                fetch(`{{route("organization.patients.create-page", ["page" => 2])}}`, {
+                    method: 'POST',  // Change the method to POST
+                    headers: {
+                        'Content-Type': 'application/json',  // Set content type to JSON
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                })
+                    .then(response => response.text())
+                    .then(data => {
+                        // Replace modal content with the fetched data
+                        const modalContainer = document.getElementById('patient-modal-content');
+                        modalContainer.innerHTML = data;
+                        // Show the modal after the content is fetched and set
+                        bootModal();
+                    })
+                    .catch(error => {
+                        console.error('Error fetching second page content:', error);
+                    });
+            });
         }
 
-        formFields.forEach(function (field) {
-            field.addEventListener('input', function () {
-                validateForm();
-            });
-        });
+        let submitButton = document.getElementById('create-patient');
+        if (submitButton) {
+            submitButton.addEventListener('click', function (event) {
+                event.preventDefault();
+                storePatientData.mobility = document.querySelector('input[name="mobility"]:checked').value;
+                storePatientData.notes = document.getElementById('notes').value;
 
-        validateForm();
-
-        nextButton.addEventListener('click', function (event) {
-            event.preventDefault();
-
-            storePatientData.name = document.getElementById('name-visible').value;
-            storePatientData.birthday = document.getElementById('date-of-birthday-visible').value;
-            storePatientData.region = document.getElementById('region-visible').value;
-            storePatientData.postCode = document.getElementById('post-code-visible').value;
-            storePatientData.primaryPhone = document.getElementById('primary-phone-visible').value;
-            storePatientData.email = document.getElementById('email-visible').value;
-            storePatientData.secondaryPhone = document.getElementById('secondary-phone-visible').value;
-
-            fetch(`{{route("organization.patients.create-page", ["page" => 2])}}`, {
-                method: 'POST',  // Change the method to POST
-                headers: {
-                    'Content-Type': 'application/json',  // Set content type to JSON
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-            })
-                .then(response => response.text())
-                .then(data => {
-                    // Replace modal content with the fetched data
-                    const modalContainer = document.getElementById('patient-modal-content');
-                    modalContainer.innerHTML = data;
-                    // Show the modal after the content is fetched and set
-                    bootModal();
+                fetch('{{ route('organization.patients.create') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify(storePatientData)
                 })
-                .catch(error => {
-                    console.error('Error fetching second page content:', error);
-                });
-        });
+                    .then(response => response.text())
+                    .then(data => {
+                        // Handle the response from the server (e.g., show a success message, redirect)
+                        const modalContainer = document.getElementById('patient-modal-content');
+                        modalContainer.innerHTML = data;
+                        initializeDT();
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            });
+        }
     }
 </script>
 </body>

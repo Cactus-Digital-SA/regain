@@ -5,24 +5,24 @@
     <form>
         <div class="row g-4">
             <div class="col-md-12">
-                <label for="mobility-visible" class="form-label">Accessible Mobility</label>
+                <label for="mobility" class="form-label">Accessible Mobility</label>
                 <div class="row">
                     <div class="col-6">
-                        <input type="radio" class="btn-check new-patient-input" name="mobility-visible" id="mobility-yes" value="1" required>
+                        <input type="radio" class="btn-check new-patient-input" name="mobility" id="mobility-yes" value="1" required>
                         <label class="btn w-100 mobility-button  d-flex align-items-center justify-content-center" for="mobility-yes">Yes</label>
                     </div>
                     <div class="col-6">
-                        <input type="radio" class="btn-check new-patient-input" name="mobility-visible" id="mobility-no" value="0" required>
+                        <input type="radio" class="btn-check new-patient-input" name="mobility" id="mobility-no" value="0" required>
                         <label class="btn w-100 mobility-button d-flex align-items-center justify-content-center" for="mobility-no">No</label>
                     </div>
                 </div>
             </div>
             <div class="col-md-12">
-                <label for="note-visible" class="form-label">Notes (Optional)</label>
-                <textarea id="note-visible" class="form-control new-patient-input" style="min-height: 200px"></textarea>
+                <label for="notes" class="form-label">Notes (Optional)</label>
+                <textarea id="notes" class="form-control new-patient-input" style="min-height: 200px"></textarea>
             </div>
             <div class="col-md-12 mt-5 d-flex justify-content-right">
-                <button type="submit" class="custom-next-btn" id="btn-next">Register</button>
+                <button class="custom-next-btn" id="create-patient">Register</button>
             </div>
         </div>
     </form>
