@@ -26,6 +26,7 @@
 @include('frontend.content.mock.dashboards.practitioner.includes.medical-history-modal-alcohol')
 @include('frontend.content.mock.dashboards.practitioner.includes.medical-history-modal-hepatitis')
 @include('frontend.content.mock.dashboards.practitioner.includes.pre-assessment-report-modal')
+@include('frontend.content.mock.dashboards.practitioner.includes.reference-info-modal')
 
 
 @include('frontend.content.mock.dashboards.includes.success-modal-regain')
@@ -118,7 +119,7 @@
                                         <span class="patient-profile-label">Patient Profile</span>
                                         <button class="more-button position-absolute btn"
                                                 style="right: 1rem; top: 1rem;"
-                                                data-bs-toggle="modal" data-bs-target="#patientInformation"><i
+                                                data-bs-toggle="modal" data-bs-target="#referenceInfoModal"><i
                                                 class="ti ti-dots-vertical"></i>
                                         </button>
                                         <h5 class="patient-name">Olha Maximova</h5>

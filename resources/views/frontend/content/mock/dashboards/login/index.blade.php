@@ -14,7 +14,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: Arial, sans-serif;
+            font-family: Inter, sans-serif;
             color: #fff;
             background:
                 radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 2vw 15vh / 200px 200px,
