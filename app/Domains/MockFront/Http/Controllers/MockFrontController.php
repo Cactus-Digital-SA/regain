@@ -137,4 +137,9 @@ class MockFrontController extends  Controller
         return view('frontend.content.mock.dashboards.practitioner.exports.index', compact('data'));
     }
 
+    public function showLoginDashboard(): View
+    {
+        return view('frontend.content.mock.dashboards.login.index');
+    }
+
 }
