@@ -1,8 +1,6 @@
  Check figma for final specs along with dimitris
 
  Practitioner Dashboard (need figma)
-     finalize user creation
-     finalize medical history flow (check for complete and show completed)
      Show some tags from medical history (on practitioner page)
      View & Download medical history
      In appointment dates show the medical history and the submission of the socio-demographic & pre-assesment test
