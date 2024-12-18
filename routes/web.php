@@ -74,6 +74,7 @@ Route::group([
 
     Route::get('/', [RegainPatientController::class, 'patients'])->name('home');
     Route::get('/patients', [RegainPatientController::class, 'patients'])->name('patients');
+    Route::post('/patients/store', [RegainPatientController::class, 'storePatient'])->name('patients.create');
     Route::get('/patients/destroy', [RegainPatientController::class, 'patientsDestroy'])->name('patients.destroy');
     Route::post('/patients/table', [RegainPatientController::class, 'patientsDatatable'])->name('patients.datatable');
     Route::post('/patients/create-page/{page}', [RegainPatientController::class, 'createPatientPage'])->name('patients.create-page');

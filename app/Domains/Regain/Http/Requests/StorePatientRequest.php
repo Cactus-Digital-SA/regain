@@ -3,6 +3,8 @@
 namespace App\Domains\Regain\Http\Requests;
 
 use App\Domains\Auth\Repositories\Eloquent\Models\User;
+use Carbon\Carbon;
+use DateTime;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -12,10 +14,12 @@ class StorePatientRequest extends FormRequest
     private const NAME            = 'name';
     private const EMAIL           = 'email';
     private const BIRTHDAY        = 'birthday';
-    private const REGION          = 'region_id';
-    private const POSTCODE        = 'post_code';
-    private const PHONE           = 'primary_phone';
-    private const SECONDARY_PHONE = 'secondary_phone';
+    private const REGION          = 'region';
+    private const POSTCODE        = 'postCode';
+    private const PHONE           = 'primaryPhone';
+    private const SECONDARY_PHONE = 'secondaryPhone';
+    private const MOBILITY        = 'mobility';
+    private const NOTES           = 'notes';
 
     public function authorize(): bool
     {
@@ -39,12 +43,14 @@ class StorePatientRequest extends FormRequest
             self::POSTCODE        => ['required', 'integer'],
             self::PHONE           => ['required', 'string'],
             self::SECONDARY_PHONE => ['nullable', 'string'],
+            self::MOBILITY        => ['required', 'int'],
+            self::NOTES           => ['nullable', 'string'],
         ];
     }
 
-    public function getName(): int
+    public function getName(): string
     {
-        return (int)$this->input(self::NAME);
+        return $this->input(self::NAME);
     }
 
     public function getEmail(): string
@@ -52,9 +58,9 @@ class StorePatientRequest extends FormRequest
         return $this->input(self::EMAIL);
     }
 
-    public function getBirthday(): string
+    public function getBirthday(): DateTime
     {
-        return $this->input(self::BIRTHDAY);
+        return Carbon::createFromFormat('d/m/Y', $this->input(self::BIRTHDAY));
     }
 
     public function getRegion(): int
@@ -75,5 +81,15 @@ class StorePatientRequest extends FormRequest
     public function getSecondaryPhone(): ?string
     {
         return $this->input(self::SECONDARY_PHONE);
+    }
+
+    public function getMobility(): int
+    {
+        return (int)$this->input(self::MOBILITY);
+    }
+
+    public function getNotes(): ?string
+    {
+        return $this->input(self::NOTES);
     }
 }

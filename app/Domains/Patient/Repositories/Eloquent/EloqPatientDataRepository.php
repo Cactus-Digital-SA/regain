@@ -53,7 +53,7 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
     {
         $patientData = $this->model::create([
             'user_id'             => $entity->getUserId(),
-            'birthday'            => $entity->getBirthday(),
+            'birthday'            => $entity->getBirthday()?->format('Y-m-d'),
             'region_id'           => $entity->getRegionId(),
             'post_code'           => $entity->getPostCode(),
             'primary_phone'       => $entity->getPrimaryPhone(),
