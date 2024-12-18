@@ -22,7 +22,7 @@
                 radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 80vw 80vh / 400px 400px,
                 radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 40vw 90vh / 300px 300px,
                 radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 15vw 60vh / 250px 250px,
-                radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 90vw 20vh / 350px 350px;
+                radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 95vw 0 / 350px 350px;
             background-repeat:no-repeat;
             overflow-y: auto;
         }
@@ -42,7 +42,7 @@
         }
         .form-control {
             border-radius: 25px;
-            padding: 10px 15px;
+            padding: 15px 15px;
             border: 1px solid #fff;
             background-color: transparent;
             color: #fff;
@@ -56,7 +56,7 @@
         .eye-icon {
             position: absolute;
             right: 15px;
-            top: 50%;
+            top: 53%;
             cursor: pointer;
             color: #c0c0c0;
         }
@@ -142,7 +142,8 @@
         </div>
         <div class="form-group password-field">
             <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" placeholder="**********">
+            <input type="password" class="form-control" id="password"
+                   placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;">
             <span class="eye-icon" onclick="togglePassword()">
                 <i class="ti ti-eye"></i>
             </span>
