@@ -9,21 +9,13 @@
     @vite(['resources/assets/vendor/fonts/tabler-icons.scss'])
     <style>
         body {
-            background-color: #504E84 !important; /* Darker purple background */
+            background-color: #161B2C !important;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             font-family: Inter, sans-serif;
             color: #fff;
-            background:
-                radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 2vw 15vh / 200px 200px,
-                radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 70vw 30vh / 180px 180px,
-                radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 80vw 80vh / 400px 400px,
-                radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 40vw 90vh / 300px 300px,
-                radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 15vw 60vh / 250px 250px,
-                radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 95vw 0 / 350px 350px;
-            background-repeat:no-repeat;
             overflow-y: auto;
         }
         .login-container {
@@ -99,42 +91,30 @@
         }
 
         input[type="checkbox"]:checked {
-            background-color: #333;
-            border-color: #333;
+            background-color: #504E84;
+            border-color: #504E84;
         }
 
         input[type="checkbox"]:checked {
-            background-color: #151B2C;
+            background-color: #504E84;
             color: #fff;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
         }
 
-       input[type="checkbox"]:checked {
-            background-color: #333;
-            border-color: #333;
+        input[type="checkbox"]:checked {
+            background-color: #504E84;
+            border-color: #504E84;
         }
 
-       @media (max-width: 780px){
-           body {
-               background:
-                   radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 2vw 2vh / 200px 200px,
-                   radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 40vw 90vh / 300px 300px,
-                   radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 2vw 60vh / 250px 250px,
-                   radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 90vw 20vh / 350px 350px;
-               background-repeat:no-repeat;
-               overflow-y: auto;
-           }
-           .login-container{
-               padding: 2rem;
-           }
-       }
+        @media (max-width: 780px){
+            .login-container{
+                padding: 2rem;
+            }
+        }
     </style>
 </head>
 <body>
 <div class="login-container">
-    <div class="regain-logo">
-        <img src="{{ Vite::asset('resources/images/logo/regain-logo-white.svg') }}" alt="Regain Logo">
-    </div>
     <form>
         <div class="form-group">
             <label for="userID">User ID</label>
