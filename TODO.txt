@@ -17,9 +17,9 @@ Patient
 FrontEnd:
     - Thank you, Page (Questionnaire)(DONE)
     • Modal for Reports styling (download button)(DONE)
-    • Second modal for Reports (References)
+    • Second modal for Reports (References) (DONE)
     • Emails Page (Dashboard)
-    • login pages (Dashboard and Questionnaire)
+    • login pages (Dashboard and Questionnaire) (DONE)
     • Report make the svgs -> images. 3 column for the graph with 3 answer types and same for four. Fix css.
     - css for report pdf (should be inline)
 
