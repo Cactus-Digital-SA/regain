@@ -31,6 +31,11 @@ class UserQuestionnaireRepository implements UserQuestionnaireRepositoryInterfac
         return unserialize($questions[0]->generated_questions, ["allowed_classes" => true]);
     }
 
+    public function get(): ?array
+    {
+        throw new NotImplementedException();
+    }
+
     /**
      * @param int                   $userId
      * @param QuestionnaireFlowType $flow
@@ -38,16 +43,9 @@ class UserQuestionnaireRepository implements UserQuestionnaireRepositoryInterfac
      */
     public function getCompleted(int $userId, QuestionnaireFlowType $flow): bool
     {
-        $completed = UserQuestionnaireEloquent::where("user_id", $userId)
-                                              ->where("questionnaire_flow_type", $flow->value)
-                                              ->get("completed");
-
-        return $completed;
-    }
-
-    public function get(): ?array
-    {
-        throw new NotImplementedException();
+        return UserQuestionnaireEloquent::where("user_id", $userId)
+                                        ->where("questionnaire_flow_type", $flow->value)
+                                        ->pluck("completed")->first() ?? false;
     }
 
     public function store(CactusEntity|UserQuestionnaire $entity): ?UserQuestionnaire
@@ -69,6 +67,11 @@ class UserQuestionnaireRepository implements UserQuestionnaireRepositoryInterfac
         ])->update([
             'completed' => $completed
         ]);
+    }
+
+    public function update(CactusEntity $entity, string $id): ?CactusEntity
+    {
+        throw new NotImplementedException();
     }
 
     public function setCompletedForUser(int $userId, int $forUserId, QuestionnaireFlowType $type, bool $completed): void
@@ -99,6 +102,18 @@ class UserQuestionnaireRepository implements UserQuestionnaireRepositoryInterfac
         return $row === 1;
     }
 
+    public function getCompletedForUserAsUser(int $userId, QuestionnaireFlowType $type): bool
+    {
+        $row = UserQuestionnaireEloquent::where(
+            [
+                'for_user_id'             => $userId,
+                'questionnaire_flow_type' => $type->value,
+            ],
+        )->pluck('completed')->first();
+
+        return $row === 1;
+    }
+
     /**
      * @param int $userId
      * @return int[]
@@ -112,11 +127,6 @@ class UserQuestionnaireRepository implements UserQuestionnaireRepositoryInterfac
             'questionnaire_flow_type',
             [QuestionnaireFlowType::PRE_ASSESSMENT->value, QuestionnaireFlowType::SKILLS->value]
         )->pluck('questionnaire_flow_type')->toArray();
-    }
-
-    public function update(CactusEntity $entity, string $id): ?CactusEntity
-    {
-        throw new NotImplementedException();
     }
 
     public function getById(string $id): ?PatientData

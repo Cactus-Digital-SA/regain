@@ -13,7 +13,8 @@ return new class extends Migration {
         Schema::create('user_questionnaires', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreignId('questionnaire_flow_type')->references('questionnaire_flows')->on('questionnaire_flows')->onDelete('cascade');
+            $table->unsignedSmallInteger('questionnaire_flow_type');
+            $table->foreign('questionnaire_flow_type')->references('flow_type')->on('questionnaire_flows')->onDelete('cascade');
             $table->foreignId('for_user_id')->nullable()->references('id')->on('users')->onDelete('cascade');
             $table->text('generated_questions');
             $table->boolean('completed')->default(false);

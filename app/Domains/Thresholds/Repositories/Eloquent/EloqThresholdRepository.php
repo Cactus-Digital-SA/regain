@@ -34,20 +34,18 @@ class EloqThresholdRepository implements ThresholdRepositoryInterface
     {
         $eloqThreshold = EloqThreshold::find($threshold->getId());
 
-        if (count($threshold->getSubscaleLimits()) > 0) {
-            $eloquentModels = array_map(static function ($item) use ($threshold) {
-                return ElogThresholdSubscaleLimit::firstOrCreate([
-                    'threshold_id' => $threshold->getId(),
-                    'subscale_id'  => $item->getSubscaleId(),
-                    'low'          => $item->getlow(),
-                    'high'         => $item->gethigh(),
-                    'label'        => $item->getlabel(),
-                    'notes'        => $item->getnotes(),
-                ]);
-            }, $threshold->getSubscaleLimits());
+        $eloquentModels = array_map(static function ($item) use ($threshold) {
+            return ElogThresholdSubscaleLimit::firstOrCreate([
+                'threshold_id' => $threshold->getId(),
+                'subscale_id'  => $item->getSubscaleId(),
+                'low'          => $item->getlow(),
+                'high'         => $item->gethigh(),
+                'label'        => $item->getlabel(),
+                'notes'        => $item->getnotes(),
+            ]);
+        }, $subscaleLimits);
 
-            $eloqThreshold->subscaleLimits()->saveMany($eloquentModels);
-        }
+        $eloqThreshold->subscaleLimits()->saveMany($eloquentModels);
     }
 
     public function store(Threshold|CactusEntity $entity): Threshold

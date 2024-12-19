@@ -8,12 +8,14 @@ use App\Domains\Reports\Http\Presenters\FlowsPresenter;
 use App\Domains\Reports\Http\Presenters\TestPresenter;
 use App\Domains\Scores\Repositories\Eloquent\UserTestScore;
 use App\Domains\Tests\Repositories\Eloquent\Models\Test;
+use App\Domains\Thresholds\Services\ThresholdService;
 use App\Domains\UserQuestionnaire\Services\UserQuestionnaireService;
 
 class ReportService
 {
     public function __construct(
         private readonly UserQuestionnaireService $userQuestionnaireService,
+        private readonly ThresholdService $thresholdService,
     ) {
     }
 
@@ -34,6 +36,10 @@ class ReportService
 
             foreach ($tests as $test) {
                 if ($test->id > 6 && $test->subscales()->count() > 0) {
+                    if (!$this->thresholdService->getThresholdByTest($test->id)) {
+                        continue;
+                    }
+
                     $testPresenter = new TestPresenter();
 
                     $completedAt = UserTestScore::where('user_id', $userId)

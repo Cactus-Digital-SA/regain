@@ -133,6 +133,7 @@ class ThresholdImport implements ToCollection, WithHeadingRow
                             $threshold->addSubscaleLimits($subscaleLimits);
                         }
                         $thresholdService->store($threshold);
+                        DB::commit();
                     }
                 }
             }

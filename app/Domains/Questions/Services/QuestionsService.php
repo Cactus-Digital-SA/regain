@@ -4,7 +4,6 @@ namespace App\Domains\Questions\Services;
 
 use App\Domains\Patient\Enums\StatusEnum;
 use App\Domains\Patient\Services\PatientDataService;
-use App\Domains\PatientAssignments\Models\PatientAssignment;
 use App\Domains\PatientAssignments\Services\PatientAssignmentService;
 use App\Domains\QuestionnaireFlow\Constants\QuestionnaireFlowType;
 use App\Domains\Questions\Models\Question;
@@ -96,37 +95,6 @@ readonly class QuestionsService
         return $presenter->setQuestions($questions)->setCompleted(false);
     }
 
-    /**
-     * @param int $userId
-     * @param int $take
-     * @return QuestionsPresenter
-     */
-    public function fetchMedicalHistoryQuestions(int $userId, int $forUserId, int $take = 2): QuestionsPresenter
-    {
-        $presenter = new QuestionsPresenter();
-
-        $flow = QuestionnaireFlowType::MEDICAL_HISTORY;
-
-        $presenter->setType($flow);
-
-        $activeQuestion = $this->getLatestAnsweredMedicalHistoryQuestion($userId, $forUserId);
-        $questions      = $this->getMedicalHistoryQuestions($take, $activeQuestion?->getId() ?? 0);
-        foreach ($questions as $question) {
-            $this->populateHiddenData($question);
-        }
-
-        $completed = false;
-        if ($activeQuestion && $questions === []) {
-            if (!$this->userQuestionnaireService->getCompletedForUser($userId, $forUserId, $flow)) {
-                $this->userQuestionnaireService->setCompletedForUser($userId, $forUserId, $flow, true);
-            }
-
-            $completed = true;
-        }
-
-        return $presenter->setQuestions($questions)->setCompleted($completed);
-    }
-
     private function getFlowTypeForUser(int $userId): QuestionnaireFlowType
     {
         if (!$this->isReadyForSkillsTest($userId)) {
@@ -134,6 +102,14 @@ readonly class QuestionsService
         }
 
         return QuestionnaireFlowType::SKILLS;
+    }
+
+    private function isReadyForSkillsTest(int $userId): bool
+    {
+        $preAssessment  = $this->userQuestionnaireService->getCompleted($userId, QuestionnaireFlowType::PRE_ASSESSMENT);
+        $medicalHistory = $this->userQuestionnaireService->getCompletedForUserAsUser($userId, QuestionnaireFlowType::MEDICAL_HISTORY);
+
+        return $preAssessment && $medicalHistory;
     }
 
     /**
@@ -197,11 +173,6 @@ readonly class QuestionsService
         return $userQuestions;
     }
 
-    private function isReadyForSkillsTest(int $userId): bool
-    {
-        return $this->userResponseService->userHasCompletedFlow($userId, QuestionnaireFlowType::PRE_ASSESSMENT);
-    }
-
     /**
      * @param Question $entity
      * @return Question|null
@@ -209,16 +180,6 @@ readonly class QuestionsService
     public function store(Question $entity): ?Question
     {
         return $this->repository->store($entity);
-    }
-
-    /**
-     * @param Question    $entity
-     * @param string|null $id
-     * @return Question|null
-     */
-    public function storeWithId(Question $entity, ?string $id): ?Question
-    {
-        return $this->repository->storeWithId($entity, $id);
     }
 
     public function getLatestAnsweredQuestion(int $userId): ?Question
@@ -231,50 +192,6 @@ readonly class QuestionsService
 
         if ($latestResponse !== null) {
             $activeQuestionId = $latestResponse->questionResponse->question->id;
-
-            return $this->getById($activeQuestionId);
-        }
-
-        return null;
-    }
-
-    public function getMedicalHistoryQuestions(int $take = 2, int $startFrom = 0): array
-    {
-        $eloqQuestions = EloquentQuestion::whereIn('test_id', static function ($query) {
-            $query->select('id')
-                  ->from('tests')
-                  ->whereIn('category_id', function ($subQuery) {
-                      $subQuery->select('category_id')
-                               ->from('questionnaire_flows')
-                               ->where('flow_type', QuestionnaireFlowType::MEDICAL_HISTORY->value);
-                  });
-        });
-
-        if ($startFrom > 0) {
-            $eloqQuestions = $eloqQuestions->where('id', '>', $startFrom);
-        }
-
-        $eloqQuestions = $eloqQuestions->orderBy("id")->take($take)->get();
-
-        $questions = [];
-        foreach ($eloqQuestions as $question) {
-            $questions[] = $this->getById($question->id);
-        }
-
-        return $questions;
-    }
-
-    public function getLatestAnsweredMedicalHistoryQuestion(int $userId, int $forUserId): ?Question
-    {
-        /** @var UserResponse|null $latestResponse */
-        $latestResponse = UserResponse::query()
-                                      ->where('user_id', $userId)
-                                      ->where('for_user_id', $forUserId)
-                                      ->orderBy('question_id', 'desc')
-                                      ->first();
-
-        if ($latestResponse !== null) {
-            $activeQuestionId = $latestResponse->question_id;
 
             return $this->getById($activeQuestionId);
         }
@@ -328,6 +245,91 @@ readonly class QuestionsService
         return UserResponse::where("question_id", "=", $questionId)
                            ->where("user_id", "=", Auth::user()->id)
                            ->first();
+    }
+
+    /**
+     * @param int $userId
+     * @param int $take
+     * @return QuestionsPresenter
+     */
+    public function fetchMedicalHistoryQuestions(int $userId, int $forUserId, int $take = 2): QuestionsPresenter
+    {
+        $presenter = new QuestionsPresenter();
+
+        $flow = QuestionnaireFlowType::MEDICAL_HISTORY;
+
+        $presenter->setType($flow);
+
+        $activeQuestion = $this->getLatestAnsweredMedicalHistoryQuestion($userId, $forUserId);
+        $questions      = $this->getMedicalHistoryQuestions($take, $activeQuestion?->getId() ?? 0);
+        foreach ($questions as $question) {
+            $this->populateHiddenData($question);
+        }
+
+        $completed = false;
+        if ($activeQuestion && $questions === []) {
+            if (!$this->userQuestionnaireService->getCompletedForUser($userId, $forUserId, $flow)) {
+                $this->userQuestionnaireService->setCompletedForUser($userId, $forUserId, $flow, true);
+            }
+
+            $completed = true;
+        }
+
+        return $presenter->setQuestions($questions)->setCompleted($completed);
+    }
+
+    public function getLatestAnsweredMedicalHistoryQuestion(int $userId, int $forUserId): ?Question
+    {
+        /** @var UserResponse|null $latestResponse */
+        $latestResponse = UserResponse::query()
+                                      ->where('user_id', $userId)
+                                      ->where('for_user_id', $forUserId)
+                                      ->orderBy('question_id', 'desc')
+                                      ->first();
+
+        if ($latestResponse !== null) {
+            $activeQuestionId = $latestResponse->question_id;
+
+            return $this->getById($activeQuestionId);
+        }
+
+        return null;
+    }
+
+    public function getMedicalHistoryQuestions(int $take = 2, int $startFrom = 0): array
+    {
+        $eloqQuestions = EloquentQuestion::whereIn('test_id', static function ($query) {
+            $query->select('id')
+                  ->from('tests')
+                  ->whereIn('category_id', function ($subQuery) {
+                      $subQuery->select('category_id')
+                               ->from('questionnaire_flows')
+                               ->where('flow_type', QuestionnaireFlowType::MEDICAL_HISTORY->value);
+                  });
+        });
+
+        if ($startFrom > 0) {
+            $eloqQuestions = $eloqQuestions->where('id', '>', $startFrom);
+        }
+
+        $eloqQuestions = $eloqQuestions->orderBy("id")->take($take)->get();
+
+        $questions = [];
+        foreach ($eloqQuestions as $question) {
+            $questions[] = $this->getById($question->id);
+        }
+
+        return $questions;
+    }
+
+    /**
+     * @param Question    $entity
+     * @param string|null $id
+     * @return Question|null
+     */
+    public function storeWithId(Question $entity, ?string $id): ?Question
+    {
+        return $this->repository->storeWithId($entity, $id);
     }
 
     /**

@@ -100,11 +100,4 @@ readonly class UserResponseService
 
         return count($updatedIds) > 0;
     }
-
-    public function userHasCompletedFlow(int $userId, QuestionnaireFlowType $type): bool
-    {
-        $userQuestions = $this->userQuestionnaireService->getForUserAndFlow($userId, $type);
-
-        return false;
-    }
 }

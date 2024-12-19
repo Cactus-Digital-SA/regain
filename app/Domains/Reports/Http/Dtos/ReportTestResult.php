@@ -23,6 +23,7 @@ class ReportTestResult
     private array $subscaleResults = [];
     private ?ReportTestResultTotalResult $testResult = null;
     private int $subscaleItems = 0;
+    private string $description;
 
     public function getTest(): Test
     {
@@ -130,6 +131,18 @@ class ReportTestResult
     public function setSubscaleItems(int $subscaleItems): ReportTestResult
     {
         $this->subscaleItems = $subscaleItems;
+
+        return $this;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): ReportTestResult
+    {
+        $this->description = $description;
 
         return $this;
     }

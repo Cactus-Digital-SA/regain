@@ -22,8 +22,9 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use OpenAI\Client;
 
-class ReportsController
+readonly class ReportsController
 {
     public function __construct(
         private ThresholdService $thresholdService,
@@ -31,6 +32,7 @@ class ReportsController
         private PatientAssignmentService $patientAssignmentService,
         private UserService $userService,
         private PatientDataService $patientDataService,
+        private Client $openAIClient,
     ) {
     }
 
@@ -122,7 +124,7 @@ class ReportsController
         );
     }
 
-    public function testReport(Request $request, string $userId, string $testId): Response
+    public function testReport(Request $request, string $userId, string $testId): View
     {
         $threshold           = $this->thresholdService->getThresholdByTest($testId);
         $test                = $this->testService->getById((int)$testId);
@@ -132,10 +134,6 @@ class ReportsController
         // Check if $userId is in the list of practitioner user IDs
         if (!in_array((int)$userId, $practitionerUserIds, true)) {
             throw new AuthorizationException("User ID $userId is not authorized to access this report.");
-        }
-
-        if ($threshold === null || $test === null) {
-            return view('reports.flows.result')->with("testResult", []);
         }
 
         $result = new ReportTestResult();
@@ -187,7 +185,7 @@ class ReportsController
             (SELECT score FROM user_subscale_scores WHERE user_id = ? AND subscale_id = ?) AS user_score 
         FROM threshold_subscale_limits
         INNER JOIN thresholds ON thresholds.id = threshold_subscale_limits.threshold_id
-        WHERE thresholds.test_id = ?", [$userId, $subscale->getId(), $test->getId()]);
+        WHERE thresholds.test_id = ? AND threshold_subscale_limits.subscale_id = ?", [$userId, $subscale->getId(), $test->getId(), $subscale->getId()]);
                         $subscaleResult = new ReportTestResultSubscaleResult();
                         $result->setSubscaleItems(count($subscalesList));
                         $subscaleResult->setSubscaleName($subscale->getName());
@@ -208,10 +206,29 @@ class ReportsController
         $result->setUser($this->userService->getById($userId));
         $result->setPatientData($this->patientDataService->getByUserId($userId));
 
-//        return view('reports.tests.index')->with(
-//            ["result" => $result]
-//        );
+        $sanitizeResults = implode("\n", array_map(static function ($item) {
+            return "test subscale: " . $item->getSubscaleName() . " result: " . $item->getResultLabel();
+        }, $result->getSubscaleResults()));
 
-        return PDF::loadView('reports.tests.index', ['result' => $result])->download('report.pdf');
+        $response = $this->openAIClient->chat()->create(
+            [
+                'model'    => 'gpt-3.5-turbo',
+                'messages' => [
+                    [
+                        'role' => 'system', 'content' =>
+                        'A test is trying to provide an overview regarding:  ' . $test->getName() . ',
+                        Evaluate the test results as a whole and provide a summary of the results. Please note that the person reading this is a medical professional and thus is highly trained.'
+                    ],
+                    ['role' => 'user', 'content' => 'Here are the results: ' . $sanitizeResults],
+                ],
+            ]
+        );
+
+        $result->setDescription($response->choices[0]->message->content);
+
+        return view('reports.tests.index')->with(
+            ["result" => $result]
+        );
+        // return PDF::loadView('reports.tests.index', ['result' => $result])->download('report.pdf');
     }
 }

@@ -194,6 +194,7 @@ return [
 //        App\Providers\MenuServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        App\Providers\OpenAIServiceProvider::class,
     ])->toArray(),
 
     /*
