@@ -1,117 +1,190 @@
-@extends('frontend/layouts/app')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regain Login</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    @vite(['resources/assets/vendor/fonts/tabler-icons.scss'])
+    <style>
+        body {
+            background-color: #504E84 !important; /* Darker purple background */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Inter, sans-serif;
+            color: #fff;
+            background: radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 2vw 15vh / 200px 200px,
+            radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 70vw 30vh / 180px 180px,
+            radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 80vw 80vh / 400px 400px,
+            radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 40vw 90vh / 300px 300px,
+            radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 15vw 60vh / 250px 250px,
+            radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 95vw 0 / 350px 350px;
+            background-repeat: no-repeat;
+            overflow-y: auto;
+        }
 
-@section('title', 'Login')
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+        }
 
-@section('vendor-style')
-    @vite([
-      'resources/assets/vendor/libs/@form-validation/form-validation.scss'
-    ])
-@endsection
+        .regain-logo img {
+            width: 85%; /* Adjusted logo size */
+            display: block;
+            margin: 0 auto 5rem;
+        }
 
-@section('page-style')
-    @vite([
-      'resources/assets/vendor/scss/pages/page-auth.scss'
-    ])
-@endsection
+        .form-group label {
+            font-weight: bold;
+            float: left;
+            color: #fff;
+        }
 
-@section('vendor-script')
-    @vite([
-      'resources/assets/vendor/libs/@form-validation/popular.js',
-      'resources/assets/vendor/libs/@form-validation/bootstrap5.js',
-      'resources/assets/vendor/libs/@form-validation/auto-focus.js'
-    ])
-@endsection
+        .form-control {
+            border-radius: 25px;
+            padding: 15px 15px;
+            border: 1px solid #fff;
+            background-color: transparent;
+            color: #fff;
+        }
 
-@section('page-script')
-    @vite([
-      'resources/assets/js/pages-auth.js'
-    ])
-@endsection
+        .form-control::placeholder {
+            color: #c0c0c0;
+        }
 
-@section('content')
-    <div class="container-xxl">
+        .password-field {
+            position: relative;
+        }
 
-        <div class="authentication-wrapper authentication-basic container-p-y">
-            <div class="authentication-inner py-4">
-                <!-- Login -->
-                <div class="card">
-                    <div class="card-body">
-                        <!-- Logo -->
-                        <div class="app-brand justify-content-center mb-4 mt-2">
-                            <a href="#" class="app-brand-link gap-2" style="width: 60%;">
-                                <img src="{{ Vite::asset('resources/images/logo/Logo_Black.svg') }}" alt class="h-auto">
-                            </a>
-                        </div>
-                        <!-- /Logo -->
-                        <h4 class="card-title mb-1">{{__('Welcome')}} 👋</h4>
-                        <p class="card-text mb-2">{{__('Please login to our system to proceed!')}}</p>
-                        @if (session('status'))
-                            <div class="alert alert-success mb-1 rounded-0" role="alert">
-                                <div class="alert-body">
-                                    {{ session('status') }}
-                                </div>
-                            </div>
-                        @endif
-                        <form class="auth-login-form mt-2" method="POST" action="{{ route('login') }}">
-                            @csrf
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="text" class="form-control" id="email" name="email"
-                                       placeholder="Enter your email" autofocus>
-                                @error('email')
-                                <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                            <div class="mb-3 form-password-toggle">
-                                <div class="d-flex justify-content-between">
-                                    <label class="form-label" for="password">{{__('Password')}}</label>
-                                    @if (Route::has('password.request'))
-                                        <a href="{{ route('password.request') }}">
-                                            <small>{{__('Forgot Password')}}</small>
-                                        </a>
-                                    @endif
-                                </div>
-                                <div class="input-group input-group-merge">
-                                    <input type="password" id="password" class="form-control" name="password"
-                                           placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                           aria-describedby="password" />
-                                    <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="remember-me"
-                                        {{ old('remember') ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="remember-me">
-                                        {{__('Remember Me')}}
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <button class="btn btn-primary d-grid w-100" type="submit">{{__('Sign in')}}</button>
-                            </div>
-                        </form>
+        .eye-icon {
+            position: absolute;
+            right: 15px;
+            top: 53%;
+            cursor: pointer;
+            color: #c0c0c0;
+        }
 
-    {{--                    <div class="divider my-4">--}}
-    {{--                        <div class="divider-text">Follow Us</div>--}}
-    {{--                    </div>--}}
+        .form-check-label {
+            color: #c0c0c0;
+            cursor: pointer;
+        }
 
-    {{--                    <div class="auth-footer-btn d-flex justify-content-center">--}}
-    {{--                        <a href="javascript:;" class="btn btn-icon btn-label-facebook me-3">--}}
-    {{--                            <i class="tf-icons fa-brands fa-facebook-f fs-5"></i>--}}
-    {{--                        </a>--}}
-    {{--                        <a href="javascript:;" class="btn btn-icon btn-label-google-plus me-3">--}}
-    {{--                            <i class="tf-icons fa-brands fa-google fs-5"></i>--}}
-    {{--                        </a>--}}
-    {{--                        <a href="javascript:;" class="btn btn-icon btn-label-twitter">--}}
-    {{--                            <i class="tf-icons fa-brands fa-twitter fs-5"></i>--}}
-    {{--                        </a>--}}
-    {{--                    </div>--}}
-                    </div>
-                </div>
-            </div>
-        </div>
+        .btn-custom {
+            background-color: #fff;
+            color: #333;
+            border-radius: 25px;
+            font-weight: bold;
+        }
+
+        .btn-custom:hover {
+            background-color: #e0e0e0;
+        }
+
+        .forgot-password a {
+            color: #c0c0c0;
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        input[type="checkbox"] {
+            appearance: none;
+            width: 0.9rem;
+            height: 0.9rem;
+            border-radius: 100%;
+            position: relative;
+            cursor: pointer;
+            background-color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        input[type="checkbox"]:hover,
+        label.toggle:hover + input[type="checkbox"] {
+            border-color: #555;
+        }
+
+        input[type="checkbox"]:checked {
+            background-color: #333;
+            border-color: #333;
+        }
+
+        input[type="checkbox"]:checked {
+            background-color: #151B2C;
+            color: #fff;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        input[type="checkbox"]:checked {
+            background-color: #333;
+            border-color: #333;
+        }
+
+        @media (max-width: 780px) {
+            body {
+                background: radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 2vw 2vh / 200px 200px,
+                radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 40vw 90vh / 300px 300px,
+                radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 2vw 60vh / 250px 250px,
+                radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 90vw 20vh / 350px 350px;
+                background-repeat: no-repeat;
+                overflow-y: auto;
+            }
+
+            .login-container {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="login-container">
+    <div class="regain-logo">
+        <img src="{{ Vite::asset('resources/images/logo/regain-logo-white.svg') }}" alt="Regain Logo">
     </div>
-@endsection
+    <form method="POST" action="{{ route('login') }}">
+        @csrf
+        <div class="form-group">
+            <label for="email">User ID</label>
+            <input type="text" class="form-control" id="email" name="email" placeholder="your@email.com">
+        </div>
+        <div class="form-group password-field">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password"
+                   placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;">
+            <span class="eye-icon" onclick="togglePassword()">
+                <i class="ti ti-eye"></i>
+            </span>
+        </div>
+        <div class="form-check text-left mb-3">
+            <input type="checkbox" class="form-check-input" id="keepLoggedIn">
+            <label class="form-check-label" for="keepLoggedIn">Keep me logged in</label>
+        </div>
+        <button type="submit" class="btn btn-custom btn-block">Sign In</button>
+        <div class="forgot-password mt-3 text-center">
+            <a href="#">Forgot your password?</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    function togglePassword() {
+        const passwordInput = document.getElementById('password');
+        const eyeIcon = document.querySelector('.eye-icon i');
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            eyeIcon.classList.remove('ti-eye');
+            eyeIcon.classList.add('ti-eye-off');
+        } else {
+            passwordInput.type = 'password';
+            eyeIcon.classList.remove('ti-eye-off');
+            eyeIcon.classList.add('ti-eye');
+        }
+    }
+</script>
+</body>
+</html>
