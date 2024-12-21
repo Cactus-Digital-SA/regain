@@ -5,8 +5,7 @@ declare(strict_types = 1);
 namespace App\Domains\Reports\Http\Requests;
 
 use App\Domains\Auth\Repositories\Eloquent\Models\User;
-use App\Domains\Reports\Http\Dtos\ReportForm;
-use App\Domains\UserResponse\Http\Dtos\SubmittedUserResponseForm;
+use App\Domains\Reports\Dtos\PatientReport\ReportForm;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;

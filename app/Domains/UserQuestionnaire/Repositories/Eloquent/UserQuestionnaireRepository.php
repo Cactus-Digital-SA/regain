@@ -9,6 +9,7 @@ use App\Domains\UserQuestionnaire\Repositories\Eloquent\Models\UserQuestionnaire
 use App\Domains\UserQuestionnaire\Repositories\UserQuestionnaireRepositoryInterface;
 use App\Facades\ObjectSerializer;
 use App\Models\CactusEntity;
+use DateTime;
 use Illuminate\Http\JsonResponse;
 use Nette\NotImplementedException;
 
@@ -102,16 +103,27 @@ class UserQuestionnaireRepository implements UserQuestionnaireRepositoryInterfac
         return $row === 1;
     }
 
-    public function getCompletedForUserAsUser(int $userId, QuestionnaireFlowType $type): bool
+    public function getMedicalHistoryCompletedForUser(int $userId): bool
     {
         $row = UserQuestionnaireEloquent::where(
             [
                 'for_user_id'             => $userId,
-                'questionnaire_flow_type' => $type->value,
+                'questionnaire_flow_type' => QuestionnaireFlowType::MEDICAL_HISTORY->value,
             ],
         )->pluck('completed')->first();
 
         return $row === 1;
+    }
+
+    public function getMedicalHistoryCompletedAtForUser(int $practitionerId, int $userId): ?DateTime
+    {
+        return UserQuestionnaireEloquent::where(
+            [
+                'user_id'                 => $practitionerId,
+                'for_user_id'             => $userId,
+                'questionnaire_flow_type' => QuestionnaireFlowType::MEDICAL_HISTORY->value,
+            ],
+        )->pluck('created_at')->first();
     }
 
     /**

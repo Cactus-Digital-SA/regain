@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\Reports\Http\Dtos;
+namespace App\Domains\Reports\Dtos\PatientReport;
 
 use App\Domains\Auth\Models\User;
 use App\Domains\Patient\Models\PatientData;

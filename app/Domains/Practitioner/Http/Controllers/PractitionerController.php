@@ -9,6 +9,7 @@ use App\Domains\PatientAssignments\Services\PatientAssignmentService;
 use App\Domains\Practitioner\Services\PractitionersService;
 use App\Domains\Questions\Services\QuestionsService;
 use App\Domains\Reports\Http\Services\ReportService;
+use App\Domains\UserQuestionnaire\Services\UserQuestionnaireService;
 use App\Domains\UserResponse\Http\Requests\SubmitMedicalHistoryResponsesRequest;
 use App\Domains\UserResponse\Services\UserResponseService;
 use App\Helpers\Helpers;
@@ -31,6 +32,7 @@ class PractitionerController extends Controller
         private readonly UserResponseService $responseService,
         private readonly PatientAssignmentService $patientAssignmentService,
         private readonly ReportService $reportService,
+        private readonly UserQuestionnaireService $userQuestionnaireService
     ) {
     }
 
@@ -73,12 +75,14 @@ class PractitionerController extends Controller
             return redirect()->route('practitioner.patients');
         }
 
-        $presenter = $this->reportService->getFlowPresenterForUser($userId);
+        $presenter               = $this->reportService->getFlowPresenterForUser($userId);
+        $medicalHistoryCompleted = $this->userQuestionnaireService->getMedicalHistoryCompletedAtForUser(Auth::id(), $userId);
 
         return view('practitioner.patient')
             ->with('columns', [])
             ->with('practitioner', $practitioner)
             ->with('patientData', $patientData)
+            ->with('medicalHistoryCompleted', $medicalHistoryCompleted)
             ->with('presenter', $presenter);
     }
 
@@ -117,6 +121,12 @@ class PractitionerController extends Controller
         ]);
 
         abort(500);
+    }
+
+    public function getMedicalHistoryReport(int $userId): void
+    {
+        $data = $this->questionsService->getMedicalHistoryReportForPatient($userId);
+        $data = $data;
     }
 
     public function datatable(Request $request)

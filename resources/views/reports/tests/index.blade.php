@@ -1,4 +1,4 @@
-@php use App\Domains\Reports\Http\Dtos\ReportTestResult; @endphp
+@php use App\Domains\Reports\Dtos\PatientReport\ReportTestResult; @endphp
 @php
     /**
     * @var ReportTestResult $result

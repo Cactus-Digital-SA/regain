@@ -1,8 +1,7 @@
 @php
-    use App\Domains\Reports\Http\Dtos\ReportResults;
-    use \App\Domains\Thresholds\Models\Constants\ThresholdDisplayType;
-/**
-* @var ReportResults $result
+    use App\Domains\Thresholds\Models\Constants\ThresholdDisplayType;
+    /**
+* @var \App\Domains\Reports\Dtos\PatientReport\ReportResults $result
 */
 @endphp
 

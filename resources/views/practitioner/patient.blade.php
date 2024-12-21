@@ -6,6 +6,7 @@
 * @var Practitioner $practitioner
  * @var PatientData $patientData
  * @var FlowsPresenter $presenter
+ * @var bool $medicalHistoryCompleted
 */
 @endphp
 
@@ -191,15 +192,26 @@
                                     <div class="card medical-history-card">
                                         <div class="card-body medical-history-card-body">
                                             <span class="card-label">Medical History</span>
-                                            <p class="mh-date"><strong>-</strong></p>
                                             <div class="mh-actions">
-                                                <div class="d-flex flex-column align-items-start">
-                                                </div>
-                                                <a href="#" class="btn mh-btn" data-bs-toggle="modal"
-                                                   data-bs-target="#medicalHistory"
-                                                   id="load-medical-history">
-                                                    Medical History
-                                                </a>
+                                                @if ($medicalHistoryCompleted !== null)
+                                                    <p class="mh-date"><strong>
+                                                            {{$medicalHistoryCompleted->format("d/m/Y H:i:s")}}
+                                                        </strong></p>
+                                                    <div class="d-flex flex-column align-items-start">
+                                                        <a href="#" class="mh-link">
+                                                            <i class="ti ti-eye"></i> View
+                                                        </a>
+                                                        <a href="#" class="mh-link mt-1">
+                                                            <i class="ti ti-download"></i> Download
+                                                        </a>
+                                                    </div>
+                                                @else
+                                                    <a href="#" class="btn mh-btn" data-bs-toggle="modal"
+                                                       data-bs-target="#medicalHistory"
+                                                       id="load-medical-history">
+                                                        Medical History
+                                                    </a>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>

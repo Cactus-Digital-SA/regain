@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Domains\Reports\Http\Dtos;
+namespace App\Domains\Reports\Dtos\PatientReport;
 
 use App\Domains\QuestionnaireFlow\Constants\QuestionnaireFlowType;
-use App\Domains\QuestionnaireFlow\Models\QuestionnaireFlow;
 
 class ReportForm
 {

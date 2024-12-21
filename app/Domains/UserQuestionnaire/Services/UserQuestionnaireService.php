@@ -6,6 +6,7 @@ use App\Domains\Patient\Repositories\PatientDataRepositoryInterface;
 use App\Domains\QuestionnaireFlow\Constants\QuestionnaireFlowType;
 use App\Domains\UserQuestionnaire\Repositories\UserQuestionnaireRepositoryInterface;
 use App\Models\CactusEntity;
+use DateTime;
 use Illuminate\Http\JsonResponse;
 
 class UserQuestionnaireService
@@ -49,9 +50,14 @@ class UserQuestionnaireService
         return $this->repository->getCompletedForUser($userId, $forUserId, $flow);
     }
 
-    public function getCompletedForUserAsUser(int $userId, QuestionnaireFlowType $flow): bool
+    public function getMedicalHistoryCompletedForUser(int $userId): bool
     {
-        return $this->repository->getCompletedForUserAsUser($userId, $flow);
+        return $this->repository->getMedicalHistoryCompletedForUser($userId);
+    }
+
+    public function getMedicalHistoryCompletedAtForUser(int $practitionerId, int $userId): ?DateTime
+    {
+        return $this->repository->getMedicalHistoryCompletedAtForUser($practitionerId, $userId);
     }
 
     /**

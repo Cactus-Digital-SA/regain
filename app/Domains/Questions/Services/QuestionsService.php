@@ -11,6 +11,8 @@ use App\Domains\Questions\Models\QuestionsPresenter;
 use App\Domains\Questions\Repositories\Eloquent\Models\Question as EloquentQuestion;
 use App\Domains\Questions\Repositories\Eloquent\Models\QuestionResponse;
 use App\Domains\Questions\Repositories\QuestionRepositoryInterface;
+use App\Domains\Reports\Dtos\MedicalHistoryReport\MedicalHistoryQuestionAnswer;
+use App\Domains\Reports\Dtos\MedicalHistoryReport\MedicalHistoryResult;
 use App\Domains\UserQuestionnaire\Models\UserQuestionnaire;
 use App\Domains\UserQuestionnaire\Services\UserQuestionnaireService;
 use App\Domains\UserResponse\Repositories\Eloquent\Models\UserResponse;
@@ -107,7 +109,7 @@ readonly class QuestionsService
     private function isReadyForSkillsTest(int $userId): bool
     {
         $preAssessment  = $this->userQuestionnaireService->getCompleted($userId, QuestionnaireFlowType::PRE_ASSESSMENT);
-        $medicalHistory = $this->userQuestionnaireService->getCompletedForUserAsUser($userId, QuestionnaireFlowType::MEDICAL_HISTORY);
+        $medicalHistory = $this->userQuestionnaireService->getMedicalHistoryCompletedForUser($userId, QuestionnaireFlowType::MEDICAL_HISTORY);
 
         return $preAssessment && $medicalHistory;
     }
@@ -166,7 +168,6 @@ readonly class QuestionsService
         );
 
         if ($flow === QuestionnaireFlowType::PRE_ASSESSMENT) {
-            // change his status to processing
             $this->patientDataService->updateStatus($userId, StatusEnum::PROCESSING);
         }
 
@@ -349,5 +350,43 @@ readonly class QuestionsService
     public function getByIdWithRelations(int $id): ?Question
     {
         return $this->repository->getByIdWithRelations($id);
+    }
+
+    public function getMedicalHistoryReportForPatient(int $patientId): MedicalHistoryResult
+    {
+        $questions = $this->getMedicalHistoryQuestions(take: PHP_INT_MAX, startFrom: 0);
+        $result    = new MedicalHistoryResult();
+
+        // Iterate over the questions to collect their responses
+        foreach ($questions as $question) {
+            // Retrieve the response for the current question
+            $response = UserResponse::query()
+                                    ->where('user_id', '=', Auth::id())
+                                    ->where('for_user_id', '=', $patientId)
+                                    ->where('question_id', '=', $question->getId())
+                                    ->first();
+
+            // Add the question and corresponding response to the report
+            $answer = (new MedicalHistoryQuestionAnswer())
+                ->setQuestionText($question->getTitle());
+
+            if ($response->question_response_id) {
+                $questionResponse = QuestionResponse::where([
+                        'id' => $response->question_response_id,
+                    ]
+                )->first();
+                $answer->setAnswerText(
+                    $questionResponse->response->title
+                );
+            } else {
+                $answer->setAnswerText(
+                    $response->text ?? ""
+                );
+            }
+
+            $result->addQuestionAnswer($answer);
+        }
+
+        return $result;
     }
 }

@@ -1,9 +1,6 @@
 <?php
 
-namespace App\Domains\Reports\Http\Dtos;
-
-use App\Domains\Tests\Models\Test;
-use App\Domains\Thresholds\Models\Constants\ThresholdDisplayType;
+namespace App\Domains\Reports\Dtos\PatientReport;
 
 class ReportTestResultSubscaleResult
 {

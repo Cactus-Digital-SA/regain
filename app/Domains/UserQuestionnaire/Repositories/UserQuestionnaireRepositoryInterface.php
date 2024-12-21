@@ -7,6 +7,7 @@ use App\Domains\QuestionnaireFlow\Constants\QuestionnaireFlowType;
 use App\Domains\UserQuestionnaire\Models\UserQuestionnaire;
 use App\Models\CactusEntity;
 use App\Repositories\RepositoryInterface;
+use DateTime;
 use Illuminate\Http\JsonResponse;
 
 interface UserQuestionnaireRepositoryInterface extends RepositoryInterface
@@ -28,7 +29,9 @@ interface UserQuestionnaireRepositoryInterface extends RepositoryInterface
 
     public function getCompletedForUser(int $userId, int $forUserId, QuestionnaireFlowType $type): bool;
 
-    public function getCompletedForUserAsUser(int $userId, QuestionnaireFlowType $type): bool;
+    public function getMedicalHistoryCompletedForUser(int $userId): bool;
+
+    public function getMedicalHistoryCompletedAtForUser(int $practitionerId, int $userId): ?DateTime;
 
     /**
      * @param int $userId

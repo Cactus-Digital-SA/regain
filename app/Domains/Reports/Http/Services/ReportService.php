@@ -3,7 +3,7 @@
 namespace App\Domains\Reports\Http\Services;
 
 use App\Domains\QuestionnaireFlow\Constants\QuestionnaireFlowType;
-use App\Domains\Reports\Http\Dtos\ReportTestResult;
+use App\Domains\Reports\Dtos\PatientReport\ReportTestResult;
 use App\Domains\Reports\Http\Presenters\FlowPresenter;
 use App\Domains\Reports\Http\Presenters\FlowsPresenter;
 use App\Domains\Reports\Http\Presenters\TestPresenter;
@@ -16,11 +16,11 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
 use Ramsey\Uuid\Uuid;
 
-class ReportService
+readonly class ReportService
 {
     public function __construct(
-        private readonly UserQuestionnaireService $userQuestionnaireService,
-        private readonly ThresholdService $thresholdService,
+        private UserQuestionnaireService $userQuestionnaireService,
+        private ThresholdService $thresholdService,
     ) {
     }
 
