@@ -13,7 +13,6 @@ use App\Domains\Thresholds\Models\Constants\ThresholdDisplayType;
 class  MedicalHistoryResult
 {
     private Test $test;
-    private User $user;
     private PatientData $patientData;
     /**
      * @var MedicalHistoryQuestionAnswer[]
@@ -28,18 +27,6 @@ class  MedicalHistoryResult
     public function setTest(Test $test): MedicalHistoryResult
     {
         $this->test = $test;
-
-        return $this;
-    }
-
-    public function getUser(): User
-    {
-        return $this->user;
-    }
-
-    public function setUser(User $user): MedicalHistoryResult
-    {
-        $this->user = $user;
 
         return $this;
     }

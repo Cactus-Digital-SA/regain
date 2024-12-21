@@ -2,6 +2,7 @@
 
 namespace App\Domains\Questions\Services;
 
+use App\Domains\Auth\Services\UserService;
 use App\Domains\Patient\Enums\StatusEnum;
 use App\Domains\Patient\Services\PatientDataService;
 use App\Domains\PatientAssignments\Services\PatientAssignmentService;
@@ -16,7 +17,6 @@ use App\Domains\Reports\Dtos\MedicalHistoryReport\MedicalHistoryResult;
 use App\Domains\UserQuestionnaire\Models\UserQuestionnaire;
 use App\Domains\UserQuestionnaire\Services\UserQuestionnaireService;
 use App\Domains\UserResponse\Repositories\Eloquent\Models\UserResponse;
-use App\Domains\UserResponse\Services\UserResponseService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,9 +25,9 @@ readonly class QuestionsService
     public function __construct(
         private QuestionRepositoryInterface $repository,
         private UserQuestionnaireService $userQuestionnaireService,
-        private UserResponseService $userResponseService,
         private PatientAssignmentService $patientAssignmentService,
         private PatientDataService $patientDataService,
+        private UserService $userService,
     ) {
     }
 
@@ -109,7 +109,7 @@ readonly class QuestionsService
     private function isReadyForSkillsTest(int $userId): bool
     {
         $preAssessment  = $this->userQuestionnaireService->getCompleted($userId, QuestionnaireFlowType::PRE_ASSESSMENT);
-        $medicalHistory = $this->userQuestionnaireService->getMedicalHistoryCompletedForUser($userId, QuestionnaireFlowType::MEDICAL_HISTORY);
+        $medicalHistory = $this->userQuestionnaireService->getMedicalHistoryCompletedForUser($userId);
 
         return $preAssessment && $medicalHistory;
     }
@@ -386,6 +386,8 @@ readonly class QuestionsService
 
             $result->addQuestionAnswer($answer);
         }
+
+        $result->setPatientData($this->patientDataService->getByUserId($patientId));
 
         return $result;
     }

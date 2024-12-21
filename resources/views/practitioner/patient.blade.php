@@ -198,7 +198,7 @@
                                                             {{$medicalHistoryCompleted->format("d/m/Y H:i:s")}}
                                                         </strong></p>
                                                     <div class="d-flex flex-column align-items-start">
-                                                        <a href="#" class="mh-link">
+                                                        <a href="{{route("practitioner.medical-history-report", $patientData->getUser()->getId())}}" class="mh-link">
                                                             <i class="ti ti-eye"></i> View
                                                         </a>
                                                         <a href="#" class="mh-link mt-1">

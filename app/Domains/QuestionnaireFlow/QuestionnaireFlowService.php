@@ -27,6 +27,13 @@ class QuestionnaireFlowService
                        ->get();
     }
 
+    public function getFlowByCategory(int $categoryId): QuestionnaireFlowType
+    {
+        return QuestionnaireFlow::query()
+                                ->where('category_id', $categoryId)
+                                ->pluck('flow_type')->first();
+    }
+
     public function createFlowByCategory(int $categoryId): void
     {
         $flow = match ($categoryId) {

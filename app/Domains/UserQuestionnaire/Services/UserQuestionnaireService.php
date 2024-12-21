@@ -50,6 +50,11 @@ class UserQuestionnaireService
         return $this->repository->getCompletedForUser($userId, $forUserId, $flow);
     }
 
+    public function getCompletedAtForUser(int $userId, ?int $forUserId, QuestionnaireFlowType $flow): ?DateTime
+    {
+        return $this->repository->getCompletedAtForUser($userId, $forUserId, $flow);
+    }
+
     public function getMedicalHistoryCompletedForUser(int $userId): bool
     {
         return $this->repository->getMedicalHistoryCompletedForUser($userId);

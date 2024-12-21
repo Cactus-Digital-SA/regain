@@ -5,6 +5,8 @@ namespace App\Domains\Reports\Http\Controllers;
 use App\Domains\Auth\Services\UserService;
 use App\Domains\Patient\Services\PatientDataService;
 use App\Domains\PatientAssignments\Services\PatientAssignmentService;
+use App\Domains\QuestionnaireFlow\Constants\QuestionnaireFlowType;
+use App\Domains\QuestionnaireFlow\QuestionnaireFlowService;
 use App\Domains\Reports\Dtos\PatientReport\ReportPlainResponse;
 use App\Domains\Reports\Dtos\PatientReport\ReportResults;
 use App\Domains\Reports\Dtos\PatientReport\ReportTestResult;
@@ -15,6 +17,7 @@ use App\Domains\Reports\Http\Services\ReportService;
 use App\Domains\Tests\Services\TestService;
 use App\Domains\Thresholds\Models\Constants\ThresholdDisplayType;
 use App\Domains\Thresholds\Services\ThresholdService;
+use App\Domains\UserQuestionnaire\Services\UserQuestionnaireService;
 use App\Domains\UserResponse\Repositories\Eloquent\Models\UserResponse;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
@@ -35,6 +38,8 @@ readonly class ReportsController
         private PatientDataService $patientDataService,
         private Client $openAIClient,
         private ReportService $reportService,
+        private UserQuestionnaireService $userQuestionnaireService,
+        private QuestionnaireFlowService $questionnaireFlowService,
     ) {
     }
 
@@ -223,6 +228,14 @@ readonly class ReportsController
             return "test subscale: " . $item->getSubscaleName() . " result: " . $item->getResultLabel();
         }, $result->getSubscaleResults()));
 
+        $result->setCompletedAt(
+            $this->userQuestionnaireService->getCompletedAtForUser(
+                $userId,
+                null,
+                $this->questionnaireFlowService->getFlowByCategory($test->getCategory()->getId())
+            )
+        );
+
         $response = $this->openAIClient->chat()->create(
             [
                 'model'    => 'gpt-4',
@@ -236,7 +249,6 @@ readonly class ReportsController
                 ],
             ]
         );
-
         $result->setDescription($response->choices[0]->message->content);
 
         return $this->downloadPDF($result);

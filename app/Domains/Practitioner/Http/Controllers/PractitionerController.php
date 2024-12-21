@@ -123,10 +123,16 @@ class PractitionerController extends Controller
         abort(500);
     }
 
-    public function getMedicalHistoryReport(int $userId): void
+    public function getMedicalHistoryReport(int $userId): View
     {
-        $data = $this->questionsService->getMedicalHistoryReportForPatient($userId);
-        $data = $data;
+        $result      = $this->questionsService->getMedicalHistoryReportForPatient($userId);
+        $completedAt = $this->userQuestionnaireService->getMedicalHistoryCompletedAtForUser(Auth::id(), $userId);
+
+        return view("reports.medicalHistory.index")->with(
+            [
+                'result'      => $result,
+                'completedAt' => $completedAt
+            ]);
     }
 
     public function datatable(Request $request)

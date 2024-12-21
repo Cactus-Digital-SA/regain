@@ -103,6 +103,17 @@ class UserQuestionnaireRepository implements UserQuestionnaireRepositoryInterfac
         return $row === 1;
     }
 
+    public function getCompletedAtForUser(int $userId, ?int $forUserId, QuestionnaireFlowType $type): ?DateTime
+    {
+        return UserQuestionnaireEloquent::where(
+            [
+                'user_id'                 => $userId,
+                'questionnaire_flow_type' => $type->value,
+                'for_user_id'             => $forUserId,
+            ],
+        )->pluck('created_at')->first();
+    }
+
     public function getMedicalHistoryCompletedForUser(int $userId): bool
     {
         $row = UserQuestionnaireEloquent::where(

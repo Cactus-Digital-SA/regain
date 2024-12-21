@@ -6,6 +6,7 @@ use App\Domains\Auth\Models\User;
 use App\Domains\Patient\Models\PatientData;
 use App\Domains\Tests\Models\Test;
 use App\Domains\Thresholds\Models\Constants\ThresholdDisplayType;
+use DateTime;
 
 class ReportTestResult
 {
@@ -13,6 +14,7 @@ class ReportTestResult
     private ThresholdDisplayType $displayType;
     private User $user;
     private PatientData $patientData;
+    private DateTime $completedAt;
     /**
      * @var ReportPlainResponse[]
      */
@@ -143,6 +145,18 @@ class ReportTestResult
     public function setDescription(string $description): ReportTestResult
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getCompletedAt(): DateTime
+    {
+        return $this->completedAt;
+    }
+
+    public function setCompletedAt(DateTime $completedAt): ReportTestResult
+    {
+        $this->completedAt = $completedAt;
 
         return $this;
     }
