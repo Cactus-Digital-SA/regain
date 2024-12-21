@@ -4,6 +4,7 @@ namespace App\Domains\Regain\Http\Controllers;
 
 use App\Domains\Auth\Models\RolesEnum;
 use App\Domains\Auth\Models\User;
+use App\Domains\Auth\Repositories\Eloquent\Models\User as EloquentUser;
 use App\Domains\Auth\Repositories\Eloquent\Models\Role;
 use App\Domains\Auth\Services\UserService;
 use App\Domains\Patient\Models\PatientData;
@@ -68,7 +69,7 @@ class PatientController extends Controller
         try {
             $user        = $this->userService->store($userModel);
             $patientRole = Role::findById(RolesEnum::Patient->value);
-            User::find($user->getId())->assignRole($patientRole);
+            EloquentUser::find($user->getId())->assignRole($patientRole);
 
             if ($user->getId() !== null) {
                 $model = (new PatientData())

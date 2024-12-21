@@ -16,10 +16,8 @@ use App\Domains\Tests\Services\TestService;
 use App\Domains\Thresholds\Models\Constants\ThresholdDisplayType;
 use App\Domains\Thresholds\Services\ThresholdService;
 use App\Domains\UserResponse\Repositories\Eloquent\Models\UserResponse;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -128,12 +126,14 @@ readonly class ReportsController
         );
     }
 
-    /**
-     * @throws \JsonException
-     */
     public function testReport(Request $request, string $userId, string $testId): BinaryFileResponse
     {
-        $threshold           = $this->thresholdService->getThresholdByTest($testId);
+        $threshold = $this->thresholdService->getThresholdByTest($testId);
+
+        if ($threshold === null) {
+            throw new AuthorizationException("Threshold for test $testId not found.");
+        }
+
         $test                = $this->testService->getById((int)$testId);
         $assignedPatients    = $this->patientAssignmentService->getByPractitionerUserId(Auth::id());
         $practitionerUserIds = array_map(static fn ($user) => $user->getPatientUserId(), $assignedPatients);
@@ -145,11 +145,8 @@ readonly class ReportsController
 
         // Check if the file already exists
         $filePath = $this->reportService->getFilePath(Auth::id(), $userId, $testId);
-        if ($filePath !== null) {
-            if (Storage::exists($filePath)) {
-                // Return the file directly if it exists
-                return response()->download(storage_path("app/{$filePath}"));
-            }
+        if (($filePath !== null) && Storage::exists($filePath)) {
+            return response()->download(storage_path("app/$filePath"));
         }
 
         $result = new ReportTestResult();
@@ -245,13 +242,10 @@ readonly class ReportsController
         return $this->downloadPDF($result);
     }
 
-    /**
-     * @throws \JsonException
-     */
     private function downloadPDF(ReportTestResult $result): BinaryFileResponse
     {
         $path = $this->reportService->storeFile($result, Auth::id());
 
-        return response()->download(storage_path("app/{$path}"), "report.pdf");
+        return response()->download(storage_path("app/$path"), "report.pdf");
     }
 }

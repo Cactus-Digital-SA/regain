@@ -5,17 +5,11 @@
      View & Download medical history
      In appointment dates show the medical history and the submission of the socio-demographic & pre-assesment test
      implement references modal
-     allow  patient to complete skills once medical history is done
 
 General:
     send email when user gets created
 
-Patient
-    show skills questionnaire when user has completed medical history flow
-
 FrontEnd:
-    - Thank you, Page (Questionnaire)(DONE)
-    • Modal for Reports styling (download button)(DONE)
     • Second modal for Reports (References) (DONE)
     • Emails Page (Dashboard)
     • login pages (Dashboard and Questionnaire) (DONE)
