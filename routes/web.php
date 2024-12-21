@@ -65,6 +65,7 @@ Route::group([
     Route::get('/patients/report/{userId}/{testId}', [ReportsController::class, 'testReport'])->name('test-report');
     Route::post('/patients/medical-history/{userId}/submit', [PractitionerController::class, 'submitMedicalHistoryQuestions'])->name('medical-history-submit');
     Route::get('/patients/medical-history/{userId}/report', [PractitionerController::class, 'getMedicalHistoryReport'])->name('medical-history-report');
+    Route::get('/patients/medical-history/{userId}/report/download', [PractitionerController::class, 'downloadMedicalHistoryReport'])->name('medical-history-report-download');
 });
 
 Route::group([

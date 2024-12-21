@@ -199,14 +199,14 @@
                                                             {{$medicalHistoryCompleted->format("d/m/Y H:i:s")}}
                                                         </strong></p>
                                                     <div class="d-flex flex-column align-items-start">
-                                                        <a href="{{route("practitioner.medical-history-report", $patientData->getUser()->getId())}}"
+                                                        <a href="{{route("practitioner.medical-history-report", [ "userId" => $patientData->getUser()->getId()])}}"
                                                            class="mh-link"
                                                            data-bs-toggle="modal"
                                                            data-bs-target="#medicalHistoryResult"
                                                         >
                                                             <i class="ti ti-eye"></i> View
                                                         </a>
-                                                        <a href="#" class="mh-link mt-1">
+                                                        <a href="{{route("practitioner.medical-history-report-download", ["userId" => $patientData->getUser()->getId()] )}}" class="mh-link mt-1">
                                                             <i class="ti ti-download"></i> Download
                                                         </a>
                                                     </div>

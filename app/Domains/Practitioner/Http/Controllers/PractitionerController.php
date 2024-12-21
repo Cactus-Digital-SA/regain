@@ -7,19 +7,25 @@ namespace App\Domains\Practitioner\Http\Controllers;
 use App\Domains\Patient\Services\PatientDataService;
 use App\Domains\PatientAssignments\Services\PatientAssignmentService;
 use App\Domains\Practitioner\Services\PractitionersService;
+use App\Domains\QuestionnaireFlow\Constants\QuestionnaireFlowType;
 use App\Domains\Questions\Services\QuestionsService;
-use App\Domains\Reports\Dtos\MedicalHistoryReport\MedicalHistoryResult;
 use App\Domains\Reports\Http\Services\ReportService;
+use App\Domains\Reports\Repositories\Eloquent\Models\ReportFile;
+use App\Domains\Tests\Repositories\Eloquent\Models\Test;
 use App\Domains\UserQuestionnaire\Services\UserQuestionnaireService;
 use App\Domains\UserResponse\Http\Requests\SubmitMedicalHistoryResponsesRequest;
 use App\Domains\UserResponse\Services\UserResponseService;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Ramsey\Uuid\Uuid;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class PractitionerController extends Controller
 {
@@ -136,6 +142,39 @@ class PractitionerController extends Controller
             [
                 'result' => $result
             ]);
+    }
+
+    public function downloadMedicalHistoryReport(int $userId): BinaryFileResponse
+    {
+        $testId = Test::whereIn('category_id', static function ($query) {
+            $query->select("category_id")
+                  ->from("questionnaire_flows")
+                  ->where('flow_type', QuestionnaireFlowType::MEDICAL_HISTORY->value);
+        })->pluck("id")->first();
+
+        $filePath = $this->reportService->getFilePath(Auth::id(), $userId, $testId);
+        if (($filePath !== null) && Storage::exists($filePath)) {
+            return response()->download(storage_path("app/$filePath"), "report.pdf");
+        }
+
+        $result = $this->questionsService->getMedicalHistoryReportForPatient(Auth::id(), $userId);
+
+        $uuid = Uuid::uuid4()->toString();
+
+        ReportFile::create([
+            "practitioner_user_id" => Auth::id(),
+            "patient_user_id"      => $result->getPatientData()->getUserId(),
+            "test_id"              => $testId,
+            "uuid"                 => $uuid,
+        ]);
+
+        $filePath = "reports/{$uuid}.pdf";
+
+        $pdf = PDF::loadView('reports.medicalHistory.index', ['result' => $result]);
+
+        Storage::put($filePath, $pdf->output());
+
+        return response()->download(storage_path("app/$filePath"), "report.pdf");
     }
 
     public function datatable(Request $request)

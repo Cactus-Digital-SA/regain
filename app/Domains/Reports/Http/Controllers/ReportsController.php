@@ -5,7 +5,6 @@ namespace App\Domains\Reports\Http\Controllers;
 use App\Domains\Auth\Services\UserService;
 use App\Domains\Patient\Services\PatientDataService;
 use App\Domains\PatientAssignments\Services\PatientAssignmentService;
-use App\Domains\QuestionnaireFlow\Constants\QuestionnaireFlowType;
 use App\Domains\QuestionnaireFlow\QuestionnaireFlowService;
 use App\Domains\Reports\Dtos\PatientReport\ReportPlainResponse;
 use App\Domains\Reports\Dtos\PatientReport\ReportResults;
