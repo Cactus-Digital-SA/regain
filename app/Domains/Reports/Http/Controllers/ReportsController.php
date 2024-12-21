@@ -151,7 +151,7 @@ readonly class ReportsController
         // Check if the file already exists
         $filePath = $this->reportService->getFilePath(Auth::id(), $userId, $testId);
         if (($filePath !== null) && Storage::exists($filePath)) {
-            return response()->download(storage_path("app/$filePath"));
+            return response()->download(storage_path("app/$filePath"), "report.pdf");
         }
 
         $result = new ReportTestResult();
