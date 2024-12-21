@@ -95,8 +95,8 @@ class PractitionerController extends Controller
         $presenter = $this->questionsService->fetchMedicalHistoryQuestions(Auth::id(), $forUserId);
 
         return $presenter->isCompleted() ?
-            view('practitioner.medical-history-completed')->with('presenter', $presenter) :
-            view('practitioner.medical-history-questions')->with('presenter', $presenter);
+            view('practitioner.includes.medical-history-completed')->with('presenter', $presenter) :
+            view('practitioner.includes.medical-history-questions')->with('presenter', $presenter);
     }
 
     public function submitMedicalHistoryQuestions(SubmitMedicalHistoryResponsesRequest $request): View
@@ -108,8 +108,8 @@ class PractitionerController extends Controller
             $presenter = $this->questionsService->fetchMedicalHistoryQuestions(Auth::id(), $submittedData->getForUserId());
 
             return $presenter->isCompleted() ?
-                view('practitioner.medical-history-completed')->with('presenter', $presenter) :
-                view('practitioner.medical-history-questions')->with('presenter', $presenter);
+                view('practitioner.includes.medical-history-completed')->with('presenter', $presenter) :
+                view('practitioner.includes.medical-history-questions')->with('presenter', $presenter);
         }
 
         Log::error('Could not submit answer for user ' . $submittedData->getUserId(), [

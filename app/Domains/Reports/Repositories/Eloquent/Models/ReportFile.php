@@ -2,7 +2,6 @@
 
 namespace App\Domains\Reports\Repositories\Eloquent\Models;
 
-use App\Domains\QuestionnaireFlow\Constants\QuestionnaireFlowType;
 use Illuminate\Database\Eloquent\Model;
 
 class ReportFile extends Model
