@@ -4,7 +4,6 @@
      Show some tags from medical history (on practitioner page)
      View & Download medical history
      In appointment dates show the medical history and the submission of the socio-demographic & pre-assesment test
-     implement chatgpt call to populate report data
      implement references modal
      allow  patient to complete skills once medical history is done
 

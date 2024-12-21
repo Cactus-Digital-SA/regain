@@ -3,13 +3,18 @@
 namespace App\Domains\Reports\Http\Services;
 
 use App\Domains\QuestionnaireFlow\Constants\QuestionnaireFlowType;
+use App\Domains\Reports\Http\Dtos\ReportTestResult;
 use App\Domains\Reports\Http\Presenters\FlowPresenter;
 use App\Domains\Reports\Http\Presenters\FlowsPresenter;
 use App\Domains\Reports\Http\Presenters\TestPresenter;
+use App\Domains\Reports\Repositories\Eloquent\Models\ReportFile;
 use App\Domains\Scores\Repositories\Eloquent\UserTestScore;
 use App\Domains\Tests\Repositories\Eloquent\Models\Test;
 use App\Domains\Thresholds\Services\ThresholdService;
 use App\Domains\UserQuestionnaire\Services\UserQuestionnaireService;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
+use Ramsey\Uuid\Uuid;
 
 class ReportService
 {
@@ -67,5 +72,41 @@ class ReportService
             QuestionnaireFlowType::PRE_ASSESSMENT => 'Pre-assessment Report',
             QuestionnaireFlowType::SKILLS         => 'Skills Report',
         };
+    }
+
+    public function storeFile(ReportTestResult $result, int $practitionerUserId): string
+    {
+        $uuid = Uuid::uuid4()->toString();
+
+        ReportFile::create([
+            "practitioner_user_id" => $practitionerUserId,
+            "patient_user_id"      => $result->getPatientData()->getUserId(),
+            "test_id"              => $result->getTest()->getId(),
+            "uuid"                 => $uuid,
+        ]);
+
+        $filePath = "reports/{$uuid}.pdf";
+
+        $pdf = PDF::loadView('reports.tests.index', ['result' => $result]);
+
+        Storage::put($filePath, $pdf->output());
+
+        return $filePath;
+    }
+
+    public function getFilePath(
+        int $practitionerUserId,
+        int $patientUserId,
+        int $testId
+    ): ?string {
+        $file = ReportFile::where([
+            "practitioner_user_id" => $practitionerUserId,
+            "patient_user_id"      => $patientUserId,
+            "test_id"              => $testId,
+        ])->first();
+
+        return $file ?
+            "reports/" . $file->uuid . ".pdf" :
+            null;
     }
 }

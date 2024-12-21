@@ -11,6 +11,7 @@ use App\Domains\Reports\Http\Dtos\ReportTestResult;
 use App\Domains\Reports\Http\Dtos\ReportTestResultSubscaleResult;
 use App\Domains\Reports\Http\Dtos\ReportTestResultTotalResult;
 use App\Domains\Reports\Http\Requests\ReportRequest;
+use App\Domains\Reports\Http\Services\ReportService;
 use App\Domains\Tests\Services\TestService;
 use App\Domains\Thresholds\Models\Constants\ThresholdDisplayType;
 use App\Domains\Thresholds\Services\ThresholdService;
@@ -21,8 +22,10 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use OpenAI\Client;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 readonly class ReportsController
 {
@@ -33,6 +36,7 @@ readonly class ReportsController
         private UserService $userService,
         private PatientDataService $patientDataService,
         private Client $openAIClient,
+        private ReportService $reportService,
     ) {
     }
 
@@ -124,7 +128,10 @@ readonly class ReportsController
         );
     }
 
-    public function testReport(Request $request, string $userId, string $testId): View
+    /**
+     * @throws \JsonException
+     */
+    public function testReport(Request $request, string $userId, string $testId): BinaryFileResponse
     {
         $threshold           = $this->thresholdService->getThresholdByTest($testId);
         $test                = $this->testService->getById((int)$testId);
@@ -134,6 +141,15 @@ readonly class ReportsController
         // Check if $userId is in the list of practitioner user IDs
         if (!in_array((int)$userId, $practitionerUserIds, true)) {
             throw new AuthorizationException("User ID $userId is not authorized to access this report.");
+        }
+
+        // Check if the file already exists
+        $filePath = $this->reportService->getFilePath(Auth::id(), $userId, $testId);
+        if ($filePath !== null) {
+            if (Storage::exists($filePath)) {
+                // Return the file directly if it exists
+                return response()->download(storage_path("app/{$filePath}"));
+            }
         }
 
         $result = new ReportTestResult();
@@ -226,9 +242,16 @@ readonly class ReportsController
 
         $result->setDescription($response->choices[0]->message->content);
 
-        return view('reports.tests.index')->with(
-            ["result" => $result]
-        );
-        // return PDF::loadView('reports.tests.index', ['result' => $result])->download('report.pdf');
+        return $this->downloadPDF($result);
+    }
+
+    /**
+     * @throws \JsonException
+     */
+    private function downloadPDF(ReportTestResult $result): BinaryFileResponse
+    {
+        $path = $this->reportService->storeFile($result, Auth::id());
+
+        return response()->download(storage_path("app/{$path}"), "report.pdf");
     }
 }
