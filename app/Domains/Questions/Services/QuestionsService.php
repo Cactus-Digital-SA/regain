@@ -352,7 +352,7 @@ readonly class QuestionsService
         return $this->repository->getByIdWithRelations($id);
     }
 
-    public function getMedicalHistoryReportForPatient(int $patientId): MedicalHistoryResult
+    public function getMedicalHistoryReportForPatient(int $userId, int $patientId): MedicalHistoryResult
     {
         $questions = $this->getMedicalHistoryQuestions(take: PHP_INT_MAX, startFrom: 0);
         $result    = new MedicalHistoryResult();
@@ -361,7 +361,7 @@ readonly class QuestionsService
         foreach ($questions as $question) {
             // Retrieve the response for the current question
             $response = UserResponse::query()
-                                    ->where('user_id', '=', Auth::id())
+                                    ->where('user_id', '=', $userId)
                                     ->where('for_user_id', '=', $patientId)
                                     ->where('question_id', '=', $question->getId())
                                     ->first();
@@ -386,6 +386,8 @@ readonly class QuestionsService
 
             $result->addQuestionAnswer($answer);
         }
+
+        $result->setCompletedAt($this->userQuestionnaireService->getCompletedAtForUser($userId, $patientId, QuestionnaireFlowType::MEDICAL_HISTORY));
 
         $result->setPatientData($this->patientDataService->getByUserId($patientId));
 

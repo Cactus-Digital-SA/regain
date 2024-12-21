@@ -8,6 +8,7 @@ use App\Domains\Patient\Services\PatientDataService;
 use App\Domains\PatientAssignments\Services\PatientAssignmentService;
 use App\Domains\Practitioner\Services\PractitionersService;
 use App\Domains\Questions\Services\QuestionsService;
+use App\Domains\Reports\Dtos\MedicalHistoryReport\MedicalHistoryResult;
 use App\Domains\Reports\Http\Services\ReportService;
 use App\Domains\UserQuestionnaire\Services\UserQuestionnaireService;
 use App\Domains\UserResponse\Http\Requests\SubmitMedicalHistoryResponsesRequest;
@@ -77,12 +78,16 @@ class PractitionerController extends Controller
 
         $presenter               = $this->reportService->getFlowPresenterForUser($userId);
         $medicalHistoryCompleted = $this->userQuestionnaireService->getMedicalHistoryCompletedAtForUser(Auth::id(), $userId);
+        $medicalHistoryResult    = ($medicalHistoryCompleted !== null) ?
+            $this->questionsService->getMedicalHistoryReportForPatient(Auth::id(), $userId) :
+            null;
 
         return view('practitioner.patient')
             ->with('columns', [])
             ->with('practitioner', $practitioner)
             ->with('patientData', $patientData)
             ->with('medicalHistoryCompleted', $medicalHistoryCompleted)
+            ->with('medicalHistoryResult', $medicalHistoryResult)
             ->with('presenter', $presenter);
     }
 
@@ -125,13 +130,11 @@ class PractitionerController extends Controller
 
     public function getMedicalHistoryReport(int $userId): View
     {
-        $result      = $this->questionsService->getMedicalHistoryReportForPatient($userId);
-        $completedAt = $this->userQuestionnaireService->getMedicalHistoryCompletedAtForUser(Auth::id(), $userId);
+        $result = $this->questionsService->getMedicalHistoryReportForPatient(Auth::id(), $userId);
 
         return view("reports.medicalHistory.index")->with(
             [
-                'result'      => $result,
-                'completedAt' => $completedAt
+                'result' => $result
             ]);
     }
 

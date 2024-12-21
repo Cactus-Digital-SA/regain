@@ -1,12 +1,13 @@
 @php
     use App\Domains\Patient\Models\PatientData;
     use App\Domains\Practitioner\Models\Practitioner;
-    use App\Domains\Reports\Http\Presenters\FlowsPresenter;
+    use App\Domains\Reports\Dtos\MedicalHistoryReport\MedicalHistoryResult;use App\Domains\Reports\Http\Presenters\FlowsPresenter;
 /**
 * @var Practitioner $practitioner
  * @var PatientData $patientData
  * @var FlowsPresenter $presenter
  * @var bool $medicalHistoryCompleted
+ * @var MedicalHistoryResult $medicalHistoryResult
 */
 @endphp
 
@@ -198,7 +199,11 @@
                                                             {{$medicalHistoryCompleted->format("d/m/Y H:i:s")}}
                                                         </strong></p>
                                                     <div class="d-flex flex-column align-items-start">
-                                                        <a href="{{route("practitioner.medical-history-report", $patientData->getUser()->getId())}}" class="mh-link">
+                                                        <a href="{{route("practitioner.medical-history-report", $patientData->getUser()->getId())}}"
+                                                           class="mh-link"
+                                                           data-bs-toggle="modal"
+                                                           data-bs-target="#medicalHistoryResult"
+                                                        >
                                                             <i class="ti ti-eye"></i> View
                                                         </a>
                                                         <a href="#" class="mh-link mt-1">
@@ -572,6 +577,14 @@
         updateNextButtonState();
     }
 </script>
+
+<div class="modal fade" id="medicalHistoryResult" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 60%; max-height: 100%">
+        <div id="medical-history-result-content" class="modal-content p-3 p-md-5" style="background-color: rgba(255, 255, 255, 1);">
+            @include('reports.medicalHistory.index', ["result" => $medicalHistoryResult])
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

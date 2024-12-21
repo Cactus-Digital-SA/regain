@@ -9,6 +9,7 @@ use App\Domains\Reports\Dtos\PatientReport\ReportTestResultSubscaleResult;
 use App\Domains\Reports\Dtos\PatientReport\ReportTestResultTotalResult;
 use App\Domains\Tests\Models\Test;
 use App\Domains\Thresholds\Models\Constants\ThresholdDisplayType;
+use DateTime;
 
 class  MedicalHistoryResult
 {
@@ -18,6 +19,7 @@ class  MedicalHistoryResult
      * @var MedicalHistoryQuestionAnswer[]
      */
     private array $questionAnswers = [];
+    private DateTime $completedAt;
 
     public function getTest(): Test
     {
@@ -58,6 +60,18 @@ class  MedicalHistoryResult
     public function addQuestionAnswer(MedicalHistoryQuestionAnswer $questionAnswer): MedicalHistoryResult
     {
         $this->questionAnswers[] = $questionAnswer;
+
+        return $this;
+    }
+
+    public function getCompletedAt(): DateTime
+    {
+        return $this->completedAt;
+    }
+
+    public function setCompletedAt(DateTime $completedAt): MedicalHistoryResult
+    {
+        $this->completedAt = $completedAt;
 
         return $this;
     }

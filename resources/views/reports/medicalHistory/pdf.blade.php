@@ -12,7 +12,7 @@
 
     <style>
         body {
-            font-family: sans-serif;
+            font-family: Roboto, DejaVu Sans, sans-serif;
             margin: 40px;
             color: #333;
         }
