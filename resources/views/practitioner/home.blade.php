@@ -93,7 +93,7 @@
                 <nav class="navbar navbar-expand-lg navbar-light bg-light custom-navbar rounded-3">
                     <div class="container-fluid">
                         <div class="nav-brand">
-                            <h6 class="navbar-logo mb-0">Dr Andriy Semikhodov</h6>
+                            <h6 class="navbar-logo mb-0">Dr {{$practitioner->getUser()->getName()}}</h6>
                             <ol class="breadcrumb mb-0">
                                 <li class="breadcrumb-item"><a href="#">Ministry of Regain</a></li>
                             </ol>
