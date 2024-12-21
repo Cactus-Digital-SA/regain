@@ -28,12 +28,6 @@ class UserRoleSeeder extends Seeder
         $adminRole = Role::findById(RolesEnum::Administrator->value);
         User::find(2)->assignRole($adminRole);
 
-        $practitionerRole = Role::findById(RolesEnum::Practitioner->value);
-        User::find(3)->assignRole($practitionerRole);
-
-        $patientRole = Role::findById(RolesEnum::Patient->value);
-        User::find(4)->assignRole($patientRole);
-
         $this->enableForeignKeys();
     }
 }

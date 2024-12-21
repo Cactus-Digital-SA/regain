@@ -212,11 +212,11 @@ readonly class ReportsController
 
         $response = $this->openAIClient->chat()->create(
             [
-                'model'    => 'gpt-3.5-turbo',
+                'model'    => 'gpt-4',
                 'messages' => [
                     [
                         'role' => 'system', 'content' =>
-                        'A test is trying to provide an overview regarding:  ' . $test->getName() . ',
+                        'This test is trying to provide an overview regarding:  ' . $test->getName() . ',
                         Evaluate the test results as a whole and provide a summary of the results. Please note that the person reading this is a medical professional and thus is highly trained.'
                     ],
                     ['role' => 'user', 'content' => 'Here are the results: ' . $sanitizeResults],

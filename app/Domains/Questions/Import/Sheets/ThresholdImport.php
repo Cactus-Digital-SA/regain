@@ -2,8 +2,6 @@
 
 namespace App\Domains\Questions\Import\Sheets;
 
-use App\Domains\Categories\Repositories\Eloquent\Models\Category;
-use App\Domains\QuestionnaireFlow\Constants\QuestionnaireFlowType;
 use App\Domains\Subscales\Repositories\Eloquent\EloqSubscaleRepository;
 use App\Domains\Subscales\Repositories\Eloquent\Models\Subscale;
 use App\Domains\Subscales\Services\SubscaleService;
@@ -38,7 +36,7 @@ class ThresholdImport implements ToCollection, WithHeadingRow
                     continue;
                 }
 
-                $test = $testService->getByName($row['test']);
+                $test = $testService->getByName(trim($row['test']));
 
                 if ($test) {
                     $rowAsArray         = $row->toArray();
@@ -59,7 +57,7 @@ class ThresholdImport implements ToCollection, WithHeadingRow
 
                     $subscaleLimits = [];
                     if ($row["subscale"] !== "-") {
-                        $subscale = $subscaleService->getByName($row['subscale']);
+                        $subscale = $subscaleService->findByNameAndTest(trim($row['subscale']), $test->getId());
                         if ($subscale) {
                             /** @var ThresholdSubscaleLimit[] $subscaleLimits */
                             $subscalesIndex = 0;

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Domains\Auth\Models\RolesEnum;
 use App\Domains\Auth\Repositories\Eloquent\Models\Role;
 use App\Domains\Auth\Repositories\Eloquent\Models\User;
+use App\Domains\Patient\Repositories\Eloquent\Models\PatientData;
 use App\Domains\Practitioner\Repositories\Eloquent\Models\Practitioner;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
@@ -54,5 +55,16 @@ class PractitionersSeeder extends Seeder
 
         $role = Role::query()->where('id', RolesEnum::Patient->value)->first();
         $patient->roles()->attach($role->id);
+
+        PatientData::create([
+            'user_id'             => $patient->id,
+            'birthday'            => '1976-08-04',
+            'region_id'           => '1',
+            'post_code'           => '12345',
+            'primary_phone'       => '123456789',
+            'secondary_phone'     => '123456789',
+            'accessible_mobility' => 1,
+            'status'              => "Inactive"
+        ]);
     }
 }

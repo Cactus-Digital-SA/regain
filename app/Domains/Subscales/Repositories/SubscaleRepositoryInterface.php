@@ -19,12 +19,9 @@ interface SubscaleRepositoryInterface extends RepositoryInterface
      */
     public function getById(string $id): ?Subscale;
 
-    /**
-     * @param string $name
-     * @param bool   $withRelations
-     * @return Subscale|null
-     */
     public function getByName(string $name, bool $withRelations = false): ?Subscale;
+
+    public function findByNameAndTest(string $name, int $testId, bool $withRelations = false): ?Subscale;
 
     public function store(Subscale|CactusEntity $entity): ?Subscale;
 

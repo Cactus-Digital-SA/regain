@@ -7,11 +7,11 @@ use App\Domains\Thresholds\Models\Constants\ThresholdDisplayType;
 
 class ReportTestResultSubscaleResult
 {
-    private string $resultLabel;
+    private string $resultLabel = "";
     private string $resultNotes;
     private string $subscaleName;
     private int $subscaleItems;
-    private int $subscaleIndex;
+    private int $subscaleIndex = 0;
 
     public function getResultLabel(): string
     {

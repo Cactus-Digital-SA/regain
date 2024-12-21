@@ -35,6 +35,11 @@ class SubscaleService
         return $this->repository->getByName($name, $withRelations);
     }
 
+    public function findByNameAndTest(string $name, int $testId, bool $withRelations = false): ?Subscale
+    {
+        return $this->repository->findByNameAndTest($name, $testId, $withRelations);
+    }
+
     /**
      * @param string   $name
      * @param int      $test_id

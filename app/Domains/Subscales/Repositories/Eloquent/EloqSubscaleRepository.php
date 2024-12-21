@@ -112,4 +112,19 @@ class EloqSubscaleRepository implements SubscaleRepositoryInterface
 
         return ObjectSerializer::deserialize($entity->toJson() ?? "{}", Subscale::class, 'json');
     }
+
+    public function findByNameAndTest(string $name, int $testId, bool $withRelations = false): ?Subscale
+    {
+        $entity = $this->model->where(['name' => $name, "test_id" => $testId])->first();
+
+        if ($entity == null) {
+            return null;
+        }
+
+        if ($withRelations) {
+            $entity->load([]);
+        }
+
+        return ObjectSerializer::deserialize($entity->toJson() ?? "{}", Subscale::class, 'json');
+    }
 }

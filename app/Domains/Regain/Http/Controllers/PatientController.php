@@ -2,7 +2,9 @@
 
 namespace App\Domains\Regain\Http\Controllers;
 
+use App\Domains\Auth\Models\RolesEnum;
 use App\Domains\Auth\Models\User;
+use App\Domains\Auth\Repositories\Eloquent\Models\Role;
 use App\Domains\Auth\Services\UserService;
 use App\Domains\Patient\Models\PatientData;
 use App\Domains\Patient\Services\PatientDataService;
@@ -64,7 +66,10 @@ class PatientController extends Controller
             ->setPassword('123456');
 
         try {
-            $user = $this->userService->store($userModel);
+            $user        = $this->userService->store($userModel);
+            $patientRole = Role::findById(RolesEnum::Patient->value);
+            User::find($user->getId())->assignRole($patientRole);
+
             if ($user->getId() !== null) {
                 $model = (new PatientData())
                     ->setUserId($user->getId())
