@@ -10,12 +10,12 @@ General:
     send email when user gets created
 
 FrontEnd Pending:
-    • medical history dashboard fixes (ON-GOING)
     • responsive design
 FrontEnd Done:
-    • Report make the svgs -> images. 3 column for the graph with 3 answer types and same for four. Fix css. (DONE with divs) //TODO check on export mock/dashboards/practitioner/exports/.../index.blade.php
+    • Report make the svgs -> images. 3 column for the graph with 3 answer types and same for four. Fix css. (DONE with divs) //TODO DONE CHECK
     • Emails Page (Dashboard) (DONE) //TODO CHECK mock/email/index.blade.php
-     • css for report pdf fixes (should be inline etc.)(DONE) //TODO Check, mock/dashboards/practitioner/exports/three/index.blade.php
+    • css for report pdf fixes (should be inline etc.)(DONE) //TODO DONE CHECK
+    • medical history dashboard bug fixes (DONE)
 
      • Second modal for Reports (References) (DONE)
      • login pages (Dashboard and Questionnaire) (DONE)
