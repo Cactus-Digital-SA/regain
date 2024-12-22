@@ -32,7 +32,7 @@
 
         th, td {
             border: 1px solid black; /* Cell borders */
-            padding: 8px; /* Space inside cells */
+            padding: 50px; /* Space inside cells */
             text-align: center; /* Center align text inside cells */
         }
 

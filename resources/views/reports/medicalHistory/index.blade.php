@@ -11,135 +11,139 @@
     <title>Medical History Report</title>
 
     <style>
+        @page {
+            size: A4;
+            margin: 1in;
+        }
+
         body {
-            font-family: sans-serif;
-            margin: 40px;
-            color: #333;
+            font-family: Roboto, DejaVu Sans, sans-serif;
+            margin: 0;
+            padding: 0;
         }
 
         .header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 30px;
+            align-items: center;
+            margin-bottom: 40px;
+            flex-wrap: nowrap;
         }
 
         .logo {
-            font-size: 36px;
-            font-weight: bold;
-            color: #222;
+            max-width: 100px;
+            width: 100%;
+            {{--background-image: {{base64_encode(file_get_contents('./assets/img/logo/regainLogo.jpg'))}};--}}
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .title-container {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            flex: 1;
+            margin: 0 20px;
         }
 
         .assessment-title {
+            font-size: 10pt;
+            font-weight: 500;
+            color: #3c3c3c;
             text-align: center;
-            width: 100%;
-            font-size: 16px;
-            font-weight: bold;
-            color: #555;
+            margin: 0;
         }
 
         .main-title {
-            text-align: center;
-            font-size: 20px;
+            font-size: 11pt;
             font-weight: bold;
-            margin-top: 5px;
-            color: #222;
+            margin: 0;
         }
 
         .date {
+            font-size: 11pt;
+            font-weight: 500;
+            color: #3c3c3c;
+            white-space: nowrap;
             text-align: right;
-            font-size: 14px;
-            color: #666;
-        }
-
-        .divider {
-            border-bottom: 1px solid #ddd;
-            margin: 30px 0;
+            position: absolute;
+            top: 0;
+            right: 0;
         }
 
         .user-details {
-            margin-top: 20px;
+            margin-bottom: 30px;
         }
 
         .user-details p {
-            margin: 5px 0;
-            font-size: 14px;
-            color: #333;
+            margin: 2px 0;
+            font-size: 9pt;
         }
 
-        .overview-title {
-            display: flex;
-            align-items: center;
-            font-size: 16px;
-            font-weight: bold;
-            color: #333;
-            gap: 2px;
+        .divider {
+            border-top: 1px solid #000;
+            margin: 10px 0;
         }
 
-        .overview-title svg {
-            width: 20px;
-            padding-bottom: 5px;
-        }
-
-        .overview-content {
-            font-size: 14px;
-            line-height: 1.6;
-            color: #555;
-        }
-
-        table {
-            font-size: 12px;
+        .scope table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 30px;
+            margin-top: 20px;
+            table-layout: fixed;
         }
 
-        th, td {
+        .scope th, .scope td {
             border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-            vertical-align: top;
+            padding: 8px;
+            font-size: 9pt;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            text-align: center;
         }
 
-        th {
-            background-color: #f4f4f4;
-            text-align: center;
-            font-weight: bold;
+        .scope td:first-child {
+            text-align: left !important;
+            width: 60%;
+        }
+
+        .scope thead {
+            background-color: #fff;
         }
 
         .title {
+            font-size: 9pt;
             font-weight: bold;
-            margin-bottom: 5px;
         }
 
         .description {
-            color: #666;
-            font-size: 14px;
+            font-size: 8pt;
         }
 
         .dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
+            height: 8px;
+            width: 8px;
             background-color: black;
+            border-radius: 50%;
             display: inline-block;
-            margin: auto;
+            margin-top: 5px;
         }
 
-        .table-title {
-            margin-top: 40px;
-            font-size: 18px;
-            font-weight: bold;
-            text-align: left;
-            color: #222;
+        h1, h2, h3, h4, h5, h6, table {
+            page-break-inside: avoid;
         }
+
+        /*same for bar graph*/
     </style>
 </head>
 <body>
 @if(isset($result))
     <div class="header">
-        <div class="logo">regain</div>
-        <div>
+        <img src="data:image/jpeg;base64,{{ base64_encode(file_get_contents('./assets/img/logo/regainLogo.jpg')) }}"
+             alt="Logo" class="logo">
+        <div class="title-container">
             <div class="assessment-title">Assessment Report:</div>
             <div class="main-title">Medical History</div>
         </div>
@@ -154,7 +158,7 @@
     <div class="divider"></div>
 
     @if (count($result->getQuestionAnswers()) > 0)
-        <div>
+        <div class="scope">
             <table>
                 <tbody>
                 @foreach ($result->getQuestionAnswers() as $questionAnswer)

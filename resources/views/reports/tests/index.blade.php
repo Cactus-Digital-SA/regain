@@ -5,140 +5,218 @@
     */
 @endphp
 
-        <!DOCTYPE html>
+    <!DOCTYPE html>
 <html>
 <head>
     <title>{{$result->getTest()->getName()}} Report</title>
-
     <style>
+        @page {
+            size: A4;
+            margin: 1in;
+        }
+
         body {
             font-family: Roboto, DejaVu Sans, sans-serif;
-            margin: 40px;
-            color: #333;
+            margin: 0;
+            padding: 0;
         }
 
         .header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 30px;
+            align-items: center;
+            margin-bottom: 40px;
+            flex-wrap: nowrap;
         }
 
         .logo {
-            font-size: 36px;
-            font-weight: bold;
-            color: #222;
+            max-width: 100px;
+            width: 100%;
+            {{--background-image: {{base64_encode(file_get_contents('./assets/img/logo/regainLogo.jpg'))}};--}}
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .title-container {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            flex: 1;
+            margin: 0 20px;
         }
 
         .assessment-title {
+            font-size: 10pt;
+            font-weight: 500;
+            color: #3c3c3c;
             text-align: center;
-            width: 100%;
-            font-size: 16px;
-            font-weight: bold;
-            color: #555;
+            margin: 0;
         }
 
         .main-title {
-            text-align: center;
-            font-size: 20px;
+            font-size: 11pt;
             font-weight: bold;
-            margin-top: 5px;
-            color: #222;
+            margin: 0;
         }
 
         .date {
+            font-size: 11pt;
+            font-weight: 500;
+            color: #3c3c3c;
+            white-space: nowrap;
             text-align: right;
-            font-size: 14px;
-            color: #666;
-        }
-
-        .divider {
-            border-bottom: 1px solid #ddd;
-            margin: 30px 0;
+            position: absolute;
+            top: 0;
+            right: 0;
         }
 
         .user-details {
-            margin-top: 20px;
+            margin-bottom: 30px;
         }
 
         .user-details p {
-            margin: 5px 0;
-            font-size: 14px;
-            color: #333;
+            margin: 2px 0;
+            font-size: 9pt;
+        }
+
+        .divider {
+            border-top: 1px solid #000;
+            margin: 10px 0;
+        }
+
+        .overview {
+            margin-top: 20px;
+        }
+
+        .overview-group {
+            display: flex;
+            flex-direction: row;
+            justify-content: start;
+            align-content: center;
+            margin-bottom: 20px;
         }
 
         .overview-title {
+            font-size: 10pt;
+            font-weight: bold;
             display: flex;
             align-items: center;
-            font-size: 16px;
-            font-weight: bold;
-            color: #333;
-            gap: 2px;
+            margin-right: 20px;
         }
 
-        .overview-title svg {
-            width: 20px;
+        .overview-bar-container {
             padding-bottom: 5px;
         }
 
         .overview-content {
-            font-size: 14px;
-            line-height: 1.6;
-            color: #555;
+            margin: 30px 0 40px 0;
+            font-size: 9pt;
+            text-align: justify;
+            line-height: 1.2;
         }
 
         table {
-            font-size: 12px;
             width: 100%;
             border-collapse: collapse;
-            margin-top: 30px;
+            margin-top: 20px;
+            table-layout: fixed;
         }
 
         th, td {
             border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-            vertical-align: top;
+            padding: 8px;
+            font-size: 9pt;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            text-align: center;
         }
 
-        th {
-            background-color: #f4f4f4;
-            text-align: center;
-            font-weight: bold;
+        td:first-child {
+            text-align: left !important;
+            width: 60%;
+        }
+
+        thead {
+            /*background-color: #f2f2f2;*/
+            background-color: #fff;
         }
 
         .title {
+            font-size: 9pt;
             font-weight: bold;
-            margin-bottom: 5px;
         }
 
         .description {
-            color: #666;
-            font-size: 14px;
+            font-size: 8pt;
         }
 
         .dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
+            height: 8px;
+            width: 8px;
             background-color: black;
+            border-radius: 50%;
             display: inline-block;
-            margin: auto;
+            margin-top: 5px;
         }
 
-        .table-title {
-            margin-top: 40px;
-            font-size: 18px;
-            font-weight: bold;
-            text-align: left;
-            color: #222;
+        h1, h2, h3, h4, h5, h6, table {
+            page-break-inside: avoid;
+        }
+
+        .bar-graph-3 {
+            padding-left: 20px;
+        }
+
+        .bar-graph-4 {
+            padding-left: 10px;
+        }
+
+        .j-bar-4-1 {
+            background-image: url('data:image/jpeg;base64,{{ base64_encode(file_get_contents('./assets/img/four-bar-one.jpg')) }}');
+            background-size: cover;
+            background-color: transparent;
+
+        }
+
+        .j-bar-4-2 {
+            background-image: url('data:image/jpeg;base64,{{ base64_encode(file_get_contents('./assets/img/four-bar-two.jpg')) }}');
+            background-size: cover;
+        }
+
+        .j-bar-4-3 {
+            background-image: url('data:image/jpeg;base64,{{ base64_encode(file_get_contents('./assets/img/four-bar-three.jpg')) }}');
+            background-size: cover;
+        }
+
+        .j-bar-4-4 {
+            background-image: url('data:image/jpeg;base64,{{ base64_encode(file_get_contents('./assets/img/four-bar-four.jpg')) }}');
+            background-size: cover;
+        }
+
+        .j-bar-3-1 {
+            background-image: url('data:image/jpeg;base64,{{ base64_encode(file_get_contents('./assets/img/three-bar-one.jpg')) }}');
+            background-size: cover;
+        }
+
+        .j-bar-3-2 {
+            background-image: url('data:image/jpeg;base64,{{ base64_encode(file_get_contents('./assets/img/three-bar-two.jpg')) }}');
+            background-size: cover;
+        }
+
+        .j-bar-3-3 {
+            background-image: url('data:image/jpeg;base64,{{ base64_encode(file_get_contents('./assets/img/three-bar-three.jpg')) }}');
+            background-size: cover;
         }
     </style>
 </head>
 <body>
 <div class="header">
-    <div class="logo">regain</div>
-    <div>
+    <img src="data:image/jpeg;base64,{{ base64_encode(file_get_contents('./assets/img/logo/regainLogo.jpg')) }}"
+         alt="Logo" class="logo">
+    <div class="title-container">
         <div class="assessment-title">Assessment Report:</div>
         <div class="main-title">Mental Health and Mental Pain</div>
     </div>
@@ -153,17 +231,15 @@
 <div class="divider"></div>
 
 <div class="overview">
-    <div class="overview-title">
-        {{$result->getTest()->getName()}}
-        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="10" width="4" height="11" fill="#333"></rect>
-            <rect x="10" y="6" width="4" height="15" fill="#333"></rect>
-            <rect x="17" y="3" width="4" height="18" fill="#fff"></rect>
-        </svg>
+    <div class="overview-group">
+        <div class="overview-title">
+            {{$result->getTest()->getName()}}
+        </div>
+
     </div>
     <div class="divider"></div>
     <div class="overview-content">
-        {{$result->getDescription()}}
+        {{ $result->getDescription() }}
     </div>
 </div>
 @if (count($result->getSubscaleResults()) > 0)
@@ -184,17 +260,14 @@
             <tr>
                 <th>{{$result->getTest()->getName()}} Subscales</th>
                 @for ($i = 0; $i < $columns; $i++)
-                    <th style="text-align: center; width: {{ 100 / $columns }}%">
-                        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            @for ($j = 0; $j < $columns; $j++)
-                                @php
-                                    $x = 3 + ($j * 7); // Calculate x position dynamically
-                                    $y = 10 - ($j * 2); // Adjust y dynamically based on bar height
-                                    $height = 11 + ($j * 2); // Adjust height dynamically
-                                @endphp
-                                <rect x="{{ $x }}" y="{{ $y }}" width="4" height="{{ $height }}" fill="{{ $fills[$i][$j] }}"></rect>
-                            @endfor
-                        </svg>
+                    <th>
+                        @php
+                            $className = "j-bar-{$columns}-" . ($i + 1);
+                        @endphp
+                        <div class="bar-graph-{{ $columns }}">
+                            <div class="{{ $className }}" style="width: 24px; height: 22px; display: flex">
+                            </div>
+                        </div>
                     </th>
                 @endfor
             </tr>
@@ -202,7 +275,7 @@
             <tbody>
             @foreach ($result->getSubscaleResults() as $subscaleResult)
                 <tr>
-                    <td nowrap style="width: 70%;">
+                    <td>
                         <div class="title">{{$subscaleResult->getSubscaleName()}}</div>
                         <div class="description"></div>
                     </td>

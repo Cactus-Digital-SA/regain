@@ -8,6 +8,9 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     @vite(['resources/assets/vendor/fonts/tabler-icons.scss'])
     <style>
+        html {
+            overflow-y: hidden;
+        }
         body {
             background-color: #504E84 !important; /* Darker purple background */
             height: 100vh;

@@ -154,7 +154,10 @@ class PractitionerController extends Controller
 
         $filePath = $this->reportService->getFilePath(Auth::id(), $userId, $testId);
         if (($filePath !== null) && Storage::exists($filePath)) {
-            return response()->download(storage_path("app/$filePath"), "report.pdf");
+//            return response()->download(storage_path("app/$filePath"), "report.pdf");
+            return response()->file(storage_path("app/$filePath"), [
+                'Content-Type' => 'application/pdf',
+            ]);
         }
 
         $result = $this->questionsService->getMedicalHistoryReportForPatient(Auth::id(), $userId);
@@ -174,7 +177,10 @@ class PractitionerController extends Controller
 
         Storage::put($filePath, $pdf->output());
 
-        return response()->download(storage_path("app/$filePath"), "report.pdf");
+//        return response()->download(storage_path("app/$filePath"), "report.pdf");
+        return response()->file(storage_path("app/$filePath"), [
+            'Content-Type' => 'application/pdf',
+        ]);
     }
 
     public function datatable(Request $request)

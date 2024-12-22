@@ -7,11 +7,11 @@
 @endphp
 
 <style>
-.nav-link.active{
+.modal-link.active{
     background-color: #DDDEF1 !important;
 }
 
-.nav-link{
+.modal-link{
     border: 3px solid #DDDEF1 !important;
 }
 </style>
@@ -27,27 +27,27 @@
             <div class="modal-body">
                 <ul class="nav nav-pills mb-3 gap-3" id="pills-tab" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="pre-assessment-tab" data-bs-toggle="pill"
+                        <button class="nav-link modal-link active" id="pre-assessment-tab" data-bs-toggle="pill"
                                 data-bs-target="#pre-assessment" type="button" role="tab">Pre-Assessment
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="module1-tab" data-bs-toggle="pill" data-bs-target="#module1"
+                        <button class="nav-link modal-link" id="module1-tab" data-bs-toggle="pill" data-bs-target="#module1"
                                 type="button" role="tab">Module 1
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="module2-tab" data-bs-toggle="pill" data-bs-target="#module2"
+                        <button class="nav-link modal-link" id="module2-tab" data-bs-toggle="pill" data-bs-target="#module2"
                                 type="button" role="tab">Module 2
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="module3-tab" data-bs-toggle="pill" data-bs-target="#module3"
+                        <button class="nav-link modal-link" id="module3-tab" data-bs-toggle="pill" data-bs-target="#module3"
                                 type="button" role="tab">Module 3
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="module4-tab" data-bs-toggle="pill" data-bs-target="#module4"
+                        <button class="nav-link modal-link" id="module4-tab" data-bs-toggle="pill" data-bs-target="#module4"
                                 type="button" role="tab">Module 4
                         </button>
                     </li>
