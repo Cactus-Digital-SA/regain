@@ -5,7 +5,7 @@
     */
 @endphp
 
-        <!DOCTYPE html>
+    <!DOCTYPE html>
 <html>
 <head>
     <title>Medical History Report</title>
@@ -136,40 +136,42 @@
     </style>
 </head>
 <body>
-<div class="header">
-    <div class="logo">regain</div>
-    <div>
-        <div class="assessment-title">Assessment Report:</div>
-        <div class="main-title">Medical History</div>
+@if(isset($result))
+    <div class="header">
+        <div class="logo">regain</div>
+        <div>
+            <div class="assessment-title">Assessment Report:</div>
+            <div class="main-title">Medical History</div>
+        </div>
+        <div class="date">{{ $result->getCompletedAt() ? $result->getCompletedAt()->format("d/m/Y") : 'Unknown' }}</div>
     </div>
-    <div class="date">{{$result->getCompletedAt()->format("d/m/Y")}}</div>
-</div>
 
-<div class="user-details">
-    <p><strong>{{$result->getPatientData()->getUser()->getName()}}</strong></p>
-    <p>#{{$result->getPatientData()->getUser()->getId()}}</p>
-    <p>D.O.B. {{$result->getPatientData()->getBirthday()->format("d/m/Y")}}</p>
-</div>
-<div class="divider"></div>
-
-@if (count($result->getQuestionAnswers()) > 0)
-    <div>
-        <table>
-            <tbody>
-            @foreach ($result->getQuestionAnswers() as $questionAnswer)
-                <tr>
-                    <td nowrap style="width: 70%;">
-                        <div class="title">{{$questionAnswer->getQuestionText()}}</div>
-                        <div class="description"></div>
-                    </td>
-                    <td style="text-align: center;">
-                        {{$questionAnswer->getAnswerText()}}
-                    </td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
+    <div class="user-details">
+        <p><strong>{{$result->getPatientData()->getUser()->getName()}}</strong></p>
+        <p>#{{$result->getPatientData()->getUser()->getId()}}</p>
+        <p>D.O.B. {{$result->getPatientData()->getBirthday()->format("d/m/Y")}}</p>
     </div>
+    <div class="divider"></div>
+
+    @if (count($result->getQuestionAnswers()) > 0)
+        <div>
+            <table>
+                <tbody>
+                @foreach ($result->getQuestionAnswers() as $questionAnswer)
+                    <tr>
+                        <td nowrap style="width: 70%;">
+                            <div class="title">{{$questionAnswer->getQuestionText()}}</div>
+                            <div class="description"></div>
+                        </td>
+                        <td style="text-align: center;">
+                            {{$questionAnswer->getAnswerText()}}
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+    @endif
 @endif
 </body>
 </html>

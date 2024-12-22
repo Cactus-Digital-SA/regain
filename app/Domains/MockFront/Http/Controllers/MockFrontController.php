@@ -80,7 +80,7 @@ class MockFrontController extends  Controller
         return view('frontend.content.mock.dashboards.practitioner.practinioner-calendar.index')->with('columns', $columns);
     }
 
-    public function previewReport()
+    public function previewThreeBarReport()
     {
         $data = [
             'name' => 'Olha Maximova',
@@ -134,12 +134,81 @@ class MockFrontController extends  Controller
             ],
         ];
 
-        return view('frontend.content.mock.dashboards.practitioner.exports.index', compact('data'));
+        return view('frontend.content.mock.dashboards.practitioner.exports.three.index', compact('data'));
     }
+
+    public function previewFourBarReport()
+    {
+        $data = [
+            'name' => 'Olha Maximova',
+            'id' => '#145445',
+            'dob' => '04/03/1985',
+            'date' => '07.10.2024',
+            'overview' => 'This report summarizes the findings from the Mental Health and Mental Pain assessment. It identifies patterns in emotional well-being, cognitive distortions, social connections, and physical symptoms. The goal is to provide actionable insights to improve mental health outcomes.',
+            'subscales' => [
+                [
+                    'title' => 'Emotional Distress',
+                    'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry...',
+                    'indicator_1' => true,
+                    'indicator_2' => false,
+                    'indicator_3' => false,
+                    'indicator_4' => true,
+                ],
+                [
+                    'title' => 'Cognitive Distortions',
+                    'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry...',
+                    'indicator_1' => false,
+                    'indicator_2' => true,
+                    'indicator_3' => false,
+                    'indicator_4' => false,
+                ],
+                [
+                    'title' => 'Social Isolation',
+                    'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry...',
+                    'indicator_1' => false,
+                    'indicator_2' => false,
+                    'indicator_3' => true,
+                    'indicator_4' => true,
+                ],
+                [
+                    'title' => 'Physical Symptoms',
+                    'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry...',
+                    'indicator_1' => false,
+                    'indicator_2' => false,
+                    'indicator_3' => false,
+                    'indicator_4' => false,
+                ],
+                [
+                    'title' => 'Suicidal Thoughts',
+                    'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry...',
+                    'indicator_1' => false,
+                    'indicator_2' => true,
+                    'indicator_3' => false,
+                    'indicator_4' => true,
+                ],
+                [
+                    'title' => 'Self-esteem',
+                    'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry...',
+                    'indicator_1' => true,
+                    'indicator_2' => false,
+                    'indicator_3' => false,
+                    'indicator_4' => true,
+                ],
+            ],
+        ];
+
+        return view('frontend.content.mock.dashboards.practitioner.exports.four.index', compact('data'));
+    }
+
 
     public function showLoginDashboard(): View
     {
         return view('frontend.content.mock.dashboards.login.index');
     }
 
+
+    public function showEmail(): View
+    {
+        return view('frontend.content.mock.email.index');
+    }
 }

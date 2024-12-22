@@ -136,6 +136,9 @@ Route::group([
     Route::get('organization/dashboard', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showOrganizationDashboard'])->name('organization-dashboard');
     Route::get('practitioner/dashboard', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showPractitionerDashboard'])->name('practitioner-dashboard');
     Route::get('practitioner/dashboard/calendar', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showPractitionerCalendarDashboard'])->name('practitioner-dashboard');
-    Route::get('practitioner/dashboard/export-pdf', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'previewReport']);
+    Route::get('practitioner/dashboard/export-pdf/three', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'previewThreeBarReport']);
+    Route::get('practitioner/dashboard/export-pdf/four', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'previewFourBarReport']);
     Route::get('dashboard/login', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showLoginDashboard'])->name('login-dashboard');
+    Route::get('email', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showEmail'])->name('login-dashboard');
+
 });

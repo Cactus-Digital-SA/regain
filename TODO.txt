@@ -9,10 +9,13 @@
 General:
     send email when user gets created
 
-FrontEnd:
-    • Second modal for Reports (References) (DONE)
-    • Emails Page (Dashboard)
-    • login pages (Dashboard and Questionnaire) (DONE)
-    • Report make the svgs -> images. 3 column for the graph with 3 answer types and same for four. Fix css.
-    - css for report pdf (should be inline)
+FrontEnd Pending:
+    • medical history dashboard fixes (ON-GOING)
+    • responsive design
+FrontEnd Done:
+    • Report make the svgs -> images. 3 column for the graph with 3 answer types and same for four. Fix css. (DONE with divs) //TODO check on export mock/dashboards/practitioner/exports/.../index.blade.php
+    • Emails Page (Dashboard) (DONE) //TODO CHECK mock/email/index.blade.php
+     • css for report pdf fixes (should be inline etc.)(DONE) //TODO Check, mock/dashboards/practitioner/exports/three/index.blade.php
 
+     • Second modal for Reports (References) (DONE)
+     • login pages (Dashboard and Questionnaire) (DONE)
