@@ -38,7 +38,7 @@ class StorePatientRequest extends FormRequest
         return [
             self::NAME            => ['required', 'string'],
             self::EMAIL           => ['required', 'email', Rule::unique('users', 'email')],
-            self::BIRTHDAY        => ['required', 'date'],
+            self::BIRTHDAY        => ['required', 'date_format:d/m/Y'],
             self::REGION          => ['required', 'exists:regions,id'],
             self::POSTCODE        => ['required', 'integer'],
             self::PHONE           => ['required', 'string'],
