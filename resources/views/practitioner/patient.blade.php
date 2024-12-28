@@ -34,12 +34,14 @@
     @vite(['resources/css/practitioner-dashboard.css', 'resources/css/dashboard-common.css'])
 </head>
 <body>
-@foreach($presenter->getFlows() as $flow)
-    @include('practitioner.includes.report-modal', [
-        "flow" => $flow,
-        "userId" => $patientData->getUser()->getId()
-    ])
-@endforeach
+@if(isset($presenter))
+    @foreach($presenter->getFlows() as $flow)
+        @include('practitioner.includes.report-modal', [
+            "flow" => $flow,
+            "userId" => $patientData->getUser()->getId()
+        ])
+    @endforeach
+@endif
 
 <div class="modal fade" id="medicalHistory" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 60%; max-height: 100%">
@@ -136,7 +138,7 @@
                         </div>
                     </div>
                 </nav>
-                <div class="tab-content mt-4" id="v-pills-tabContent">
+                <div class="tab-content" id="v-pills-tabContent">
                     <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
                          aria-labelledby="v-pills-home-tab">
                         <div class="row">
@@ -144,8 +146,29 @@
                                 <div class="card patient-card">
                                     <div class="card-body patient-card-body">
                                         <span class="patient-profile-label">Patient Profile</span>
-                                        <h5 class="patient-name">{{$patientData->getUser()->getName()}}</h5>
+                                        @if(isset($presenter))
+                                            <div class="dropdown position-absolute" style="right: 1rem; top: 1rem;">
 
+                                                <button class="more-button btn dropdown-toggle" type="button"
+                                                        id="dropdownMenuButton" data-bs-toggle="dropdown"
+                                                        aria-expanded="false">
+                                                    {{--                                                <i class="ti ti-dots-vertical"></i>--}}
+                                                    Reports
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    @foreach($presenter->getFlows() as $flow)
+                                                        <li>
+                                                            <button class="dropdown-item" data-bs-toggle="modal"
+                                                                    data-bs-target="#flow-{{$flow->getFlowType()}}">
+                                                                {{$flow->getName()}}
+                                                            </button>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif
+
+                                        <h5 class="patient-name">{{$patientData->getUser()->getName()}}</h5>
                                         <p class="patient-detail">
                                             <span>Patient ID:</span>&nbsp; #P{{$patientData->getUser()->getId()}}
                                         </p>
@@ -153,26 +176,18 @@
                                             <span>Date of Birth:</span>&nbsp; {{$patientData->getBirthday()->format("d/m/Y")}}
                                         </p>
                                         <p class="patient-detail">
-                                            <span>Phone Number:</span>&nbsp; {{$patientData->getPrimaryPhone()}}</p>
+                                            <span>Phone Number:</span>&nbsp; {{$patientData->getPrimaryPhone()}}
+                                        </p>
                                         <p class="patient-detail">
-                                            <span>Email:</span>&nbsp; {{$patientData->getUser()->getEmail()}}</p>
-                                        <p class="patient-detail last-detail"><span>Registration:</span>&nbsp;
-                                            {{$patientData->getUser()->getCreatedAt()->format("d/m/Y")}}</p>
-
-                                        @foreach($presenter->getFlows() as $flow)
-                                            <div class="row">
-                                                <div class="col-auto mt-1">
-                                                    <button
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#flow-{{$flow->getFlowType()}}"
-                                                        class="btn pre-assessment-btn">
-                                                        {{$flow->getName()}}
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        @endforeach
-
+                                            <span>Email:</span>&nbsp; {{$patientData->getUser()->getEmail()}}
+                                        </p>
+                                        <p class="patient-detail
+                                        {{--last-detail--}}
+                                         ">
+                                            <span>Registration:</span>&nbsp; {{$patientData->getUser()->getCreatedAt()->format("d/m/Y")}}
+                                        </p>
                                     </div>
+
                                 </div>
                             </div>
                             <div class="col-4">
@@ -199,32 +214,36 @@
                                 <div class="col-12">
                                     <div class="card medical-history-card">
                                         <div class="card-body medical-history-card-body">
-                                            <span class="card-label">Medical History</span>
-                                            <div class="mh-actions">
-                                                @if ($medicalHistoryCompleted !== null)
-                                                    <p class="mh-date"><strong>
-                                                            {{$medicalHistoryCompleted->format("d/m/Y H:i:s")}}
-                                                        </strong></p>
-                                                    <div class="d-flex flex-column align-items-start">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div class="d-flex flex-column align-items-start">
+                                                    <span class="card-label">Medical History</span>
+                                                    @if ($medicalHistoryCompleted !== null)
+                                                        <p class="mh-date mt-2">
+                                                            Date: {{$medicalHistoryCompleted->format("d/m/Y")}}
+                                                        </p>
+                                                    @endif
+                                                </div>
+
+                                                <div class="d-flex flex-column align-items-start">
+                                                    @if ($medicalHistoryCompleted !== null)
                                                         <a href="{{route("practitioner.medical-history-report", [ "userId" => $patientData->getUser()->getId()])}}"
                                                            class="mh-link"
                                                            data-bs-toggle="modal"
-                                                           data-bs-target="#medicalHistoryResult"
-                                                        >
+                                                           data-bs-target="#medicalHistoryResult">
                                                             <i class="ti ti-eye"></i> View
                                                         </a>
                                                         <a href="{{route("practitioner.medical-history-report-download", ["userId" => $patientData->getUser()->getId()] )}}"
                                                            class="mh-link mt-1">
                                                             <i class="ti ti-download"></i> Download
                                                         </a>
-                                                    </div>
-                                                @else
-                                                    <a href="#" class="btn mh-btn" data-bs-toggle="modal"
-                                                       data-bs-target="#medicalHistory"
-                                                       id="load-medical-history">
-                                                        Medical History
-                                                    </a>
-                                                @endif
+                                                    @else
+                                                        <a href="#" class="btn mh-btn" data-bs-toggle="modal"
+                                                           data-bs-target="#medicalHistory"
+                                                           id="load-medical-history">
+                                                            Medical History
+                                                        </a>
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -232,14 +251,15 @@
                                 <div class="col-12 mt-3">
                                     <div class="card appointment-card">
                                         <div class="card-body appointment-card-body">
-                                            <span class="card-label">Appointment</span>
-                                            <div class="d-flex justify-content-between align-items-start">
-                                                <div class="appointment-info">
+
+                                            <div class="d-flex justify-content-between align-items-start row">
+                                                <div class="appointment-info col-6">
+                                                    <span class="card-label">Appointment</span>
                                                     <div class="appointment-date">-</div>
-                                                    {{--                                                    <div class="appointment-date">19/11/2024</div>--}}
                                                     <div class="appointment-subtext">Next Appointment</div>
                                                 </div>
-                                                <div class="appointment-actions d-flex flex-column align-items-end">
+                                                <div
+                                                    class="col-5 appointment-actions d-flex flex-column align-items-end">
                                                     <a href="#" class="btn app-create-btn disabled">Create</a>
                                                     <a href="#" class="btn app-cancel-btn disabled">Cancel</a>
                                                 </div>
@@ -251,7 +271,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card overflow-hidden mb-0 mt-4"
+                <div class="card overflow-hidden mb-0"
                      style=" border-radius: 20px; height: 100% !important">
                     <div class="card-body p-0 m-0">
                         <div class="row">

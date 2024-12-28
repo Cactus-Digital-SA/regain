@@ -95,7 +95,7 @@
                     </div>
                 </div>
 
-                <form action="{{ route('logout') }}" method="POST">
+                <form action="{{ route('logout') }}" method="POST" class="logout-form-div">
                     @csrf
                     <button type="submit" class="btn text-center mt-md-3 mt-1 d-flex justify-content-center align-items-center"
                             style="border: 2px solid; border-radius: 10px; font-weight: 700; font-size: 15px;">

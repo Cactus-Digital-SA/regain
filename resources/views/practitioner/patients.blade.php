@@ -85,7 +85,7 @@
                         </div>
                     </div>
                 </div>
-                <form action="{{ route('logout') }}" method="POST">
+                <form action="{{ route('logout') }}" method="POST" class="logout-form-div">
                     @csrf
                     <button type="submit" class="btn text-center mt-md-3 mt-1 d-flex justify-content-center align-items-center"
                             style="border: 2px solid; border-radius: 10px; font-weight: 700; font-size: 15px;">
@@ -123,7 +123,7 @@
                         </div>
                     </div>
                 </nav>
-                <div class="tab-content mt-4" id="v-pills-tabContent">
+                <div class="tab-content" id="v-pills-tabContent">
                     <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
                          aria-labelledby="v-pills-home-tab">
                         <div class="row">
@@ -170,8 +170,8 @@
                 </div>
                 <div class="row">
                     <div class="col-xxl-8 col-7">
-                        <div class="card overflow-hidden mb-0 mt-4"
-                             style=" border-radius: 20px; height: auto !important">
+                        <div class="card overflow-hidden mb-0"
+                             style=" border-radius: 20px; height: 100% !important">
                             <div class="card-body p-0 m-0">
                                 <div class="row">
                                     <section id="column-selectors">
@@ -201,7 +201,7 @@
                         </div>
                     </div>
                     <div class="col-xxl-4 col-5">
-                        <div class="card overflow-hidden mb-0 mt-4 d-flex justify-content-center align-items-center" style="background-color: #dddef1; border-radius: 20px">
+                        <div class="card overflow-hidden mb-0 d-flex justify-content-center align-items-center" style="background-color: #dddef1; border-radius: 20px">
                             <div class="card-body p-0 m-0">
                                 <div id="custom-calendar" class="custom-calendar">
 
