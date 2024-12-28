@@ -10,12 +10,16 @@ General:
     send email when user gets created
 
 FrontEnd Pending:
-    • responsive design
-FrontEnd Done:
-    • Report make the svgs -> images. 3 column for the graph with 3 answer types and same for four. Fix css. (DONE with divs) //TODO DONE CHECK
-    • Emails Page (Dashboard) (DONE) //TODO CHECK mock/email/index.blade.php
-    • css for report pdf fixes (should be inline etc.)(DONE) //TODO DONE CHECK
-    • medical history dashboard bug fixes (DONE)
+    • Refine the Dashboards (ALMOST-DONE) //TODO FONTS
+    • Welcome Back login page
 
-     • Second modal for Reports (References) (DONE)
-     • login pages (Dashboard and Questionnaire) (DONE)
+    • Questions page refine??? (NEEDS DISCUSSION)
+    • Gender pages??? (NEEDS DISCUSSION)
+FrontEnd Done:
+    • Report make the svgs -> images. 3 column for the graph with 3 answer types and same for four. Fix css. (DONE with images) //FEEDBACK
+    • Emails Page (Dashboard) (DONE) //FEEDBACK mock/email/index.blade.php
+    • css for report pdf fixes (should be inline etc.)(DONE) //FEEDBACK
+
+    • medical history dashboard bug fixes (DONE)
+    • Second modal for Reports (References) (DONE)
+    • login pages (Dashboard and Questionnaire) (DONE)

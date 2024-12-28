@@ -23,8 +23,9 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    max-width: 90vw;
+    max-width: 94vw;
     min-height: auto;
+    border: 8px solid #fff;
 }
 
 .column {
@@ -381,10 +382,6 @@ td:last-child {
 }
 
 /*Pagination styling */
-.dataTables_paginate .pagination {
-    justify-content: center;
-    margin-top: 20px;
-}
 .dataTables_paginate .pagination .page-item .page-link {
     border-radius: 20px;
     border: 1px solid #ddd;
@@ -396,13 +393,17 @@ td:last-child {
     color: #fff;
 }
 
+.dataTables_paginate ul{
+    margin-top: 1rem;
+}
+
 [data-bs-toggle="tooltip"] {
     position: relative;
 }
 
 @media (max-width: 1600px) {
-    body{
-        scale: 95%;
+    .wrapper{
+        zoom: 95%;
     }
 }
 
