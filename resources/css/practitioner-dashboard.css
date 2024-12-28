@@ -1,9 +1,11 @@
 body {
     background-color: rgba(149, 154, 185, 1) !important;
+    /*zoom: 95%;*/
 }
 
 .container {
-    max-height: unset !important;
+   width: 100% ! important;
+    height: auto ! important;
 }
 
 .notification-count-patient {
@@ -57,7 +59,7 @@ body {
 .patient-detail {
     margin-bottom: 0.5rem;
     font-weight: 500;
-    font-size: 18px;
+    font-size: 16px;
     color: #000;
 }
 
@@ -75,7 +77,7 @@ body {
     cursor: pointer;
 }
 
-.pre-assesment-btn {
+.pre-assessment-btn {
     border-radius: 10px;
     font-weight: 500;
     background-color: rgba(117, 124, 160, 1);

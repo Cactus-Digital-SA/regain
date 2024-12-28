@@ -134,7 +134,7 @@
                                         <button
                                                 data-bs-toggle="modal" data-bs-target="#preAssessmentReportModal"
 
-                                            class="btn pre-assesment-btn">Pre-Assesment Report</button>
+                                            class="btn pre-assessment-btn">Pre-Assesment Report</button>
                                     </div>
                                 </div>
                             </div>

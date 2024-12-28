@@ -11,7 +11,7 @@
 */
 @endphp
 
-        <!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -43,7 +43,8 @@
 
 <div class="modal fade" id="medicalHistory" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 60%; max-height: 100%">
-        <div id="medical-history-content" class="modal-content p-3 p-md-5" style="background-color: rgba(255, 255, 255, 1);">
+        <div id="medical-history-content" class="modal-content p-3 p-md-5"
+             style="background-color: rgba(255, 255, 255, 1);">
         </div>
     </div>
 </div>
@@ -65,7 +66,7 @@
                                 <span class="nav-link text-left" id="v-pills-patient-registration-tab"
                                       aria-selected="true" style="color:#000; font-weight:bold;">
                                     New Patient <span
-                                            class="notification-count-patient d-flex justify-content-center align-items-center">1</span>
+                                        class="notification-count-patient d-flex justify-content-center align-items-center">1</span>
                                 </span>
                             </div>
                             <div class="d-flex flex-column justify-content-between ms-0 ps-0">
@@ -95,9 +96,10 @@
                         </div>
                     </div>
                 </div>
-                <form action="{{ route('logout') }}" method="POST">
+                <form action="{{ route('logout') }}" method="POST" class="logout-form-div">
                     @csrf
-                    <button type="submit" class="btn text-center mt-md-3 mt-1 d-flex justify-content-center align-items-center"
+                    <button type="submit"
+                            class="btn text-center mt-md-3 mt-1 d-flex justify-content-center align-items-center"
                             style="border: 2px solid; border-radius: 10px; font-weight: 700; font-size: 15px;">
                         <i class="ti ti-logout me-2"></i> Log Out
                     </button>
@@ -126,7 +128,7 @@
                                 </span>
                                 <button href="#" class="btn btn-lg notification-button rounded-pill"
                                         data-bs-toggle="tooltip" data-bs-placement="bottom" title="Notifications"><span
-                                            class="notification-count">3</span><i class="ti ti-bell"></i></button>
+                                        class="notification-count">3</span><i class="ti ti-bell"></i></button>
                                 <button href="#" class="btn btn-lg profile-button rounded-pill" data-bs-toggle="tooltip"
                                         data-bs-placement="bottom" title="Profile"><i class="ti ti-user"></i>
                                 </button>
@@ -158,11 +160,16 @@
                                             {{$patientData->getUser()->getCreatedAt()->format("d/m/Y")}}</p>
 
                                         @foreach($presenter->getFlows() as $flow)
-                                            <button
-                                                    data-bs-toggle="modal" data-bs-target="#flow-{{$flow->getFlowType()}}"
-                                                    class="btn pre-assesment-btn">
-                                                {{$flow->getName()}}
-                                            </button>
+                                            <div class="row">
+                                                <div class="col-auto mt-1">
+                                                    <button
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#flow-{{$flow->getFlowType()}}"
+                                                        class="btn pre-assessment-btn">
+                                                        {{$flow->getName()}}
+                                                    </button>
+                                                </div>
+                                            </div>
                                         @endforeach
 
                                     </div>
@@ -206,7 +213,8 @@
                                                         >
                                                             <i class="ti ti-eye"></i> View
                                                         </a>
-                                                        <a href="{{route("practitioner.medical-history-report-download", ["userId" => $patientData->getUser()->getId()] )}}" class="mh-link mt-1">
+                                                        <a href="{{route("practitioner.medical-history-report-download", ["userId" => $patientData->getUser()->getId()] )}}"
+                                                           class="mh-link mt-1">
                                                             <i class="ti ti-download"></i> Download
                                                         </a>
                                                     </div>
@@ -580,7 +588,8 @@
 
 <div class="modal fade" id="medicalHistoryResult" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 60%; max-height: 100%">
-        <div id="medical-history-result-content" class="modal-content p-3 p-md-5" style="background-color: rgba(255, 255, 255, 1);">
+        <div id="medical-history-result-content" class="modal-content p-3 p-md-5"
+             style="background-color: rgba(255, 255, 255, 1);">
             @include('reports.medicalHistory.index', ["result" => $medicalHistoryResult])
         </div>
     </div>

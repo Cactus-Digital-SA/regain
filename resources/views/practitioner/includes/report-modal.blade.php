@@ -75,9 +75,9 @@
                                         <td class="text-center">{{$test->getCompletedAt()->format("d.m.Y")}}</td>
                                         <td class="text-center">
                                             <a href="{{route("practitioner.test-report", [
-                            "userId" => $userId,
-                            "testId" => $test->getId()
-                        ])}}" class="text-decoration-none text-black font-weight-bold">
+                                                "userId" => $userId,
+                                                "testId" => $test->getId()
+                                            ])}}" class="text-decoration-none text-black font-weight-bold">
                                                 <i class="ti ti-download"></i>
                                             </a>
                                         </td>

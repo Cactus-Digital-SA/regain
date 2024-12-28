@@ -278,6 +278,10 @@ body {
     background-color: #3e4273;
 }
 
+.logout-form-div{
+    display: contents;
+}
+
 @media (max-width: 1300px){
     .breadcrumb-item{
         font-size: 14px;
