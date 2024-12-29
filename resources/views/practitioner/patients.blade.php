@@ -117,11 +117,11 @@
                                 <div class="nav-buttons col-auto">
                                 <span class="navbar-status"> Accepting
                                 </span>
-                                    <button href="#" class="btn btn-lg notification-button rounded-pill"
+                                    <button href="#" class="ms-3 btn btn-lg notification-button rounded-pill "
                                             data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                            title="Notifications"><span
-                                            class="notification-count">3</span><i class="ti ti-bell"></i></button>
-                                    <button href="#" class="btn btn-lg profile-button rounded-pill"
+                                            title="Notifications"><div
+                                            class="notification-count"><span class="notification-span">3</span></div><i class="ti ti-bell"></i></button>
+                                    <button href="#" class="btn btn-lg profile-button rounded-pill "
                                             data-bs-toggle="tooltip"
                                             data-bs-placement="bottom" title="Profile"><i class="ti ti-user"></i>
                                     </button>

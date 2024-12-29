@@ -112,11 +112,11 @@
                                 <div class="nav-buttons col-auto">
                                 <span class="navbar-status"> Accepting
                                 </span>
-                                    <button href="#" class="btn btn-lg notification-button rounded-pill"
+                                    <button href="#" class="ms-3 btn btn-lg notification-button rounded-pill "
                                             data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                            title="Notifications"><span
-                                            class="notification-count">3</span><i class="ti ti-bell"></i></button>
-                                    <button href="#" class="btn btn-lg profile-button rounded-pill"
+                                            title="Notifications"><div
+                                            class="notification-count"><span class="notification-span">3</span></div><i class="ti ti-bell"></i></button>
+                                    <button href="#" class="btn btn-lg profile-button rounded-pill "
                                             data-bs-toggle="tooltip"
                                             data-bs-placement="bottom" title="Profile"><i class="ti ti-user"></i>
                                     </button>
@@ -132,7 +132,7 @@
                                     <div class="card" style="border-radius: 20px">
                                         <div class="card-body px-xl-3 px-2">
                                             <h5 class="card-title mb-0">142</h5>
-                                            <span class="card-subtitle text-muted">Total Practitioners</span>
+                                            <span class="card-subtitle text-muted">Total Patients</span>
                                         </div>
                                     </div>
                                 </div>
@@ -140,15 +140,17 @@
                                     <div class="card" style="border-radius: 20px">
                                         <div class="card-body px-xl-3 px-2">
                                             <h5 class="card-title mb-0">12</h5>
-                                            <span class="card-subtitle text-muted">Total Practitioners</span>
+                                            <span class="card-subtitle text-muted">New Patients</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-3">
                                     <div class="card" style="border-radius: 20px">
                                         <div class="card-body px-xl-3 px-2">
-                                            <h5 class="card-title mb-0" style="color: rgba(40, 199, 111, 1)">74%</h5>
-                                            <span class="card-subtitle text-muted">Patient Satisfaction</span>
+                                            <h5 class="card-title mb-0"
+{{--                                                style="color: rgba(40, 199, 111, 1)"--}}
+                                            >0</h5>
+                                            <span class="card-subtitle text-muted">Appointments</span>
                                         </div>
                                     </div>
                                 </div>
