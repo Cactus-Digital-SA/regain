@@ -15,6 +15,7 @@ FrontEnd Pending:
 
     • Questions page refine??? (NEEDS DISCUSSION)
     • Gender pages??? (NEEDS DISCUSSION)
+    • On/ Off header video??? (NEEDS DISCUSSION)
 FrontEnd Done:
     • Report make the svgs -> images. 3 column for the graph with 3 answer types and same for four. Fix css. (DONE with images) //FEEDBACK
     • Emails Page (Dashboard) (DONE) //FEEDBACK mock/email/index.blade.php
