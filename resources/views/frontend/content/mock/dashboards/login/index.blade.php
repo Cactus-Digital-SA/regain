@@ -9,7 +9,7 @@
     @vite(['resources/assets/vendor/fonts/tabler-icons.scss'])
     <style>
         body {
-            background-color: #504E84 !important; /* Darker purple background */
+            background-color: #504E84 !important;
             height: 100vh;
             display: flex;
             justify-content: center;
@@ -56,7 +56,7 @@
         .eye-icon {
             position: absolute;
             right: 15px;
-            top: 53%;
+            top: 55%;
             cursor: pointer;
             color: #c0c0c0;
         }

@@ -65,7 +65,7 @@
         .eye-icon {
             position: absolute;
             right: 15px;
-            top: 53%;
+            top: 55%;
             cursor: pointer;
             color: #c0c0c0;
         }

@@ -132,6 +132,11 @@ Route::group([
     Route::get('/current-location', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showCurrentLocation'])->name('current-location');
     Route::get('/disability-disorder', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showDisabilityDisorder'])->name('disability-disorder');
 
+    //Login flow Front
+    Route::get('flow/login', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showFlowLogin'])->name('login-flow');
+    Route::get('flow/info', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showFlowInfo'])->name('info-flow');
+
+
 //    Dashboards
     Route::get('organization/dashboard', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showOrganizationDashboard'])->name('organization-dashboard');
     Route::get('practitioner/dashboard', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showPractitionerDashboard'])->name('practitioner-dashboard');
