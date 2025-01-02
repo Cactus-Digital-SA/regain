@@ -57,7 +57,7 @@
     <div class="container">
         <div class="row h-100 p-4">
             <div class="col-3 col-xxl-2 bg-light me-0 rounded-4 main-menu">
-                <div class="h-100 d-flex row flex-column p-xl-3 p-1">
+                <div class="h-100 d-flex row flex-column py-xl-3 px-xl-4 p-1">
                     <!-- Logo at the top -->
                     <div class="text-center mb-3">
                         <img src="{{Vite::asset('resources/images/logo/regainLogo.svg')}}" alt="Logo" class="img-fluid">

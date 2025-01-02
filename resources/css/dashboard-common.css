@@ -23,7 +23,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    max-width: 94vw;
+    max-width: 90vw;
     min-height: auto;
     border: 8px solid #fff;
 }
@@ -35,7 +35,8 @@ body {
     padding: 0.5rem 0;
 }
 
-.main-menu{
+.main-menu
+{
 
 }
 
@@ -44,9 +45,10 @@ body {
     margin-right: 1rem;
 }
 
-.custom-navbar{
+.custom-navbar {
     min-height: 6.25rem;
     border-radius: 20px !important;
+    padding: 0 1rem;
 }
 
 .navbar-logo{
@@ -144,7 +146,7 @@ body {
     color: #6c757d;
 }
 
-.box{
+.box {
     position: relative;
     display:flex;
     align-items: center;
@@ -153,6 +155,8 @@ body {
 .input {
     padding: 10px;
     width: auto;
+    min-width: 400px;
+    max-width: 500px;
     height: 2.5rem;
     background: none;
     border: 2px solid rgba(221, 222, 241, 1);
@@ -164,7 +168,7 @@ body {
     transition: .5s;
 }
 
-.box i{
+.box i {
     position: absolute;
     top: 50%;
     right: 15px;
@@ -211,7 +215,7 @@ body {
     align-items: center;
 }
 
-.card-title{
+.card-title {
     font-size: 30px;
     font-weight: 700;
     line-height: 45px;
@@ -294,7 +298,7 @@ body {
     display: contents;
 }
 
-@media (max-width: 1300px){
+@media (max-width: 1400px){
     .breadcrumb-item{
         font-size: 14px;
     }
@@ -415,6 +419,10 @@ td:last-child {
 @media (max-width: 1600px) {
     .wrapper{
         zoom: 95%;
+    }
+
+    .container{
+        max-width: 94vw !important;
     }
 }
 

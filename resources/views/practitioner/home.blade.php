@@ -38,7 +38,7 @@
     <div class="container">
         <div class="row h-100 p-4">
             <div class="col-3 col-xxl-2 bg-light me-0 rounded-4 main-menu">
-                <div class="h-100 d-flex row flex-column p-xl-3 p-1">
+                <div class="h-100 d-flex row flex-column py-xl-3 px-xl-4 p-1">
                     <!-- Logo at the top -->
                     <div class="text-center mb-3">
                         <img src="{{Vite::asset('resources/images/logo/regainLogo.svg')}}" alt="Logo" class="img-fluid">
@@ -130,7 +130,7 @@
                             <div class="row">
                                 <div class="col-3">
                                     <div class="card" style="border-radius: 20px">
-                                        <div class="card-body px-xl-3 px-2">
+                                        <div class="card-body px-xl-5 px-2">
                                             <h5 class="card-title mb-0">142</h5>
                                             <span class="card-subtitle text-muted">Total Patients</span>
                                         </div>
@@ -138,7 +138,7 @@
                                 </div>
                                 <div class="col-3">
                                     <div class="card" style="border-radius: 20px">
-                                        <div class="card-body px-xl-3 px-2">
+                                        <div class="card-body px-xl-5 px-2">
                                             <h5 class="card-title mb-0">12</h5>
                                             <span class="card-subtitle text-muted">New Patients</span>
                                         </div>
@@ -146,7 +146,7 @@
                                 </div>
                                 <div class="col-3">
                                     <div class="card" style="border-radius: 20px">
-                                        <div class="card-body px-xl-3 px-2">
+                                        <div class="card-body px-xl-5 px-2">
                                             <h5 class="card-title mb-0"
 {{--                                                style="color: rgba(40, 199, 111, 1)"--}}
                                             >0</h5>
