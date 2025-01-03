@@ -120,40 +120,5 @@
         </div>
     </div>
 </div>
-
-<script>
-    function togglePassword() {
-        const passwordInput = document.getElementById('password');
-        const eyeIcon = document.querySelector('.eye-icon i');
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-            eyeIcon.classList.remove('ti-eye');
-            eyeIcon.classList.add('ti-eye-off');
-        } else {
-            passwordInput.type = 'password';
-            eyeIcon.classList.remove('ti-eye-off');
-            eyeIcon.classList.add('ti-eye');
-        }
-    }
-
-    const popup = document.getElementById('popup');
-    const forgotPasswordLink = document.getElementById('forgot-password-link');
-    const closePopup = document.getElementById('close-popup');
-
-    forgotPasswordLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        popup.style.display = 'flex';
-    });
-
-    closePopup.addEventListener('click', () => {
-        popup.style.display = 'none';
-    });
-
-    window.addEventListener('click', (e) => {
-        if (e.target === popup) {
-            popup.style.display = 'none';
-        }
-    });
-</script>
 </body>
 </html>
