@@ -16,13 +16,6 @@
 
 @vite(['resources/css/patient-index.css'])
 
-<video class="video-background" autoplay muted loop>
-    <source
-        src="{{asset('assets/moving_balls.mp4') }}"
-        type="video/mp4">
-    Your browser does not support the video tag.
-</video>
-
 @include('frontend.content.mock.includes.navbar')
 
 <div class="dob-container">
