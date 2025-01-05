@@ -224,6 +224,11 @@ class MockFrontController extends  Controller
         return view('frontend.content.mock.login-flow.info');
     }
 
+    public function showFlowInfoSecond(): View
+    {
+        return view('frontend.content.mock.login-flow.info_second');
+    }
+
     public function showFlowWelcomeBack(): View
     {
         return view('frontend.content.mock.login-flow.welcome-back');
