@@ -25,6 +25,11 @@ class MockFrontController extends  Controller
         return view('frontend.content.mock.date-of-birth');
     }
 
+    public function showRegainInfo(): View
+    {
+        return view('frontend.content.mock.regain-info');
+    }
+
     /**
      * @return View
      */
