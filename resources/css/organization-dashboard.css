@@ -2,6 +2,7 @@
 body{
     background-color: rgba(80, 78, 132, 1) !important;
 }
+
 /*dt filters*/
 .filters-container {
     background-color: #f7f7fb;
@@ -49,26 +50,6 @@ body{
 
 .dropdown-container .dropdown-menu .dropdown-item {
     color: #1f1f2d;
-}
-
-/*not working*/
-.status-pill {
-    display: inline-block;
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    color: #fff;
-    text-transform: capitalize;
-}
-.status-pill.accepting {
-    background-color: #28C76F;
-}
-.status-pill.limited {
-    background-color: #F2A83B;
-}
-.status-pill.full {
-    background-color: #EA5455;
 }
 
 

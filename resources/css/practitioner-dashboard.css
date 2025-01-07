@@ -22,13 +22,6 @@ body {
     margin-left: 5px;
 }
 
-.right-side {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    gap: 1rem;
-}
-
 .patient-card {
     border-radius: 20px;
     background-color: rgba(221, 222, 241, 1);
@@ -330,16 +323,7 @@ body {
     align-items: stretch;
 }
 
-.card-body {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-}
-
-
 /*CALENDAR*/
-
 .custom-calendar {
     height: 100%;
     background-color: #dddef1 !important;

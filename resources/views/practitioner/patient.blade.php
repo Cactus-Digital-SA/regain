@@ -59,7 +59,7 @@
             <div class="col-3 col-xxl-2 bg-light me-0 rounded-4 main-menu">
                 <div class="h-100 d-flex row flex-column py-xl-3 px-xl-4 p-1">
                     <!-- Logo at the top -->
-                    <div class="text-center mb-3">
+                    <div class="text-start mb-3 px-0 mt-1">
                         <img src="{{Vite::asset('resources/images/logo/regainLogo.svg')}}" alt="Logo" class="img-fluid">
                     </div>
                     <div class="flex-grow-1 d-flex align-items-top ps-0">
@@ -111,7 +111,7 @@
                 </div>
             </div>
             <div class="col-9 col-xxl-10">
-                <div class="right-side">
+                <div class="right-side" style="margin-left: 9px;">
                     <nav class="navbar navbar-expand-lg navbar-light bg-light custom-navbar rounded-3">
                         <div class="container-fluid">
                             <div class="nav-brand">
@@ -270,7 +270,7 @@
                     </div>
                     <div class="card overflow-hidden mb-0"
                          style=" border-radius: 20px; height: 100% !important; min-height: 190px !important">
-                        <div class="card-body p-0 m-0">
+                        <div class="card-body p-0 m-0 card-table-body" style="min-height: 150px !important">
                             <div class="row">
                                 <section id="column-selectors">
                                     <section id="column-selectors">
@@ -282,7 +282,7 @@
                                                     @foreach($columns as $column)
                                                         <th class="text-center"> {{ __($column['name']) }}</th>
                                                     @endforeach
-                                                    <th class="text-end">{{ __('Actions') }}</th>
+                                                    <th class="text-center">{{ __('Actions') }}</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody class="text-center">
@@ -294,7 +294,7 @@
                                 </section>
                             </div>
                         </div>
-                        <div class="card-footer align-items-center d-flex justify-content-between">
+                        <div class="card-footer align-items-center d-flex justify-content-center">
                         </div>
                     </div>
                 </div>
@@ -341,7 +341,7 @@
                         {data: 'name', name: 'user.name', searchable: false, orderable: true},
                         {data: 'registered', name: 'users.created_at', searchable: false, orderable: false},
                         {data: 'status', name: 'status', searchable: false, orderable: false},
-                        {data: 'actions', searchable: false, orderable: false, className: 'text-end'},
+                        {data: 'actions', searchable: false, orderable: false, className: 'text-center'},
                     ],
                     columnDefs: [],
                     dom: 't<"d-flex justify-content-between mx-0 row"<"d-flex justify-content-center col-12"i><"d-flex justify-content-center col-12"p>>',
@@ -359,6 +359,9 @@
                     },
                     initComplete: function () {
                         $('.dataTables_paginate > .pagination').addClass('pagination-rounded');
+
+                        var pagination = $('.dataTables_paginate').detach();
+                        $('.card-footer').append(pagination);
                     }
                 });
 

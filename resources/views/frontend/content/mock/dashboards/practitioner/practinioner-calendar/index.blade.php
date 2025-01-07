@@ -85,7 +85,7 @@
             </div>
         </div>
         <div class="col-9 col-xxl-10">
-            <div class="right-side">
+            <div class="right-side" style="margin-left: 9px;">
                 <nav class="navbar navbar-expand-lg navbar-light bg-light custom-navbar rounded-3">
                     <div class="container-fluid">
                         <div class="nav-brand">
@@ -148,7 +148,7 @@
                                         <option value="{{ $month }}">{{ $month }}</option>
                                     @endforeach
                                 </select>
-                                <select class="dropdown-select mt-2" name="year">
+                                <select class="dropdown-select mt-3" name="year">
                                     <option value="">Filter by year</option>
                                     @for ($i = date('Y'); $i >= 1900; $i--)
                                         <option value="{{ $i }}">{{ $i }}</option>
@@ -162,7 +162,7 @@
                     <div class="col-xxl-8 col-7">
                         <div class="card overflow-hidden mb-0 mt-4"
                              style=" border-radius: 20px; height: auto !important">
-                            <div class="card-body p-0 m-0">
+                            <div class="card-body p-0 m-0 card-table-body">
                                 <div class="row">
                                     <section id="column-selectors">
                                         <section id="column-selectors">
@@ -174,7 +174,7 @@
                                                         @foreach($columns as $column)
                                                             <th> {{ __($column['name']) }}</th>
                                                         @endforeach
-                                                        <th class="text-end">{{ __('Actions') }}</th>
+                                                        <th class="text-center">{{ __('Actions') }}</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody class="text-center">
@@ -186,13 +186,13 @@
                                     </section>
                                 </div>
                             </div>
-                            <div class="card-footer align-items-center d-flex justify-content-between">
+                            <div class="card-footer align-items-center d-flex justify-content-center">
                             </div>
                         </div>
                     </div>
                     <div class="col-xxl-4 col-5">
                         <div class="card overflow-hidden mb-0 mt-4 d-flex justify-content-center align-items-center" style="background-color: #dddef1; border-radius: 20px">
-                            <div class="card-body p-0 m-0">
+                            <div class="card-body p-0 m-0 card-table-body">
                                 <div id="custom-calendar" class="custom-calendar">
 
                                 </div>
@@ -274,7 +274,7 @@
                         {data: 'name', name: 'user.name', searchable: false, orderable: true},
                         {data: 'registered', name: 'users.created_at', searchable: false, orderable: false},
                         {data: 'status', name: 'status', searchable: false, orderable: false},
-                        {data: 'actions', searchable: false, orderable: false, className: 'text-end'},
+                        {data: 'actions', searchable: false, orderable: false, className: 'text-center'},
                     ],
                     columnDefs: [],
                     dom: 't<"d-flex justify-content-between mx-0 row"<"d-flex justify-content-center col-12"i><"d-flex justify-content-center col-12"p>>',

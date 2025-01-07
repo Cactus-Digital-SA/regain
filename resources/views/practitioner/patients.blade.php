@@ -45,7 +45,7 @@
             <div class="col-3 col-xxl-2 bg-light me-0 rounded-4 main-menu">
                 <div class="h-100 d-flex row flex-column py-xl-3 px-xl-4 p-1">
                     <!-- Logo at the top -->
-                    <div class="text-start mb-3 px-0">
+                    <div class="text-start mb-3 px-0 mt-1">
                         <img src="{{Vite::asset('resources/images/logo/regainLogo.svg')}}" alt="Logo" class="img-fluid">
                     </div>
                     <div class="flex-grow-1 d-flex align-items-top ps-0">
@@ -98,7 +98,7 @@
                 </div>
             </div>
             <div class="col-9 col-xxl-10">
-                <div class="right-side">
+                <div class="right-side" style="margin-left: 9px;">
                     <nav class="navbar navbar-expand-lg navbar-light bg-light custom-navbar rounded-3">
                         <div class="container-fluid">
                             <div class="nav-brand">
@@ -133,7 +133,7 @@
                         <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
                              aria-labelledby="v-pills-home-tab">
                             <div class="row">
-                                <div class="col-3">
+                                <div class="col-35">
                                     <div class="card" style="border-radius: 20px">
                                         <div class="card-body px-xl-5 px-2">
                                             <h5 class="card-title mb-0">142</h5>
@@ -141,7 +141,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-35">
                                     <div class="card" style="border-radius: 20px">
                                         <div class="card-body px-xl-5 px-2">
                                             <h5 class="card-title mb-0">12</h5>
@@ -149,7 +149,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-35">
                                     <div class="card" style="border-radius: 20px">
                                         <div class="card-body px-xl-5 px-2">
                                             <h5 class="card-title mb-0" style="color: rgba(40, 199, 111, 1)">74%</h5>
@@ -157,14 +157,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-2">
                                     <select class="dropdown-select" name="month">
                                         <option value="">Filter by month</option>
                                         @foreach (['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] as $month)
                                             <option value="{{ $month }}">{{ $month }}</option>
                                         @endforeach
                                     </select>
-                                    <select class="dropdown-select mt-2" name="year">
+                                    <select class="dropdown-select mt-3" name="year">
                                         <option value="">Filter by year</option>
                                         @for ($i = date('Y'); $i >= 1900; $i--)
                                             <option value="{{ $i }}">{{ $i }}</option>
@@ -178,7 +178,7 @@
                         <div class="col-xxl-8 col-7">
                             <div class="card overflow-hidden mb-0"
                                  style=" border-radius: 20px; height: 100% !important; ">
-                                <div class="card-body p-0 m-0">
+                                <div class="card-body p-0 m-0 card-table-body">
                                     <div class="row">
                                         <section id="column-selectors">
                                             <section id="column-selectors">
@@ -190,7 +190,7 @@
                                                             @foreach($columns as $column)
                                                                 <th class="text-center"> {{ __($column['name']) }}</th>
                                                             @endforeach
-                                                            <th class="text-end">{{ __('Actions') }}</th>
+                                                            <th class="text-center">{{ __('Actions') }}</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody class="text-center">
@@ -208,7 +208,7 @@
                         <div class="col-xxl-4 col-5">
                             <div class="card overflow-hidden mb-0 d-flex justify-content-center align-items-center"
                                  style="background-color: #dddef1; border-radius: 20px">
-                                <div class="card-body p-0 m-0">
+                                <div class="card-body p-0 m-0 card-table-body">
                                     <div id="custom-calendar" class="custom-calendar">
 
                                     </div>
@@ -296,7 +296,7 @@
                         {data: 'name', name: 'user.name', searchable: false, orderable: true},
                         {data: 'registered', name: 'users.created_at', searchable: false, orderable: false},
                         {data: 'status', name: 'status', searchable: false, orderable: false},
-                        {data: 'actions', searchable: false, orderable: false, className: 'text-end'},
+                        {data: 'actions', searchable: false, orderable: false, className: 'text-center'},
                     ],
                     columnDefs: [],
                     dom: 't<"d-flex justify-content-between mx-0 row"<"d-flex justify-content-center col-12"i><"d-flex justify-content-center col-12"p>>',
