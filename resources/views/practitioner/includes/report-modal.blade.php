@@ -20,9 +20,12 @@
      aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 60%;">
         <div class="modal-content p-3 p-md-5">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalLabel">Regain Reports</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="d-flex justify-content-cbetween align-items-center border-0 text-center mb-3">
+                <h3 class="text-center flex-grow-1" style="color: rgba(10, 19, 58, 1); font-weight: 700; font-size:1.4rem; margin-bottom: 0 !important">
+                    Regain Reports
+                </h3>
+                <button type="button" class="btn-close btn-pinned btn-right me-3" data-bs-dismiss="modal" aria-label="Close">
+                </button>
             </div>
             <div class="modal-body">
                 <ul class="nav nav-pills mb-3 gap-3" id="pills-tab" role="tablist">

@@ -1,8 +1,11 @@
-<div class="modal-body" id="modal-container">
-    <button type="button" class="btn-close btn-pinned btn-right" data-bs-dismiss="modal" aria-label="Close">
+<div class="d-flex justify-content-cbetween align-items-center border-0 text-center mb-3">
+    <h3 class="text-center flex-grow-1" style="color: rgba(10, 19, 58, 1); font-weight: 700; font-size:1.4rem; margin-bottom: 0 !important">
+        Medical History
+    </h3>
+    <button type="button" class="btn-close btn-pinned btn-right me-3" data-bs-dismiss="modal" aria-label="Close">
     </button>
-    <h3 class="text-center mb-4" style="color: rgba(10, 19, 58, 1); font-weight: 700; font-size: 24px;">Medical History</h3>
-
+</div>
+<div class="modal-body" id="modal-container">
     @foreach ($presenter->getQuestions() as $question)
         <div
                 class="question-container row g-4 {{$question->isHiddenBecauseOfRequired() ? "hidden" : ""}}"
