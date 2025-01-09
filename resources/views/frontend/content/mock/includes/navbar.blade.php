@@ -29,10 +29,14 @@
     document.addEventListener('DOMContentLoaded', function () {
         var currentRoute = "{{ Route::currentRouteName() }}";
 
-
-        console.log(currentRoute);
         const toggleSwitch = document.getElementById('toggle-switch');
         const videoBackground = document.querySelector('.video-background');
+        const circleBgs = document.querySelectorAll('.circle-bg');
+
+        if (!toggleSwitch.classList.contains('active')) {
+            circleBgs.forEach(circleBg => circleBg.classList.add('d-none'));
+        }
+
         let isActive = false;
         let interval = null;
 
@@ -45,6 +49,7 @@
                 clearInterval(interval);
 
                 if(currentRoute === 'mock.regain-info'){
+                    circleBgs.forEach(circleBg => circleBg.classList.remove('d-none'));
                     videoBackground.classList.add('d-none');
                 }
 
@@ -59,6 +64,7 @@
                 videoBackground.play();
                 clearInterval(interval);
 
+                circleBgs.forEach(circleBg => circleBg.classList.add('d-none'));
                 videoBackground.classList.remove('d-none');
             }
         }
