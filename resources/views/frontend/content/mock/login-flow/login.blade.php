@@ -120,8 +120,8 @@
         .popup {
             display: none;
             position: absolute;
-            top: 108%;
-            left: 50%;
+            top: -50%;
+            left: 9.5%;
             transform: translate(-50%, -50%);
             z-index: 1000;
             background-color: white;
@@ -247,7 +247,7 @@
             <label class="form-check-label ml-1" for="keepLoggedIn">Keep me logged in</label>
         </div>
         <button type="submit" class="btn btn-custom btn-block">Sign In</button>
-        <div class="forgot-password-container">
+        <div class="forgot-password-container position-relative">
             <a href="#" class="forgot-password" id="forgot-password-link">Forgot your password?</a>
             <div class="popup" id="popup">
                 <div class="popup-content">
