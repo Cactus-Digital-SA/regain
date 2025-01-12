@@ -1,0 +1,273 @@
+
+body {
+    min-height: 100vh !important;
+    margin: 0;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.background-circles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: inherit;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.circle-bg {
+    position: absolute;
+    border-radius: 50%;
+    background-color: #F5F5F5;
+    opacity: 1;
+    z-index: -1;
+}
+
+.circle1 {
+    width: 25vh;
+    height: 25vh;
+    top: 0;
+    left: -10vh;
+}
+
+.circle2 {
+    width: 30vh;
+    height: 30vh;
+    bottom: 0vh;
+    right: -10vh;
+}
+
+.circle3 {
+    width: 15vh;
+    height: 15vh;
+    top: 15vh;
+    right: -1vh;
+}
+
+.circle4 {
+    width: 15vh;
+    height: 15vh;
+    bottom: 10vh;
+    left: -1vh;
+}
+
+.basic-wrapper {
+    flex: 1;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    flex-direction: column;
+}
+
+.container-info {
+    position: relative;
+    z-index: 2;
+    padding: 1rem;
+    max-width: 690px;
+    width: 100%;
+}
+
+/*for community page*/
+.container-community {
+    position: relative;
+    z-index: 2;
+    padding: 1rem;
+    max-width: 900px;
+    width: 100%;
+}
+
+.logo-grid {
+    display: grid;
+    gap: 2.5rem;
+    justify-items: center;
+    align-items: center;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 2rem;
+}
+
+.logo-item img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+/*end of community page*/
+
+
+/*help center page accordion*/
+.accordion-wrapper {
+    max-width: 658px;
+    margin: 0 auto;
+}
+
+.accordion {
+    width: 100%;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+}
+
+.accordion-item {
+    border: none;
+    background: transparent;
+    position: relative;
+}
+
+.accordion-button::after{
+    scale: 65%;
+    rotate: -90deg;
+}
+
+.accordion-item:not(:last-child) {
+    border-bottom: 1px solid rgba(39, 52, 61, 1);
+}
+
+.accordion-header {
+    background-color: transparent;
+    padding: 5px 0;
+}
+
+.accordion-header .accordion-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 10px;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    font-size: 14px;
+    text-align: left;
+    color: #333;
+    transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+    gap: 10px;
+}
+
+.accordion-header .accordion-button:not(.collapsed) {
+    color: #757CA0;
+    background-color: transparent;
+}
+
+.accordion-header .accordion-button:hover {
+    transform: scale(1.01);
+    color: #757CD1;
+}
+
+.accordion-header .accordion-button .accordion-text {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    flex-grow: 1;
+}
+
+.accordion-header .accordion-button .accordion-text span {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+}
+
+.accordion-header .accordion-button .accordion-text small {
+    font-size: 10px;
+    font-weight: 300;
+    text-align: left;
+    color: #6c757d;
+    margin-top: 8px;
+}
+
+.accordion-body {
+    padding: 10px 15px;
+    background-color: transparent;
+    border-top: 1px solid #e9ecef;
+    color: #555;
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.4;
+}
+
+.page-title {
+    font-size: 20px;
+    margin-top: 10px;
+    color: #333;
+    font-weight: bold;
+    text-align: center;
+}
+/*end of help center accordion*/
+
+.page-title {
+    font-size: 1.625rem;
+    font-weight: 700;
+    line-height: 25px;
+    text-align: center;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    margin-bottom: 50px;
+}
+
+.page-sub-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 20px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+}
+
+.page-content p {
+    font-size: 0.95rem;
+    font-weight: 400;
+    line-height: 25px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: auto;
+    position: relative;
+}
+
+.footer button {
+    font-size: 0.8rem;
+    font-weight: 400;
+    text-align: left;
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+
+}
+
+@media (max-width: 1600px) {
+    .page-title {
+        margin-bottom: 30px;
+    }
+
+    .basic-wrapper {
+        margin-top: 30px;
+    }
+}
+
+/*mainly responsive community page*/
+@media (max-width: 990px) and (min-width: 768px) {
+    .logo-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 767px) {
+    .logo-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

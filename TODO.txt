@@ -9,17 +9,22 @@
 General:
     send email when user gets created
 
+
+
+
+---------------------------------------------FRONTEND-----------------------------------------------------------------------------------------------------------
+FrontEnd Questions:
+    • Questions page refine discussion? (NEEDS DISCUSSION) // TODO DISCUSSION
+    • Gender Page Implementation? // TODO DISCUSSION
+
 FrontEnd Pending:
-
-    • Gender Page
-    • Help, Contact, ect static pages
-    • New question pages
-
-    • Questions page refine discussion??? (NEEDS DISCUSSION)
+    • New question pages mocks
+    • Add Icons to the navbar header menu
 
 FrontEnd Done:
-    • Refine the Dashboards //TODO FEEDBACK
-    • Welcome Back login page, general login //TODO mock/login-flow/...
-    • Report make the svgs -> images. 3 column for the graph with 3 answer types and same for four. Fix css. (DONE with images) // TODO FEEDBACK
+    • Help, Contact, ect static pages // TODO FEEDBACK
+    • Refine the Dashboards // TODO FEEDBACK
+    • Welcome Back login page, general login // TODO mock/login-flow/...
+
+    • Report Page (DONE) // TODO FEEDBACK
     • Emails Page (Dashboard) (DONE) // TODO FEEDBACK mock/email/index.blade.php
-    • css for report pdf fixes (should be inline etc.)(DONE) //TODO FEEDBACK

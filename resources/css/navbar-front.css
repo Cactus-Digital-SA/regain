@@ -20,7 +20,7 @@
 
 .menu {
     display: flex;
-    gap: 4.375rem;
+    gap: 2rem;
     font-size: 16px;
 }
 .choice {

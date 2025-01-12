@@ -30,6 +30,16 @@ class MockFrontController extends  Controller
         return view('frontend.content.mock.regain-info');
     }
 
+    public function showCommunity(): View
+    {
+        return view('frontend.content.mock.community');
+    }
+
+    public function showHelpCenter(): View
+    {
+        return view('frontend.content.mock.help-center');
+    }
+
     /**
      * @return View
      */
