@@ -91,14 +91,13 @@ body {
     background-color: rgba(21, 27, 44) !important;
 }
 
-@media (max-width: 990px) {
+@media (max-width: 1200px) {
     .header{
-        display: flex;
-        justify-content: center;
-    }
-    .menu{
         display: none;
     }
+}
+
+@media (max-width: 990px) {
     .language-toggle{
         display: none;
     }
