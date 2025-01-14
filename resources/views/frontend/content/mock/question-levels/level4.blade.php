@@ -29,6 +29,7 @@
             background-color: rgba(255, 255, 255, 0.9);
             padding: 30px;
             box-shadow: 0 4px 4px 0 #00000040;
+            border-radius: 4rem;
         }
 
         .question-single {
@@ -88,9 +89,9 @@
 <div class="question-wrapper">
     <div class="dob-container-questions">
         <div class="d-flex justify-content-center justify-content-sm-between align-items-center mb-4 text-heading" style="width: 100%;">
-            <a href="#" class="btn btn-link text-decoration-none fs-6 d-flex align-items-center justify-content-center"><i class="ti ti-circle-arrow-left fs-3 me-2"></i> Back</a>
+            <a href="{{route('mock.question.question-level-3')}}" class="btn btn-link text-decoration-none fs-6 d-flex align-items-center justify-content-center"><i class="ti ti-circle-arrow-left fs-3 me-2"></i> Back</a>
             <h3 class="text-center mt-0 mb-0 text-nowrap dob-title">Level 4</h3>
-            <a href="#" class="btn btn-link text-decoration-none fs-6 d-flex align-items-center justify-content-center">Next <i class="ti ti-circle-arrow-right fs-3 ms-2"></i></a>
+            <a href="#" class="btn btn-link text-decoration-none fs-6 d-flex align-items-center justify-content-center disabled" disabled>Next <i class="ti ti-circle-arrow-right fs-3 ms-2"></i></a>
         </div>
         <div class="container px-3 py-2 d-flex justify-content-center align-items-center">
             <form style="width: 100%;">

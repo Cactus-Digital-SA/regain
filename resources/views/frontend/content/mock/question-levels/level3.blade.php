@@ -136,9 +136,9 @@
 <div class="question-wrapper">
     <div class="dob-container-questions">
         <div class="d-flex justify-content-center justify-content-sm-between align-items-center mb-4 text-heading" style="width: 99%;">
-            <a href="#" class="btn btn-link text-decoration-none fs-6 d-flex align-items-center justify-content-center"><i class="ti ti-circle-arrow-left fs-3 me-2"></i> Back</a>
+            <a href="{{route('mock.question.question-level-2')}}" class="btn btn-link text-decoration-none fs-6 d-flex align-items-center justify-content-center"><i class="ti ti-circle-arrow-left fs-3 me-2"></i> Back</a>
             <h3 class="text-center mt-0 mb-0 text-nowrap dob-title">Level 3</h3>
-            <a href="#" class="btn btn-link text-decoration-none fs-6 d-flex align-items-center justify-content-center">Next <i class="ti ti-circle-arrow-right fs-3 ms-2"></i></a>
+            <a href="{{route('mock.question.question-level-4')}}" class="btn btn-link text-decoration-none fs-6 d-flex align-items-center justify-content-center">Next <i class="ti ti-circle-arrow-right fs-3 ms-2"></i></a>
         </div>
         <div class="container px-3 py-2 d-flex justify-content-center align-items-center">
             <form>
