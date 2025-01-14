@@ -135,6 +135,16 @@ Route::group([
     Route::get('/current-location', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showCurrentLocation'])->name('current-location');
     Route::get('/disability-disorder', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showDisabilityDisorder'])->name('disability-disorder');
 
+    //Question levels
+    Route::group([
+        'prefix' => 'question',
+        'as'     => 'question.',], function () {
+        Route::get('/level-1', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showQuestionLevelOne'])->name('question-level-1');
+        Route::get('/level-2', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showQuestionLevelTwo'])->name('question-level-2');
+        Route::get('/level-3', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showQuestionLevelThree'])->name('question-level-3');
+        Route::get('/level-4', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showQuestionLevelFour'])->name('question-level-4');
+    });
+
     //Login flow Front
     Route::get('flow/login', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showFlowLogin'])->name('login-flow');
     Route::get('flow/info', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showFlowInfo'])->name('info-flow');

@@ -17,6 +17,28 @@ class MockFrontController extends  Controller
 
     }
 
+    private function generateQuestionsWithAnswers(int $count = 5): array
+    {
+        $faker = Faker::create('en_US');
+        $likertScale = [
+            'Strongly Disagree',
+            'Disagree',
+            'Neutral',
+            'Agree',
+            'Strongly Agree'
+        ];
+
+        $questionsWithAnswers = [];
+        for ($i = 0; $i < $count; $i++) {
+            $questionsWithAnswers[] = [
+                'question' => $faker->sentence($nbWords = 8),
+                'answers' => $likertScale,
+            ];
+        }
+
+        return $questionsWithAnswers;
+    }
+
     /**
      * @return View
      */
@@ -61,20 +83,47 @@ class MockFrontController extends  Controller
 
     public function showDisabilityDisorder(): View
     {
-        $faker = Faker::create('en_US');
-        $likertScale = [
-            'Strongly Disagree',
-            'Disagree',
-            'Neutral',
-            'Agree',
-            'Strongly Agree'
-        ];
-        $questions = [];
-        for ($i = 0; $i <= 4; $i++) {
-            $questions[$i] = $faker->sentence($nbWords = 8);
-            $answers[$i] = $likertScale;
-        }
-        return view('frontend.content.mock.disability-disorder', compact('questions', 'answers'));
+        $questionsWithAnswers = $this->generateQuestionsWithAnswers();
+        return view('frontend.content.mock.disability-disorder', [
+            'questions' => array_column($questionsWithAnswers, 'question'),
+            'answers' => array_column($questionsWithAnswers, 'answers'),
+        ]);
+    }
+
+    public function showQuestionLevelOne(): View
+    {
+        $questionsWithAnswers = $this->generateQuestionsWithAnswers();
+        return view('frontend.content.mock.question-levels.level1', [
+            'questions' => array_column($questionsWithAnswers, 'question'),
+            'answers' => array_column($questionsWithAnswers, 'answers'),
+        ]);
+    }
+
+    public function showQuestionLevelTwo(): View
+    {
+        $questionsWithAnswers = $this->generateQuestionsWithAnswers();
+        return view('frontend.content.mock.question-levels.level2', [
+            'questions' => array_column($questionsWithAnswers, 'question'),
+            'answers' => array_column($questionsWithAnswers, 'answers'),
+        ]);
+    }
+
+    public function showQuestionLevelThree(): View
+    {
+        $questionsWithAnswers = $this->generateQuestionsWithAnswers();
+        return view('frontend.content.mock.question-levels.level3', [
+            'questions' => array_column($questionsWithAnswers, 'question'),
+            'answers' => array_column($questionsWithAnswers, 'answers'),
+        ]);
+    }
+
+    public function showQuestionLevelFour(): View
+    {
+        $questionsWithAnswers = $this->generateQuestionsWithAnswers();
+        return view('frontend.content.mock.question-levels.level4', [
+            'questions' => array_column($questionsWithAnswers, 'question'),
+            'answers' => array_column($questionsWithAnswers, 'answers'),
+        ]);
     }
 
     public function showOrganizationDashboard(): View

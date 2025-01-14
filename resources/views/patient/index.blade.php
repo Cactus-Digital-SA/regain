@@ -18,7 +18,7 @@
 
 @include('frontend.content.mock.includes.navbar')
 
-<div class="dob-container">
+<div class="dob-container-questions">
     @if ($presenter->isCompleted())
         <div class="container py-5 my-4">
             <div class="question m-5">

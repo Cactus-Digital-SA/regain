@@ -1,14 +1,16 @@
+<link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" rel="stylesheet">
+
 <div class="header">
     <div class="logo">
         <img src="{{ Vite::asset('resources/images/logo/regain-logo.svg') }}" alt="Regain Logo" class="logo-image">
     </div>
     <div class="menu">
-        <a href="{{route('mock.regain-info')}}">Regain</a>
-        <a href="#"><i class="ti ti-user"></i> MyRegain</a>
-        <a href="#"><i class="ti ti-heart"></i> Community</a>
-        <a href="#"><i class="ti ti-settings"></i> Settings</a>
+        <a href="{{route('mock.regain-info')}}"> Regain</a>
+        <a href="#"><i class="ti ti-user-filled"></i> MyRegain</a>
+        <a href="#"><i class="ti ti-heart-filled"></i> Community</a>
+        <a href="#"><i class="ti ti-settings-filled"></i> Settings</a>
         <a href="#"><i class="ti ti-question-mark"></i> Help</a>
-        <a href="#"><i class="ti ti-question-logout"></i> Logout</a>
+        <a href="#"><i class="ti ti-logout"></i> Logout</a>
     </div>
     <div class="language-toggle">
         <div class="language-letters" style="cursor: pointer">UKR | <strong>ENG</strong> | RUS</div>
@@ -27,7 +29,7 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        var currentRoute = "{{ Route::currentRouteName() }}";
+        var currentRoute = "{{ Route::currentRouteName() }}"; // Used for certain pages that might not have the video background
 
         const toggleSwitch = document.getElementById('toggle-switch');
         const videoBackground = document.querySelector('.video-background');
@@ -61,11 +63,14 @@
 
         if (isActive) {
             toggleSwitch.classList.add('active');
-            videoBackground.classList.add('d-none');
-            circleBgs.forEach(circleBg => circleBg.classList.remove('d-none'));
+            videoBackground.classList.remove('d-none');
+            videoBackground.play();
+            circleBgs.forEach(circleBg => circleBg.classList.add('d-none'));
         } else {
             toggleSwitch.classList.remove('active');
-            circleBgs.forEach(circleBg => circleBg.classList.add('d-none'));
+            videoBackground.pause();
+            videoBackground.classList.add('d-none');
+            circleBgs.forEach(circleBg => circleBg.classList.remove('d-none'));
         }
 
         let interval = null;
@@ -78,10 +83,8 @@
                 videoBackground.pause();
                 clearInterval(interval);
 
-                if (currentRoute === 'mock.regain-info') {
-                    circleBgs.forEach(circleBg => circleBg.classList.remove('d-none'));
-                    videoBackground.classList.add('d-none');
-                }
+                circleBgs.forEach(circleBg => circleBg.classList.remove('d-none'));
+                videoBackground.classList.add('d-none');
             }
         }
 
@@ -106,11 +109,11 @@
 
             clearInterval(interval);
             if (isActive) {
-                interval = setInterval(smoothPause, 50);
-            } else {
                 videoBackground.play();
                 videoBackground.playbackRate = 0.5;
                 interval = setInterval(smoothPlay, 50);
+            } else {
+                interval = setInterval(smoothPause, 50);
             }
         });
     });

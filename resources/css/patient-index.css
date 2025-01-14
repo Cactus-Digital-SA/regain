@@ -1,3 +1,14 @@
+.dob-container-questions {
+    border-radius: 4rem;
+    flex-direction: column;
+    margin: 6.25rem auto;
+    width: 80%;
+    min-width: 62rem;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    box-shadow: 0 4px 4px 0 #00000040;
+}
+
 .grid-layout {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 0.2fr));

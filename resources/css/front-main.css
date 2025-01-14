@@ -1,6 +1,6 @@
 
 body {
-    background-color: #f8f8f8;
+    background-color: rgba(241, 237, 233, 1);
     font-family: "Inter Semi Bold", sans-serif;
     display: flex;
     flex-direction: column;
@@ -29,7 +29,6 @@ body {
     padding: 30px;
     box-shadow: 0 4px 4px 0 #00000040;
 }
-
 
 .dob-title {
     font-size: 1.4rem;
@@ -101,16 +100,13 @@ body {
     .language-toggle{
         display: none;
     }
+
     .dob-container {
-        border-radius: 4rem;
-        flex-direction: column;
         margin: 6.25rem auto;
         width: 80%;
         min-width: unset !important;
-        background-color: rgba(255, 255, 255, 0.9);
-        padding: 30px;
-        box-shadow: 0 4px 4px 0 #00000040;
     }
+
     .logo-image{
         width: 100px;
         height: 100px;
