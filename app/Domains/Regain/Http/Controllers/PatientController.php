@@ -44,8 +44,9 @@ class PatientController extends Controller
     public function practitioners()
     {
         $columns = $this->practitionersService->getTableColumns();
+        $regions = $this->regionService->get();
 
-        return view('organization.practitioners', compact('columns'));
+        return view('organization.practitioners', compact('columns', 'regions'));
     }
 
     public function createPatientPage(Request $request, int $page): View

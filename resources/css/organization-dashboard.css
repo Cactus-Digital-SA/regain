@@ -46,6 +46,12 @@ body{
 .dropdown-container .dropdown-menu {
     border-radius: 0.5rem;
     border: 1px solid #d7dae0;
+
+}
+
+.dropdown-menu {
+    overflow-y: auto;
+    max-height: 300px;
 }
 
 .dropdown-container .dropdown-menu .dropdown-item {

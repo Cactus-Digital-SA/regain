@@ -102,6 +102,10 @@ body {
     text-decoration-skip-ink: none;
 }
 
+.nav-link:focus, .nav-link:hover{
+    color: #0007 !important;
+}
+
 .nav-link.active {
     color: #000 !important;
     font-weight: bold !important;
@@ -331,7 +335,7 @@ body {
 }
 
 td:last-child {
-    text-align: center;
+    text-align: left;
 }
 
 .general-datatable thead {
@@ -378,6 +382,10 @@ td:last-child {
 }
 
 /*Pagination styling */
+.page-link {
+    font-size: 13px !important;
+}
+
 .dataTables_paginate .pagination .page-item .page-link {
     border-radius: 20px;
     border: 1px solid #ddd;

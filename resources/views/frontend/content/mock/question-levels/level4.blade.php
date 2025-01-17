@@ -118,8 +118,6 @@
 
         .noUi-pips-horizontal {
             width: 102%;
-            text-wrap: wrap;
-            white-space: normal;
         }
 
         .noUi-value.highlighted {

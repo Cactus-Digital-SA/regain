@@ -196,7 +196,7 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
     public function getTableColumns(): array
     {
         return [
-            'id' => ['name' => 'id', 'table' => 'patient_data.id', 'searchable' => 'false', 'sortable' => 'true'],
+            'id' => ['name' => 'Patient ID', 'table' => 'patient_data.id', 'searchable' => 'false', 'sortable' => 'true'],
 
             'name'       => ['name' => 'Patient Name', 'table' => 'users.name', 'searchable' => 'false', 'sortable' => 'false'],
             'registered' => ['name' => 'Registered', 'table' => 'users.created_at', 'searchable' => 'false', 'sortable' => 'false'],

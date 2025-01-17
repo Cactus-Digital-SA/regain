@@ -79,17 +79,17 @@
                                            aria-controls="v-pills-practitioner-directory" aria-selected="false">
                                             <i class="ti ti-user-screen me-2"></i> Practitioner Directory
                                         </a>
-                                        <a class="nav-link text-left" id="v-pills-calendar-tab" data-bs-toggle="pill"
+                                        <a class="nav-link text-left disabled" id="v-pills-calendar-tab" data-bs-toggle="pill"
                                            data-bs-target="#v-pills-calendar" type="button" role="tab"
                                            aria-controls="v-pills-calendar" aria-selected="false">
                                             <i class="ti ti-calendar me-2"></i> Calendar
                                         </a>
-                                        <a class="nav-link text-left" id="v-pills-settings-tab" data-bs-toggle="pill"
+                                        <a class="nav-link text-left disabled" id="v-pills-settings-tab" data-bs-toggle="pill"
                                            data-bs-target="#v-pills-settings" type="button" role="tab"
                                            aria-controls="v-pills-settings" aria-selected="false">
                                             <i class="ti ti-settings me-2"></i> Settings
                                         </a>
-                                        <a class="nav-link text-left" id="v-pills-help-tab" data-bs-toggle="pill"
+                                        <a class="nav-link text-left disabled" id="v-pills-help-tab" data-bs-toggle="pill"
                                            data-bs-target="#v-pills-help" type="button" role="tab"
                                            aria-controls="v-pills-help" aria-selected="false">
                                             <i class="ti ti-help me-2"></i> Help Center
@@ -185,7 +185,7 @@
                                     </select>
                                     <select class="dropdown-select mt-3" name="year">
                                         <option value="">Filter by year</option>
-                                        @for ($i = date('Y'); $i >= 1900; $i--)
+                                        @for ($i = date('Y'); $i >= 2020; $i--)
                                             <option value="{{ $i }}">{{ $i }}</option>
                                         @endfor
                                     </select>
@@ -204,17 +204,17 @@
                             </span>
                             </div>
 
-                            <div class="dropdown-container flex-grow-1">
-                                <button
-                                    class="filter-dropdown-btn rounded-pill w-100 text-start d-flex justify-content-between align-items-center"
-                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Description <i class="ti ti-chevron-down"></i>
-                                </button>
-                                <ul class="dropdown-menu w-100">
-                                    <li><a class="dropdown-item" href="#">Option 1</a></li>
-                                    <li><a class="dropdown-item" href="#">Option 2</a></li>
-                                </ul>
-                            </div>
+{{--                            <div class="dropdown-container flex-grow-1">--}}
+{{--                                <button--}}
+{{--                                    class="filter-dropdown-btn rounded-pill w-100 text-start d-flex justify-content-between align-items-center"--}}
+{{--                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">--}}
+{{--                                    Description <i class="ti ti-chevron-down"></i>--}}
+{{--                                </button>--}}
+{{--                                <ul class="dropdown-menu w-100">--}}
+{{--                                    <li><a class="dropdown-item" href="#">Option 1</a></li>--}}
+{{--                                    <li><a class="dropdown-item" href="#">Option 2</a></li>--}}
+{{--                                </ul>--}}
+{{--                            </div>--}}
 
                             <div class="dropdown-container flex-grow-1">
                                 <button
@@ -223,8 +223,9 @@
                                     Region <i class="ti ti-chevron-down"></i>
                                 </button>
                                 <ul class="dropdown-menu w-100">
-                                    <li><a class="dropdown-item" href="#">Region 1</a></li>
-                                    <li><a class="dropdown-item" href="#">Region 2</a></li>
+                                    @foreach($regions as $region)
+                                        <li><a class="dropdown-item" href="#">{{ $region->getName() }}</a></li>
+                                    @endforeach
                                 </ul>
                             </div>
 
@@ -235,8 +236,9 @@
                                     Status <i class="ti ti-chevron-down"></i>
                                 </button>
                                 <ul class="dropdown-menu w-100">
-                                    <li><a class="dropdown-item" href="#">Active</a></li>
-                                    <li><a class="dropdown-item" href="#">Inactive</a></li>
+                                    @foreach(\App\Domains\Patient\Enums\StatusEnum::array() as $key => $value)
+                                        <li><a class="dropdown-item" href="#">{{ $value }}</a></li>
+                                    @endforeach
                                 </ul>
                             </div>
 
@@ -279,14 +281,14 @@
                                                 <table
                                                     class="table patients-datatable general-datatable dt-select-table w-100">
                                                     <thead>
-                                                    <tr class="text-center">
+                                                    <tr class="text-leftt">
                                                         @foreach($columns as $column)
-                                                            <th class="text-center"> {{ __($column['name']) }}</th>
+                                                            <th class="text-left"> {{ __($column['name']) }}</th>
                                                         @endforeach
-                                                        <th class="text-center">{{ __('Actions') }}</th>
+                                                        <th class="text-left">{{ __('Actions') }}</th>
                                                     </tr>
                                                     </thead>
-                                                    <tbody class="text-center">
+                                                    <tbody class="text-left">
 
                                                     </tbody>
                                                 </table>

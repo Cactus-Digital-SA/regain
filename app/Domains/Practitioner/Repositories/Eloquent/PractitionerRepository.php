@@ -55,7 +55,7 @@ class PractitionerRepository implements PractitionerRepositoryInterface
     {
         return [
             'id'         => [
-                'name'       => 'id',
+                'name'       => 'Practitioner ID',
                 'table'      => 'practitioners.id',
                 'searchable' => 'false',
                 'sortable'   => 'true'
