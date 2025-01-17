@@ -57,7 +57,7 @@ Route::group([
     'as'         => 'practitioner.',
     'middleware' => ['role.practitioner', 'auth'],
 ], function () {
-    Route::get('/', [PractitionerController::class, 'index'])->name('home');
+    Route::get('/', [PractitionerController::class, 'patients'])->name('home');
     Route::get('/patients', [PractitionerController::class, 'patients'])->name('patients');
     Route::get('/patients/table', [PractitionerController::class, 'datatable'])->name('datatable');
     Route::get('/patients/{userId}', [PractitionerController::class, 'patient'])->name('patient');

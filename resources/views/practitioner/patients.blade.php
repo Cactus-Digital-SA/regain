@@ -71,13 +71,13 @@
                                            aria-controls="v-pills-patient-directory" aria-selected="true">
                                             <i class="ti ti-man-filled me-2"></i> Patients
                                         </a>
-                                        <a class="nav-link text-left" id="v-pills-calendar-tab"
+                                        <a class="nav-link text-left disabled" id="v-pills-calendar-tab"
                                            type="button" role="tab"
                                            href="{{route("practitioner.home")}}"
                                            aria-controls="v-pills-calendar" aria-selected="false">
                                             <i class="ti ti-calendar me-2"></i> Calendar
                                         </a>
-                                        <a class="nav-link text-left" id="v-pills-help-tab" data-bs-toggle="pill"
+                                        <a class="nav-link text-left disabled" id="v-pills-help-tab" data-bs-toggle="pill"
                                            data-bs-target="#v-pills-help" type="button" role="tab"
                                            aria-controls="v-pills-help" aria-selected="false">
                                             <i class="ti ti-help me-2"></i> Help Center
@@ -153,7 +153,7 @@
                                     <div class="card" style="border-radius: 20px">
                                         <div class="card-body px-xl-5 px-2">
                                             <h5 class="card-title mb-0" style="color: rgba(40, 199, 111, 1)">74%</h5>
-                                            <span class="card-subtitle text-muted">Patient Satisfaction</span>
+                                            <span class="card-subtitle text-muted">Capacity</span>
                                         </div>
                                     </div>
                                 </div>
@@ -166,7 +166,7 @@
                                     </select>
                                     <select class="dropdown-select mt-3" name="year">
                                         <option value="">Filter by year</option>
-                                        @for ($i = date('Y'); $i >= 1900; $i--)
+                                        @for ($i = date('Y'); $i >= 2020; $i--)
                                             <option value="{{ $i }}">{{ $i }}</option>
                                         @endfor
                                     </select>

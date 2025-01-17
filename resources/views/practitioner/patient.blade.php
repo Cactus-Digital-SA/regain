@@ -90,7 +90,7 @@
                                            aria-controls="v-pills-calendar" aria-selected="false">
                                             <i class="ti ti-calendar me-2"></i> Calendar
                                         </a>
-                                        <a class="nav-link text-left" id="v-pills-help-tab" data-bs-toggle="pill"
+                                        <a class="nav-link text-left disabled" id="v-pills-help-tab" data-bs-toggle="pill"
                                            data-bs-target="#v-pills-help" type="button" role="tab"
                                            aria-controls="v-pills-help" aria-selected="false">
                                             <i class="ti ti-help me-2"></i> Help Center

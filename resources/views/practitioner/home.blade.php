@@ -72,7 +72,7 @@
                                            aria-controls="v-pills-calendar" aria-selected="true">
                                             <i class="ti ti-calendar me-2"></i> Calendar
                                         </a>
-                                        <a class="nav-link text-left" id="v-pills-help-tab" data-bs-toggle="pill"
+                                        <a class="nav-link text-left disabled" id="v-pills-help-tab" data-bs-toggle="pill"
                                            data-bs-target="#v-pills-help" type="button" role="tab"
                                            aria-controls="v-pills-help" aria-selected="false">
                                             <i class="ti ti-help me-2"></i> Help Center
@@ -163,7 +163,7 @@
                                     </select>
                                     <select class="dropdown-select mt-3" name="year">
                                         <option value="">Filter by year</option>
-                                        @for ($i = date('Y'); $i >= 1900; $i--)
+                                        @for ($i = date('Y'); $i >= 2020; $i--)
                                             <option value="{{ $i }}">{{ $i }}</option>
                                         @endfor
                                     </select>

@@ -285,6 +285,11 @@ body {
     min-height: 45px;
 }
 
+/*remove when needed*/
+.notification-count-patient {
+    display: none !important;
+}
+
 .practitioner-directory-tab, .patient-directory-tab{
     text-wrap: nowrap;
 }

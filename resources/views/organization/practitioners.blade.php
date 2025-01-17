@@ -21,12 +21,8 @@
     @vite(['resources/css/organization-dashboard.css', 'resources/css/dashboard-common.css'])
 </head>
 <body>
-@include('frontend.content.mock.dashboards.organization.includes.new-patient-registration-modal')
-@include('frontend.content.mock.dashboards.organization.includes.new-patient-registration-second-modal')
-
-@include('frontend.content.mock.dashboards.includes.success-modal-regain')
 @include('backend.components.delete_modal')
-
+@include('organization.includes.create-patient-common')
 <div class="wrapper">
     <div class="container">
         <div class="row h-100 p-4">
@@ -40,11 +36,8 @@
                         <div>
                             <div class="row">
                                 <div class="my-1 my-lg-5">
-                                    <a class="nav-link text-left" id="v-pills-patient-registration-tab"
-                                       aria-controls="v-pills-patient-registration"
-                                       type="button" data-bs-toggle="modal"
-                                       data-bs-target="#newPatientRegistration"
-                                       aria-selected="true" style="color:#000; font-weight:bold;">
+                                    <a class="nav-link text-left" id="register"
+                                       type="button" style="color:#000; font-weight:bold;">
                                         Patient Registration
                                     </a>
                                     <a class="nav-link text-left mt-1 mt-sm-3" id="v-pills-add-practitioner-tab"
@@ -386,5 +379,6 @@
         }
     });
 </script>
+@include('organization.includes.organization-common-script')
 </body>
 </html>
