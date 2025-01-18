@@ -143,7 +143,7 @@
 
         <div class="d-flex justify-content-center">
             <form id="submit-form">
-                <button type="button" class="btn btn-primary mt-3" id="next-button" disabled>Next</button>
+                <button type="button" class="btn btn-primary mt-3" id="next-button">Next</button>
             </form>
         </div>
     @endif
@@ -156,14 +156,16 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const questions = @json(array_map(function ($question) {
-            return array_map(function ($response) {
-                return $response->getTitle(); // Access the title via the `getTitle()` method
-            }, $question->getResponses()); // Get the responses for each question
-        }, $presenter->getQuestions()));
+        return array_map(function ($response) {
+            return $response->getTitle();
+        }, $question->getResponses());
+    }, $presenter->getQuestions()));
 
-        // Initialize sliders for each question
+        const sliderValues = {}; // Object to track the slider values by questionId
+
         questions.forEach((responses, index) => {
             const sliderElement = document.getElementById(`slider-${index}`);
+            const questionId = parseInt(sliderElement.closest('.collect-question').dataset.questionId);
 
             noUiSlider.create(sliderElement, {
                 start: [0],
@@ -183,13 +185,17 @@
                 }
             });
 
+            sliderValues[questionId] = 0;
+
             let isSnapping = false;
 
+            // Snapping
             sliderElement.noUiSlider.on('set', function (values, handle) {
                 if (isSnapping) return;
                 isSnapping = true;
                 const snappedValue = Math.round(values[handle]);
                 sliderElement.noUiSlider.set(snappedValue);
+                sliderValues[questionId] = snappedValue; // Update value for question
                 isSnapping = false;
             });
 
@@ -198,6 +204,47 @@
                 document.querySelectorAll(`#slider-${index} .noUi-value`).forEach((pip, i) => {
                     pip.classList.toggle('highlighted', i === answerIndex);
                 });
+            });
+        });
+
+        const nextButton = document.getElementById('next-button');
+        const overlay = document.getElementById('overlay');
+
+        nextButton.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            // Generation of json data
+            const selectedResponsesFinal = Object.keys(sliderValues).map(questionId => ({
+                questionId: parseInt(questionId),
+                responses: [sliderValues[questionId]]
+            }));
+
+            // console.log(JSON.stringify({ questions: selectedResponsesFinal }, null, 2));
+
+            // Clear old json data, display new
+            let jsonOutputDiv = document.getElementById('json-output');
+            if (!jsonOutputDiv) {
+                jsonOutputDiv = document.createElement('div');
+                jsonOutputDiv.id = 'json-output';
+                jsonOutputDiv.style.whiteSpace = 'pre-wrap';
+                jsonOutputDiv.style.backgroundColor = '#f8f9fa';
+                jsonOutputDiv.style.padding = '15px';
+                jsonOutputDiv.style.marginTop = '15px';
+                jsonOutputDiv.style.border = '1px solid #ced4da';
+                jsonOutputDiv.style.borderRadius = '5px';
+                nextButton.insertAdjacentElement('afterend', jsonOutputDiv);
+            }
+
+            // New json output data
+            jsonOutputDiv.textContent = JSON.stringify({ questions: selectedResponsesFinal }, null, 2);
+
+            // Reset the sliders
+            Object.keys(sliderValues).forEach(questionId => {
+                const sliderElement = document.querySelector(
+                    `.collect-question[data-question-id="${questionId}"] .slider`
+                );
+                sliderElement.noUiSlider.set(0);
+                sliderValues[questionId] = 0;
             });
         });
     });
