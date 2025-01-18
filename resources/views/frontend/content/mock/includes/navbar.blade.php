@@ -5,12 +5,15 @@
         <img src="{{ Vite::asset('resources/images/logo/regain-logo.svg') }}" alt="Regain Logo" class="logo-image">
     </div>
     <div class="menu">
-        <a href="{{route('mock.regain-info')}}"> Regain</a>
-        <a href="#"><i class="ti ti-user-filled"></i> MyRegain</a>
-        <a href="#"><i class="ti ti-heart-filled"></i> Community</a>
-        <a href="#"><i class="ti ti-settings-filled"></i> Settings</a>
-        <a href="#"><i class="ti ti-question-mark"></i> Help</a>
-        <a href="#"><i class="ti ti-logout"></i> Logout</a>
+        <a href="{{route('mock.regain-info')}}" style="margin: auto"> Regain</a>
+        <a href="{{route('mock.email')}}" style="margin: auto"><i class="ti ti-user-filled"></i> MyRegain</a>
+        <a href="{{route('mock.community')}}" style="margin: auto"><i class="ti ti-heart-filled"></i> Community</a>
+        <a href="#" style="margin: auto"><i class="ti ti-settings-filled"></i> Settings</a>
+        <a href="{{route('mock.help-center')}}" style="margin: auto"><i class="ti ti-question-mark"></i> Help</a>
+        <form action="{{ route('logout') }}" method="POST" class="d-inline">
+            @csrf
+            <button type="submit" class="btn btn-link text-decoration-none"><i class="ti ti-logout"></i> Logout</button>
+        </form>
     </div>
     <div class="language-toggle">
         <div class="language-letters" style="cursor: pointer">UKR | <strong>ENG</strong> | RUS</div>

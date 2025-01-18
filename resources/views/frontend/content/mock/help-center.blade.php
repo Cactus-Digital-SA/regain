@@ -31,14 +31,14 @@
             <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingOne">
-                        <button type="button" class="accordion-button" data-bs-toggle="collapse" data-bs-target="#accordionOne" aria-expanded="true" aria-controls="accordionOne" role="tabpanel">
+                        <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordionOne" aria-expanded="true" aria-controls="accordionOne" role="tabpanel">
                             <div class="accordion-text">
                                 <span>Language</span>
                                 <small>How can I change the language?</small>
                             </div>
                         </button>
                     </h2>
-                    <div id="accordionOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                    <div id="accordionOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
                             How can I change the language?
                         </div>
@@ -76,14 +76,14 @@
                 </div>
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingFour">
-                        <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordionFour" aria-expanded="false" aria-controls="accordionFour" role="tabpanel">
+                        <button type="button" class="accordion-button" data-bs-toggle="collapse" data-bs-target="#accordionFour" aria-expanded="false" aria-controls="accordionFour" role="tabpanel">
                             <div class="accordion-text">
                                 <span>Report Issue</span>
                                 <small>Contact us</small>
                             </div>
                         </button>
                     </h2>
-                    <div id="accordionFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                    <div id="accordionFour" class="accordion-collapse collapse show" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
                             Lovibond, P. F., & Lovibond, S. H. (1995). The structure of negative emotional states: Comparison of the Depression Anxiety Stress Scales (DASS) with the Beck Depression and Anxiety Inventories. Behaviour Research and Therapy, 33(3), 335-343.
                             <br><br>

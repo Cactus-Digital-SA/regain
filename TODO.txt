@@ -13,18 +13,15 @@ General:
 
 
 ---------------------------------------------FRONTEND-----------------------------------------------------------------------------------------------------------
-FrontEnd Questions:
-    • Questions page refine discussion? (NEEDS DISCUSSION) // TODO DISCUSSION
-    • Gender Page Implementation? // TODO DISCUSSION
-
 FrontEnd Pending:
-    • New question pages mocks
-    • Add Icons to the navbar header menu
+// Check the other pages from navbar
 
 FrontEnd Done:
+    • New question pages mocks // TODO FEEDBACK
     • Help, Contact, ect static pages // TODO FEEDBACK
     • Refine the Dashboards // TODO FEEDBACK
     • Welcome Back login page, general login // TODO mock/login-flow/...
 
     • Report Page (DONE) // TODO FEEDBACK
     • Emails Page (Dashboard) (DONE) // TODO FEEDBACK mock/email/index.blade.php
+    • Add Icons to the navbar header menu
