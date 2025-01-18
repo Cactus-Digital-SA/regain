@@ -14,7 +14,7 @@ General:
 
 ---------------------------------------------FRONTEND-----------------------------------------------------------------------------------------------------------
 FrontEnd Pending:
-// Check the other pages from navbar
+    • New slider questions //TODO continue? route(mock.question.slider-index)
 
 FrontEnd Done:
     • New question pages mocks // TODO FEEDBACK
