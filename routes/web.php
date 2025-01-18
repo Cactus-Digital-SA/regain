@@ -139,6 +139,8 @@ Route::group([
     Route::group([
         'prefix' => 'question',
         'as'     => 'question.',], function () {
+        Route::get('/slider-answers', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'sliderIndex'])->name('slider-index');
+
         Route::get('/level-1', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showQuestionLevelOne'])->name('question-level-1');
         Route::get('/level-2', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showQuestionLevelTwo'])->name('question-level-2');
         Route::get('/level-3', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showQuestionLevelThree'])->name('question-level-3');
@@ -159,6 +161,6 @@ Route::group([
     Route::get('practitioner/dashboard/export-pdf/three', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'previewThreeBarReport']);
     Route::get('practitioner/dashboard/export-pdf/four', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'previewFourBarReport']);
     Route::get('dashboard/login', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showLoginDashboard'])->name('login-dashboard');
-    Route::get('email', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showEmail'])->name('login-dashboard');
+    Route::get('email', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showEmail'])->name('email');
 
 });

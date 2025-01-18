@@ -3,16 +3,18 @@
 namespace App\Domains\MockFront\Http\Controllers;
 
 use App\Domains\Patient\Services\PatientDataService;
+use App\Domains\Questions\Services\QuestionsService;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Faker\Factory as Faker;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
 
 class MockFrontController extends  Controller
 {
-    public function __construct(private PatientDataService $patientDataService)
+    public function __construct(private PatientDataService $patientDataService, private QuestionsService $questionsService,)
     {
 
     }
@@ -296,5 +298,14 @@ class MockFrontController extends  Controller
     public function showFlowWelcomeBack(): View
     {
         return view('frontend.content.mock.login-flow.welcome-back');
+    }
+
+    public function sliderIndex(): \Illuminate\View\View
+    {
+        $presenter = $this->questionsService->fetchQuestionsAlt(Auth::id(), 10);
+
+        return view('patient.index-alt')->with(
+            ["presenter" => $presenter]
+        );
     }
 }
