@@ -15,11 +15,33 @@ class RegionsSeeder extends Seeder
     public function run(): void
     {
         $regions = [
-            'Cherkasy', 'Chernihiv', 'Chernivtsi', 'Dnipropetrovsk', 'Donetsk',
-            'Ivano-Frankivsk', 'Kharkiv', 'Kherson', 'Khmelnitskyi', 'Kirovohrad',
-            'Kyiv', 'Luhansk', 'Lviv', 'Mykolaiv', 'Odessa',
-            'Poltava', 'Rivne', 'Sumy', 'Ternopil', 'Vinnytsia',
-            'Volyn', 'Zakarpattia', 'Zaporizhzhia', 'Zhytomyr'
+            'Avtonomna Respublika Krym',
+            'Cherkaska Oblast',
+            'Chernihivska Oblast',
+            'Chernivetska Oblast',
+            'Dnipropetrovska Oblast',
+            'Donetska Oblast',
+            'Ivano - Frankivska Oblast',
+            'Kharkivska Oblast',
+            'Khersonska Oblast',
+            'Khmelnytska Oblast',
+            'Kirovohradska Oblast',
+            'Kyivska Oblast',
+            'Luhanska Oblast',
+            'Lvivska Oblast',
+            'Misto Kyiv',
+            'Misto Sevastopol',
+            'Mykolaivska Oblast',
+            'Odeska Oblast',
+            'Poltavska Oblast',
+            'Rivnenska Oblast',
+            'Sumska Oblast',
+            'Ternopilska Oblast',
+            'Vinnytska Oblast',
+            'Volynska Oblast',
+            'Zakarpatska Oblast',
+            'Zaporizka Oblast',
+            'Zhytomyrska Oblast',
         ];
 
         foreach ($regions as $region) {

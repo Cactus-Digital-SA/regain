@@ -150,7 +150,9 @@ readonly class ReportsController
         // Check if the file already exists
         $filePath = $this->reportService->getFilePath(Auth::id(), $userId, $testId);
         if (($filePath !== null) && Storage::exists($filePath)) {
-            return response()->download(storage_path("app/$filePath"), "report.pdf");
+            return response()->download(storage_path("app/$filePath"), "report.pdf", [
+                'Content-Type' => 'application/pdf',
+            ]);
         }
 
         $result = new ReportTestResult();
@@ -257,6 +259,8 @@ readonly class ReportsController
     {
         $path = $this->reportService->storeFile($result, Auth::id());
 
-        return response()->download(storage_path("app/$path"), "report.pdf");
+        return response()->download(storage_path("app/$path"), "report.pdf", [
+            'Content-Type' => 'application/pdf',
+        ]);
     }
 }

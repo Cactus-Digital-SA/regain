@@ -7,6 +7,7 @@ use App\Domains\Regain\Http\Controllers\PatientController as RegainPatientContro
 use App\Domains\Reports\Http\Controllers\ReportsController;
 use App\Http\Controllers\LanguageController;
 use Illuminate\Support\Facades\Route;
+use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,6 +85,14 @@ Route::group([
     Route::post('/practitioners/table', [RegainPatientController::class, 'practitionersDatatable'])->name('practitioners.datatable');
 });
 
+Route::group(['middleware' => ['guest']], function () {
+    Route::get('/practitioner/login', [AuthenticatedSessionController::class, 'create'])
+         ->name('practitioner.login');
+
+    Route::get('/organization/login', [AuthenticatedSessionController::class, 'create'])
+         ->name('organization.login');
+});
+
 ////2fa fortify
 //Route::post('/2fa-confirm', [TwoFactorAuthController::class, 'confirm'])->name('fortify.two-factor.confirm');
 //
@@ -138,7 +147,8 @@ Route::group([
     //Question levels
     Route::group([
         'prefix' => 'question',
-        'as'     => 'question.',], function () {
+        'as'     => 'question.',
+    ], function () {
         Route::get('/slider-answers', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'sliderIndex'])->name('slider-index');
 
         Route::get('/level-1', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showQuestionLevelOne'])->name('question-level-1');
@@ -153,7 +163,6 @@ Route::group([
     Route::get('flow/info-second', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showFlowInfoSecond'])->name('info-flow');
     Route::get('flow/welcome-back', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showFlowWelcomeBack'])->name('welcome-back-flow');
 
-
 //    Dashboards
     Route::get('organization/dashboard', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showOrganizationDashboard'])->name('organization-dashboard');
     Route::get('practitioner/dashboard', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showPractitionerDashboard'])->name('practitioner-dashboard');
@@ -162,5 +171,4 @@ Route::group([
     Route::get('practitioner/dashboard/export-pdf/four', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'previewFourBarReport']);
     Route::get('dashboard/login', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showLoginDashboard'])->name('login-dashboard');
     Route::get('email', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showEmail'])->name('email');
-
 });

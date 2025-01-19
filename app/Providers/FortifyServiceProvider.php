@@ -46,7 +46,25 @@ class FortifyServiceProvider extends ServiceProvider
             return new ReallyDisableTwoFactorAuthentication();
         });
 
+//        Fortify::loginView(function () {
+//            return view('frontend.auth.login');
+//        });
         Fortify::loginView(function () {
+            $routeName = request()->route()?->getName();
+
+            if ($routeName === 'patient.login') {
+                return view('frontend.auth.login-patient');
+            }
+
+            if ($routeName === 'practitioner.login') {
+                return view('frontend.auth.login-practitioner');
+            }
+
+            if ($routeName === 'organization.login') {
+                return view('frontend.auth.login-organization');
+            }
+
+            // Default view
             return view('frontend.auth.login');
         });
 

@@ -4,7 +4,7 @@
     * @var Region[] $regions
     */
 @endphp
-    <!DOCTYPE html>
+        <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -125,13 +125,14 @@
                                 <div class="nav-buttons col-auto">
                                     <button type="button" class="btn btn-success navbar-button" data-bs-toggle="modal"
                                             data-bs-target=""><i
-                                            class="ti ti-plus"></i> Add Practitioner
+                                                class="ti ti-plus"></i> Add Practitioner
                                     </button>
                                     <button href="#" class="ms-3 btn btn-lg notification-button rounded-pill "
                                             data-bs-toggle="tooltip" data-bs-placement="bottom"
                                             title="Notifications">
                                         <div
-                                            class="notification-count"><span class="notification-span">3</span></div>
+                                                class="notification-count"><span class="notification-span">3</span>
+                                        </div>
                                         <i class="ti ti-bell"></i></button>
                                     <button href="#" class="btn btn-lg profile-button rounded-pill "
                                             data-bs-toggle="tooltip"
@@ -188,7 +189,7 @@
                     </div>
                     <div class="filter-table">
                         <div
-                            class="filters-container mb-0 d-flex align-items-center justify-content-center flex-wrap gap-3">
+                                class="filters-container mb-0 d-flex align-items-center justify-content-center flex-wrap gap-3">
                             <div class="search-container position-relative d-flex align-items-center flex-grow-1">
                                 <input type="text" class="form-control filter-input rounded-pill px-3"
                                        placeholder="Search by Name, ID" style="padding-right: 40px; width:100%;">
@@ -197,22 +198,22 @@
                             </span>
                             </div>
 
-{{--                            <div class="dropdown-container flex-grow-1">--}}
-{{--                                <button--}}
-{{--                                    class="filter-dropdown-btn rounded-pill w-100 text-start d-flex justify-content-between align-items-center"--}}
-{{--                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">--}}
-{{--                                    Description <i class="ti ti-chevron-down"></i>--}}
-{{--                                </button>--}}
-{{--                                <ul class="dropdown-menu w-100">--}}
-{{--                                    <li><a class="dropdown-item" href="#">Option 1</a></li>--}}
-{{--                                    <li><a class="dropdown-item" href="#">Option 2</a></li>--}}
-{{--                                </ul>--}}
-{{--                            </div>--}}
+                            {{--                            <div class="dropdown-container flex-grow-1">--}}
+                            {{--                                <button--}}
+                            {{--                                    class="filter-dropdown-btn rounded-pill w-100 text-start d-flex justify-content-between align-items-center"--}}
+                            {{--                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">--}}
+                            {{--                                    Description <i class="ti ti-chevron-down"></i>--}}
+                            {{--                                </button>--}}
+                            {{--                                <ul class="dropdown-menu w-100">--}}
+                            {{--                                    <li><a class="dropdown-item" href="#">Option 1</a></li>--}}
+                            {{--                                    <li><a class="dropdown-item" href="#">Option 2</a></li>--}}
+                            {{--                                </ul>--}}
+                            {{--                            </div>--}}
 
                             <div class="dropdown-container flex-grow-1">
                                 <button
-                                    class="filter-dropdown-btn rounded-pill w-100 text-start d-flex justify-content-between align-items-center"
-                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        class="filter-dropdown-btn rounded-pill w-100 text-start d-flex justify-content-between align-items-center"
+                                        type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Region <i class="ti ti-chevron-down"></i>
                                 </button>
                                 <ul class="dropdown-menu w-100">
@@ -224,8 +225,8 @@
 
                             <div class="dropdown-container flex-grow-1">
                                 <button
-                                    class="filter-dropdown-btn rounded-pill w-100 text-start d-flex justify-content-between align-items-center"
-                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        class="filter-dropdown-btn rounded-pill w-100 text-start d-flex justify-content-between align-items-center"
+                                        type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Status <i class="ti ti-chevron-down"></i>
                                 </button>
                                 <ul class="dropdown-menu w-100">
@@ -272,7 +273,7 @@
                                         <section id="column-selectors">
                                             <div class="table-responsive" style="border-top-left-radius: 0; border-top-right-radius: 0;">
                                                 <table
-                                                    class="table patients-datatable general-datatable dt-select-table w-100">
+                                                        class="table patients-datatable general-datatable dt-select-table w-100">
                                                     <thead>
                                                     <tr class="text-leftt">
                                                         @foreach($columns as $column)
@@ -361,6 +362,10 @@
                         $('.dataTables_paginate > .pagination').addClass('pagination-rounded');
 
                         var pagination = $('.dataTables_paginate').detach();
+                        if (pagination.length > 1) {
+                            pagination = pagination.slice(1, 1);
+                        }
+
                         $('.card-footer').append(pagination);
                     }
                 });
@@ -408,7 +413,6 @@
     $(function () {
         initializeDT()
     });
-
 
 </script>
 @include('organization.includes.organization-common-script')
