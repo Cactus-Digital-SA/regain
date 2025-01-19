@@ -216,9 +216,10 @@
                             <div class="dropdown-container">
                                 <button class="filter-dropdown-btn rounded-pill" type="button" data-bs-toggle="dropdown"
                                         aria-expanded="false">
-                                    10 <i class="ti ti-chevron-down"></i>
+                                    5 <i class="ti ti-chevron-down"></i>
                                 </button>
                                 <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">5</a></li>
                                     <li><a class="dropdown-item" href="#">10</a></li>
                                     <li><a class="dropdown-item" href="#">25</a></li>
                                     <li><a class="dropdown-item" href="#">50</a></li>
@@ -294,6 +295,7 @@
                 let currentFilters = filters;
 
                 let dt_basic = dt_basic_table.DataTable({
+                    pageLength: 5,
                     processing: true,
                     serverSide: true,
                     searching: false,
@@ -332,7 +334,7 @@
                         processing: '',
                     },
                     initComplete: function () {
-                        $('.dataTables_paginate > .pagination').addClass('pagination-rounded');
+                        $('.card-footer .dataTables_paginate').remove();
 
                         var pagination = $('.dataTables_paginate').detach();
                         $('.card-footer').append(pagination);

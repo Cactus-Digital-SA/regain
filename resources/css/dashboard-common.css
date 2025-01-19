@@ -357,6 +357,7 @@ td:last-child {
 }
 .general-datatable tbody tr {
     border-bottom: 1px solid #ECECEC;
+    height: 50px !important;
 }
 .general-datatable tbody td {
     font-size: 14px;

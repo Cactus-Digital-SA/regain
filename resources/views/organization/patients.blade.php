@@ -198,18 +198,6 @@
                             </span>
                             </div>
 
-                            {{--                            <div class="dropdown-container flex-grow-1">--}}
-                            {{--                                <button--}}
-                            {{--                                    class="filter-dropdown-btn rounded-pill w-100 text-start d-flex justify-content-between align-items-center"--}}
-                            {{--                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">--}}
-                            {{--                                    Description <i class="ti ti-chevron-down"></i>--}}
-                            {{--                                </button>--}}
-                            {{--                                <ul class="dropdown-menu w-100">--}}
-                            {{--                                    <li><a class="dropdown-item" href="#">Option 1</a></li>--}}
-                            {{--                                    <li><a class="dropdown-item" href="#">Option 2</a></li>--}}
-                            {{--                                </ul>--}}
-                            {{--                            </div>--}}
-
                             <div class="dropdown-container flex-grow-1">
                                 <button
                                         class="filter-dropdown-btn rounded-pill w-100 text-start d-flex justify-content-between align-items-center"
@@ -239,9 +227,10 @@
                             <div class="dropdown-container">
                                 <button class="filter-dropdown-btn rounded-pill" type="button" data-bs-toggle="dropdown"
                                         aria-expanded="false">
-                                    10 <i class="ti ti-chevron-down"></i>
+                                     5<i class="ti ti-chevron-down"></i>
                                 </button>
                                 <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">5</a></li>
                                     <li><a class="dropdown-item" href="#">10</a></li>
                                     <li><a class="dropdown-item" href="#">25</a></li>
                                     <li><a class="dropdown-item" href="#">50</a></li>
@@ -275,7 +264,7 @@
                                                 <table
                                                         class="table patients-datatable general-datatable dt-select-table w-100">
                                                     <thead>
-                                                    <tr class="text-leftt">
+                                                    <tr class="text-left">
                                                         @foreach($columns as $column)
                                                             <th class="text-left"> {{ __($column['name']) }}</th>
                                                         @endforeach
@@ -305,6 +294,7 @@
 
 <script>
     function initializeDT() {
+
         let dt_basic_table = $('.patients-datatable');
 
         if (dt_basic_table.length) {
@@ -320,6 +310,7 @@
                 let currentFilters = filters;
 
                 let dt_basic = dt_basic_table.DataTable({
+                    pageLength: 5,
                     processing: true,
                     serverSide: true,
                     searching: false,
@@ -359,13 +350,9 @@
                         processing: '',
                     },
                     initComplete: function () {
-                        $('.dataTables_paginate > .pagination').addClass('pagination-rounded');
+                        $('.card-footer .dataTables_paginate').remove();
 
                         var pagination = $('.dataTables_paginate').detach();
-                        if (pagination.length > 1) {
-                            pagination = pagination.slice(1, 1);
-                        }
-
                         $('.card-footer').append(pagination);
                     }
                 });

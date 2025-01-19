@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-cbetween align-items-center border-0 text-center mb-3">
+<div class="d-flex justify-content-between align-items-center border-0 text-center mb-3">
     <h3 class="text-center flex-grow-1" style="color: rgba(10, 19, 58, 1); font-weight: 700; font-size:1.4rem; margin-bottom: 0 !important">
         New Patient Registration
     </h3>
@@ -46,5 +46,4 @@
                 <button type="submit" class="custom-next-btn" id="btn-next">Next</button>
             </div>
         </div>
-    </form>
 </div>

@@ -358,7 +358,7 @@
                         processing: '',
                     },
                     initComplete: function () {
-                        $('.dataTables_paginate > .pagination').addClass('pagination-rounded');
+                        $('.card-footer .dataTables_paginate').remove();
 
                         var pagination = $('.dataTables_paginate').detach();
                         $('.card-footer').append(pagination);
