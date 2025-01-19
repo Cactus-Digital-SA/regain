@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
     var storePatientData = {};
     document.addEventListener('DOMContentLoaded', function () {
@@ -44,6 +46,19 @@
     });
 
     function bootModal() {
+
+        // Flatpickr date picker for birthday
+        flatpickr('#date-of-birthday', {
+            dateFormat: "d/m/Y",
+            defaultDate: "today",
+            maxDate: new Date(),
+            allowInput: false,
+            locale: {
+                firstDayOfWeek: 1,
+                dateFormat: "d-m-Y",
+            },
+        });
+
         let nextButton = document.getElementById('btn-next');
         formFields = document.querySelectorAll('.new-patient-input');
 
