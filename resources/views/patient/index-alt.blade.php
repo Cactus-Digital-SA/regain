@@ -356,7 +356,6 @@
                         }
                     });
 
-                console.log(JSON.stringify({questions: selectedResponsesFinal}));
                 if (selectedResponsesFinal.length > 0) {
 
                     // Send the collected data via JSON
