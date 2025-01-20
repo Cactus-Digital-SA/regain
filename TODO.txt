@@ -15,9 +15,9 @@ General:
 ---------------------------------------------FRONTEND-----------------------------------------------------------------------------------------------------------
 FrontEnd Pending:
     • New slider questions: if more than 6 make the font size of answers smaller or wrap the text
-    • New slider questions: make the answers be clickable and keep the same styling on highlighted like the check boxes answers
 
 FrontEnd Done:
+    • New slider questions: make the answers be clickable (DONE)
     • New question pages mocks // TODO FEEDBACK
     • Help, Contact, ect static pages // TODO FEEDBACK
     • Refine the Dashboards // TODO FEEDBACK
