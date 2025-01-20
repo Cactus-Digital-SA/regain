@@ -14,7 +14,7 @@ General:
 
 ---------------------------------------------FRONTEND-----------------------------------------------------------------------------------------------------------
 FrontEnd Pending:
-    • New slider questions: if more than 6 make the font size of answers smaller or wrap the text
+    • New slider questions: if more than 6 make the font size of answers smaller or wrap the text (Done scale, wrapping weird behavior)
 
 FrontEnd Done:
     • New slider questions: make the answers be clickable (DONE)

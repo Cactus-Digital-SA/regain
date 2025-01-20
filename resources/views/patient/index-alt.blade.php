@@ -241,9 +241,23 @@
             sliderElement.querySelectorAll('.noUi-value').forEach((pip, pipIndex) => {
                 pip.addEventListener('click', () => {
                     sliderElement.noUiSlider.set(pipIndex);
-                    checkboxList.querySelectorAll('input')[pipIndex - 1]?.click();
+
+                    checkboxList.querySelectorAll('input').forEach((checkbox, idx) => {
+                        checkbox.checked = idx === pipIndex - 1; // Adjust for "Select an option"
+                    });
+
+                    sliderValues[questionId] = pipIndex === 0 ? null : pipIndex - 1;
+
+                    updateNextButtonState();
                 });
             });
+
+            if(responses.length >= 7) {
+                sliderElement.querySelectorAll('.noUi-value').forEach(pip => {
+                    pip.style.fontSize = '0.8rem';
+                    pip.style.top = '0';
+                });
+            }
 
             // Update slider when checkbox is clicked
             checkboxList.querySelectorAll('input').forEach((checkbox, idx) => {
