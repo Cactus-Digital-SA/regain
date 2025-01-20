@@ -53,23 +53,17 @@
             background-color: #e0e0e0;
         }
 
-        .slider-background {
-            background-image: linear-gradient(to right, #151b2c, rgba(159, 159, 159, 1));
-            border-radius: 5px;
-            max-height: 4px;
-            position: absolute;
-            z-index: 1;
-            max-width: 800px;
-            width: 100%;
-            height: 100%;
-        }
-
         .noUi-pips .noUi-value {
             font-size: 15px;
             font-weight: 400;
             line-height: 18.15px;
             text-align: center;
             margin-top: 0;
+            cursor: pointer;
+        }
+
+        .noUi-value:hover{
+            color: #757CA0;
         }
 
         .noUi-pips-horizontal {
@@ -77,7 +71,7 @@
         }
 
         .noUi-value.highlighted {
-            color: rgba(61, 0, 215, 1);
+            color: rgba(39, 52, 61, 1);
             font-weight: bold;
         }
 
@@ -139,7 +133,6 @@
                         <div class="question-span-div">
                             <span class="question-span">{{$question->getTitle()}} ({{$question->getInstruction()->getContent()}})</span>
                         </div>
-{{--                        <div class="slider-background"></div>--}}
                         <div class="slider" id="slider-{{ $index }}"></div>
                         <ul class="list-unstyled mt-3 checkbox-list hidden">
                             @foreach ($question->getResponses() as $response)
@@ -242,6 +235,13 @@
                         pip.classList.add('unselected');
                     }
                     pip.classList.toggle('highlighted', idx === valueIndex);
+                });
+            });
+
+            sliderElement.querySelectorAll('.noUi-value').forEach((pip, pipIndex) => {
+                pip.addEventListener('click', () => {
+                    sliderElement.noUiSlider.set(pipIndex);
+                    checkboxList.querySelectorAll('input')[pipIndex - 1]?.click();
                 });
             });
 
