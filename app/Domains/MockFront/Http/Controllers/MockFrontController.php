@@ -3,18 +3,42 @@
 namespace App\Domains\MockFront\Http\Controllers;
 
 use App\Domains\Patient\Services\PatientDataService;
+use App\Domains\Questions\Services\QuestionsService;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Faker\Factory as Faker;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
 
 class MockFrontController extends  Controller
 {
-    public function __construct(private PatientDataService $patientDataService)
+    public function __construct(private PatientDataService $patientDataService, private QuestionsService $questionsService,)
     {
 
+    }
+
+    private function generateQuestionsWithAnswers(int $count = 5): array
+    {
+        $faker = Faker::create('en_US');
+        $likertScale = [
+            'Strongly Disagree',
+            'Disagree',
+            'Neutral',
+            'Agree',
+            'Strongly Agree'
+        ];
+
+        $questionsWithAnswers = [];
+        for ($i = 0; $i < $count; $i++) {
+            $questionsWithAnswers[] = [
+                'question' => $faker->sentence($nbWords = 8),
+                'answers' => $likertScale,
+            ];
+        }
+
+        return $questionsWithAnswers;
     }
 
     /**
@@ -23,6 +47,21 @@ class MockFrontController extends  Controller
     public function showDateOfBirth(): View
     {
         return view('frontend.content.mock.date-of-birth');
+    }
+
+    public function showRegainInfo(): View
+    {
+        return view('frontend.content.mock.regain-info');
+    }
+
+    public function showCommunity(): View
+    {
+        return view('frontend.content.mock.community');
+    }
+
+    public function showHelpCenter(): View
+    {
+        return view('frontend.content.mock.help-center');
     }
 
     /**
@@ -46,20 +85,47 @@ class MockFrontController extends  Controller
 
     public function showDisabilityDisorder(): View
     {
-        $faker = Faker::create('en_US');
-        $likertScale = [
-            'Strongly Disagree',
-            'Disagree',
-            'Neutral',
-            'Agree',
-            'Strongly Agree'
-        ];
-        $questions = [];
-        for ($i = 0; $i <= 4; $i++) {
-            $questions[$i] = $faker->sentence($nbWords = 8);
-            $answers[$i] = $likertScale;
-        }
-        return view('frontend.content.mock.disability-disorder', compact('questions', 'answers'));
+        $questionsWithAnswers = $this->generateQuestionsWithAnswers();
+        return view('frontend.content.mock.disability-disorder', [
+            'questions' => array_column($questionsWithAnswers, 'question'),
+            'answers' => array_column($questionsWithAnswers, 'answers'),
+        ]);
+    }
+
+    public function showQuestionLevelOne(): View
+    {
+        $questionsWithAnswers = $this->generateQuestionsWithAnswers();
+        return view('frontend.content.mock.question-levels.level1', [
+            'questions' => array_column($questionsWithAnswers, 'question'),
+            'answers' => array_column($questionsWithAnswers, 'answers'),
+        ]);
+    }
+
+    public function showQuestionLevelTwo(): View
+    {
+        $questionsWithAnswers = $this->generateQuestionsWithAnswers();
+        return view('frontend.content.mock.question-levels.level2', [
+            'questions' => array_column($questionsWithAnswers, 'question'),
+            'answers' => array_column($questionsWithAnswers, 'answers'),
+        ]);
+    }
+
+    public function showQuestionLevelThree(): View
+    {
+        $questionsWithAnswers = $this->generateQuestionsWithAnswers();
+        return view('frontend.content.mock.question-levels.level3', [
+            'questions' => array_column($questionsWithAnswers, 'question'),
+            'answers' => array_column($questionsWithAnswers, 'answers'),
+        ]);
+    }
+
+    public function showQuestionLevelFour(): View
+    {
+        $questionsWithAnswers = $this->generateQuestionsWithAnswers();
+        return view('frontend.content.mock.question-levels.level4', [
+            'questions' => array_column($questionsWithAnswers, 'question'),
+            'answers' => array_column($questionsWithAnswers, 'answers'),
+        ]);
     }
 
     public function showOrganizationDashboard(): View
@@ -210,5 +276,36 @@ class MockFrontController extends  Controller
     public function showEmail(): View
     {
         return view('frontend.content.mock.email.index');
+    }
+
+
+    //Login Flow
+    public function showFlowLogin(): View
+    {
+        return view('frontend.content.mock.login-flow.login');
+    }
+
+    public function showFlowInfo(): View
+    {
+        return view('frontend.content.mock.login-flow.info');
+    }
+
+    public function showFlowInfoSecond(): View
+    {
+        return view('frontend.content.mock.login-flow.info_second');
+    }
+
+    public function showFlowWelcomeBack(): View
+    {
+        return view('frontend.content.mock.login-flow.welcome-back');
+    }
+
+    public function sliderIndex(): \Illuminate\View\View
+    {
+        $presenter = $this->questionsService->fetchQuestionsAlt(Auth::id(), 10);
+
+        return view('patient.index-alt')->with(
+            ["presenter" => $presenter]
+        );
     }
 }

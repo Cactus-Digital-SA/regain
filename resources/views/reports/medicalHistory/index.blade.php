@@ -11,13 +11,15 @@
     <title>Medical History Report</title>
 
     <style>
+        #medicalHistoryResult{
+            min-width: 1120px;
+        }
         @page {
             size: A4;
             margin: 1in;
         }
 
         body {
-            font-family: Roboto, DejaVu Sans, sans-serif;
             margin: 0;
             padding: 0;
         }
@@ -40,10 +42,7 @@
         }
 
         .title-container {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
+            position: relative;
             text-align: center;
             flex: 1;
             margin: 0 20px;
@@ -69,9 +68,7 @@
             color: #3c3c3c;
             white-space: nowrap;
             text-align: right;
-            position: absolute;
-            top: 0;
-            right: 0;
+            position: relative;
         }
 
         .user-details {

@@ -81,7 +81,7 @@
             </div>
         </div>
         <div class="col-9 col-xxl-10">
-            <div class="right-side">
+            <div class="right-side" style="margin-left: 9px;">
                 <nav class="navbar navbar-expand-lg navbar-light bg-light custom-navbar rounded-3">
                     <div class="container-fluid">
                         <div class="nav-brand">
@@ -134,7 +134,7 @@
                                         <button
                                                 data-bs-toggle="modal" data-bs-target="#preAssessmentReportModal"
 
-                                            class="btn pre-assesment-btn">Pre-Assesment Report</button>
+                                            class="btn pre-assessment-btn">Pre-Assesment Report</button>
                                     </div>
                                 </div>
                             </div>
@@ -213,7 +213,7 @@
                 </div>
                 <div class="card overflow-hidden mb-0 mt-4"
                      style=" border-radius: 20px; height: 100% !important">
-                    <div class="card-body p-0 m-0">
+                    <div class="card-body p-0 m-0 card-table-body">
                         <div class="row">
                             <section id="column-selectors">
                                 <section id="column-selectors">
@@ -224,7 +224,7 @@
                                                 @foreach($columns as $column)
                                                     <th> {{ __($column['name']) }}</th>
                                                 @endforeach
-                                                <th class="text-end">{{ __('Actions') }}</th>
+                                                <th class="text-center">{{ __('Actions') }}</th>
                                             </tr>
                                             </thead>
                                             <tbody class="text-center">
@@ -236,7 +236,7 @@
                             </section>
                         </div>
                     </div>
-                    <div class="card-footer align-items-center d-flex justify-content-between">
+                    <div class="card-footer align-items-center d-flex justify-content-center">
                     </div>
                 </div>
             </div>
@@ -284,7 +284,7 @@
                         {data: 'name', name: 'user.name', searchable: false, orderable: true},
                         {data: 'registered', name: 'users.created_at', searchable: false, orderable: false},
                         {data: 'status', name: 'status', searchable: false, orderable: false},
-                        {data: 'actions', searchable: false, orderable: false, className: 'text-end'},
+                        {data: 'actions', searchable: false, orderable: false, className: 'text-center'},
                     ],
                     columnDefs: [],
                     dom: 't<"d-flex justify-content-between mx-0 row"<"d-flex justify-content-center col-12"i><"d-flex justify-content-center col-12"p>>',

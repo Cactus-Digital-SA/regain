@@ -141,7 +141,22 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
                              return $data?->user?->created_at?->format('d-m-Y') ?? ' - ';
                          })
                          ->editColumn('status', function ($data) {
-                             return $data?->status?->value ?? ' - ';
+                             $statusValue = $data?->status?->value ?? ' - ';
+                             switch ($statusValue) {
+                                 case 'Allocated':
+                                     $labelClass = 'status-pill active';
+                                     break;
+                                 case 'Processing':
+                                     $labelClass = 'status-pill default';
+                                     break;
+                                 case 'Inactive':
+                                     $labelClass = 'status-pill danger';
+                                     break;
+                                 default:
+                                     $labelClass = 'status-pill warning';
+                                     break;
+                             }
+                             return '<span class="' . $labelClass . '">' . e($statusValue) . '</span>';
                          })
                          ->addColumn('actions', function ($data) use ($user) {
                              $deleteUrl = route('organization.patients.destroy', [
@@ -171,7 +186,7 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
                              return $html;
                          })
                          ->makeHidden(['created_at', 'updated_at', 'deleted_at'])
-                         ->rawColumns(['actions', 'name'])
+                         ->rawColumns(['actions', 'name', 'status'])
                          ->toJson();
     }
 
@@ -181,7 +196,7 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
     public function getTableColumns(): array
     {
         return [
-            'id' => ['name' => 'id', 'table' => 'patient_data.id', 'searchable' => 'false', 'sortable' => 'true'],
+            'id' => ['name' => 'Patient ID', 'table' => 'patient_data.id', 'searchable' => 'false', 'sortable' => 'true'],
 
             'name'       => ['name' => 'Patient Name', 'table' => 'users.name', 'searchable' => 'false', 'sortable' => 'false'],
             'registered' => ['name' => 'Registered', 'table' => 'users.created_at', 'searchable' => 'false', 'sortable' => 'false'],

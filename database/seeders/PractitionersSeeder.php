@@ -10,6 +10,7 @@ use App\Domains\Practitioner\Repositories\Eloquent\Models\Practitioner;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use voku\helper\ASCII;
 
 class PractitionersSeeder extends Seeder
 {
@@ -30,7 +31,7 @@ class PractitionersSeeder extends Seeder
         foreach ($regions as $regionName => $regionId) {
             // Create a user for the practitioner
             $user = User::create([
-                'name'     => $faker->firstName . ' ' . $faker->lastName,
+                'name'     => ASCII::to_ascii($faker->firstName) . ' ' . ASCII::to_ascii($faker->lastName),
                 'email'    => "practitioner{$index}@example.com",
                 'password' => bcrypt('password'), // Set a default password
             ]);
@@ -48,7 +49,7 @@ class PractitionersSeeder extends Seeder
         }
 
         $patient = User::create([
-            'name'     => $faker->firstName . ' ' . $faker->lastName,
+            'name'     => ASCII::to_ascii($faker->firstName) . ' ' . ASCII::to_ascii($faker->lastName),
             'email'    => "patient@example.com",
             'password' => bcrypt('password'), // Set a default password
         ]);

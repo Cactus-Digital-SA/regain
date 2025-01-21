@@ -35,7 +35,7 @@ readonly class ReportsController
         private PatientAssignmentService $patientAssignmentService,
         private UserService $userService,
         private PatientDataService $patientDataService,
-        private Client $openAIClient,
+//        private Client $openAIClient,
         private ReportService $reportService,
         private UserQuestionnaireService $userQuestionnaireService,
         private QuestionnaireFlowService $questionnaireFlowService,
@@ -77,7 +77,7 @@ readonly class ReportsController
             } else {
                 $totalScoreResult = DB::select("SELECT label, notes
                 FROM (
-                    SELECT threshold_test_limits.*, 
+                    SELECT threshold_test_limits.*,
                     (SELECT score FROM user_test_scores WHERE user_id = ? AND test_id = ?) AS user_score
                     FROM threshold_test_limits
                     INNER JOIN thresholds ON thresholds.id = threshold_test_limits.threshold_id
@@ -101,8 +101,8 @@ readonly class ReportsController
                             $subscalesList  = DB::select("
         SELECT
             ROW_NUMBER() OVER (ORDER BY threshold_subscale_limits.low) AS row_index,
-            threshold_subscale_limits.*, 
-            (SELECT score FROM user_subscale_scores WHERE user_id = ? AND subscale_id = ?) AS user_score 
+            threshold_subscale_limits.*,
+            (SELECT score FROM user_subscale_scores WHERE user_id = ? AND subscale_id = ?) AS user_score
         FROM threshold_subscale_limits
         INNER JOIN thresholds ON thresholds.id = threshold_subscale_limits.threshold_id
         WHERE thresholds.test_id = ?", [$form->getUserId(), $subscale->getId(), $test->getId()]);
@@ -150,7 +150,9 @@ readonly class ReportsController
         // Check if the file already exists
         $filePath = $this->reportService->getFilePath(Auth::id(), $userId, $testId);
         if (($filePath !== null) && Storage::exists($filePath)) {
-            return response()->download(storage_path("app/$filePath"), "report.pdf");
+            return response()->download(storage_path("app/$filePath"), "report.pdf", [
+                'Content-Type' => 'application/pdf',
+            ]);
         }
 
         $result = new ReportTestResult();
@@ -174,7 +176,7 @@ readonly class ReportsController
         } else {
             $totalScoreResult = DB::select("SELECT label, notes
                 FROM (
-                    SELECT threshold_test_limits.*, 
+                    SELECT threshold_test_limits.*,
                     (SELECT score FROM user_test_scores WHERE user_id = ? AND test_id = ?) AS user_score
                     FROM threshold_test_limits
                     INNER JOIN thresholds ON thresholds.id = threshold_test_limits.threshold_id
@@ -198,8 +200,8 @@ readonly class ReportsController
                         $subscalesList  = DB::select("
         SELECT
             ROW_NUMBER() OVER (ORDER BY threshold_subscale_limits.low) AS row_index,
-            threshold_subscale_limits.*, 
-            (SELECT score FROM user_subscale_scores WHERE user_id = ? AND subscale_id = ?) AS user_score 
+            threshold_subscale_limits.*,
+            (SELECT score FROM user_subscale_scores WHERE user_id = ? AND subscale_id = ?) AS user_score
         FROM threshold_subscale_limits
         INNER JOIN thresholds ON thresholds.id = threshold_subscale_limits.threshold_id
         WHERE thresholds.test_id = ? AND threshold_subscale_limits.subscale_id = ?", [$userId, $subscale->getId(), $test->getId(), $subscale->getId()]);
@@ -235,20 +237,20 @@ readonly class ReportsController
             )
         );
 
-        $response = $this->openAIClient->chat()->create(
-            [
-                'model'    => 'gpt-4',
-                'messages' => [
-                    [
-                        'role' => 'system', 'content' =>
-                        'This test is trying to provide an overview regarding:  ' . $test->getName() . ',
-                        Evaluate the test results as a whole and provide a summary of the results. Please note that the person reading this is a medical professional and thus is highly trained.'
-                    ],
-                    ['role' => 'user', 'content' => 'Here are the results: ' . $sanitizeResults],
-                ],
-            ]
-        );
-        $result->setDescription($response->choices[0]->message->content);
+//        $response = $this->openAIClient->chat()->create(
+//            [
+//                'model'    => 'gpt-4',
+//                'messages' => [
+//                    [
+//                        'role' => 'system', 'content' =>
+//                        'This test is trying to provide an overview regarding:  ' . $test->getName() . ',
+//                        Evaluate the test results as a whole and provide a summary of the results. Please note that the person reading this is a medical professional and thus is highly trained.'
+//                    ],
+//                    ['role' => 'user', 'content' => 'Here are the results: ' . $sanitizeResults],
+//                ],
+//            ]
+//        );
+//        $result->setDescription($response->choices[0]->message->content);
 
         return $this->downloadPDF($result);
     }
@@ -257,6 +259,8 @@ readonly class ReportsController
     {
         $path = $this->reportService->storeFile($result, Auth::id());
 
-        return response()->download(storage_path("app/$path"), "report.pdf");
+        return response()->download(storage_path("app/$path"), "report.pdf", [
+            'Content-Type' => 'application/pdf',
+        ]);
     }
 }

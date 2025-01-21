@@ -1,8 +1,12 @@
-<div class="modal-body" id="modal-container" data-page-id="1">
-    <button type="button" class="btn-close btn-pinned btn-right" data-bs-dismiss="modal" aria-label="Close">
+<div class="d-flex justify-content-between align-items-center border-0 text-center mb-3">
+    <h3 class="text-center flex-grow-1" style="color: rgba(10, 19, 58, 1); font-weight: 700; font-size:1.4rem; margin-bottom: 0 !important">
+        New Patient Registration
+    </h3>
+    <button type="button" class="btn-close btn-pinned btn-right me-3" data-bs-dismiss="modal" aria-label="Close">
     </button>
-    <h3 class="text-center mb-4" style="color: rgba(10, 19, 58, 1); font-weight: 700; font-size: 24px;">New Patient Registration</h3>
-    <form id="new-patient-registration-form" method="POST">
+</div>
+<div class="modal-body" id="modal-container" data-page-id="1">
+
         @csrf
         <div class="row g-4">
             <div class="col-md-6">
@@ -38,9 +42,8 @@
                 <label for="secondary-phone" class="form-label">Secondary Phone Number (Optional)</label>
                 <input type="text" id="secondary-phone" class="form-control new-patient-input" placeholder="ex. +123 456 789" required>
             </div>
-            <div class="col-md-6 mt-5 d-flex justify-content-end align-items-center">
+            <div class="col-md-6 mt-5 d-flex justify-content-end align-items-end">
                 <button type="submit" class="custom-next-btn" id="btn-next">Next</button>
             </div>
         </div>
-    </form>
 </div>

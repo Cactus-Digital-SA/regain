@@ -3,9 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Current Location</title>
+    <title>Disability</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        .question-wrapper{
+            scale: 90%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+
+        .dob-container-questions {
+            display: inline-block;
+            border-radius: 4rem;
+            flex-direction: column;
+            margin: auto;
+            min-width: 62rem;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            box-shadow: 0 4px 4px 0 #00000040;
+            height: auto;
+            max-height: none;
+            width: auto;
+        }
+
+        .question-single {
+            margin-bottom: 40px;
+        }
+
+        .question-single:last-child {
+            margin-bottom: 0;
+        }
+
         .grid-layout {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -71,7 +103,7 @@
             border-color: #333;
         }
 
-        .question-span{
+        .question-span {
             font-size: 16px;
             font-weight: 700;
             line-height: 22px;
@@ -81,7 +113,7 @@
 
         }
 
-        .radio-label{
+        .radio-label {
             font-size: 15px;
             font-weight: 400;
         }
@@ -93,6 +125,7 @@
                 justify-content: start;
                 align-items: start;
             }
+
             .grid-layout ul {
                 display: flex;
                 flex-wrap: nowrap;
@@ -103,48 +136,64 @@
             }
         }
 
+        @media (max-width: 990px) {
+            .question-wrapper{
+                scale: 100%;
+                max-width: unset;
+            }
+
+            .dob-container-questions{
+                min-width: unset;
+                margin: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dob-container-questions{
+                margin: auto;
+            }
+
+            .text-heading > a{
+                display: none !important;
+            }
+        }
     </style>
 </head>
 <body>
 
-<video class="video-background" autoplay muted loop>
-    <source
-        src="https://s3-figma-videos-production-sig.figma.com/video/1309080390110430302/TEAM/1e82/00ac/-1b93-4cf6-acd8-68ac308285fd?Expires=1733702400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=oorEDXdUAETvyCVU7BK8hb7EhdlCg53KlsncAE7Q1cIR8umuliZzbLcggOlyHA41GoRkvXwvzgGEh9Lx-fQiwV0Ri-G7ri5D5ovhDWrLnKcX564t8ughfnmtru1oG3ln6q6C4TNvsPCPAe~zQ9tSnnmDfrha3V7HjNqutPflCKk3kNIDpwHEy4X2Cw3a3c-ZdN9NeRtFabz42~VTvb2IoYcXx5GiOY5NMsjqsXqjOYt~a0JGnc49hTyXHyLDtkOYzhXzSZCGkbPplj28biet78gPFyzVN2fSehm0aYoVgjiEuLbua6BJ~n2Dj0Lf7FeulAQVOp6721-80D39XsAfDw__"
-        type="video/mp4">
-    Your browser does not support the video tag.
-</video>
-
 @include('frontend.content.mock.includes.navbar')
 
-<div class="dob-container">
-    <div class="d-flex justify-content-between align-items-center" style="width: 99%; margin: 0 auto">
-        <a href="#" class="btn btn-link text-decoration-none">&larr; Back</a>
-    </div>
-    <div class="container px-5 py-2 pb-5">
-        <h3 class="text-center mt-0 mb-2 text-nowrap dob-title mb-5">What is your current location?</h3>
-        <form>
-            @if(isset($questions))
-                @foreach ($questions as $index => $question)
-                    <div class="question  mb-5">
-                        <span class="question-span"> {{ $question }}</span>
-                        <ul class="list-unstyled grid-layout mb-4 mt-1">
-                            @foreach ($answers[$index] as $answerIndex => $answer)
-                                <li>
-                                    <input type="radio" id="toggle-location-radio-{{ $index }}-{{ $answerIndex }}" name="question_{{ $index }}"
-                                           >
-                                    <label for="toggle-location-radio-{{ $index }}-{{ $answerIndex }}" class="toggle">
-                                        <span class="radio-label round">{{ $answer }}</span>
-                                    </label>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endforeach
-            @endif
-            <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-primary mt-3">Next</button>
-            </div>
-        </form>
+<div class="question-wrapper">
+    <div class="dob-container-questions">
+        <div class="d-flex justify-content-center justify-content-sm-between align-items-center mb-4 text-heading" style="width: 99%;">
+            <a href="#" class="btn btn-link text-decoration-none fs-6 d-flex align-items-center justify-content-center"><i class="ti ti-circle-arrow-left fs-3 me-2"></i> Back</a>
+            <h3 class="text-center mt-0 mb-0 text-nowrap dob-title">What is your current location?</h3>
+            <a href="#" class="btn btn-link text-decoration-none fs-6 d-flex align-items-center justify-content-center">Next <i class="ti ti-circle-arrow-right fs-3 ms-2"></i></a>
+        </div>
+        <div class="container px-3 py-2 d-flex justify-content-center align-items-center">
+            <form>
+                @if(isset($questions))
+                    @foreach ($questions as $index => $question)
+                        <div class="question-single">
+                            <span class="question-span"> {{ $question }}</span>
+                            <ul class="list-unstyled grid-layout mt-2">
+                                @foreach ($answers[$index] as $answerIndex => $answer)
+                                    <li>
+                                        <input type="radio" id="toggle-location-radio-{{ $index }}-{{ $answerIndex }}"
+                                               name="question_{{ $index }}"
+                                        >
+                                        <label for="toggle-location-radio-{{ $index }}-{{ $answerIndex }}"
+                                               class="toggle">
+                                            <span class="radio-label round">{{ $answer }}</span>
+                                        </label>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endforeach
+                @endif
+            </form>
+        </div>
     </div>
 </div>
 </body>

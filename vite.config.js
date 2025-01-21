@@ -92,6 +92,9 @@ export default defineConfig({
                 'resources/css/dashboard-common.css',
                 'resources/css/practitioner-dashboard.css',
                 'resources/css/export-assessment-report.css',
+                'resources/css/navbar-front.css',
+                'resources/css/front-main.css',
+                'resources/css/help-info-pages.css',
                 'resources/css/app.scss',
                 'resources/css/palette-gradient.scss',
                 'resources/css/palette-variables.scss'

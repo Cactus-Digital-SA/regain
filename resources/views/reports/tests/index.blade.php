@@ -16,7 +16,7 @@
         }
 
         body {
-            font-family: Roboto, DejaVu Sans, sans-serif;
+            font-family: Roboto, DejaVu Sans, sans-serif !important;
             margin: 0;
             padding: 0;
         }

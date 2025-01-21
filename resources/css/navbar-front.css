@@ -1,22 +1,26 @@
 
 .header {
+    position: relative;
+    width: 100%;
     flex-shrink: 0;
     background-color: #ffffff;
-    padding: 3.2rem 3.6rem;
+    padding: 1rem 3.6rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 3rem;
+    height: auto;
+    z-index: 10;
 }
 
 .logo img {
-    height: 60px;
+    width: auto;
+    height: 57px;
     object-fit: contain;
 }
 
 .menu {
     display: flex;
-    gap: 4.375rem;
+    gap: 2.2rem;
     font-size: 16px;
 }
 .choice {
@@ -32,7 +36,12 @@
 .menu a {
     text-decoration: none;
     color: #27343D;
+    font-size: 16px;
     font-weight: 700;
+    line-height: 16px;
+    text-align: center;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
 }
 
 .language-toggle {

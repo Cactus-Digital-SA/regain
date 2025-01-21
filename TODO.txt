@@ -9,13 +9,21 @@
 General:
     send email when user gets created
 
-FrontEnd Pending:
-    • responsive design
-FrontEnd Done:
-    • Report make the svgs -> images. 3 column for the graph with 3 answer types and same for four. Fix css. (DONE with divs) //TODO DONE CHECK
-    • Emails Page (Dashboard) (DONE) //TODO CHECK mock/email/index.blade.php
-    • css for report pdf fixes (should be inline etc.)(DONE) //TODO DONE CHECK
-    • medical history dashboard bug fixes (DONE)
 
-     • Second modal for Reports (References) (DONE)
-     • login pages (Dashboard and Questionnaire) (DONE)
+
+
+---------------------------------------------FRONTEND-----------------------------------------------------------------------------------------------------------
+FrontEnd Pending:
+    • New slider questions: if more than 6 make the font size of answers smaller or wrap the text (Done scale, wrapping weird behavior)
+
+FrontEnd Done:
+    • New slider questions: make the answers be clickable (DONE)
+    • New question pages mocks // TODO FEEDBACK
+    • Help, Contact, ect static pages // TODO FEEDBACK
+    • Refine the Dashboards // TODO FEEDBACK
+    • Welcome Back login page, general login // TODO mock/login-flow/...
+
+    • Report Page (DONE) // TODO FEEDBACK
+    • Emails Page (Dashboard) (DONE) // TODO FEEDBACK mock/email/index.blade.php
+    • Add Icons to the navbar header menu
+    • New slider questions (DONE)
