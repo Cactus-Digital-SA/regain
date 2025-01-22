@@ -14,9 +14,10 @@ General:
 
 ---------------------------------------------FRONTEND-----------------------------------------------------------------------------------------------------------
 FrontEnd Pending:
-    • New slider questions: if more than 6 make the font size of answers smaller or wrap the text (Done scale, wrapping weird behavior)
+    • Change login page for patients to black ect. Add nav bar to purple login practitioner and organisation
 
 FrontEnd Done:
+    • New slider questions: if more than 6 make the font size of answers smaller or wrap the text (Done scale, wrapping weird behavior)
     • New slider questions: make the answers be clickable (DONE)
     • New question pages mocks // TODO FEEDBACK
     • Help, Contact, ect static pages // TODO FEEDBACK

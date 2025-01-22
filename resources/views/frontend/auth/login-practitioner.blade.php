@@ -30,6 +30,17 @@
             overflow-y: auto;
         }
 
+        header{
+            position: absolute;
+            top: 0;
+            width: 100%;
+            font-size: 14px;
+            font-weight: 400;
+            padding: 40px 60px;
+            line-height: 14px;
+            letter-spacing: 1px;
+        }
+
         .login-container {
             width: 100%;
             max-width: 400px;
@@ -261,10 +272,28 @@
                 position: unset;
             }
 
+            header {
+                padding: 1.5rem;
+            }
+
         }
     </style>
 </head>
 <body>
+<header>
+    <div class="d-flex justify-content-between">
+        <div>
+            <strong>
+                PRACTITIONER
+            </strong>
+        </div>
+        <div>
+            <div class="language-letters" style="cursor: pointer;">
+                <span> UKR | <strong>ENG</strong> | RUS</span>
+            </div>
+        </div>
+    </div>
+</header>
 <div class="login-container">
     <div class="regain-logo">
         <img src="{{ Vite::asset('resources/images/logo/regain-logo-white.svg') }}" alt="Regain Logo">
