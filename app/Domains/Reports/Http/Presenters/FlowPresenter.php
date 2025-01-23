@@ -11,7 +11,7 @@ class FlowPresenter
     /**
      * @var TestPresenter[]
      */
-    private array $tests;
+    private array $tests = [];
 
     public function getFlowType(): QuestionnaireFlowType
     {
