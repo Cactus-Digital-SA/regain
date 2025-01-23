@@ -132,11 +132,14 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
                              if ($user->isPractitioner()) {
                                  $url = route('practitioner.patient', ['userId' => $data->user->id]);
 
-                                 return '<a href="' . $url . '">' . e($data->user->name) . '</a>';
+                                 return '<a class="nav-link" href="' . $url . '">' . e($data->user->name) . '</a>';
                              }
 
                              return e($data->user->name);
                          })
+                        ->editColumn('region', function ($data) {
+                            return $data?->region()->first()->name;
+                        })
                          ->editColumn('registered', function ($data) {
                              return $data?->user?->created_at?->format('d-m-Y') ?? ' - ';
                          })
@@ -193,15 +196,24 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
     /**
      * @inheritDoc
      */
+    public function getTableColumnsNoRegion(): array
+    {
+        return [
+            'id' => ['name' => 'Patient ID', 'table' => 'patient_data.id', 'searchable' => 'false', 'sortable' => 'true'],
+            'name'       => ['name' => 'Patient Name', 'table' => 'users.name', 'searchable' => 'false', 'sortable' => 'false'],
+            'registered' => ['name' => 'Registered', 'table' => 'users.created_at', 'searchable' => 'false', 'sortable' => 'false'],
+            'status' => ['name' => 'Status', 'table' => 'status', 'searchable' => 'false', 'sortable' => 'false'],
+
+        ];
+    }
+
     public function getTableColumns(): array
     {
         return [
             'id' => ['name' => 'Patient ID', 'table' => 'patient_data.id', 'searchable' => 'false', 'sortable' => 'true'],
-
             'name'       => ['name' => 'Patient Name', 'table' => 'users.name', 'searchable' => 'false', 'sortable' => 'false'],
             'registered' => ['name' => 'Registered', 'table' => 'users.created_at', 'searchable' => 'false', 'sortable' => 'false'],
-//            'region' => ['name' => 'Region', 'table' => 'region.name', 'searchable' => 'false', 'sortable' => 'false'],
-
+            'region' => ['name' => 'Region', 'table' => 'region.name', 'searchable' => 'false', 'sortable' => 'false'],
             'status' => ['name' => 'Status', 'table' => 'status', 'searchable' => 'false', 'sortable' => 'false'],
 
         ];

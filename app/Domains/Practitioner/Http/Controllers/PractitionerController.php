@@ -62,7 +62,7 @@ class PractitionerController extends Controller
 
         return view('practitioner.patients')
             ->with('patientData', $patientData)
-            ->with('columns', $this->patientDataService->getTableColumns())
+            ->with('columns', $this->patientDataService->getTableColumnsNoRegion())
             ->with('practitioner', $practitioner);
     }
 

@@ -58,4 +58,11 @@ class PatientDataService
     {
         return $this->repository->getTableColumns();
     }
+
+    public function getTableColumnsNoRegion(): array
+    {
+        return $this->repository->getTableColumnsNoRegion();
+    }
+
+
 }

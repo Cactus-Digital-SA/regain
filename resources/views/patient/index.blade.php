@@ -25,7 +25,7 @@
                 <div class="thank-you-content d-flex flex-column align-items-center justify-content-center ">
                     <span class="question-span text-center">Thank you for your participation!</span>
                     <div class="d-flex justify-content-center mt-4">
-                        <button type="button" class="btn btn-primary mt-5">Go Back to Regain</button>
+{{--                        <button type="button" class="btn btn-primary mt-5">Go Back to Regain</button>--}}
                     </div>
                 </div>
             </div>
