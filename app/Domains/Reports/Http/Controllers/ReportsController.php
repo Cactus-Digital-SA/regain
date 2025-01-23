@@ -35,7 +35,7 @@ readonly class ReportsController
         private PatientAssignmentService $patientAssignmentService,
         private UserService $userService,
         private PatientDataService $patientDataService,
-//        private Client $openAIClient,
+        private Client $openAIClient,
         private ReportService $reportService,
         private UserQuestionnaireService $userQuestionnaireService,
         private QuestionnaireFlowService $questionnaireFlowService,
@@ -237,20 +237,20 @@ readonly class ReportsController
             )
         );
 
-//        $response = $this->openAIClient->chat()->create(
-//            [
-//                'model'    => 'gpt-4',
-//                'messages' => [
-//                    [
-//                        'role' => 'system', 'content' =>
-//                        'This test is trying to provide an overview regarding:  ' . $test->getName() . ',
-//                        Evaluate the test results as a whole and provide a summary of the results. Please note that the person reading this is a medical professional and thus is highly trained.'
-//                    ],
-//                    ['role' => 'user', 'content' => 'Here are the results: ' . $sanitizeResults],
-//                ],
-//            ]
-//        );
-//        $result->setDescription($response->choices[0]->message->content);
+        $response = $this->openAIClient->chat()->create(
+            [
+                'model'    => 'gpt-4',
+                'messages' => [
+                    [
+                        'role' => 'system', 'content' =>
+                        'This test is trying to provide an overview regarding:  ' . $test->getName() . ',
+                        Evaluate the test results as a whole and provide a summary of the results. Please note that the person reading this is a medical professional and thus is highly trained.'
+                    ],
+                    ['role' => 'user', 'content' => 'Here are the results: ' . $sanitizeResults],
+                ],
+            ]
+        );
+        $result->setDescription($response->choices[0]->message->content);
 
         return $this->downloadPDF($result);
     }
