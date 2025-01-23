@@ -3,45 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Regain Login</title>
+    <title>Regain Login (Patient)</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     @vite(['resources/assets/vendor/fonts/tabler-icons.scss'])
     <style>
-        html {
-            overflow-y: hidden;
-        }
         body {
-            background-color: #504E84 !important; /* Darker purple background */
+            background-color: #161B2C !important;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             font-family: Inter, sans-serif;
             color: #fff;
-            background: radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 2vw 15vh / 200px 200px,
-            radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 70vw 30vh / 180px 180px,
-            radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 80vw 80vh / 400px 400px,
-            radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 40vw 90vh / 300px 300px,
-            radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 15vw 60vh / 250px 250px,
-            radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 95vw 0 / 350px 350px;
-            background-repeat: no-repeat;
-            overflow-y: auto;
+            overflow: hidden;
+        }
+
+        header{
+            font-size: 14px;
+            font-weight: 400;
+            padding: 40px 5px;
+            line-height: 14px;
+            letter-spacing: 1px;
         }
 
         .login-container {
             width: 100%;
             max-width: 400px;
-        }
-
-        .regain-logo img {
-            width: 85%;
-            display: block;
-            margin: 0 auto 5rem;
+            scale: 120%;
+            margin-top: 4rem;
         }
 
         .form-group label {
-            font-weight: bold;
+            font-weight: normal;
             float: left;
             color: #fff;
         }
@@ -73,6 +67,14 @@
         .form-check-label {
             color: #c0c0c0;
             cursor: pointer;
+            font-weight: 400 !important;
+            font-size: 15px;
+            margin-top: 0.05rem;
+        }
+
+        .form-check{
+            display: flex;
+            justify-content: normal;
         }
 
         .btn-custom {
@@ -106,10 +108,6 @@
             width: 85%;
         }
 
-        .forgot-password-container {
-            position: relative;
-        }
-
         .forgot-password{
             color: #fff;
             font-size: 0.9rem;
@@ -125,16 +123,14 @@
         .forgot-password-container {
             display: flex;
             justify-content: center;
-            flex-direction: column;
             margin: 15px;
         }
 
         .popup {
             display: none;
             position: absolute;
-            top: -50%;
-            left: 9.5%;
-            z-index: 1000;
+            top: 85%;
+            z-index: 1001 !important;
             background-color: white;
             border-radius: 15px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -186,7 +182,8 @@
             border-radius: 100%;
             position: relative;
             cursor: pointer;
-            background-color: #fff;
+            background-color: transparent;
+            border: 1px solid #c0c0c0;
             transition: all 0.3s ease;
         }
 
@@ -196,55 +193,52 @@
         }
 
         input[type="checkbox"]:checked {
-            background-color: #333;
-            border-color: #333;
+            background-color: #c0c0c0;
+            border-color: #c0c0c0;
         }
 
         input[type="checkbox"]:checked {
-            background-color: #151B2C;
+            background-color: #c0c0c0;
             color: #fff;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
         }
 
         input[type="checkbox"]:checked {
-            background-color: #333;
-            border-color: #333;
+            background-color: #c0c0c0;
+            border-color: #c0c0c0;
         }
 
         @media (max-width: 1600px) {
-            .regain-logo img {
-                margin: 0 auto 2.5rem;
+            .login-container {
+                scale: 115%;
             }
         }
 
-        @media (max-width: 990px) {
-            body {
-                background: radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 2vw 2vh / 200px 200px,
-                radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 40vw 90vh / 300px 300px,
-                radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 2vw 60vh / 250px 250px,
-                radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 90vw 20vh / 350px 350px;
-                background-repeat: no-repeat;
-                overflow-y: auto;
+        @media (max-width: 780px) {
+            .login-container {
+                padding: 2rem;
             }
 
-            .regain-logo img {
-                width: 80%;
-                margin: 0 auto 2rem;
+            .popup {
+                top: 78.5%;
             }
         }
 
         .popup-mask {
-            display: none; /* Initially hidden */
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
-            z-index: 999; /* Ensure it's above other elements */
+            z-index: 200;
         }
 
         @media (max-width: 450px) {
+            .login-container {
+                scale: 100%;
+            }
             .login-container {
                 padding: 1.5rem;
             }
@@ -253,21 +247,35 @@
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
-                position: fixed; /* Use fixed positioning for proper centering */
+                position: fixed;
             }
 
             .forgot-password-container {
                 position: unset;
             }
 
+            header {
+                padding: 1.5rem;
+            }
+
         }
     </style>
 </head>
 <body>
-<div class="login-container">
-    <div class="regain-logo">
-        <img src="{{ Vite::asset('resources/images/logo/regain-logo-white.svg') }}" alt="Regain Logo">
+<header class="d-flex justify-content-between align-items-center position-absolute w-100" style="top: 0; scale: 90%;">
+    <a href="#" class="d-flex align-items-center text-white text-decoration-none" style="gap: 10px;">
+        <span class="d-flex justify-content-center align-items-center"
+              style="border: 2px solid; border-radius: 50%; padding: 5px; width: 24px; height: 24px;">
+            <i class="ti ti-chevron-left"></i>
+        </span>
+        <span class="ms-2">Back</span>
+    </a>
+
+    <div class="language-letters" style="cursor: pointer;">
+        <h6 class="mb-0"> UKR | <strong>ENG</strong> | RUS</h6>
     </div>
+</header>
+<div class="login-container">
     <form method="POST" action="{{ route('login') }}">
         @csrf
         <div class="form-group">
@@ -284,7 +292,7 @@
         </div>
         <div class="form-check text-left mb-3">
             <input type="checkbox" class="form-check-input" id="keepLoggedIn">
-            <label class="form-check-label" for="keepLoggedIn">Keep me logged in</label>
+            <label class="form-check-label ml-1" for="keepLoggedIn">Keep me logged in</label>
         </div>
         <button type="submit" class="btn btn-custom btn-block">Sign In</button>
         <div class="forgot-password-container">
@@ -350,6 +358,7 @@
             }
         }
     }
+
     window.addEventListener('resize', toggleMaskOnResize);
 </script>
 </body>
