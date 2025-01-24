@@ -300,6 +300,11 @@ class MockFrontController extends  Controller
         return view('frontend.content.mock.login-flow.welcome-back');
     }
 
+    public function showFlowLoginVideo(): View
+    {
+        return view('frontend.content.mock.login-flow.login-video');
+    }
+
     public function sliderIndex(): \Illuminate\View\View
     {
         $presenter = $this->questionsService->fetchQuestionsAlt(Auth::id(), 10);
