@@ -15,6 +15,5 @@ General:
 ---------------------------------------------FRONTEND-----------------------------------------------------------------------------------------------------------
 FrontEnd Pending:
     • Main login, add the video, change the design to look like the welcome back page
-
     • New questions designs like slider (Waiting for figma)
 
