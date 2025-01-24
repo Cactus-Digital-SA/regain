@@ -46,9 +46,6 @@ class FortifyServiceProvider extends ServiceProvider
             return new ReallyDisableTwoFactorAuthentication();
         });
 
-//        Fortify::loginView(function () {
-//            return view('frontend.auth.login');
-//        });
         Fortify::loginView(function () {
             $routeName = request()->route()?->getName();
 
@@ -65,7 +62,7 @@ class FortifyServiceProvider extends ServiceProvider
             }
 
             // Default view
-            return view('frontend.auth.login');
+            return view('frontend.auth.login-patient');
         });
 
         RateLimiter::for('login', function (Request $request) {
