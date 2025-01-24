@@ -362,7 +362,6 @@
     <div class="d-flex justify-content-between">
         <div>
             <strong>
-                PATIENT
             </strong>
         </div>
         <div>
