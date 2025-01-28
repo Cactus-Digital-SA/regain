@@ -9,7 +9,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Organization Dashboard</title>
+    <title>Organisation Dashboard</title>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
@@ -112,7 +112,7 @@
                                 <h6 class="navbar-logo mb-0">Ministry of Regain</h6>
                                 <ol class="breadcrumb mb-0">
                                     <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Organization</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Organisation</li>
                                 </ol>
                             </div>
                             <div class="nav-search row">
