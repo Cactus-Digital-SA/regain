@@ -11,23 +11,14 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('medical_type_categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('value', 255)->unsigned();
-            $table->timestamps();
+            $table->bigInteger('type_id')->unsigned()->primary();
+            $table->string('label', 512);
         });
 
         Schema::create('medical_types', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('category_type')->references('id')->on('practitioners')->cascadeOnDelete();
-            $table->string('value', 255)->unsigned();
-            $table->timestamps();
-        });
-
-        Schema::create('practitioner_medical_types', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('practitioner_id')->references('id')->on('practitioners')->cascadeOnDelete();
-            $table->foreignId('medical_type')->references('id')->on('medical_types')->cascadeOnDelete();
-            $table->timestamps();
+            $table->bigInteger('type_id')->unsigned()->primary();
+            $table->foreignId('category_type_id')->references('type_id')->on('medical_type_categories')->cascadeOnDelete();
+            $table->string('label', 512);
         });
     }
 
@@ -36,7 +27,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('practitioner_medical_types');
         Schema::dropIfExists('medical_types');
         Schema::dropIfExists('medical_type_categories');
     }

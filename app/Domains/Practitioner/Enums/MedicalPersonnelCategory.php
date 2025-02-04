@@ -1,17 +1,12 @@
 <?php
 
-namespace App\Domains\MedicalPersonnel\Enums;
+namespace App\Domains\Practitioner\Enums;
 
-enum MedicalPersonnelCategory: string
+enum MedicalPersonnelCategory: int
 {
-    case DOCTOR = 'doctor';
-    case NURSE = 'nurse';
-    case PSYCHOLOGIST = 'psychologist';
-    case PSYCHOTHERAPIST = 'psychotherapist';
-    case SPECIALLY_TRAINED_PERSONNEL = 'specially-trained-personnel';
-
-    public function label(): string
-    {
-        return __('medical_type_category.' . $this->value);
-    }
+    case DOCTOR                      = 1;
+    case NURSE                       = 2;
+    case PSYCHOLOGIST                = 3;
+    case PSYCHOTHERAPIST             = 4;
+    case SPECIALLY_TRAINED_PERSONNEL = 5;
 }

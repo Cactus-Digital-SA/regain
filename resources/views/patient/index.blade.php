@@ -4,7 +4,7 @@
     */
 @endphp
 
-    <!DOCTYPE html>
+        <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -25,7 +25,7 @@
                 <div class="thank-you-content d-flex flex-column align-items-center justify-content-center ">
                     <span class="question-span text-center">Thank you for your participation!</span>
                     <div class="d-flex justify-content-center mt-4">
-{{--                        <button type="button" class="btn btn-primary mt-5">Go Back to Regain</button>--}}
+                        {{--                        <button type="button" class="btn btn-primary mt-5">Go Back to Regain</button>--}}
                     </div>
                 </div>
             </div>
@@ -35,36 +35,48 @@
             <div class="container px-3 py-2 {{$question->isHiddenBecauseOfRequired() ? "hidden" : ""}}"
                  data-hide="{{$question->isHiddenBecauseOfRequired() ? "true" : "false"}}">
                 <form
-                    id="input-form_{{$question->getId()}}"
-                    class="collect-question"
-                    data-question-id="{{$question->getId()}}"
-                    data-condition-question-id="{{$question->getRequiredQuestionId()}}"
-                    data-condition-required-response-ids="[{{implode(", ", $question->getRequiredQuestionResponseIds())}}]"
-                    @if ($question->isSelectMultiple())
-                        data-max-selections="{{count($question->getResponses())}}"
-                    @else
-                        data-max-selections="1"
-                    @endif
+                        id="input-form_{{$question->getId()}}"
+                        class="collect-question"
+                        data-question-id="{{$question->getId()}}"
+                        data-condition-question-id="{{$question->getRequiredQuestionId()}}"
+                        data-condition-required-response-ids="[{{implode(", ", $question->getRequiredQuestionResponseIds())}}]"
+                        @if ($question->isSelectMultiple())
+                            data-max-selections="{{count($question->getResponses())}}"
+                        @else
+                            data-max-selections="1"
+                        @endif
                 >
                     @csrf
                     <div class="question mb-5">
                         <span class="question-span">{{$question->getTitle()}} ({{$question->getInstruction()->getContent()}})</span>
-                        <ul class="list-unstyled grid-layout mt-3">
-                            @foreach ($question->getResponses() as $response)
-                                <li>
-                                    <input
-                                        type="checkbox"
-                                        class="select-response radio-label round"
-                                        data-question-id="{{$question->getId()}}"
-                                        data-response-id="{{$response->getId()}}"
-                                        id="response-{{$question->getId()}}-{{$response->getId()}}"
-                                        name="response-{{$question->getId()}}[]">
-                                    <label for="response-{{$question->getId()}}-{{$response->getId()}}" class="toggle">
-                                        <span class="radio-label round">{{ $response->getTitle() }}</span>
-                                    </label>
-                                </li>
-                            @endforeach
-                        </ul>
+                        @if ($question->getId() !== 11)
+                            <ul class="list-unstyled grid-layout mt-3">
+                                @foreach ($question->getResponses() as $response)
+                                    <li>
+                                        <input
+                                                type="checkbox"
+                                                class="select-response radio-label round"
+                                                data-question-id="{{$question->getId()}}"
+                                                data-response-id="{{$response->getId()}}"
+                                                id="response-{{$question->getId()}}-{{$response->getId()}}"
+                                                name="response-{{$question->getId()}}[]">
+                                        <label for="response-{{$question->getId()}}-{{$response->getId()}}" class="toggle">
+                                            <span class="radio-label round">{{ $response->getTitle() }}</span>
+                                        </label>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @else
+                            <select class="select-response round">
+                                @foreach ($question->getResponses() as $response)
+                                    <option
+                                            data-question-id="{{$question->getId()}}"
+                                            data-response-id="{{$response->getId()}}">
+                                        {{ $response->getTitle() }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        @endif
                     </div>
                 </form>
             </div>
