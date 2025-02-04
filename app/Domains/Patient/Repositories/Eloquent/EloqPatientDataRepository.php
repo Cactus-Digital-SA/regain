@@ -212,8 +212,8 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
         return [
             'id' => ['name' => 'Patient ID', 'table' => 'patient_data.id', 'searchable' => 'false', 'sortable' => 'true'],
             'name'       => ['name' => 'Patient Name', 'table' => 'users.name', 'searchable' => 'false', 'sortable' => 'false'],
-            'registered' => ['name' => 'Registered', 'table' => 'users.created_at', 'searchable' => 'false', 'sortable' => 'false'],
             'region' => ['name' => 'Region', 'table' => 'region.name', 'searchable' => 'false', 'sortable' => 'false'],
+            'registered' => ['name' => 'Registered', 'table' => 'users.created_at', 'searchable' => 'false', 'sortable' => 'false'],
             'status' => ['name' => 'Status', 'table' => 'status', 'searchable' => 'false', 'sortable' => 'false'],
 
         ];
