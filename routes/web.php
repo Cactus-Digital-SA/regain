@@ -85,12 +85,14 @@ Route::group([
     Route::post('/practitioners/table', [RegainPatientController::class, 'practitionersDatatable'])->name('practitioners.datatable');
 });
 
-Route::group(['middleware' => ['guest']], function () {
-    Route::get('/practitioner/login', [AuthenticatedSessionController::class, 'create'])
-         ->name('practitioner.login');
+Route::middleware(['guest'])->group(function () {
+    Route::get('/practitioner/login', function () {
+        return view('frontend.auth.login-practitioner');
+    })->name('practitioner.login');
 
-    Route::get('/organization/login', [AuthenticatedSessionController::class, 'create'])
-         ->name('organization.login');
+    Route::get('/organization/login', function () {
+        return view('frontend.auth.login-organization');
+    })->name('organization.login');
 });
 
 ////2fa fortify

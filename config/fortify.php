@@ -89,6 +89,10 @@ return [
 
     'prefix' => '',
 
+    'paths' => [
+        'login' => null,
+    ],
+
     'domain' => null,
 
     /*
@@ -116,7 +120,7 @@ return [
     */
 
     'limiters' => [
-        'login' => 'login',
+        'login'      => 'login',
         'two-factor' => 'two-factor',
     ],
 
