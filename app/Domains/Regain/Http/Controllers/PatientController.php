@@ -61,11 +61,12 @@ class PatientController extends Controller
 
     public function storePatient(StorePatientRequest $request): View
     {
+        // $password rand password keep it for the email
         $userModel = (new User())
             ->setName($request->getName())
             ->setActive(true)
             ->setEmail($request->getEmail())
-            ->setPassword('123456');
+            ->setPassword('123456'); // $password
 
         try {
             $user        = $this->userService->store($userModel);
@@ -84,6 +85,8 @@ class PatientController extends Controller
                     ->setNotes($request->getNotes());
 
                 $this->patientDataService->store($model);
+
+                // set the email, notifications domain, use the password here.
 
                 return view("organization.includes.patient-stored");
             }

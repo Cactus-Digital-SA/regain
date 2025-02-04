@@ -14,6 +14,5 @@ General:
 
 ---------------------------------------------FRONTEND-----------------------------------------------------------------------------------------------------------
 FrontEnd Pending:
-    • Main login, add the video, change the design to look like the welcome back page //TODO FEEDBACK /mock/flow/login-video
-    • New questions designs like slider (Waiting for figma)
-
+    • Patient Controller make the email DTO storePatient function
+    • javascript enable next button select patient/ index.blade

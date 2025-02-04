@@ -11,6 +11,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Current Location</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 </head>
 <body>
 
@@ -67,15 +71,21 @@
                                 @endforeach
                             </ul>
                         @else
-                            <select class="select-response round">
-                                @foreach ($question->getResponses() as $response)
-                                    <option
-                                            data-question-id="{{$question->getId()}}"
-                                            data-response-id="{{$response->getId()}}">
-                                        {{ $response->getTitle() }}
-                                    </option>
-                                @endforeach
-                            </select>
+                            <div style="width: 100%; margin-top: 20px;">
+                                <select class="select2 select-response round"
+                                        style="width: 50%; height: 40px;"
+                                        data-question-id="{{$question->getId()}}"
+                                        name="response-{{$question->getId()}}[]"
+                                        data-response-id=""
+                                placeholder="Test">
+                                    <option value="">Test</option>
+                                    @foreach ($question->getResponses() as $response)
+                                        <option value="{{$response->getId()}}">
+                                            {{ $response->getTitle() }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
                         @endif
                     </div>
                 </form>
@@ -92,9 +102,25 @@
 <div id="overlay" class="overlay">
     <div class="spinner"></div>
 </div>
-
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+        $(document).ready(function() {
+            $('.select2').select2({
+                placeholder: "Select an option",
+                allowClear: true
+            });
+        });
+
+        // $('#mySelect').on('select2:select', function (e) {
+        //     var selectedValue = e.params.data.id;
+        //     console.log("Selected value:", selectedValue);
+        // });
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+        $('.select2').on('change', function() {
+            $('.select2')[0].dataset.responseId = $(this).val();
+        });
+
         const nextButton = document.getElementById('next-button');
         const checkboxes = document.querySelectorAll('.select-response');
 
@@ -103,10 +129,11 @@
             let missing = false;
             checkboxes.forEach(checkbox => {
                 const questionId = checkbox.dataset.questionId;
-                const form = document.getElementById(`input-form_${questionId}`);
-                const container = form.closest('.container');
+                const questionForm = document.getElementById(`input-form_${questionId}`);
+                const container = questionForm.closest('.container');
+
                 if (container && container.dataset.hide !== "true") {
-                    const checkboxesForQuestion = form.querySelectorAll('input[name="response-' + questionId + '[]"]:checked');
+                    const checkboxesForQuestion = questionForm.querySelectorAll('input[name="response-' + questionId + '[]"]:checked');
                     if (checkboxesForQuestion.length === 0) {
                         missing = true;
                     }
