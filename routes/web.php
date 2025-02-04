@@ -162,6 +162,7 @@ Route::group([
     Route::get('flow/info', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showFlowInfo'])->name('info-flow');
     Route::get('flow/info-second', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showFlowInfoSecond'])->name('info-flow');
     Route::get('flow/welcome-back', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showFlowWelcomeBack'])->name('welcome-back-flow');
+    Route::get('flow/login-video', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showFlowLoginVideo'])->name('login-video-flow');
 
 //    Dashboards
     Route::get('organization/dashboard', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showOrganizationDashboard'])->name('organization-dashboard');
