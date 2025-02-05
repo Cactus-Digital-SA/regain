@@ -181,3 +181,21 @@ Route::middleware(['guest'])->group(function () {
 //    Route::get('dashboard/login', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showLoginDashboard'])->name('login-dashboard');
 //    Route::get('email', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showEmail'])->name('email');
 //});
+
+//use App\Mail\RegainEmail;
+//use Illuminate\Support\Facades\Mail;
+//Route::get('/test-email', function () {
+//    // Simulate a user (replace with actual test user data)
+//    $user = (object) [
+//        'name' => 'georgia',
+//        'email' => 'georgia@example.com'
+//    ];
+//
+//    // Generate a random password
+//    $password = '12345678georgia';
+//
+//    // Send the email
+//    Mail::to($user->email)->send(new RegainEmail($user, $password));
+//
+//    return 'Test email sent successfully!';
+//});

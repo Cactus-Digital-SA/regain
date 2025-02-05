@@ -418,11 +418,11 @@
         <div class="login-details">
             <div class="username">
                 <label for="username">Username:</label>
-                <div class="field" id="username">OlhaMaximova89</div>
+                <div class="field" id="username">{{$userName}}</div>
             </div>
             <div class="password">
                 <label for="password">Password:</label>
-                <div class="field" id="password">35dsjk1</div>
+                <div class="field" id="password">{{$password}}</div>
             </div>
         </div>
     </div>

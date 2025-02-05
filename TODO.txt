@@ -15,4 +15,3 @@ General:
 ---------------------------------------------FRONTEND-----------------------------------------------------------------------------------------------------------
 FrontEnd Pending:
     • Patient Controller make the email DTO storePatient function
-    • javascript enable next button select patient/ index.blade
