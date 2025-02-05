@@ -2,22 +2,21 @@
 
 namespace App\Domains\Practitioner\Repositories\Eloquent\Models;
 
-use App\Domains\Auth\Repositories\Eloquent\Models\User;
-use App\Domains\Region\Repositories\Eloquent\Models\Region;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class PractitionerMedicalType extends Model
 {
-    protected $table = 'practitioner_medical_type';
-
+    protected $table = 'medical_types';
     protected $fillable = [
-        'practitioner_id',
-        'medical_type',
+        'type_id',
+        'label',
     ];
+    protected $primaryKey = 'type_id';
+    public $incrementing = false; // Since `type_id` is manually assigned
 
-    public function practitioner(): BelongsTo
+    public function practitioners(): HasMany
     {
-        return $this->belongsTo(Practitioner::class);
+        return $this->hasMany(Practitioner::class, 'medical_type_category_id', 'type_id');
     }
 }

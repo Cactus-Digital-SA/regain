@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->foreignId('region_id')->references('id')->on('regions')->cascadeOnDelete();
             $table->foreignId('medical_type_category_id')->references('type_id')->on('medical_type_categories')->cascadeOnDelete();
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
     }

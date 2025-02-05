@@ -6,7 +6,7 @@
     </div>
     <div class="menu">
         <a href="{{route('patient.regain-info')}}" style="margin: auto"> Regain</a>
-        <a href="#" style="margin: auto"><i class="ti ti-user-filled"></i> MyRegain</a>
+        <a href="/  " style="margin: auto"><i class="ti ti-user-filled"></i> MyRegain</a>
         <a href="{{route('patient.community')}}" style="margin: auto"><i class="ti ti-heart-filled"></i> Community</a>
         <a href="#" style="margin: auto"><i class="ti ti-settings-filled"></i> Settings</a>
         <a href="{{route('patient.help-center')}}" style="margin: auto"><i class="ti ti-question-mark"></i> Help</a>

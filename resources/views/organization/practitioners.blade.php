@@ -116,13 +116,14 @@
                                 <div class="nav-buttons col-auto">
                                     <button type="button" class="btn btn-success navbar-button" data-bs-toggle="modal"
                                             data-bs-target=""><i
-                                            class="ti ti-plus"></i> Add Practitioner
+                                                class="ti ti-plus"></i> Add Practitioner
                                     </button>
                                     <button href="#" class="ms-3 btn btn-lg notification-button rounded-pill "
                                             data-bs-toggle="tooltip" data-bs-placement="bottom"
                                             title="Notifications">
                                         <div
-                                            class="notification-count"><span class="notification-span">3</span></div>
+                                                class="notification-count"><span class="notification-span">3</span>
+                                        </div>
                                         <i class="ti ti-bell"></i></button>
                                     <button href="#" class="btn btn-lg profile-button rounded-pill "
                                             data-bs-toggle="tooltip"
@@ -179,7 +180,7 @@
                     </div>
                     <div class="filter-table">
                         <div
-                            class="filters-container mb-0 d-flex align-items-center justify-content-center flex-wrap gap-3">
+                                class="filters-container mb-0 d-flex align-items-center justify-content-center flex-wrap gap-3">
                             <div class="search-container position-relative d-flex align-items-center flex-grow-1">
                                 <input type="text" class="form-control filter-input rounded-pill px-3"
                                        placeholder="Search by Name, ID" style="padding-right: 40px; width:100%;">
@@ -189,8 +190,8 @@
                             </div>
                             <div class="dropdown-container flex-grow-1">
                                 <button
-                                    class="filter-dropdown-btn rounded-pill w-100 text-start d-flex justify-content-between align-items-center"
-                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        class="filter-dropdown-btn rounded-pill w-100 text-start d-flex justify-content-between align-items-center"
+                                        type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Region <i class="ti ti-chevron-down"></i>
                                 </button>
                                 <ul class="dropdown-menu w-100">
@@ -202,8 +203,8 @@
 
                             <div class="dropdown-container flex-grow-1">
                                 <button
-                                    class="filter-dropdown-btn rounded-pill w-100 text-start d-flex justify-content-between align-items-center"
-                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        class="filter-dropdown-btn rounded-pill w-100 text-start d-flex justify-content-between align-items-center"
+                                        type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Status <i class="ti ti-chevron-down"></i>
                                 </button>
                                 <ul class="dropdown-menu w-100">
@@ -251,7 +252,7 @@
                                         <section id="column-selectors">
                                             <div class="table-responsive">
                                                 <table
-                                                    class="table practitioners-datatable general-datatable dt-select-table w-100">
+                                                        class="table practitioners-datatable general-datatable dt-select-table w-100">
                                                     <thead>
                                                     <tr class="text-left">
                                                         @foreach($columns as $column)
@@ -314,10 +315,14 @@
                         }
                     },
                     columns: [
-                        {data: 'id', searchable: false, orderable: false},
-                        {data: 'name', name: 'user.name', searchable: false, orderable: true},
-                        {data: 'region', name: 'region', searchable: false, orderable: false},
-                        {data: 'registered', name: 'users.created_at', searchable: false, orderable: false},
+                        {data: 'id', searchable: true, orderable: true},
+                        {data: 'name', name: 'user.name', searchable: true, orderable: true},
+                        {data: 'description', name: 'description', searchable: false, orderable: true},
+                        {data: 'registered', name: 'users.created_at', searchable: false, orderable: true},
+                        {data: 'region', name: 'region', searchable: false, orderable: true},
+                        {data: 'patients', name: 'Patients', searchable: false, orderable: true},
+                        {data: 'email', name: 'Email', searchable: true, orderable: false},
+                        {data: 'status', name: 'Status', searchable: false, orderable: true},
                     ],
                     columnDefs: [],
                     dom: 't<"d-flex justify-content-between mx-0 row"<"d-flex justify-content-center col-12"i><"d-flex justify-content-center col-12"p>>',

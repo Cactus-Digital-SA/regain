@@ -3,6 +3,7 @@
 namespace App\Domains\Practitioner\Repositories\Eloquent;
 
 use App\Domains\Auth\Repositories\Eloquent\Models\User;
+use App\Domains\Practitioner\Enums\PractitionerStatus;
 use App\Domains\Practitioner\Models\Practitioner;
 use App\Domains\Practitioner\Repositories\Eloquent\Models\Practitioner as EloquentPractitioner;
 use App\Domains\Practitioner\Repositories\PractitionerRepositoryInterface;
@@ -17,7 +18,7 @@ class PractitionerRepository implements PractitionerRepositoryInterface
 {
     public function getById(string $id): ?Practitioner
     {
-        $practitionerData = EloquentPractitioner::where('id', '=', $id)->with(['user', 'region'])->get();
+        $practitionerData = EloquentPractitioner::where('id', '=', $id)->with(['user', 'region', 'medicalCategory'])->get();
 
         return ObjectSerializer::deserialize($practitionerData?->toJson() ?? "{}", Practitioner::class, 'json');
     }
@@ -28,7 +29,7 @@ class PractitionerRepository implements PractitionerRepositoryInterface
             $query->select('id')
                   ->from('users')
                   ->where('id', "=", $userId);
-        })->with(['user', 'region'])->get()->first();
+        })->with(['user', 'region', 'medicalCategory'])->get()->first();
 
         return ObjectSerializer::deserialize($practitionerData?->toJson() ?? "{}", Practitioner::class, 'json');
     }
@@ -54,29 +55,53 @@ class PractitionerRepository implements PractitionerRepositoryInterface
     public function getTableColumns(): array
     {
         return [
-            'id'         => [
+            'id'          => [
                 'name'       => 'Practitioner ID',
                 'table'      => 'practitioners.id',
-                'searchable' => 'false',
+                'searchable' => 'true',
                 'sortable'   => 'true'
             ],
-            'name'       => [
+            'name'        => [
                 'name'       => 'Practitioner Name',
                 'table'      => 'users.name',
-                'searchable' => 'false',
+                'searchable' => 'true',
                 'sortable'   => 'false'
             ],
-            'region'     => [
-                'name'       => 'Region',
-                'table'      => 'region.name',
-                'searchable' => 'false',
-                'sortable'   => 'false'
+            'description' => [
+                'name'       => 'Description',
+                'table'      => 'description',
+                'searchable' => 'true',
+                'sortable'   => 'true'
             ],
-            'registered' => [
+            'registered'  => [
                 'name'       => 'Registered',
                 'table'      => 'users.created_at',
                 'searchable' => 'false',
+                'sortable'   => 'true'
+            ],
+            'region'      => [
+                'name'       => 'Region',
+                'table'      => 'region.name',
+                'searchable' => 'false',
+                'sortable'   => 'true'
+            ],
+            'patients'    => [
+                'name'       => 'Patients',
+                'table'      => 'patients',
+                'searchable' => 'false',
+                'sortable'   => 'true'
+            ],
+            'email'       => [
+                'name'       => 'Email',
+                'table'      => 'email',
+                'searchable' => 'true',
                 'sortable'   => 'false'
+            ],
+            'status'      => [
+                'name'       => 'Status',
+                'table'      => 'status',
+                'searchable' => 'false',
+                'sortable'   => 'true'
             ],
         ];
     }
@@ -91,7 +116,7 @@ class PractitionerRepository implements PractitionerRepositoryInterface
         $data = null;
         if ($user->isPractitioner()) {
         } elseif ($user->isRegainUser()) {
-            $data = EloquentPractitioner::get()->load(['user', 'region']);
+            $data = EloquentPractitioner::get()->load(['user', 'region', 'medicalCategory', 'patients']);
         } else {
             throw new UnauthorizedException();
         }
@@ -100,8 +125,11 @@ class PractitionerRepository implements PractitionerRepositoryInterface
                          ->editColumn('id', function ($data) {
                              return '#OP' . $data->user_id;
                          })
-                         ->editColumn('name', function ($data) use ($user) {
+                         ->editColumn('name', function ($data) {
                              return e($data->user->name);
+                         })
+                         ->editColumn('description', function ($data) {
+                             return e($data->medicalCategory->label);
                          })
                          ->editColumn('region', function ($data) {
                              return $data?->region?->name ?? ' - ';
@@ -109,8 +137,25 @@ class PractitionerRepository implements PractitionerRepositoryInterface
                          ->editColumn('registered', function ($data) {
                              return $data?->user?->created_at?->format('d-m-Y') ?? ' - ';
                          })
+                         ->editColumn('patients', function ($data) {
+                             return $data?->patients?->count();
+                         })
+                         ->editColumn('email', function ($data) {
+                             return $data?->user->email ?? ' - ';
+                         })
+                         ->editColumn('status', function ($data) {
+                             $statusValue = $data->status;
+                             $statusEnum  = PractitionerStatus::from($statusValue);
+                             $labelClass  = match ($statusEnum) {
+                                 PractitionerStatus::ACCEPTING => 'status-pill active',
+                                 PractitionerStatus::FULL      => 'status-pill danger',
+                                 PractitionerStatus::LIMITED   => 'status-pill warning',
+                             };
+
+                             return '<span class="' . $labelClass . '">' . e($statusEnum->label()) . '</span>';
+                         })
                          ->makeHidden(['created_at', 'updated_at', 'deleted_at'])
-                         ->rawColumns(['name'])
+                         ->rawColumns(['name', 'status'])
                          ->toJson();
     }
 }
