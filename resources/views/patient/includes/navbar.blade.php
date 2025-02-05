@@ -5,11 +5,11 @@
         <img src="{{ Vite::asset('resources/images/logo/regain-logo.svg') }}" alt="Regain Logo" class="logo-image">
     </div>
     <div class="menu">
-        <a href="{{route('mock.regain-info')}}" style="margin: auto"> Regain</a>
-        <a href="{{route('mock.email')}}" style="margin: auto"><i class="ti ti-user-filled"></i> MyRegain</a>
-        <a href="{{route('mock.community')}}" style="margin: auto"><i class="ti ti-heart-filled"></i> Community</a>
+        <a href="{{route('patient.regain-info')}}" style="margin: auto"> Regain</a>
+        <a href="#" style="margin: auto"><i class="ti ti-user-filled"></i> MyRegain</a>
+        <a href="{{route('patient.community')}}" style="margin: auto"><i class="ti ti-heart-filled"></i> Community</a>
         <a href="#" style="margin: auto"><i class="ti ti-settings-filled"></i> Settings</a>
-        <a href="{{route('mock.help-center')}}" style="margin: auto"><i class="ti ti-question-mark"></i> Help</a>
+        <a href="{{route('patient.help-center')}}" style="margin: auto"><i class="ti ti-question-mark"></i> Help</a>
         <form action="{{ route('logout') }}" method="POST" class="d-inline">
             @csrf
             <button type="submit" class="btn btn-link text-decoration-none"><i class="ti ti-logout"></i> Logout</button>
@@ -23,8 +23,8 @@
 
 <video class="video-background" autoplay muted loop>
     <source
-        src="{{asset('assets/moving_balls.mp4') }}"
-        type="video/mp4">
+            src="{{asset('assets/moving_balls.mp4') }}"
+            type="video/mp4">
     Your browser does not support the video tag.
 </video>
 

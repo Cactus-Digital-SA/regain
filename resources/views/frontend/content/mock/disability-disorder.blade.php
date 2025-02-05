@@ -6,7 +6,7 @@
     <title>Disability</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .question-wrapper{
+        .question-wrapper {
             scale: 90%;
             display: flex;
             flex-direction: column;
@@ -137,23 +137,23 @@
         }
 
         @media (max-width: 990px) {
-            .question-wrapper{
+            .question-wrapper {
                 scale: 100%;
                 max-width: unset;
             }
 
-            .dob-container-questions{
+            .dob-container-questions {
                 min-width: unset;
                 margin: 2rem;
             }
         }
 
         @media (max-width: 480px) {
-            .dob-container-questions{
+            .dob-container-questions {
                 margin: auto;
             }
 
-            .text-heading > a{
+            .text-heading > a {
                 display: none !important;
             }
         }
@@ -161,14 +161,15 @@
 </head>
 <body>
 
-@include('frontend.content.mock.includes.navbar')
+@include('patient.includes.navbar')
 
 <div class="question-wrapper">
     <div class="dob-container-questions">
         <div class="d-flex justify-content-center justify-content-sm-between align-items-center mb-4 text-heading" style="width: 99%;">
             <a href="#" class="btn btn-link text-decoration-none fs-6 d-flex align-items-center justify-content-center"><i class="ti ti-circle-arrow-left fs-3 me-2"></i> Back</a>
             <h3 class="text-center mt-0 mb-0 text-nowrap dob-title">What is your current location?</h3>
-            <a href="#" class="btn btn-link text-decoration-none fs-6 d-flex align-items-center justify-content-center">Next <i class="ti ti-circle-arrow-right fs-3 ms-2"></i></a>
+            <a href="#" class="btn btn-link text-decoration-none fs-6 d-flex align-items-center justify-content-center">Next
+                <i class="ti ti-circle-arrow-right fs-3 ms-2"></i></a>
         </div>
         <div class="container px-3 py-2 d-flex justify-content-center align-items-center">
             <form>

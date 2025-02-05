@@ -49,6 +49,15 @@ Route::group([
     'middleware' => ['role.patient', 'auth'],
 ], function () {
     Route::get('/', [PatientController::class, 'index'])->name('home');
+    Route::get('/help-center', function () {
+        return view('patient.help-center');
+    })->name('help-center');
+    Route::get('/community', function () {
+        return view("patient.community");
+    })->name('community');
+    Route::get('/regain-info', function () {
+        return view("patient.regain-info");
+    })->name('regain-info');
     Route::post('/submit-answer', [PatientController::class, 'submitAnswer'])->name('submit-answer');
     Route::post('/submit-answers', [PatientController::class, 'submitAnswers'])->name('submit-answers');
 });
@@ -134,44 +143,41 @@ Route::middleware(['guest'])->group(function () {
 // TODO, REMOVE WHEN DONE
 // For mock purposes
 
-Route::group([
-    'prefix' => 'mock',
-    'as'     => 'mock.',
-], function () {
-    Route::post('patients/table', [RegainPatientController::class, 'patientsDatatable'])->name('patients.datatable'); //remove when done
-    Route::get('/date-of-birth', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showDateOfBirth'])->name('date-of-birth');
-    Route::get('/regain-info', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showRegainInfo'])->name('regain-info');
-    Route::get('/community', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showCommunity'])->name('community');
-    Route::get('/help-center', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showHelpCenter'])->name('help-center');
-    Route::get('/current-location', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showCurrentLocation'])->name('current-location');
-    Route::get('/disability-disorder', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showDisabilityDisorder'])->name('disability-disorder');
-
-    //Question levels
-    Route::group([
-        'prefix' => 'question',
-        'as'     => 'question.',
-    ], function () {
-        Route::get('/slider-answers', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'sliderIndex'])->name('slider-index');
-
-        Route::get('/level-1', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showQuestionLevelOne'])->name('question-level-1');
-        Route::get('/level-2', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showQuestionLevelTwo'])->name('question-level-2');
-        Route::get('/level-3', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showQuestionLevelThree'])->name('question-level-3');
-        Route::get('/level-4', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showQuestionLevelFour'])->name('question-level-4');
-    });
-
-    //Login flow Front
-    Route::get('flow/login', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showFlowLogin'])->name('login-flow');
-    Route::get('flow/info', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showFlowInfo'])->name('info-flow');
-    Route::get('flow/info-second', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showFlowInfoSecond'])->name('info-flow');
-    Route::get('flow/welcome-back', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showFlowWelcomeBack'])->name('welcome-back-flow');
-    Route::get('flow/login-video', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showFlowLoginVideo'])->name('login-video-flow');
-
-//    Dashboards
-    Route::get('organization/dashboard', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showOrganizationDashboard'])->name('organization-dashboard');
-    Route::get('practitioner/dashboard', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showPractitionerDashboard'])->name('practitioner-dashboard');
-    Route::get('practitioner/dashboard/calendar', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showPractitionerCalendarDashboard'])->name('practitioner-dashboard');
-    Route::get('practitioner/dashboard/export-pdf/three', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'previewThreeBarReport']);
-    Route::get('practitioner/dashboard/export-pdf/four', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'previewFourBarReport']);
-    Route::get('dashboard/login', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showLoginDashboard'])->name('login-dashboard');
-    Route::get('email', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showEmail'])->name('email');
-});
+//Route::group([
+//    'prefix' => 'mock',
+//    'as'     => 'mock.',
+//], function () {
+//    Route::post('patients/table', [RegainPatientController::class, 'patientsDatatable'])->name('patients.datatable'); //remove when done
+//    Route::get('/date-of-birth', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showDateOfBirth'])->name('date-of-birth');
+//    Route::get('/current-location', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showCurrentLocation'])->name('current-location');
+//    Route::get('/disability-disorder', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showDisabilityDisorder'])->name('disability-disorder');
+//
+//    //Question levels
+//    Route::group([
+//        'prefix' => 'question',
+//        'as'     => 'question.',
+//    ], function () {
+//        Route::get('/slider-answers', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'sliderIndex'])->name('slider-index');
+//
+//        Route::get('/level-1', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showQuestionLevelOne'])->name('question-level-1');
+//        Route::get('/level-2', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showQuestionLevelTwo'])->name('question-level-2');
+//        Route::get('/level-3', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showQuestionLevelThree'])->name('question-level-3');
+//        Route::get('/level-4', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showQuestionLevelFour'])->name('question-level-4');
+//    });
+//
+//    //Login flow Front
+//    Route::get('flow/login', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showFlowLogin'])->name('login-flow');
+//    Route::get('flow/info', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showFlowInfo'])->name('info-flow');
+//    Route::get('flow/info-second', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showFlowInfoSecond'])->name('info-flow');
+//    Route::get('flow/welcome-back', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showFlowWelcomeBack'])->name('welcome-back-flow');
+//    Route::get('flow/login-video', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showFlowLoginVideo'])->name('login-video-flow');
+//
+////    Dashboards
+//    Route::get('organization/dashboard', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showOrganizationDashboard'])->name('organization-dashboard');
+//    Route::get('practitioner/dashboard', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showPractitionerDashboard'])->name('practitioner-dashboard');
+//    Route::get('practitioner/dashboard/calendar', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showPractitionerCalendarDashboard'])->name('practitioner-dashboard');
+//    Route::get('practitioner/dashboard/export-pdf/three', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'previewThreeBarReport']);
+//    Route::get('practitioner/dashboard/export-pdf/four', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'previewFourBarReport']);
+//    Route::get('dashboard/login', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showLoginDashboard'])->name('login-dashboard');
+//    Route::get('email', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showEmail'])->name('email');
+//});

@@ -1,7 +1,9 @@
 @php
     /**
      * @var App\Domains\Questions\Models\QuestionsPresenter[] $presenter
-    */
+     * @var string $previousInstruction;
+     */
+    $previousInstruction = "";
 @endphp
 
         <!DOCTYPE html>
@@ -20,7 +22,7 @@
 
 @vite(['resources/css/patient-index.css'])
 
-@include('frontend.content.mock.includes.navbar')
+@include('patient.includes.navbar')
 
 <div class="dob-container-questions">
     @if ($presenter->isCompleted())
@@ -52,7 +54,12 @@
                 >
                     @csrf
                     <div class="question mb-5">
-                        <span class="question-span">{{$question->getTitle()}} ({{$question->getInstruction()->getContent()}})</span>
+                        <span class="question-span">{{$question->getTitle()}}
+                            @if ($question->getInstruction()->getContent() !== $previousInstruction)
+                                ({{$question->getInstruction()->getContent()}})
+                                @php $previousInstruction = $question->getInstruction()->getContent(); @endphp
+                            @endif
+                        </span>
                         @if ($question->getId() !== 11)
                             <ul class="list-unstyled grid-layout mt-3">
                                 @foreach ($question->getResponses() as $response)

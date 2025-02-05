@@ -249,7 +249,7 @@ class QuestionsImport implements WithMultipleSheets
 
         return $referencesId;
     }
-    
+
     /**
      * @return string[]
      */
@@ -313,10 +313,10 @@ class QuestionsImport implements WithMultipleSheets
         return [
             5 => new ReferenceImport(),
             0 => new SociodemographicImport(),
-//            1 => new PreAssessmentsImport(),
-//            2 => new SkillsImport(),
-//            3 => new ScoresImport(),
-//            4 => new ThresholdImport(),
+            1 => new PreAssessmentsImport(),
+            2 => new SkillsImport(),
+            3 => new ScoresImport(),
+            4 => new ThresholdImport(),
         ];
     }
 }

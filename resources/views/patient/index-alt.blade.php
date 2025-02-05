@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/nouislider@15.7.0/dist/nouislider.min.css" rel="stylesheet">
     <style>
-        .slider{
+        .slider {
             margin: auto;
             width: 100%;
             z-index: 3;
@@ -62,7 +62,7 @@
             cursor: pointer;
         }
 
-        .noUi-value:hover{
+        .noUi-value:hover {
             color: #757CA0;
         }
 
@@ -80,12 +80,14 @@
         }
 
         @media (max-width: 990px) {
-            .question-single{
+            .question-single {
                 padding: 10px;
             }
+
             .slider {
                 width: 100%;
             }
+
             .slider-background {
                 display: none;
             }
@@ -96,7 +98,7 @@
 
 @vite(['resources/css/patient-index.css'])
 
-@include('frontend.content.mock.includes.navbar')
+@include('patient.includes.navbar')
 
 <div class="dob-container-questions">
     @if ($presenter->isCompleted())
@@ -118,16 +120,16 @@
             <div class="container px-3 py-2 {{$question->isHiddenBecauseOfRequired() ? "hidden" : ""}}"
                  data-hide="{{$question->isHiddenBecauseOfRequired() ? "true" : "false"}}">
                 <form
-                    id="input-form_{{$question->getId()}}"
-                    class="collect-question"
-                    data-question-id="{{$question->getId()}}"
-                    data-condition-question-id="{{$question->getRequiredQuestionId()}}"
-                    data-condition-required-response-ids="[{{implode(", ", $question->getRequiredQuestionResponseIds())}}]"
-                    @if ($question->isSelectMultiple())
-                        data-max-selections="{{count($question->getResponses())}}"
-                    @else
-                        data-max-selections="1"
-                    @endif>
+                        id="input-form_{{$question->getId()}}"
+                        class="collect-question"
+                        data-question-id="{{$question->getId()}}"
+                        data-condition-question-id="{{$question->getRequiredQuestionId()}}"
+                        data-condition-required-response-ids="[{{implode(", ", $question->getRequiredQuestionResponseIds())}}]"
+                        @if ($question->isSelectMultiple())
+                            data-max-selections="{{count($question->getResponses())}}"
+                        @else
+                            data-max-selections="1"
+                        @endif>
                     @csrf
                     <div class="question mb-5">
                         <div class="question-span-div">
@@ -138,12 +140,12 @@
                             @foreach ($question->getResponses() as $response)
                                 <li>
                                     <input
-                                        type="checkbox"
-                                        class="select-response"
-                                        data-question-id="{{$question->getId()}}"
-                                        data-response-id="{{$response->getId()}}"
-                                        id="response-{{$question->getId()}}-{{$response->getId()}}"
-                                        name="response-{{$question->getId()}}[]">
+                                            type="checkbox"
+                                            class="select-response"
+                                            data-question-id="{{$question->getId()}}"
+                                            data-response-id="{{$response->getId()}}"
+                                            id="response-{{$question->getId()}}-{{$response->getId()}}"
+                                            name="response-{{$question->getId()}}[]">
                                     <label for="response-{{$question->getId()}}-{{$response->getId()}}">
                                         {{$response->getTitle()}}
                                     </label>
@@ -218,7 +220,7 @@
                 checkboxList.querySelectorAll('input').forEach((checkbox, idx) => {
                     if (idx === sliderValues[questionId] && idx !== null) {
                         checkbox.click();
-                    }else{
+                    } else {
                         checkbox.checked = false;
                         updateNextButtonState();
                     }
@@ -231,7 +233,7 @@
             sliderElement.noUiSlider.on('update', function (values, handle) {
                 const valueIndex = Math.round(values[handle]);
                 document.querySelectorAll(`#slider-${index} .noUi-value`).forEach((pip, idx) => {
-                    if(idx === 0 || idx === null) {
+                    if (idx === 0 || idx === null) {
                         pip.classList.add('unselected');
                     }
                     pip.classList.toggle('highlighted', idx === valueIndex);
@@ -252,7 +254,7 @@
                 });
             });
 
-            if(responses.length >= 7) {
+            if (responses.length >= 7) {
                 sliderElement.querySelectorAll('.noUi-value').forEach(pip => {
                     pip.style.fontSize = '0.8rem';
                     pip.style.top = '0';

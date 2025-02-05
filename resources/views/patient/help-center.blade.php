@@ -14,7 +14,7 @@
     }
 </style>
 <body>
-@include('frontend.content.mock.includes.navbar')
+@include('patient.includes.navbar')
 @vite(['resources/css/help-info-pages.css'])
 <div class="background-circles">
     <div class="circle-bg circle1"></div>
