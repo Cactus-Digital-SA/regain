@@ -12,7 +12,7 @@
     <title>Current Location</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 </head>
@@ -77,7 +77,7 @@
                                         data-question-id="{{$question->getId()}}"
                                         name="response-{{$question->getId()}}[]"
                                         data-response-id=""
-                                placeholder="Test">
+                                        placeholder="Test">
                                     <option value="">Test</option>
                                     @foreach ($question->getResponses() as $response)
                                         <option value="{{$response->getId()}}">
@@ -103,22 +103,23 @@
     <div class="spinner"></div>
 </div>
 <script>
-        $(document).ready(function() {
-            $('.select2').select2({
-                placeholder: "Select an option",
-                allowClear: true
-            });
+    $(document).ready(function () {
+        $('.select2').select2({
+            placeholder: "Select an option",
+            allowClear: true
         });
+    });
 
-        // $('#mySelect').on('select2:select', function (e) {
-        //     var selectedValue = e.params.data.id;
-        //     console.log("Selected value:", selectedValue);
-        // });
+    // $('#mySelect').on('select2:select', function (e) {
+    //     var selectedValue = e.params.data.id;
+    //     console.log("Selected value:", selectedValue);
+    // });
 
-        document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
 
-        $('.select2').on('change', function() {
+        $('.select2').on('change', function () {
             $('.select2')[0].dataset.responseId = $(this).val();
+            updateNextButtonState();
         });
 
         const nextButton = document.getElementById('next-button');
@@ -133,9 +134,15 @@
                 const container = questionForm.closest('.container');
 
                 if (container && container.dataset.hide !== "true") {
-                    const checkboxesForQuestion = questionForm.querySelectorAll('input[name="response-' + questionId + '[]"]:checked');
-                    if (checkboxesForQuestion.length === 0) {
-                        missing = true;
+                    if (checkbox.tagName === "SELECT") {
+                        if (!checkbox.dataset.responseId) {
+                            missing = true;
+                        }
+                    } else {
+                        const checkboxesForQuestion = questionForm.querySelectorAll('input[name="response-' + questionId + '[]"]:checked');
+                        if (checkboxesForQuestion.length === 0) {
+                            missing = true;
+                        }
                     }
                 }
             });
@@ -214,16 +221,21 @@
                             questionData.responses = [];
 
                             // Add the selected response ID to the questionData object
-                            responses = questionForm.querySelectorAll(`.select-response:checked`).forEach(response => {
-                                questionData.responses.push(parseInt(response.dataset.responseId));
-                            });
+                            if (!questionForm.dataset.select2Id) {
+                                responses = questionForm.querySelectorAll(`.select-response:checked`).forEach(response => {
+                                    questionData.responses.push(parseInt(response.dataset.responseId));
+                                });
+                            } else {
+                                response = questionForm.querySelectorAll("select")[0].dataset.responseId;
+                                questionData.responses.push(parseInt(response));
+                            }
 
                             selectedResponsesFinal.push(questionData);
                         }
                     });
 
-                if (selectedResponsesFinal.length > 0) {
 
+                if (selectedResponsesFinal.length > 0) {
                     // Send the collected data via JSON
                     fetch('{{ route('patient.submit-answers') }}', {
                         method: 'POST',
