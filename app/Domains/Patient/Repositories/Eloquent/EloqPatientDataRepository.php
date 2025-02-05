@@ -126,7 +126,7 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
                          })
                          ->editColumn('name', function ($data) use ($user) {
                              if (!$user) {
-                                 return e($data->user->name);
+                                 return e($data->user()->name);
                              }
 
                              if ($user->isPractitioner()) {
@@ -144,7 +144,7 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
                              return $data?->user?->created_at?->format('d-m-Y') ?? ' - ';
                          })
                          ->editColumn('practitioner', function ($data) {
-                             return $data?->practitioner()->first()->name;
+                             return $data?->practitioner()?->first()->name ?? "-";
                          })
                          ->editColumn('status', function ($data) {
                              $statusValue = $data?->status?->value ?? ' - ';
@@ -153,10 +153,10 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
                                      $labelClass = 'status-pill active';
                                      break;
                                  case 'Processing':
-                                     $labelClass = 'status-pill default';
+                                     $labelClass = 'status-pill processing';
                                      break;
                                  case 'Inactive':
-                                     $labelClass = 'status-pill danger';
+                                     $labelClass = 'status-pill default';
                                      break;
                                  default:
                                      $labelClass = 'status-pill warning';

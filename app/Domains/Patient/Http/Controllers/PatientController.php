@@ -31,7 +31,7 @@ class PatientController extends Controller
      */
     public function index(): View
     {
-        $presenter = $this->questionsService->fetchQuestionsAlt(Auth::id(), 20);
+        $presenter = $this->questionsService->fetchQuestionsAlt(Auth::id(), 10);
 
         $questions = $presenter->getQuestions();
         if (count($questions) > 0 && $questions[0]->getId() >= 41) {

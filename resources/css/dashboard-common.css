@@ -3,24 +3,23 @@ body {
     color: rgba(10, 19, 58, 1);
     position: relative;
     height: 100vh;
-    background:
-        radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 10vw 15vh / 200px 200px,
-        radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 70vw 30vh / 180px 180px,
-        radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 80vw 80vh / 400px 400px,
-        radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 40vw 90vh / 300px 300px,
-        radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 15vw 60vh / 250px 250px,
-        radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 90vw 20vh / 350px 350px;
-    background-repeat:no-repeat;
+    background: radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 10vw 15vh / 200px 200px,
+    radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 70vw 30vh / 180px 180px,
+    radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 80vw 80vh / 400px 400px,
+    radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 40vw 90vh / 300px 300px,
+    radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 15vw 60vh / 250px 250px,
+    radial-gradient(farthest-side, rgba(255, 255, 255, 0.3) 32%, rgba(255, 255, 255, 0.2) 90%, rgba(255, 255, 255, 0.2) 93%, rgba(255, 255, 255, 0.2) 96%, transparent) 90vw 20vh / 350px 350px;
+    background-repeat: no-repeat;
     overflow-y: auto;
     overflow-x: hidden;
 }
 
-.col-35{
+.col-35 {
     flex: 0 0 auto;
     width: 27.5%;
 }
 
-.wrapper{
+.wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -65,7 +64,7 @@ body {
     padding: 0 1rem;
 }
 
-.navbar-logo{
+.navbar-logo {
     font-size: 20px;
     font-weight: 700;
     line-height: 37.5px;
@@ -75,7 +74,7 @@ body {
     text-decoration-skip-ink: none;
 }
 
-.navbar-status{
+.navbar-status {
     font-size: 17px;
     font-weight: 500;
     line-height: 20.57px;
@@ -102,7 +101,7 @@ body {
     text-decoration-skip-ink: none;
 }
 
-.nav-link:focus, .nav-link:hover{
+.nav-link:focus, .nav-link:hover {
     color: #0007 !important;
 }
 
@@ -166,7 +165,7 @@ body {
 
 .box {
     position: relative;
-    display:flex;
+    display: flex;
     align-items: center;
 }
 
@@ -190,17 +189,17 @@ body {
     position: absolute;
     top: 50%;
     right: 15px;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     font-size: 18px;
     color: rgba(173, 180, 217, 1);
 }
 
-.btn-success{
+.btn-success {
     background-color: rgba(40, 199, 111, 1);
     border-color: rgba(40, 199, 111, 1);
 }
 
-.navbar-button{
+.navbar-button {
     font-size: 16px;
     font-weight: 700;
     line-height: 25px;
@@ -210,7 +209,7 @@ body {
 
 }
 
-.notification-count{
+.notification-count {
     position: absolute;
     top: 0;
     right: 0;
@@ -224,8 +223,7 @@ body {
     text-align: center;
 }
 
-.notification-span
-{
+.notification-span {
     position: absolute;
     transform: translate(130%, 20%);
     display: flex;
@@ -233,7 +231,7 @@ body {
     align-items: center;
 }
 
-.card-table-body{
+.card-table-body {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -290,7 +288,7 @@ body {
     display: none !important;
 }
 
-.practitioner-directory-tab, .patient-directory-tab{
+.practitioner-directory-tab, .patient-directory-tab {
     text-wrap: nowrap;
 }
 
@@ -326,7 +324,7 @@ body {
     background-color: #3e4273;
 }
 
-.logout-form-div{
+.logout-form-div {
     display: contents;
 }
 
@@ -347,6 +345,7 @@ td:last-child {
     background-color: #F5F6FC;
     border-bottom: 2px solid #DDDEF1;
 }
+
 .pgeneral-datatable thead th {
     color: #6c757d;
     font-weight: 600;
@@ -355,16 +354,19 @@ td:last-child {
     padding: 15px;
     border-bottom: none;
 }
+
 .general-datatable tbody tr {
     border-bottom: 1px solid #ECECEC;
     height: 50px !important;
 }
+
 .general-datatable tbody td {
     font-size: 14px;
     padding: 12px;
     vertical-align: middle;
     color: #333;
 }
+
 .general-datatable tbody tr:hover {
     background-color: #F5F6FC;
 }
@@ -373,15 +375,18 @@ td:last-child {
     position: relative;
     display: inline-block;
 }
+
 .actions-dropdown .dropdown-toggle::after {
     display: none !important;
 }
+
 .actions-dropdown button {
     border: none;
     cursor: pointer;
     font-size: 18px;
     color: #6c757d;
 }
+
 .actions-dropdown .dropdown-menu {
     border-radius: 10px;
     font-size: 14px;
@@ -397,13 +402,14 @@ td:last-child {
     border: 1px solid #ddd;
     margin: 0 5px;
 }
+
 .dataTables_paginate .pagination .page-item.active .page-link {
     background-color: #5A63FF;
     border-color: #5A63FF;
     color: #fff;
 }
 
-.dataTables_paginate ul{
+.dataTables_paginate ul {
     margin-top: 1rem;
 }
 
@@ -412,34 +418,38 @@ td:last-child {
 }
 
 @media (max-width: 1600px) {
-    .container{
+    .container {
         transform: scale(0.94);
         max-width: 98vw !important;
     }
 
-    .card-table-body{
+    .card-table-body {
         min-height: 230px !important;
     }
 }
 
-@media (max-width: 1400px){
+@media (max-width: 1400px) {
     .container {
         max-width: 100vw ! important;
     }
 
-    .breadcrumb-item{
+    .breadcrumb-item {
         font-size: 16px;
     }
-    .practitioner-directory-tab, .patient-directory-tab{
+
+    .practitioner-directory-tab, .patient-directory-tab {
         text-wrap: auto;
     }
-    .navbar-logo{
+
+    .navbar-logo {
         font-size: 19px;
     }
-    .input{
+
+    .input {
         width: 150px;
     }
-    .add-pract-button{
+
+    .add-pract-button {
         font-size: 15px;
         font-weight: 700;
         line-height: 25px;
@@ -448,26 +458,28 @@ td:last-child {
         text-decoration-skip-ink: none;
     }
 
-    .card-title{
+    .card-title {
         font-size: 24px;
     }
 
-    .card-subtitle{
+    .card-subtitle {
         font-size: 15px;
         text-wrap: nowrap;
     }
 
-    .container{
+    .container {
         max-width: 98vw !important;
     }
+
     .main-menu {
         padding: 1rem 1.5rem;
     }
+
     .box {
         display: none;
     }
 
-    .dropdown-select{
+    .dropdown-select {
         background-image: none !important;
         appearance: menulist-button;
         padding: 10px;
@@ -484,15 +496,23 @@ td:last-child {
     color: #fff;
     text-transform: capitalize;
 }
+
 .status-pill.active {
     background-color: #28C76F;
 }
+
 .status-pill.default {
     background-color: rgba(149, 154, 185, 1);
 }
+
+.status-pill.processing {
+    background-color: rgb(110, 120, 219);
+}
+
 .status-pill.danger {
     background-color: #EA5455;
 }
+
 .status-pill.warning {
     background-color: #F2A83B;
 }
