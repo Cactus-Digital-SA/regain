@@ -15,9 +15,12 @@ use App\Domains\Reports\Http\Requests\ReportRequest;
 use App\Domains\Reports\Http\Services\ReportService;
 use App\Domains\Tests\Services\TestService;
 use App\Domains\Thresholds\Models\Constants\ThresholdDisplayType;
+use App\Domains\Thresholds\Repositories\Eloquent\Models\Threshold;
+use App\Domains\Thresholds\Repositories\Eloquent\Models\ThresholdTestLimit;
 use App\Domains\Thresholds\Services\ThresholdService;
 use App\Domains\UserQuestionnaire\Services\UserQuestionnaireService;
 use App\Domains\UserResponse\Repositories\Eloquent\Models\UserResponse;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -130,6 +133,9 @@ readonly class ReportsController
         );
     }
 
+    /**
+     * @throws \JsonException
+     */
     public function testReport(Request $request, string $userId, string $testId): BinaryFileResponse
     {
         $threshold = $this->thresholdService->getThresholdByTest($testId);
@@ -156,6 +162,15 @@ readonly class ReportsController
 //        }
 
         $result = new ReportTestResult();
+
+        $testThresholds = Threshold::where("test_id", $testId)
+                                   ->with('testLimits')
+                                   ->first()
+                                   ?->testLimits()
+                                   ->pluck('label')
+                                   ->toArray();
+        // get test thresholds
+        $test->setThresholds($testThresholds);
         $result->setTest($test);
 
         if ($threshold->getDisplayType() === ThresholdDisplayType::DISPLAY) {
@@ -174,22 +189,27 @@ readonly class ReportsController
                 );
             }
         } else {
-            $totalScoreResult = DB::select("SELECT label, notes
-                FROM (
-                    SELECT threshold_test_limits.*,
-                    (SELECT score FROM user_test_scores WHERE user_id = ? AND test_id = ?) AS user_score
-                    FROM threshold_test_limits
-                    INNER JOIN thresholds ON thresholds.id = threshold_test_limits.threshold_id
-                    WHERE thresholds.test_id = ?
-                ) AS final
-                WHERE final.user_score BETWEEN final.low AND final.high
+            $totalScoreResult = DB::select("SELECT
+            ROW_NUMBER() OVER (ORDER BY threshold_test_limits.low) AS row_index,
+            threshold_test_limits.*,
+            (SELECT score FROM user_test_scores WHERE user_id = ? AND test_id = ?) AS user_score
+        FROM threshold_test_limits
+        INNER JOIN thresholds ON thresholds.id = threshold_test_limits.threshold_id
+        WHERE thresholds.test_id = ?
                  ", [$userId, $testId, $testId]);
-            if (count($totalScoreResult) === 1) {
-                $result->setTestResult((new ReportTestResultTotalResult())
-                    ->setResultLabel($totalScoreResult[0]->label)
-                    ->setResultNotes($totalScoreResult[0]->notes ?? "")
-                    ->setScore($totalScoreResult[0]->user_score ?? 0)
-                );
+            if (count($totalScoreResult) > 0) {
+                $testResult = new ReportTestResultTotalResult();
+
+                foreach ($totalScoreResult as $scoreResult) {
+                    if ($scoreResult->user_score >= $scoreResult->low && $scoreResult->user_score <= $scoreResult->high) {
+                        $testResult->setResultLabel($scoreResult->label)
+                                   ->setResultNotes($scoreResult->notes ?? "")
+                                   ->setScore($scoreResult->user_score ?? 0)
+                                   ->setTestIndex($scoreResult->row_index)
+                                   ->setTestItems(count($totalScoreResult));
+                        $result->setTestResult($testResult);
+                    }
+                }
             }
 
             if ($threshold->getDisplayType() === ThresholdDisplayType::SUBSCALE_SCORE) {
@@ -225,9 +245,11 @@ readonly class ReportsController
         $result->setUser($this->userService->getById($userId));
         $result->setPatientData($this->patientDataService->getByUserId($userId));
 
-        $sanitizeResults = implode("\n", array_map(static function ($item) {
-            return "test subscale: " . $item->getSubscaleName() . " result: " . $item->getResultLabel();
-        }, $result->getSubscaleResults()));
+        $jsonResults = $this->formatResultsAsJson($result);
+
+//        $sanitizeResults = implode("\n", array_map(static function ($item) {
+//            return "test subscale: " . $item->getSubscaleName() . " result: " . $item->getResultLabel();
+//        }, $result->getSubscaleResults()));
 
         $result->setCompletedAt(
             $this->userQuestionnaireService->getCompletedAtForUser(
@@ -243,16 +265,98 @@ readonly class ReportsController
                 'messages' => [
                     [
                         'role' => 'system', 'content' =>
-                        'This test is trying to provide an overview regarding:  ' . $test->getName() . ',
-                        Evaluate the test results as a whole and provide a summary of the results. Please note that the person reading this is a medical professional and thus is highly trained.'
+                        'I will provide a JSON object containing test results, including the overall test result and subscale results. The JSON follows this structure:
+
+{
+  "testResult": {
+    "result": "High Probability of Neurodevelopmental Disorder",
+    "test_name": "Neurodevelopmental Disorder Rapid Test",
+  },
+  "subscaleResult": [
+    {
+      "subscale_name": "Dyslexia",
+      "subscale_result": "High Probability of Dyslexia",
+    },
+    {
+      "subscale_name": "Autism Spectrum Disorder",
+      "subscale_result": "High Probability of Autism Spectrum Disorder",
+    },
+    {
+      "subscale_name": "Attention Deficit Hyperactivity Disorder",
+      "subscale_result": "High Probability of Attention Deficit Hyperactivity Disorder",
+    }
+  ]
+}
+
+Next is the json i want you to respond with: 
+
+{
+  "test_explanation": "",
+  "subscales": [
+    {
+      "name": "Dyslexia",
+      "": "",
+    },
+    {
+      "name": "Autism Spectrum Disorder",
+      "explanation": "",
+    },
+    {
+      "name": "Attention Deficit Hyperactivity Disorder",
+      "explanation": "",
+    }
+  ]
+}
+
+Your task:
+- Fill in the **explanation** fields for all relevant entries.
+- For **test_explanation**, provide a **3-4 sentence explanation** describing what the test evaluates and its relevance.
+- For each **subscales.explanation**, provide a **1-sentence summary** explaining what that subscale measures.
+- The descriptions should be written in a **clear, professional** manner, as if by a **general practitioner** providing a brief evaluation.
+- Respond **ONLY** with a valid JSON object, with no additional text.
+
+Ensure the response is **properly formatted JSON** to allow for automated parsing.'
                     ],
-                    ['role' => 'user', 'content' => 'Here are the results: ' . $sanitizeResults],
+                    ['role' => 'user', 'content' => 'Here is the json results: ' . $jsonResults],
                 ],
             ]
         );
+
         $result->setDescription($response->choices[0]->message->content);
 
+        $openAIResult = json_decode($response->choices[0]->message->content, true, 512, JSON_THROW_ON_ERROR);
+        $result->setDescription($openAIResult["test_explanation"]);
+
+        foreach ($result->getSubscaleResults() as $subscaleResult) {
+            $description = $this->getSubscaleExplanation($openAIResult, trim($subscaleResult->getSubscaleName()));
+            $subscaleResult->setDescription($description ?? "");
+        }
+
+        // return view("reports.tests.index")->with(['result' => $result]);
         return $this->downloadPDF($result);
+    }
+
+    /**
+     * @throws \JsonException
+     */
+    private function formatResultsAsJson(ReportTestResult $result): string
+    {
+        $data                                    = [];
+        $data["testResult"]                      = [];
+        $data["testResult"]["result"]            = $result->getTestResult()?->getResultLabel();
+        $data["testResult"]["test_name"]         = $result->getTest()?->getName();
+        $data["testResult"]["short_description"] = "";
+
+        $data["subscaleResult"] = [];
+        foreach ($result->getSubscaleResults() as $subscaleResult) {
+            $subscaleData                      = [];
+            $subscaleData["subscale_name"]     = trim($subscaleResult->getSubscaleName());
+            $subscaleData["subscale_result"]   = trim($subscaleResult->getResultLabel());
+            $subscaleData["short_description"] = "";
+            $data["subscaleResult"][]          = $subscaleData;
+        }
+
+        return json_encode($data, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE);
     }
 
     private function downloadPDF(ReportTestResult $result): BinaryFileResponse
@@ -262,5 +366,16 @@ readonly class ReportsController
         return response()->download(storage_path("app/$path"), "report.pdf", [
             'Content-Type' => 'application/pdf',
         ]);
+    }
+
+    private function getSubscaleExplanation(array $openAIResult, string $searchName): ?string
+    {
+        foreach ($openAIResult["subscales"] as $subscale) {
+            if (isset($subscale['name']) && $subscale['name'] === $searchName) {
+                return $subscale['explanation'] ?? 'No description available';
+            }
+        }
+
+        return null; // Return null if the subscale is not found
     }
 }

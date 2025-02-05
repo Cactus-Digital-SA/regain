@@ -5,7 +5,7 @@
     */
 @endphp
 
-    <!DOCTYPE html>
+        <!DOCTYPE html>
 <html>
 <head>
     <title>{{$result->getTest()->getName()}} Report</title>
@@ -33,7 +33,7 @@
             max-width: 100px;
             width: 100%;
             {{--background-image: {{base64_encode(file_get_contents('./assets/img/logo/regainLogo.jpg'))}};--}}
-            background-size: contain;
+                        background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
         }
@@ -218,7 +218,7 @@
          alt="Logo" class="logo">
     <div class="title-container">
         <div class="assessment-title">Assessment Report:</div>
-        <div class="main-title">Mental Health and Mental Pain</div>
+        <div class="main-title">{{$result->getTest()->getName()}}</div>
     </div>
     <div class="date">{{$result->getCompletedAt()->format("d/m/Y")}}</div>
 </div>
@@ -234,6 +234,15 @@
     <div class="overview-group">
         <div class="overview-title">
             {{$result->getTest()->getName()}}
+            @php
+                $testColumns = $result->getTestResult()->getTestItems();
+                $testIndex = $result->getTestResult()->getTestIndex();
+                $testClassName = "j-bar-{$testColumns}-" . $testIndex;
+            @endphp
+            <div class="bar-graph-{{ $testColumns }}">
+                <div class="{{ $testClassName }}" style="width: 24px; height: 22px; display: flex">
+                </div>
+            </div>
         </div>
 
     </div>
@@ -277,7 +286,7 @@
                 <tr>
                     <td>
                         <div class="title">{{$subscaleResult->getSubscaleName()}}</div>
-                        <div class="description"></div>
+                        <div class="description">{{$subscaleResult->getDescription()}}</div>
                     </td>
                     @for ($i = 1; $i <= $columns; $i++)
                         <td style="text-align: center;">

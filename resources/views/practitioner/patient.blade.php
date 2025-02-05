@@ -11,7 +11,7 @@
 */
 @endphp
 
-    <!DOCTYPE html>
+        <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -69,7 +69,7 @@
                                 <span class="nav-link text-left" id="v-pills-patient-registration-tab"
                                       aria-selected="true" style="color:#000; font-weight:bold;">
                                     New Patient <span
-                                        class="notification-count-patient d-flex justify-content-center align-items-center">1</span>
+                                            class="notification-count-patient d-flex justify-content-center align-items-center">1</span>
                                 </span>
                                 </div>
                                 <div class="d-flex flex-column justify-content-between ms-0 ps-0">
@@ -132,8 +132,11 @@
                                 </span>
                                     <button href="#" class="ms-3 btn btn-lg notification-button rounded-pill "
                                             data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                            title="Notifications"><div
-                                            class="notification-count"><span class="notification-span">3</span></div><i class="ti ti-bell"></i></button>
+                                            title="Notifications">
+                                        <div
+                                                class="notification-count"><span class="notification-span">3</span>
+                                        </div>
+                                        <i class="ti ti-bell"></i></button>
                                     <button href="#" class="btn btn-lg profile-button rounded-pill "
                                             data-bs-toggle="tooltip"
                                             data-bs-placement="bottom" title="Profile"><i class="ti ti-user"></i>
@@ -256,7 +259,7 @@
                                                         <div class="appointment-subtext">Next Appointment</div>
                                                     </div>
                                                     <div
-                                                        class="col-5 appointment-actions d-flex flex-column align-items-end">
+                                                            class="col-5 appointment-actions d-flex flex-column align-items-end">
                                                         <a href="#" class="btn app-create-btn disabled">Create</a>
                                                         <a href="#" class="btn app-cancel-btn disabled">Cancel</a>
                                                     </div>
@@ -276,7 +279,7 @@
                                     <section id="column-selectors">
                                         <div class="table-responsive">
                                             <table
-                                                class="table patients-datatable general-datatable dt-select-table w-100">
+                                                    class="table patients-datatable general-datatable dt-select-table w-100">
                                                 <thead>
                                                 <tr class="text-center">
                                                     @foreach($columns as $column)
@@ -324,7 +327,7 @@
                     searching: false,
                     serverMethod: 'post',
                     ajax: {
-                        url: "{{ route('mock.patients.datatable') }}",
+                        url: "{{ route('practitioner.patients.datatable') }}",
                         headers: {
                             'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
                         },
