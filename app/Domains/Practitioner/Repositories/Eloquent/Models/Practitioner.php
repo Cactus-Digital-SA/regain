@@ -37,16 +37,16 @@ class Practitioner extends Model
 
     public function patientAssignments(): HasMany
     {
-        return $this->hasMany(PractitionerPatientList::class, 'practitioner_user_id', 'user_id');
+        return $this->hasMany(PatientAssignments::class, 'practitioner_user_id', 'user_id');
     }
 
     public function patients(): HasManyThrough
     {
         return $this->hasManyThrough(
             User::class, // Target Model
-            PractitionerPatientList::class, // Intermediate Model
+            PatientAssignments::class, // Intermediate Model
             'practitioner_user_id', // Foreign key on `patient_assignments` table
-            'id', // Foreign key on patientData table
+            'id', // Foreign key on user table
             'user_id', // Local key on `practitioners` table
             'patient_user_id' // Local key on `patient_assignments` table
         );
