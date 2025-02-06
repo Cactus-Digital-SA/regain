@@ -297,7 +297,7 @@
                         {data: 'id', searchable: false, orderable: false},
                         {data: 'name', name: 'user.name', searchable: false, orderable: true},
                         {data: 'registered', name: 'users.created_at', searchable: false, orderable: false},
-                        {data: 'status', name: 'status', searchable: false, orderable: false}
+                        {data: 'status', name: 'status', searchable: false, orderable: false},
                     ],
                     columnDefs: [],
                     dom: 't<"d-flex justify-content-between mx-0 row"<"d-flex justify-content-left col-12"i><"d-flex justify-content-left col-12"p>>',
