@@ -186,14 +186,13 @@
                                                     <table
                                                         class="table patients-datatable general-datatable dt-select-table w-100">
                                                         <thead>
-                                                        <tr class="text-center">
+                                                        <tr class="text-left">
                                                             @foreach($columns as $column)
-                                                                <th class="text-center"> {{ __($column['name']) }}</th>
+                                                                <th class="text-left"> {{ __($column['name']) }}</th>
                                                             @endforeach
-                                                            <th class="text-center">{{ __('Actions') }}</th>
                                                         </tr>
                                                         </thead>
-                                                        <tbody class="text-center">
+                                                        <tbody class="text-left">
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -295,11 +294,10 @@
                         {data: 'id', searchable: false, orderable: false},
                         {data: 'name', name: 'user.name', searchable: false, orderable: true},
                         {data: 'registered', name: 'users.created_at', searchable: false, orderable: false},
-                        {data: 'status', name: 'status', searchable: false, orderable: false},
-                        {data: 'actions', searchable: false, orderable: false, className: 'text-center'},
+                        {data: 'status', name: 'status', searchable: false, orderable: false}
                     ],
                     columnDefs: [],
-                    dom: 't<"d-flex justify-content-between mx-0 row"<"d-flex justify-content-center col-12"i><"d-flex justify-content-center col-12"p>>',
+                    dom: 't<"d-flex justify-content-between mx-0 row"<"d-flex justify-content-left col-12"i><"d-flex justify-content-left col-12"p>>',
                     paginate: {
                         previous: '&nbsp;',
                         next: '&nbsp;'
