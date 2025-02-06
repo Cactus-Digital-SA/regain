@@ -18,9 +18,15 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Nette\NotImplementedException;
 use Throwable;
+use Illuminate\Support\Facades\Log;
+
+use App\Mail\RegainEmail;
+use Illuminate\Support\Facades\Mail;
+
 
 class PatientController extends Controller
 {
@@ -61,11 +67,13 @@ class PatientController extends Controller
 
     public function storePatient(StorePatientRequest $request): View
     {
+        $password = Str::random(8); // random 8 char password
+
         $userModel = (new User())
             ->setName($request->getName())
             ->setActive(true)
             ->setEmail($request->getEmail())
-            ->setPassword('123456');
+            ->setPassword($password);
 
         try {
             $user        = $this->userService->store($userModel);
@@ -84,6 +92,13 @@ class PatientController extends Controller
                     ->setNotes($request->getNotes());
 
                 $this->patientDataService->store($model);
+
+                $userName = $user?->getName();
+                try {
+                    Mail::to($user->getEmail())->send(new RegainEmail($userName, $password));
+                } catch (Throwable $e) {
+                    Log::error($e->getMessage());
+                }
 
                 return view("organization.includes.patient-stored");
             }

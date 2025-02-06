@@ -8,7 +8,7 @@
 </head>
 <body>
 
-@include('frontend.content.mock.includes.navbar')
+@include('patient.includes.navbar')
 @vite(['resources/css/patient-index.css'])
 
 <div class="dob-container-questions">
@@ -16,7 +16,7 @@
         <a href="#" class="btn btn-link text-decoration-none">&larr; Back</a>
         <a href="#" class="btn btn-link text-decoration-none d-flex align-items-center justify-content-center"
            style="display: inline-block; width: 1.8rem; height: 1.8rem; background-color: #757CA0; border-radius: 50%; color: white; text-decoration: none;"><span
-                style="position: relative; top: 2px;">i</span></a>
+                    style="position: relative; top: 2px;">i</span></a>
     </div>
     <div class="container px-5 py-2 pb-5">
         <h3 class="text-center mt-0 mb-2 text-nowrap dob-title">What is your current location?</h3>

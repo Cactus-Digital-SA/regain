@@ -7,6 +7,8 @@ class ReportTestResultTotalResult
     private string $resultLabel;
     private string $resultNotes;
     private int $score;
+    private int $testItems;
+    private int $testIndex;
 
     public function getResultLabel(): string
     {
@@ -40,6 +42,30 @@ class ReportTestResultTotalResult
     public function setScore(int $score): ReportTestResultTotalResult
     {
         $this->score = $score;
+
+        return $this;
+    }
+
+    public function getTestItems(): int
+    {
+        return $this->testItems;
+    }
+
+    public function setTestItems(int $testItems): ReportTestResultTotalResult
+    {
+        $this->testItems = $testItems;
+
+        return $this;
+    }
+
+    public function getTestIndex(): int
+    {
+        return $this->testIndex;
+    }
+
+    public function setTestIndex(int $testIndex): ReportTestResultTotalResult
+    {
+        $this->testIndex = $testIndex;
 
         return $this;
     }

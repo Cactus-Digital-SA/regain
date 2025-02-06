@@ -9,7 +9,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Organization Dashboard</title>
+    <title>Organisation Dashboard</title>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
@@ -112,7 +112,7 @@
                                 <h6 class="navbar-logo mb-0">Ministry of Regain</h6>
                                 <ol class="breadcrumb mb-0">
                                     <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Organization</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Organisation</li>
                                 </ol>
                             </div>
                             <div class="nav-search row">
@@ -227,7 +227,7 @@
                             <div class="dropdown-container">
                                 <button class="filter-dropdown-btn rounded-pill" type="button" data-bs-toggle="dropdown"
                                         aria-expanded="false">
-                                     5<i class="ti ti-chevron-down"></i>
+                                    5<i class="ti ti-chevron-down"></i>
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="#">5</a></li>
@@ -268,7 +268,7 @@
                                                         @foreach($columns as $column)
                                                             <th class="text-left"> {{ __($column['name']) }}</th>
                                                         @endforeach
-                                                        <th class="text-left">{{ __('Actions') }}</th>
+                                                        {{--                                                        <th class="text-left">{{ __('Actions') }}</th>--}}
                                                     </tr>
                                                     </thead>
                                                     <tbody class="text-left">
@@ -329,12 +329,13 @@
                         }
                     },
                     columns: [
-                        {data: 'id', searchable: false, orderable: false},
+                        {data: 'id', searchable: false, orderable: true},
                         {data: 'name', name: 'user.name', searchable: false, orderable: true},
+                        {data: 'registered', name: 'users.created_at', searchable: false, orderable: true},
                         {data: 'region', name: 'region.name', searchable: false, orderable: true},
-                        {data: 'registered', name: 'users.created_at', searchable: false, orderable: false},
-                        {data: 'status', name: 'status', searchable: false, orderable: false},
-                        {data: 'actions', searchable: false, orderable: false, className: 'text-center'},
+                        {data: 'practitioner', name: 'practitioner', searchable: false, orderable: true},
+                        {data: 'status', name: 'status', searchable: false, orderable: true},
+                        // {data: 'actions', searchable: false, orderable: false, className: 'text-center'},
                     ],
                     columnDefs: [],
                     dom: 't<"d-flex justify-content-between mx-0 row"<"d-flex justify-content-center col-12"i><"d-flex justify-content-center col-12"p>>',

@@ -42,44 +42,42 @@
             margin: 1.25rem auto;
         }
 
-
     </style>
 </head>
 <body>
 
-@include('frontend.content.mock.includes.navbar')
+@include('patient.includes.navbar')
 
 <div class="dob-container">
     <a href="#" class="btn btn-link text-decoration-none">&larr; Back</a>
     <div class="container px-sm-5 py-5 pt-2">
 
-            <h3 class="text-center mt-0 mb-2 text-nowrap dob-title">What is your date of birth?</h3>
-            <p class="text-center text-muted mb-5 choice">Choose one below.</p>
-            <form class="mb-0 form-dob" onsubmit="return false;">
-                <select class="dropdown-select" name="day">
-                    <option value="">Day</option>
-                    @for ($i = 1; $i <= 31; $i++)
-                        <option value="{{ $i }}">{{ $i }}</option>
-                    @endfor
-                </select>
-                <select class="dropdown-select" name="month">
-                    <option value="">Month</option>
-                    @foreach (['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] as $month)
-                        <option value="{{ $month }}">{{ $month }}</option>
-                    @endforeach
-                </select>
-                <select class="dropdown-select mb-5" name="year">
-                    <option value="">Year</option>
-                    @for ($i = date('Y'); $i >= 1900; $i--)
-                        <option value="{{ $i }}">{{ $i }}</option>
-                    @endfor
-                </select>
-                <button type="submit" class="btn btn-primary w-100 mt-3">Next</button>
-            </form>
+        <h3 class="text-center mt-0 mb-2 text-nowrap dob-title">What is your date of birth?</h3>
+        <p class="text-center text-muted mb-5 choice">Choose one below.</p>
+        <form class="mb-0 form-dob" onsubmit="return false;">
+            <select class="dropdown-select" name="day">
+                <option value="">Day</option>
+                @for ($i = 1; $i <= 31; $i++)
+                    <option value="{{ $i }}">{{ $i }}</option>
+                @endfor
+            </select>
+            <select class="dropdown-select" name="month">
+                <option value="">Month</option>
+                @foreach (['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] as $month)
+                    <option value="{{ $month }}">{{ $month }}</option>
+                @endforeach
+            </select>
+            <select class="dropdown-select mb-5" name="year">
+                <option value="">Year</option>
+                @for ($i = date('Y'); $i >= 1900; $i--)
+                    <option value="{{ $i }}">{{ $i }}</option>
+                @endfor
+            </select>
+            <button type="submit" class="btn btn-primary w-100 mt-3">Next</button>
+        </form>
 
     </div>
 </div>
-
 
 </body>
 </html>

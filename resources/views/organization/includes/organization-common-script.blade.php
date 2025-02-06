@@ -64,7 +64,7 @@
 
         if (nextButton) {
             function validateForm() {
-                let allFilled = Array.from(formFields).every(function (field) {
+                let allFilled = Array.from(document.querySelectorAll('input.required')).every(function (field) {
                     return field.value.trim() !== '';
                 });
                 nextButton.disabled = !allFilled;

@@ -38,7 +38,7 @@
             margin-bottom: 62px;
         }
 
-        .question-span{
+        .question-span {
             font-size: 16px;
             font-weight: 700;
             line-height: 22px;
@@ -55,7 +55,7 @@
             margin-bottom: 10px;
         }
 
-        .slider{
+        .slider {
             margin: auto;
             width: 90%;
             z-index: 3;
@@ -130,12 +130,14 @@
         }
 
         @media (max-width: 990px) {
-            .question-single{
+            .question-single {
                 padding: 10px;
             }
+
             .slider {
                 width: 100%;
             }
+
             .slider-background {
                 display: none;
             }
@@ -143,7 +145,7 @@
     </style>
 </head>
 <body>
-@include('frontend.content.mock.includes.navbar')
+@include('patient.includes.navbar')
 
 <div class="question-wrapper">
     <div class="dob-container-questions">
@@ -186,50 +188,49 @@
     @if(isset($questions))
     document.addEventListener('DOMContentLoaded', function () {
         @foreach ($questions as $index => $question)
-            let slider_{{ $index }} = document.getElementById('slider-{{ $index }}');
-            let answers_{{ $index }} = @json($answers[$index]);
+        let slider_{{ $index }} = document.getElementById('slider-{{ $index }}');
+        let answers_{{ $index }} = @json($answers[$index]);
 
-            noUiSlider.create(slider_{{ $index }}, {
-                start: [0],
-                range: {
-                    min: 0,
-                    max: answers_{{ $index }}.length - 1
-                },
-                connect: 'lower',
-                behaviour: 'tap-drag', // Free movement
-                pips: {
-                    mode: 'values',
-                    values: [...Array(answers_{{ $index }}.length).keys()],
-                    density: 100,
-                    format: {
-                        to: function (value) {
-                            return answers_{{ $index }}[Math.round(value)]; // Answer labels
-                        }
+        noUiSlider.create(slider_{{ $index }}, {
+            start: [0],
+            range: {
+                min: 0,
+                max: answers_{{ $index }}.length - 1
+            },
+            connect: 'lower',
+            behaviour: 'tap-drag', // Free movement
+            pips: {
+                mode: 'values',
+                values: [...Array(answers_{{ $index }}.length).keys()],
+                density: 100,
+                format: {
+                    to: function (value) {
+                        return answers_{{ $index }}[Math.round(value)]; // Answer labels
                     }
                 }
+            }
+        });
+
+        let isSnapping_{{ $index }} = false; // Each slider has a unique flag
+
+        // Snapping
+        slider_{{ $index }}.noUiSlider.on('set', function (values, handle) {
+            if (isSnapping_{{ $index }}) return; // Recursion protection
+            isSnapping_{{ $index }} = true;
+
+            let snappedValue = Math.round(values[handle]);
+            slider_{{ $index }}.noUiSlider.set(snappedValue); // Snapping to the closest integer (floats breaks it)
+
+            isSnapping_{{ $index }} = false; // Flag reset
+        });
+
+
+        slider_{{ $index }}.noUiSlider.on('update', function (values, handle) {
+            let answerIndex = Math.round(values[handle]);
+            document.querySelectorAll(`#slider-{{ $index }} .noUi-value`).forEach((pip, i) => {
+                pip.classList.toggle('highlighted', i === answerIndex);
             });
-
-            let isSnapping_{{ $index }} = false; // Each slider has a unique flag
-
-            // Snapping
-            slider_{{ $index }}.noUiSlider.on('set', function (values, handle) {
-                if (isSnapping_{{ $index }}) return; // Recursion protection
-                isSnapping_{{ $index }} = true;
-
-                let snappedValue = Math.round(values[handle]);
-                slider_{{ $index }}.noUiSlider.set(snappedValue); // Snapping to the closest integer (floats breaks it)
-
-                isSnapping_{{ $index }} = false; // Flag reset
-            });
-
-
-
-            slider_{{ $index }}.noUiSlider.on('update', function (values, handle) {
-                let answerIndex = Math.round(values[handle]);
-                document.querySelectorAll(`#slider-{{ $index }} .noUi-value`).forEach((pip, i) => {
-                    pip.classList.toggle('highlighted', i === answerIndex);
-                });
-            });
+        });
         @endforeach
     });
     @endif

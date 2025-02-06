@@ -5,6 +5,7 @@ namespace App\Domains\Reports\Dtos\PatientReport;
 class ReportTestResultSubscaleResult
 {
     private string $resultLabel = "";
+    private string $description = "";
     private string $resultNotes;
     private string $subscaleName;
     private int $subscaleItems;
@@ -66,6 +67,18 @@ class ReportTestResultSubscaleResult
     public function setSubscaleIndex(int $subscaleIndex): ReportTestResultSubscaleResult
     {
         $this->subscaleIndex = $subscaleIndex;
+
+        return $this;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): ReportTestResultSubscaleResult
+    {
+        $this->description = $description;
 
         return $this;
     }
