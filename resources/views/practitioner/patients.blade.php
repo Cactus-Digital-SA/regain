@@ -3,7 +3,7 @@
     * @var \App\Domains\Patient\Models\PatientData $patients
     */
 @endphp
-    <!DOCTYPE html>
+        <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -23,8 +23,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/color-calendar/dist/bundle.js"></script>
     <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/color-calendar/dist/css/theme-basic.css"
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/color-calendar/dist/css/theme-basic.css"
     />
 
     @include('includes.datatable_styles')
@@ -55,7 +55,7 @@
                                 <span class="nav-link text-left" id="v-pills-patient-registration-tab"
                                       aria-selected="true" style="color:#000; font-weight:bold;">
                                     New Patient <span
-                                        class="notification-count-patient d-flex justify-content-center align-items-center">1
+                                            class="notification-count-patient d-flex justify-content-center align-items-center">1
                                     </span>
                                 </span>
                                 </div>
@@ -119,8 +119,11 @@
                                 </span>
                                     <button href="#" class="ms-3 btn btn-lg notification-button rounded-pill "
                                             data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                            title="Notifications"><div
-                                            class="notification-count"><span class="notification-span">3</span></div><i class="ti ti-bell"></i></button>
+                                            title="Notifications">
+                                        <div
+                                                class="notification-count"><span class="notification-span">3</span>
+                                        </div>
+                                        <i class="ti ti-bell"></i></button>
                                     <button href="#" class="btn btn-lg profile-button rounded-pill "
                                             data-bs-toggle="tooltip"
                                             data-bs-placement="bottom" title="Profile"><i class="ti ti-user"></i>
@@ -184,7 +187,7 @@
                                             <section id="column-selectors">
                                                 <div class="table-responsive">
                                                     <table
-                                                        class="table patients-datatable general-datatable dt-select-table w-100">
+                                                            class="table patients-datatable general-datatable dt-select-table w-100">
                                                         <thead>
                                                         <tr class="text-left">
                                                             @foreach($columns as $column)
@@ -212,8 +215,8 @@
 
                                     </div>
                                     <div
-                                        class="calendar-footer d-flex justify-content-center align-items-center px-2 py-3"
-                                        style="background-color: #dddef1">
+                                            class="calendar-footer d-flex justify-content-center align-items-center px-2 py-3"
+                                            style="background-color: #dddef1">
                                         <button class="appointment-overview position-relative w-100"
                                                 style="border-radius: 10px; border: 2px solid; font-weight: 700; font-size: 15px; background-color: transparent">
                                             Appointment Overview
@@ -294,7 +297,7 @@
                         {data: 'id', searchable: false, orderable: false},
                         {data: 'name', name: 'user.name', searchable: false, orderable: true},
                         {data: 'registered', name: 'users.created_at', searchable: false, orderable: false},
-                        {data: 'status', name: 'status', searchable: false, orderable: false}
+                        {data: 'status', name: 'status', searchable: false, orderable: false},
                     ],
                     columnDefs: [],
                     dom: 't<"d-flex justify-content-between mx-0 row"<"d-flex justify-content-left col-12"i><"d-flex justify-content-left col-12"p>>',
@@ -347,6 +350,7 @@
             }
 
             let elementsArray = document.querySelectorAll(".enter_filter");
+
 
             elementsArray.forEach(function (elem) {
                 elem.addEventListener("keypress", function () {
