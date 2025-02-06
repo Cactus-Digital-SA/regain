@@ -279,7 +279,7 @@
                     searching: false,
                     serverMethod: 'post',
                     ajax: {
-                        url: "{{ route('patients.datatable') }}",
+                        url: "{{ route('practitioner.patients.datatable') }}",
                         headers: {
                             'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
                         },
