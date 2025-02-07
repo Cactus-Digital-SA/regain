@@ -93,7 +93,7 @@ class PatientController extends Controller
 
                 $this->patientDataService->store($model);
 
-                $userName = $user?->getName();
+                $userName = $user?->getEmail();
                 try {
                     Mail::to($user->getEmail())->send(new RegainEmail($userName, $password));
                 } catch (Throwable $e) {

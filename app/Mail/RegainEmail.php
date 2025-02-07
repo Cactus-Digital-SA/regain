@@ -29,7 +29,7 @@ class RegainEmail extends Mailable
     public function build()
     {
         return $this->subject('Your Regain Account Details')
-            ->view('frontend.content.mock.email.index')
+            ->view('email.index')
             ->with([
                 'userName' => $this->userName,
                 'password' => $this->password
