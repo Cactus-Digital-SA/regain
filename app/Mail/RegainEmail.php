@@ -28,7 +28,8 @@ class RegainEmail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Your Regain Account Details')
+        return $this->from('your_email@example.com', 'Regain')
+            ->subject('Your Regain Account Details')
             ->view('email.index')
             ->with([
                 'userName' => $this->userName,
