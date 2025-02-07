@@ -54,7 +54,7 @@
                         <label style="font-size: 14px; font-weight: 600;">Username:</label>
                         <div
                             style="display: inline-block; background: #ffffff; border: 1px solid #d9d9d9; padding: 10px 15px; border-radius: 10px; font-size: 14px; font-weight: 500; text-align: center; width: 200px">
-                            {{ $userName->name }}
+                            {{ $userName }}
                         </div>
                     </div>
                     <div style="margin-bottom: 20px; width: 100%">
