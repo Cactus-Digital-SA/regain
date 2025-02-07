@@ -43,7 +43,7 @@
                 </p>
 
                 <!-- Download Button -->
-                <a href="#"
+                <a href="https://platform.regain.world"
                    style="display: inline-block; width: 250px; padding: 15px; background-color: #0A133A; color: white; text-decoration: none; font-size: 16px; font-weight: 600; border-radius: 30px; text-align: center;">
                     Click Here
                 </a>
