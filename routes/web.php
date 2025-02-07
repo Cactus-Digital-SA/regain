@@ -188,7 +188,7 @@ Route::middleware(['guest'])->group(function () {
 //    // Simulate a user (replace with actual test user data)
 //    $user = (object) [
 //        'name' => 'georgia',
-//        'email' => 'georgia@example.com'
+//        'email' => 'giannakos@cactusweb.gr'
 //    ];
 //
 //    // Generate a random password
@@ -198,4 +198,18 @@ Route::middleware(['guest'])->group(function () {
 //    Mail::to($user->email)->send(new RegainEmail($user, $password));
 //
 //    return 'Test email sent successfully!';
+//});
+////
+//Route::get('/preview-email', function () {
+//    // Simulated user data
+//    $user = (object) [
+//        'name' => 'Georgia',
+//        'email' => 'giannakos@cactusweb.gr'
+//    ];
+//
+//    // Simulated password
+//    $password = '12345678georgia';
+//
+//    // Return the Blade view for testing
+//    return new RegainEmail($user, $password);
 //});

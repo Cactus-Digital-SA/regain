@@ -28,8 +28,9 @@ class RegainEmail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Your Regain Account Details')
-            ->view('frontend.content.mock.email.index')
+        return $this->from(config('mail.from.address'), config('mail.from.name'))
+            ->subject('Your Regain Account Details')
+            ->view('email.index')
             ->with([
                 'userName' => $this->userName,
                 'password' => $this->password
