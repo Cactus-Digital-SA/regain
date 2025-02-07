@@ -14,4 +14,5 @@ General:
 
 ---------------------------------------------FRONTEND-----------------------------------------------------------------------------------------------------------
 FrontEnd Pending:
-    • Patient Controller make the email DTO storePatient function
+    • Check flat picker organization (patient registration)
+    • Change Report bars to be in row with header in report
