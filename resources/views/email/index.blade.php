@@ -81,7 +81,7 @@
                 </p>
 
                 <!-- Contact List -->
-                <div style="display: block; margin-left: 100px;">
+                <div style="display: block; margin-left: auto;">
                     <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0">
                         <tr>
                             <!-- First Contact -->
