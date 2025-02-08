@@ -17,7 +17,7 @@ class Practitioner extends Model
         'user_id',
         'region_id',
         'status_id',
-        'medical_type_category_id',
+        'medical_type_id',
     ];
 
     public function user(): BelongsTo
@@ -32,7 +32,7 @@ class Practitioner extends Model
 
     public function medicalCategory(): BelongsTo
     {
-        return $this->belongsTo(PractitionerMedicalType::class, 'medical_type_category_id', 'type_id');
+        return $this->belongsTo(PractitionerMedicalType::class, 'medical_type_id', 'type_id');
     }
 
     public function patientAssignments(): HasMany

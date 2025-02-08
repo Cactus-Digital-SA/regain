@@ -16,6 +16,5 @@ class DatabaseSeeder extends Seeder
         $this->call(LanguageSeeder::class);
         $this->call(RegionsSeeder::class);
         $this->call(PractitionersSeeder::class);
-        $this->call(PatientDataSeeder::class);
     }
 }
