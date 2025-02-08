@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Domains\Auth\Models\RolesEnum;
 use App\Domains\Auth\Repositories\Eloquent\Models\Role;
 use App\Domains\Auth\Repositories\Eloquent\Models\User;
+use App\Domains\Patient\Enums\StatusEnum;
 use App\Domains\Patient\Repositories\Eloquent\Models\PatientData;
 use App\Domains\Practitioner\Enums\MedicalPersonnelCategory;
 use App\Domains\Practitioner\Enums\MedicalPersonnelTypes;
@@ -110,11 +111,12 @@ class PractitionersSeeder extends Seeder
             $role = Role::query()->where('id', RolesEnum::Practitioner->value)->first();
             $user->roles()->attach($role->id);
 
+            $randomMedicalType = MedicalPersonnelTypes::cases()[array_rand(MedicalPersonnelTypes::cases())]->value;
             // Create the practitioner record and associate with the region
             Practitioner::create([
                 'user_id'                  => $user->id,
                 'region_id'                => $regionId,
-                'medical_type_category_id' => MedicalPersonnelTypes::PRACTITIONER_GENERAL_PRACTITIONER,
+                'medical_type_id' => $randomMedicalType,
             ]);
             $index++;
         }
@@ -136,7 +138,67 @@ class PractitionersSeeder extends Seeder
             'primary_phone'       => '123456789',
             'secondary_phone'     => '123456789',
             'accessible_mobility' => 1,
-            'status'              => "Inactive"
+            'status'              => StatusEnum::INACTIVE
+        ]);
+
+        $patient = User::create([
+            'name'     => ASCII::to_ascii($faker->firstName) . ' ' . ASCII::to_ascii($faker->lastName),
+            'email'    => "urgent-waitlisted@example.com",
+            'password' => bcrypt('password'), // Set a default password
+        ]);
+
+        $role = Role::query()->where('id', RolesEnum::Patient->value)->first();
+        $patient->roles()->attach($role->id);
+
+        PatientData::create([
+            'user_id'             => $patient->id,
+            'birthday'            => '1976-08-04',
+            'region_id'           => '1',
+            'post_code'           => '12345',
+            'primary_phone'       => '123456789',
+            'secondary_phone'     => '123456789',
+            'accessible_mobility' => 1,
+            'status'              => StatusEnum::WAITLIST_URGENT
+        ]);
+
+        $patient = User::create([
+            'name'     => ASCII::to_ascii($faker->firstName) . ' ' . ASCII::to_ascii($faker->lastName),
+            'email'    => "waitlisted@example.com",
+            'password' => bcrypt('password'), // Set a default password
+        ]);
+
+        $role = Role::query()->where('id', RolesEnum::Patient->value)->first();
+        $patient->roles()->attach($role->id);
+
+        PatientData::create([
+            'user_id'             => $patient->id,
+            'birthday'            => '1976-08-04',
+            'region_id'           => '1',
+            'post_code'           => '12345',
+            'primary_phone'       => '123456789',
+            'secondary_phone'     => '123456789',
+            'accessible_mobility' => 1,
+            'status'              => StatusEnum::WAITLIST
+        ]);
+
+        $patient = User::create([
+            'name'     => ASCII::to_ascii($faker->firstName) . ' ' . ASCII::to_ascii($faker->lastName),
+            'email'    => "guided@example.com",
+            'password' => bcrypt('password'), // Set a default password
+        ]);
+
+        $role = Role::query()->where('id', RolesEnum::Patient->value)->first();
+        $patient->roles()->attach($role->id);
+
+        PatientData::create([
+            'user_id'             => $patient->id,
+            'birthday'            => '1976-08-04',
+            'region_id'           => '1',
+            'post_code'           => '12345',
+            'primary_phone'       => '123456789',
+            'secondary_phone'     => '123456789',
+            'accessible_mobility' => 1,
+            'status'              => StatusEnum::GUIDED
         ]);
     }
 }
