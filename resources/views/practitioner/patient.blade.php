@@ -8,6 +8,7 @@
  * @var FlowsPresenter $presenter
  * @var bool $medicalHistoryCompleted
  * @var MedicalHistoryResult $medicalHistoryResult
+ * @var array $medicalHistoryPresenter
 */
 @endphp
 
@@ -200,12 +201,17 @@
 
                                             <h6 class="section-title">Details</h6>
                                             <div class="tags-container">
-                                                <span class="detail-tag tag-purple">-</span>
+                                                @foreach($medicalHistoryPresenter["details"] as $presenter)
+                                                    <span class="detail-tag tag-purple">{{ $presenter }}</span>
+                                                @endforeach
+
                                             </div>
 
                                             <h6 class="section-title">Medication</h6>
                                             <div class="tags-container">
-                                                <span class="detail-tag">-</span>
+                                            @foreach($medicalHistoryPresenter["medication"] as $presenter)
+                                                <span class="detail-tag">{{ ucfirst($presenter) }}</span>
+                                            @endforeach
                                             </div>
                                         </div>
                                     </div>

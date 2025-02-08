@@ -147,23 +147,30 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
                              return $data?->practitioner()?->first()->name ?? "-";
                          })
                          ->editColumn('status', function ($data) {
-                             $statusValue = $data?->status?->value ?? ' - ';
-                             switch ($statusValue) {
-                                 case 'Allocated':
+                             $status = $data?->status;
+                             $labelClass = "";
+                             switch ($status) {
+                                 case StatusEnum::ALLOCATED:
                                      $labelClass = 'status-pill active';
                                      break;
-                                 case 'Processing':
+                                 case StatusEnum::PROCESSING:
                                      $labelClass = 'status-pill processing';
                                      break;
-                                 case 'Inactive':
+                                 case StatusEnum::INACTIVE:
                                      $labelClass = 'status-pill default';
                                      break;
-                                 default:
+                                 case StatusEnum::WAITLIST:
                                      $labelClass = 'status-pill warning';
+                                     break;
+                                 case StatusEnum::WAITLIST_URGENT:
+                                     $labelClass = 'status-pill danger';
+                                     break;
+                                 case StatusEnum::GUIDED:
+                                     $labelClass = 'status-pill guided';
                                      break;
                              }
 
-                             return '<span class="' . $labelClass . '">' . e($statusValue) . '</span>';
+                             return '<span class="' . $labelClass . '">' . $status->label() . '</span>';
                          })
 //                         ->addColumn('actions', function ($data) use ($user) {
 //                             $deleteUrl = route('organization.patients.destroy', [
