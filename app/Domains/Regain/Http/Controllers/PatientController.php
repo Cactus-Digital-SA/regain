@@ -7,6 +7,7 @@ use App\Domains\Auth\Models\User;
 use App\Domains\Auth\Repositories\Eloquent\Models\User as EloquentUser;
 use App\Domains\Auth\Repositories\Eloquent\Models\Role;
 use App\Domains\Auth\Services\UserService;
+use App\Domains\Patient\Enums\StatusEnum;
 use App\Domains\Patient\Models\PatientData;
 use App\Domains\Patient\Services\PatientDataService;
 use App\Domains\Practitioner\Services\PractitionersService;
@@ -89,6 +90,7 @@ class PatientController extends Controller
                     ->setPrimaryPhone($request->getPhone())
                     ->setSecondaryPhone($request->getSecondaryPhone())
                     ->setAccessibleMobility($request->getMobility())
+                    ->setStatus(StatusEnum::INACTIVE)
                     ->setNotes($request->getNotes());
 
                 $this->patientDataService->store($model);
