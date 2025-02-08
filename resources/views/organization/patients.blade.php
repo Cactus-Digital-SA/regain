@@ -218,8 +218,8 @@
                                     Status <i class="ti ti-chevron-down"></i>
                                 </button>
                                 <ul class="dropdown-menu w-100">
-                                    @foreach(\App\Domains\Patient\Enums\StatusEnum::array() as $key => $value)
-                                        <li><a class="dropdown-item" href="#">{{ $value }}</a></li>
+                                    @foreach(\App\Domains\Patient\Enums\StatusEnum::cases() as $enum)
+                                        <li><a class="dropdown-item" href="#">{{ $enum-> label() }}</a></li>
                                     @endforeach
                                 </ul>
                             </div>

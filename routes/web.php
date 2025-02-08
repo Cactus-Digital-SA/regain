@@ -104,6 +104,10 @@ Route::middleware(['guest'])->group(function () {
     })->name('organization.login');
 });
 
+Route::get('/refresh-csrf', function () {
+    return response()->json(['token' => csrf_token()]);
+});
+
 ////2fa fortify
 //Route::post('/2fa-confirm', [TwoFactorAuthController::class, 'confirm'])->name('fortify.two-factor.confirm');
 //

@@ -17,8 +17,8 @@ enum StatusEnum : int
             self::INACTIVE => 'Inactive',
             self::PROCESSING => 'Processing',
             self::ALLOCATED => 'Allocated',
-            self::WAITLIST_URGENT => 'Wishlist (Urgent)',
-            self::WAITLIST => 'Wishlist',
+            self::WAITLIST_URGENT => 'Waitlist (Urgent)',
+            self::WAITLIST => 'Waitlist',
             self::GUIDED => 'Guided',
         };
     }
