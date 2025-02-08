@@ -13,11 +13,11 @@
                 <div class="row">
                     <div class="col-6">
                         <input type="radio" class="btn-check" name="mobility" id="mobility-yes" value="1" required>
-                        <label class="new-patient-input btn w-100 d-flex align-items-center justify-content-center" for="mobility-yes">Yes</label>
+                        <label class="new-patient-input btn w-100 d-flex align-items-center justify-content-center mobility-button" for="mobility-yes">Yes</label>
                     </div>
                     <div class="col-6">
                         <input type="radio" class="btn-check" name="mobility" id="mobility-no" value="0" required>
-                        <label class="new-patient-input btn w-100 d-flex align-items-center justify-content-center" for="mobility-no">No</label>
+                        <label class="new-patient-input btn w-100 d-flex align-items-center justify-content-center mobility-button" for="mobility-no">No</label>
                     </div>
                 </div>
             </div>

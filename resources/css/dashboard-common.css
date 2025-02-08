@@ -283,6 +283,14 @@ body {
     min-height: 45px;
 }
 
+.mobility-button:hover {
+    background-color: #e9e9f3 !important;
+}
+
+.mobility-button {
+    background-color: #dddef1 !important;
+}
+
 /*remove when needed*/
 .notification-count-patient {
     display: none !important;

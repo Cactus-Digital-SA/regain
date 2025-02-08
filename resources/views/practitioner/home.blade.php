@@ -48,7 +48,7 @@
                             <div class="row">
                                 <div class="my-1 my-lg-5 ms-2">
                                 <span class="nav-link text-left" id="v-pills-patient-registration-tab"
-                                      aria-selected="true" style="color:#000; font-weight:bold;">
+                                      aria-selected="true" style="color:#000; font-weight:bold; cursor: pointer !important">
                                     New Patient <span
                                         class="notification-count-patient d-flex justify-content-center align-items-center">1</span>
                                 </span>
