@@ -524,3 +524,7 @@ td:last-child {
 .status-pill.warning {
     background-color: #F2A83B;
 }
+
+.status-pill.guided {
+    background-color: #504E84;
+}
