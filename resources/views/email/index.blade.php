@@ -43,7 +43,7 @@
                 </p>
 
                 <!-- Download Button -->
-                <a href="https://platform.regain.world"
+                <a href="https://platform.regain.world/register"
                    style="display: inline-block; width: 250px; padding: 15px; background-color: #0A133A; color: white; text-decoration: none; font-size: 16px; font-weight: 600; border-radius: 30px; text-align: center;">
                     Click Here
                 </a>
@@ -51,7 +51,7 @@
                 <!-- Login Details -->
                 <div style="margin-top: 50px; width: 100%">
                     <div style="margin-bottom: 10px;">
-                        <label style="font-size: 14px; font-weight: 600;">Username:</label>
+                        <label style="font-size: 14px; font-weight: 600;">User ID:</label>
                         <div
                             style="display: inline-block; background: #ffffff; border: 1px solid #d9d9d9; padding: 10px 15px; border-radius: 10px; font-size: 14px; font-weight: 500; text-align: center; width: 200px">
                             {{ $userName }}

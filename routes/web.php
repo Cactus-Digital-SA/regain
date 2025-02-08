@@ -182,6 +182,9 @@ Route::middleware(['guest'])->group(function () {
 //    Route::get('email', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showEmail'])->name('email');
 //});
 
+
+
+// Email Testing
 //use App\Mail\RegainEmail;
 //use Illuminate\Support\Facades\Mail;
 //Route::get('/test-email', function () {
