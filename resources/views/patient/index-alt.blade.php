@@ -131,7 +131,7 @@
                             data-max-selections="1"
                         @endif>
                     @csrf
-                    <div class="question mb-5">
+                    <div class="question" style="margin-bottom: 5rem">
                         <div class="question-span-div">
                             <span class="question-span">{{$question->getTitle()}} ({{$question->getInstruction()->getContent()}})</span>
                         </div>
