@@ -45,6 +45,16 @@ class PatientController extends Controller
         );
     }
 
+    public function registerFlow(): View
+    {
+        return view('patient.flow.register.index');
+    }
+
+    public function successFlow(): View
+    {
+        return view('patient.flow.register.success');
+    }
+
     public function submitAnswers(SubmitUserResponsesRequest $request): JsonResponse
     {
         $submittedData = $request->getSubmittedUserResponseForms();

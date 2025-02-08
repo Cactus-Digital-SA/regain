@@ -108,6 +108,14 @@ Route::get('/refresh-csrf', function () {
     return response()->json(['token' => csrf_token()]);
 });
 
+Route::group([
+    'prefix' => 'register',
+    'as'     => 'register.',
+], function () {
+    Route::get('/', [PatientController::class, 'registerFlow'])->name('index');
+    Route::get('/success', [PatientController::class, 'successFlow'])->name('index');
+});
+
 ////2fa fortify
 //Route::post('/2fa-confirm', [TwoFactorAuthController::class, 'confirm'])->name('fortify.two-factor.confirm');
 //
@@ -175,6 +183,8 @@ Route::get('/refresh-csrf', function () {
 //    Route::get('flow/info-second', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showFlowInfoSecond'])->name('info-flow');
 //    Route::get('flow/welcome-back', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showFlowWelcomeBack'])->name('welcome-back-flow');
 //    Route::get('flow/login-video', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showFlowLoginVideo'])->name('login-video-flow');
+//
+//    Route::get('questions/welcome-to-regain' , [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showWelcomeToRegain'])->name('welcome-to-regain');
 //
 ////    Dashboards
 //    Route::get('organization/dashboard', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showOrganizationDashboard'])->name('organization-dashboard');
