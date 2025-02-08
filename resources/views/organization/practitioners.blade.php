@@ -65,19 +65,19 @@
                                            aria-controls="v-pills-practitioner-directory" aria-selected="true">
                                             <i class="ti ti-user-screen me-2"></i> Practitioner Directory
                                         </a>
-                                        <a class=" nav-link text-left disabled" id="v-pills-calendar-tab"
-                                           type="button" role="tab"
+                                        <a class=" nav-link text-left" id="v-pills-calendar-tab"
+                                           type="button"
                                            aria-controls="v-pills-calendar" aria-selected="false">
                                             <i class="ti ti-calendar me-2"></i> Calendar
                                         </a>
-                                        <a class="nav-link text-left disabled" id="v-pills-settings-tab" data-bs-toggle="pill"
-                                           data-bs-target="#v-pills-settings" type="button" role="tab"
-                                           aria-controls="v-pills-settings" aria-selected="false">
+                                        <a class="nav-link text-left" id="v-pills-settings-tab"
+                                           data-bs-target="#v-pills-settings" type="button"
+                                           aria-controls="v-pills-settings">
                                             <i class="ti ti-settings me-2"></i> Settings
                                         </a>
-                                        <a class="nav-link text-left disabled" id="v-pills-help-tab" data-bs-toggle="pill"
-                                           data-bs-target="#v-pills-help" type="button" role="tab"
-                                           aria-controls="v-pills-help" aria-selected="false">
+                                        <a class="nav-link text-left" id="v-pills-help-tab"
+                                           data-bs-target="#v-pills-help" type="button"
+                                           aria-controls="v-pills-help">
                                             <i class="ti ti-help me-2"></i> Help Center
                                         </a>
                                     </div>
