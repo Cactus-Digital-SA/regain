@@ -99,7 +99,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-next">Start Module 2</button>
+{{--                <button type="button" class="btn btn-next">Start Module 2</button>--}}
             </div>
         </div>
     </div>

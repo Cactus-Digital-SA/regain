@@ -105,6 +105,7 @@
             display: flex;
             align-items: center;
             margin-right: 20px;
+            flex-direction: row;
         }
 
         .overview-bar-container {
