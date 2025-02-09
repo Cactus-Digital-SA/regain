@@ -24,6 +24,7 @@
             max-width: 900px !important;
             width: 100%;
             text-align: center;
+            margin: auto !important;
         }
 
         .container-inside {
@@ -52,9 +53,19 @@
             width: 100%;
         }
 
+        .container {
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+
         @media screen and (max-width: 1600px) {
             body {
-                overflow-y: auto;
+                overflow-y: hidden;
+            }
+
+            .container {
+                padding-top: 5px;
+                padding-bottom: 5px;
             }
         }
     </style>
@@ -66,7 +77,7 @@
 @include('patient.includes.navbar')
 
 <div class="dob-container-questions">
-    <div class="container px-5 py-4">
+    <div class="container px-5">
         <h3 class="text-center pt-0 my-0 welcome-back-title">Welcome to Regain!</h3>
         <div class="container-inside m-5 text-start d-flex justify-content-center">
             <ul class="list-unstyled d-flex justify-content-center">
