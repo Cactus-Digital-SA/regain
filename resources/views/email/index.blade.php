@@ -38,8 +38,7 @@
                 <h1 style="font-size: 32px; font-weight: 700; margin-bottom: 50px;">Hello</h1>
                 <p style="font-size: 18px; font-weight: 400; line-height: 1.5; margin-bottom: 50px;">
                     Following your registration with the <strong>Ministry of Regain</strong>, please click below to
-                    download
-                    the <strong>Regain App</strong> and start your journey using the login details below.
+                    access the <strong>Regain App</strong> and start your journey using the login details below.
                 </p>
 
                 <!-- Download Button -->
@@ -120,11 +119,7 @@
 
                     <tr>
                         <td style="text-align: center; padding: 10px; width: 100%">
-                            <small
-                                style="display:block; font-size: 12px; font-weight: 400; color: #0A133A; margin: 40px 0 5px 0;">&copy;
-                                2024 Regain<sup>&trade;</sup> - Genecode DX Limited</small>
-                            <small style="display:block; font-size: 12px; font-weight: 400; color: #0A133A; margin: 0;">Created
-                                and Developed by Cactus Digital Growth</small>
+                            <small style="display:block; font-size: 12px; font-weight: 400; color: #0A133A; margin: 40px 0 5px 0;">&copy;2024 Regain<sup>&trade;</sup></small>
                         </td>
                     </tr>
                 </table>
