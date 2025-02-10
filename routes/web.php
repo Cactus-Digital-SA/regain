@@ -48,9 +48,11 @@ Route::group([
     'as'         => 'patient.',
     'middleware' => ['role.patient', 'auth'],
 ], function () {
-    Route::get('/success', [PatientController::class, 'registerSuccess'])->name('success'); //role patient doesnt work here. Needs auth, role patient middleware
+    Route::get('/home', [PatientController::class, 'handleLandingPageFlow'])->name('home'); //role patient doesnt work here. Needs auth, role patient middleware
 
-    Route::get('/home' , [PatientController::class, 'home'])->name('home');
+    Route::get('/my-regain' , function() {
+        return view("patient.my-regain");
+    })->name('my-regain');
     Route::get('/ask', [PatientController::class, 'ask'])->name('ask');
     Route::get('/help-center', function () {
         return view('patient.help-center');
@@ -106,7 +108,11 @@ Route::middleware(['guest'])->group(function () {
         return view('frontend.auth.login-organization');
     })->name('organization.login');
 
-    Route::get('/register', [PatientController::class, 'registerFlow'])->name('index');
+    Route::get('/', function () {
+        return view('frontend.auth.login-patient');
+    })->name('patient.login');
+
+    Route::get('/register', [PatientController::class, 'registerFlow'])->name('registerFlow');
 });
 
 Route::get('/refresh-csrf', function () {

@@ -56,8 +56,15 @@ class PatientController extends Controller
         return view('patient.flow.register.success');
     }
 
-    public function home(Request $request): View
+    public function handleLandingPageFlow(Request $request): View
     {
+        $referer = request()->headers->get('referer');
+        $refererPath = $referer ? parse_url($referer, PHP_URL_PATH) : null;
+
+        if ($refererPath === "/register") {
+            return view('patient.flow.register.success');
+        }
+
         if ($request->get("register")) {
             return view('patient.home', ["back" => false]);
         }

@@ -313,9 +313,4 @@ class MockFrontController extends  Controller
             ["presenter" => $presenter]
         );
     }
-
-    public function showWelcomeToRegain(): View
-    {
-        return view('patient.home');
-    }
 }
