@@ -172,16 +172,16 @@
                                     <div class="card medical-history-card">
                                         <div class="card-body medical-history-card-body">
                                             <span class="card-label">Medical History</span>
-                                            {{--                                            <p class="mh-date"><strong>Date of Medical History:</strong> 06/11/2024 <span class="mh-self-filled">(self-filled)</span></p>--}}
-                                            <p class="mh-date"><strong>-</strong></p>
+                                            <p class="mh-date"><strong>Date of Medical History:</strong> 06/11/2024 <span class="mh-self-filled">(self-filled)</span></p>
+{{--                                            <p class="mh-date"><strong>-</strong></p>--}}
                                             <div class="mh-actions">
                                                 <div class="d-flex flex-column align-items-start">
-                                                    {{--                                                    <a href="#" class="mh-link">--}}
-                                                    {{--                                                        <i class="ti ti-eye"></i> View--}}
-                                                    {{--                                                    </a>--}}
-                                                    {{--                                                    <a href="#" class="mh-link mt-1">--}}
-                                                    {{--                                                        <i class="ti ti-download"></i> Download--}}
-                                                    {{--                                                    </a>--}}
+                                                    <a href="#" class="mh-link">
+                                                        <i class="ti ti-eye"></i> View
+                                                    </a>
+                                                    <a href="#" class="mh-link mt-1">
+                                                        <i class="ti ti-download"></i> Download
+                                                    </a>
                                                 </div>
                                                 <a href="#" class="btn mh-btn" data-bs-toggle="modal"
                                                    data-bs-target="#medicalHistoryHepatitis">Medical History</a>
@@ -195,8 +195,8 @@
                                             <span class="card-label">Appointment</span>
                                             <div class="d-flex justify-content-between align-items-start">
                                                 <div class="appointment-info">
-                                                    <div class="appointment-date">-</div>
-                                                    {{--                                                    <div class="appointment-date">19/11/2024</div>--}}
+{{--                                                    <div class="appointment-date">-</div>--}}
+                                                    <div class="appointment-date">19/11/2024</div>
                                                     <div class="appointment-subtext">Next Appointment</div>
                                                 </div>
                                                 <div class="appointment-actions d-flex flex-column align-items-end">
@@ -222,7 +222,7 @@
                                             <thead>
                                             <tr class="text-center">
                                                 @foreach($columns as $column)
-                                                    <th> {{ __($column['name']) }}</th>
+                                                    <th> {{ $column['name'] }}</th>
                                                 @endforeach
                                                 <th class="text-center">{{ __('Actions') }}</th>
                                             </tr>

@@ -12,7 +12,7 @@
 */
 @endphp
 
-        <!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -68,9 +68,10 @@
                             <div class="row">
                                 <div class="my-1 my-lg-5 ms-2">
                                 <span class="nav-link text-left" id="v-pills-patient-registration-tab"
-                                      aria-selected="true" style="color:#000; font-weight:bold; cursor: pointer !important">
+                                      aria-selected="true"
+                                      style="color:#000; font-weight:bold; cursor: pointer !important">
                                     New Patient <span
-                                            class="notification-count-patient d-flex justify-content-center align-items-center">1</span>
+                                        class="notification-count-patient d-flex justify-content-center align-items-center">1</span>
                                 </span>
                                 </div>
                                 <div class="d-flex flex-column justify-content-between ms-0 ps-0">
@@ -134,7 +135,7 @@
                                             data-bs-toggle="tooltip" data-bs-placement="bottom"
                                             title="Notifications">
                                         <div
-                                                class="notification-count"><span class="notification-span">3</span>
+                                            class="notification-count"><span class="notification-span">3</span>
                                         </div>
                                         <i class="ti ti-bell"></i></button>
                                     <button href="#" class="btn btn-lg profile-button rounded-pill "
@@ -209,9 +210,9 @@
 
                                             <h6 class="section-title">Medication</h6>
                                             <div class="tags-container">
-                                            @foreach($medicalHistoryPresenter["medication"] as $presenter)
-                                                <span class="detail-tag">{{ ucfirst($presenter) }}</span>
-                                            @endforeach
+                                                @foreach($medicalHistoryPresenter["medication"] as $presenter)
+                                                    <span class="detail-tag">{{ ucfirst($presenter) }}</span>
+                                                @endforeach
                                             </div>
                                         </div>
                                     </div>
@@ -222,34 +223,58 @@
                                             <div class="card-body medical-history-card-body">
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <div class="d-flex flex-column align-items-start">
-                                                        <span class="card-label">Medical History</span>
-                                                        @if ($medicalHistoryCompleted !== null)
-                                                            <p class="mh-date mt-2">
-                                                                Date: {{$medicalHistoryCompleted->format("d/m/Y")}}
-                                                            </p>
-                                                        @endif
+                                                        <span class="patient-profile-label" style="padding-bottom: 5px">Medical History</span>
+                                                        <div class="d-flex flex-column" style="margin-top: 0;">
+                                                            @if ($medicalHistoryCompleted !== null)
+                                                                <p class="mh-date">
+                                                                    <strong>Date of Medical
+                                                                        History:</strong> {{$medicalHistoryCompleted->format("d/m/Y")}}
+                                                                    <span
+                                                                        class="mh-self-filled text-nowrap">(filled)</span>
+                                                                </p>
+                                                            @else
+                                                                <p class="mh-date">
+                                                                    <strong>-</strong>
+                                                                </p>
+                                                            @endif
+                                                            <div class="d-flex flex-column align-items-start mt-2">
+                                                                @if ($medicalHistoryCompleted !== null)
+                                                                    <div class="d-flex w-100 justify-content-between">
+                                                                        <div class="d-flex flex-column">
+                                                                            <a href="{{route("practitioner.medical-history-report", [ "userId" => $patientData->getUser()->getId()])}}"
+                                                                               class="mh-link"
+                                                                               data-bs-toggle="modal"
+                                                                               data-bs-target="#medicalHistoryResult">
+                                                                                <i class="ti ti-eye"></i> View
+                                                                            </a>
+                                                                            <a href="{{route("practitioner.medical-history-report-download", ["userId" => $patientData->getUser()->getId()] )}}"
+                                                                               class="mh-link mt-1">
+                                                                                <i class="ti ti-download"></i> Download
+                                                                            </a>
+                                                                        </div>
+                                                                        <div class="d-flex align-items-end">
+                                                                            <a href="#" class="btn mh-btn"
+                                                                               data-bs-toggle="modal"
+                                                                               data-bs-target="#medicalHistory"
+                                                                               id="load-medical-history">
+                                                                                <i class="ti ti-pencil"></i>
+                                                                                Medical History
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                @else
+                                                                    <a href="#" class="btn mh-btn"
+                                                                       data-bs-toggle="modal"
+                                                                       data-bs-target="#medicalHistory"
+                                                                       id="load-medical-history">
+                                                                        Medical History
+                                                                    </a>
+                                                                @endif
+                                                            </div>
+                                                        </div>
                                                     </div>
 
-                                                    <div class="d-flex flex-column align-items-start">
-                                                        @if ($medicalHistoryCompleted !== null)
-                                                            <a href="{{route("practitioner.medical-history-report", [ "userId" => $patientData->getUser()->getId()])}}"
-                                                               class="mh-link"
-                                                               data-bs-toggle="modal"
-                                                               data-bs-target="#medicalHistoryResult">
-                                                                <i class="ti ti-eye"></i> View
-                                                            </a>
-                                                            <a href="{{route("practitioner.medical-history-report-download", ["userId" => $patientData->getUser()->getId()] )}}"
-                                                               class="mh-link mt-1">
-                                                                <i class="ti ti-download"></i> Download
-                                                            </a>
-                                                        @else
-                                                            <a href="#" class="btn mh-btn" data-bs-toggle="modal"
-                                                               data-bs-target="#medicalHistory"
-                                                               id="load-medical-history">
-                                                                Medical History
-                                                            </a>
-                                                        @endif
-                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -257,16 +282,15 @@
                                     <div class="col-12 flex-grow-1 d-flex mt-3">
                                         <div class="card appointment-card w-100">
                                             <div class="card-body appointment-card-body">
-                                                <div class="d-flex justify-content-between align-items-start row">
-                                                    <div class="appointment-info col-6">
-                                                        <span class="card-label">Appointment</span>
-                                                        <div class="appointment-date">-</div>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <div class="appointment-info">
+                                                        <span class="card-label mb-2" style="padding-bottom: 8px">Appointment</span>
+                                                        <div class="appointment-date">19/11/2024</div>
                                                         <div class="appointment-subtext">Next Appointment</div>
                                                     </div>
-                                                    <div
-                                                            class="col-5 appointment-actions d-flex flex-column align-items-end">
-                                                        <a href="#" class="btn app-create-btn disabled">Create</a>
-                                                        <a href="#" class="btn app-cancel-btn disabled">Cancel</a>
+                                                    <div class="appointment-actions d-flex flex-column me-2" style="width: 40%">
+                                                        <a href="#" class="btn app-create-btn">Create</a>
+                                                        <a href="#" class="btn app-cancel-btn">Cancel</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -284,13 +308,15 @@
                                     <section id="column-selectors">
                                         <div class="table-responsive">
                                             <table
-                                                    class="table patients-datatable general-datatable dt-select-table w-100">
+                                                class="table patient-datatable general-datatable dt-select-table w-100">
                                                 <thead>
                                                 <tr class="text-center">
-                                                    @foreach($columns as $column)
-                                                        <th class="text-center"> {{ __($column['name']) }}</th>
-                                                    @endforeach
-                                                    <th class="text-center">{{ __('Actions') }}</th>
+
+                                                    <th class="text-left">{{ __('Appointment Date') }}</th>
+                                                    <th class="text-left">{{ __('Reports') }}</th>
+                                                    <th class="text-left">{{ __('Notes') }}</th>
+                                                    <th class="text-left">{{ __('Regain Progress') }}</th>
+                                                    <th class="text-left">{{ __('Actions') }}</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody class="text-center">
@@ -311,109 +337,6 @@
     </div>
 </div>
 <script type="module">
-    $(function () {
-        let dt_basic_table = $('.patients-datatable');
-
-        if (dt_basic_table.length) {
-            checkUrlParamsAndSetInputs()
-
-            mySearch();
-
-            function mySearch(filters) {
-                if ($.fn.DataTable.isDataTable('.patients-datatable')) {
-                    dt_basic_table.DataTable().destroy();
-                }
-
-                let currentFilters = filters;
-
-                let dt_basic = dt_basic_table.DataTable({
-                    processing: true,
-                    serverSide: true,
-                    searching: false,
-                    serverMethod: 'post',
-                    ajax: {
-                        url: "{{ route('practitioner.patients.datatable') }}",
-                        headers: {
-                            'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-                        },
-                        data: function (data) {
-                            if (currentFilters && typeof currentFilters === 'object') {
-                                Object.keys(currentFilters).forEach(function (key) {
-                                    data[key] = currentFilters[key];
-                                });
-                            }
-                        }
-                    },
-                    columns: [
-                        {data: 'id', searchable: false, orderable: false},
-                        {data: 'name', name: 'user.name', searchable: false, orderable: true},
-                        {data: 'registered', name: 'users.created_at', searchable: false, orderable: false},
-                        {data: 'status', name: 'status', searchable: false, orderable: false},
-                        {data: 'actions', searchable: false, orderable: false, className: 'text-center'},
-                    ],
-                    columnDefs: [],
-                    dom: 't<"d-flex justify-content-between mx-0 row"<"d-flex justify-content-center col-12"i><"d-flex justify-content-center col-12"p>>',
-                    paginate: {
-                        previous: '&nbsp;',
-                        next: '&nbsp;'
-                    },
-                    "search": "",
-                    "info": "",
-                    "infoEmpty": "",
-                    "emptyTable": "",
-                    "loadingRecords": "",
-                    language: {
-                        processing: '',
-                    },
-                    initComplete: function () {
-                        $('.card-footer .dataTables_paginate').remove();
-
-                        var pagination = $('.dataTables_paginate').detach();
-                        $('.card-footer').append(pagination);
-                    }
-                });
-
-            }
-
-            $('#search').on("click", function () {
-                mySearch(filters);
-            });
-
-            function updateUrlWithFilters(filters) {
-                let searchParams = new URLSearchParams(window.location.search);
-
-                Object.keys(filters).forEach(function (key) {
-                    if (filters[key] && filters[key] != '') {
-                        searchParams.set(key, filters[key]);
-                    } else {
-                        searchParams.delete(key);
-                    }
-                });
-
-                const newUrl = window.location.pathname + '?' + searchParams.toString();
-                history.pushState(null, '', newUrl);
-            }
-
-            function checkUrlParamsAndSetInputs() {
-                // let searchParams = new URLSearchParams(window.location.search);
-                // if (searchParams.has('filterPatientName')) {
-                //     $('#filter_patient_name').val(searchParams.get('filterPatientName'));
-                // }
-            }
-
-            let elementsArray = document.querySelectorAll(".enter_filter");
-
-            elementsArray.forEach(function (elem) {
-                elem.addEventListener("keypress", function () {
-                    if (event.key === "Enter") {
-                        mySearch();
-                    }
-                });
-            });
-        }
-    });
-
-
     document.addEventListener('DOMContentLoaded', function () {
         const modalContainer = document.getElementById('medical-history-content');
         const loadMedicalHistoryBtn = document.getElementById('load-medical-history');
