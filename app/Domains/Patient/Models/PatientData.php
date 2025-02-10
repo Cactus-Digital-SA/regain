@@ -3,6 +3,7 @@
 namespace App\Domains\Patient\Models;
 
 use App\Domains\Auth\Models\User;
+use App\Domains\Patient\Enums\MilitaryStatusEnum;
 use App\Domains\Patient\Enums\StatusEnum;
 use App\Models\CactusEntity;
 use DateTime;
@@ -75,6 +76,20 @@ class PatientData extends CactusEntity
      * @JMS\Serializer\Annotation\SerializedName("user")
      * @JMS\Serializer\Annotation\Type("App\Domains\Auth\Models\User")
      */
+
+    /**
+     * @var bool $isMilitary
+     * @JMS\Serializer\Annotation\SerializedName("is_military")
+     * @JMS\Serializer\Annotation\Type("bool")
+     */
+    private bool $isMilitary = false;
+    /**
+     * @var ?MilitaryStatusEnum $status
+     * @JMS\Serializer\Annotation\SerializedName("military_status")
+     * @JMS\Serializer\Annotation\Type("enum<'App\Domains\Patient\Enums\MilitaryStatusEnum'>")
+     */
+    private ?MilitaryStatusEnum $militaryStatus;
+
     private ?User $user;
 //    /**
 //     * @var ?Region $region
@@ -98,6 +113,8 @@ class PatientData extends CactusEntity
             'primaryPhone'       => $this->primaryPhone,
             'secondaryPhone'     => $this->secondaryPhone,
             'accessibleMobility' => $this->accessibleMobility,
+            'isMilitary'         => $this->isMilitary,
+            'militaryStatus'     => $this->militaryStatus,
             'notes'              => $this->notes,
         ];
 
@@ -228,6 +245,26 @@ class PatientData extends CactusEntity
         return $this;
     }
 
+    public function isMilitary(): bool
+    {
+        return $this->isMilitary;
+    }
+
+    public function setIsMilitary(bool $isMilitary): PatientData
+    {
+        $this->isMilitary = $isMilitary;
+        return $this;
+    }
+    public function getMilitaryStatus(): ?MilitaryStatusEnum
+    {
+        return $this->militaryStatus;
+    }
+    public function setMilitaryStatus(?MilitaryStatusEnum $militaryStatus): PatientData
+    {
+        $this->militaryStatus = $militaryStatus;
+        return $this;
+    }
+
     public function getUser(): ?User
     {
         return $this->user;
@@ -252,6 +289,8 @@ class PatientData extends CactusEntity
             ->setPrimaryPhone($request['primary_phone'])
             ->setSecondaryPhone($request['secondary_phone'])
             ->setAccessibleMobility($request['accessible_mobility'])
+            ->setIsMilitary($request['is_military'])
+            ->setMilitaryStatus($request['military_status'])
             ->setNotes($request['notes'])
             ->setStatus($request['status'] ?? StatusEnum::PROCESSING);
     }

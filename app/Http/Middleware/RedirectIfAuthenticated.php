@@ -27,7 +27,7 @@ class RedirectIfAuthenticated
                     return redirect()->route('practitioner.login');
                 }
 
-                return redirect('/home');
+                return redirect(route("patient.success"));
             }
         }
 

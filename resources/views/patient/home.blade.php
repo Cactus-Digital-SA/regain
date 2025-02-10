@@ -1,3 +1,8 @@
+@php
+    /**
+     * @var bool $back
+     */
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -81,7 +86,11 @@
         @if(isset($register) && $register)
             <h3 class="text-center pt-0 my-0 welcome-back-title">Welcome to Regain!</h3>
         @else
-            <h3 class="text-center pt-0 my-0 welcome-back-title">Welcome Back to Regain!</h3>
+            <h3 class="text-center pt-0 my-0 welcome-back-title">Welcome
+                @if ($back)
+                Back
+                @endif
+                to Regain!</h3>
         @endif
         <div class="container-inside m-5 text-start d-flex justify-content-center">
             <ul class="list-unstyled d-flex justify-content-center">
@@ -155,14 +164,10 @@
             </ul>
         </div>
         <div class="d-flex justify-content-center align-items-center">
-            <a href="{{route('patient.index')}}" type="button" class="btn btn-primary btn-next d-flex align-items-center justify-content-center">Next</a>
+            <a href="{{route('patient.ask')}}" type="button" class="btn btn-primary btn-next d-flex align-items-center justify-content-center">Next</a>
         </div>
     </div>
 </div>
-
-</body>
-</html>
-
 <script type="text/javascript">
     var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
     (function () {
@@ -174,3 +179,5 @@
         s0.parentNode.insertBefore(s1, s0);
     })();
 </script>
+</body>
+</html>

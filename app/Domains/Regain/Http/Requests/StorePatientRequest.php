@@ -3,6 +3,7 @@
 namespace App\Domains\Regain\Http\Requests;
 
 use App\Domains\Auth\Repositories\Eloquent\Models\User;
+use App\Domains\Patient\Enums\MilitaryStatusEnum;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Foundation\Http\FormRequest;
@@ -19,6 +20,8 @@ class StorePatientRequest extends FormRequest
     private const PHONE           = 'primaryPhone';
     private const SECONDARY_PHONE = 'secondaryPhone';
     private const MOBILITY        = 'mobility';
+    private const IS_MILITARY     = 'isMilitary';
+    private const MILITARY_STATUS     = 'militaryStatus';
     private const NOTES           = 'notes';
 
     public function authorize(): bool
@@ -45,6 +48,8 @@ class StorePatientRequest extends FormRequest
             self::SECONDARY_PHONE => ['nullable', 'string'],
             self::MOBILITY        => ['required', 'int'],
             self::NOTES           => ['nullable', 'string'],
+            self::IS_MILITARY     => ['required', 'int'],
+            self::MILITARY_STATUS => ['nullable', 'int'],
         ];
     }
 
@@ -91,5 +96,15 @@ class StorePatientRequest extends FormRequest
     public function getNotes(): ?string
     {
         return $this->input(self::NOTES);
+    }
+
+    public function isMilitary(): bool
+    {
+        return $this->input(self::IS_MILITARY);
+    }
+
+    public function getMilitaryStatus(): MilitaryStatusEnum
+    {
+        return MilitaryStatusEnum::from($this->input(self::MILITARY_STATUS));
     }
 }

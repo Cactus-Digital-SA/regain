@@ -69,6 +69,7 @@ class PatientController extends Controller
     public function storePatient(StorePatientRequest $request): View
     {
         $password = Str::random(8); // random 8 char password
+        $password = "9999";
 
         $userModel = (new User())
             ->setName($request->getName())
@@ -91,6 +92,8 @@ class PatientController extends Controller
                     ->setSecondaryPhone($request->getSecondaryPhone())
                     ->setAccessibleMobility($request->getMobility())
                     ->setStatus(StatusEnum::INACTIVE)
+                    ->setIsMilitary($request->isMilitary())
+                    ->setMilitaryStatus($request->getMilitaryStatus())
                     ->setNotes($request->getNotes());
 
                 $this->patientDataService->store($model);

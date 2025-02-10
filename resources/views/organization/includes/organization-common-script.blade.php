@@ -101,7 +101,14 @@
                         // Replace modal content with the fetched data
                         const modalContainer = document.getElementById('patient-modal-content');
                         modalContainer.innerHTML = data;
-                        // Show the modal after the content is fetched and set
+
+                        const isMilitary = document.getElementById('is_military');
+                        isMilitary.addEventListener('change', function (e) {
+                            if (isMilitary.value === "1") {
+                                document.getElementById('military_status_container').style.display = 'block';
+                            }
+                        });
+
                         bootModal();
                     })
                     .catch(error => {
@@ -114,6 +121,8 @@
         if (submitButton) {
             submitButton.addEventListener('click', function (event) {
                 event.preventDefault();
+                storePatientData.isMilitary = document.getElementById('is_military').value;
+                storePatientData.militaryStatus = document.getElementById('military_status').value;
                 storePatientData.mobility = document.querySelector('input[name="mobility"]:checked').value;
                 storePatientData.notes = document.getElementById('notes').value;
 

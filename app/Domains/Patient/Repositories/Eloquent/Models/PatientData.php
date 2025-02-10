@@ -22,7 +22,9 @@ class PatientData extends Model
         'secondary_phone',
         'accessible_mobility',
         'notes',
-        'status'
+        'status',
+        'is_military',
+        'military_status',
     ];
     protected $casts = [
         'status' => StatusEnum::class,

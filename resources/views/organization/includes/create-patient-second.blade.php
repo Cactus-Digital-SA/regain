@@ -9,6 +9,23 @@
     <form>
         <div class="row g-4">
             <div class="col-md-12">
+                <label for="notes" class="form-label">Military Personnel</label>
+                <select class="form-control mobility-button" name="is_military" id="is_military">
+                    <option value="0">Please select</option>
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+            </div>
+            <div class="col-md-12" id="military_status_container" style="display: none">
+                <label for="notes" class="form-label">Military Personnel</label>
+                <select class="form-control mobility-button" name="military_status" id="military_status">
+                    <option value="1">Active</option>
+                    <option value="2">Reserve</option>
+                    <option value="3">Veteran</option>
+                    <option value="4">Personnel</option>
+                </select>
+            </div>
+            <div class="col-md-12">
                 <label for="mobility" class="form-label">Accessible Mobility</label>
                 <div class="row">
                     <div class="col-6">

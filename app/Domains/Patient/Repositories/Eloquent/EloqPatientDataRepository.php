@@ -60,6 +60,9 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
             'secondary_phone'     => $entity->getSecondaryPhone(),
             'accessible_mobility' => $entity->getAccessibleMobility(),
             'notes'               => $entity->getNotes(),
+            'status'              => $entity->getStatus()->value,
+            'is_military'         => $entity->isMilitary(),
+            'military_status'     => $entity->getMilitaryStatus()->value,
         ]);
 
         return ObjectSerializer::deserialize($patientData?->toJson() ?? "{}", PatientData::class, 'json');
@@ -170,7 +173,7 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
                                      break;
                              }
 
-                             return '<span class="' . $labelClass . '">' . $status->label() . '</span>';
+                             return '<span class="' . $labelClass . '">' . $status?->label() . '</span>';
                          })
 //                         ->addColumn('actions', function ($data) use ($user) {
 //                             $deleteUrl = route('organization.patients.destroy', [

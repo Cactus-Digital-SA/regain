@@ -24,6 +24,8 @@ return new class extends Migration {
             $table->boolean('accessible_mobility')->default(false);
             $table->text('notes')->nullable();
             $table->tinyInteger('status')->unsigned()->nullable();
+            $table->boolean('is_military')->unsigned()->default(false);
+            $table->smallInteger('military_status')->unsigned()->nullable();
 
             $table->timestamps();
         });
