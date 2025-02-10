@@ -48,29 +48,24 @@
             margin: 0 20px;
         }
 
-        .assessment-title {
-            font-size: 10pt;
-            font-weight: 500;
-            color: #3c3c3c;
-            text-align: center;
-            margin: 0;
-        }
 
         .main-title {
             font-size: 11pt;
             font-weight: bold;
             margin: 0;
+            padding: 0;
         }
 
         .date {
-            font-size: 11pt;
+            font-size: 9pt;
             font-weight: 500;
-            color: #3c3c3c;
+            color: #000;
             white-space: nowrap;
             text-align: right;
             position: absolute;
             top: 0;
             right: 0;
+            margin-top: 3px;
         }
 
         .user-details {
@@ -80,6 +75,7 @@
         .user-details p {
             margin: 2px 0;
             font-size: 9pt;
+            font-weight: 500;
         }
 
         .divider {
@@ -113,24 +109,6 @@
             background-color: #fff;
         }
 
-        .title {
-            font-size: 9pt;
-            font-weight: bold;
-        }
-
-        .description {
-            font-size: 8pt;
-        }
-
-        .dot {
-            height: 8px;
-            width: 8px;
-            background-color: black;
-            border-radius: 50%;
-            display: inline-block;
-            margin-top: 5px;
-        }
-
         h1, h2, h3, h4, h5, h6, table {
             page-break-inside: avoid;
         }
@@ -143,8 +121,7 @@
     <img src="data:image/jpeg;base64,{{ base64_encode(file_get_contents('./assets/img/logo/regainLogo.jpg')) }}"
          alt="Logo" class="logo">
     <div class="title-container">
-        <div class="assessment-title">Assessment Report:</div>
-        <div class="main-title">Medical History</div>
+        <div class="main-title">Medical History Report</div>
     </div>
     <div class="date">{{$result->getCompletedAt()->format("d/m/Y")}}</div>
 </div>
@@ -158,17 +135,18 @@
 
 @if (count($result->getQuestionAnswers()) > 0)
     <div>
-        <table>
+        <table class="table table-hover" style="table-layout: fixed; width: 100%; border-collapse: collapse;">
+            <thead>
+            <tr>
+                <th class="text-left" style="width: 80%; text-align: left !important;">Question</th>
+                <th class="text-left" style="width: 20%; text-align: left !important;">Answer</th>
+            </tr>
+            </thead>
             <tbody>
             @foreach ($result->getQuestionAnswers() as $questionAnswer)
                 <tr>
-                    <td nowrap style="width: 70%;">
-                        <div class="title">{{$questionAnswer->getQuestionText()}}</div>
-                        <div class="description"></div>
-                    </td>
-                    <td style="text-align: center;">
-                        {{$questionAnswer->getAnswerText()}}
-                    </td>
+                    <td class="text-left" style="text-align: left !important;">{{$questionAnswer->getQuestionText()}}</td>
+                    <td class="text-left" style="text-align: left !important;">{{$questionAnswer->getAnswerText()}}</td>
                 </tr>
             @endforeach
             </tbody>
