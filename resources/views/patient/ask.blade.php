@@ -255,7 +255,7 @@
                         .then(response => response.json())
                         .then(data => {
                             // Handle the response from the server (e.g., show a success message, redirect)
-                            window.location.href = '{{ route('patient.home') }}';
+                            window.location.href = '{{ route('patient.ask') }}';
                         })
                         .catch(error => {
                             console.error('Error:', error);
