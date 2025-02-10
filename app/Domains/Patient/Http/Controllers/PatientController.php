@@ -11,6 +11,7 @@ use App\Domains\UserResponse\Services\UserResponseService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
@@ -43,6 +44,21 @@ class PatientController extends Controller
         return view('patient.index')->with(
             ["presenter" => $presenter]
         );
+    }
+
+    public function showWelcomeBack(): View
+    {
+        return view('patient.flow.login.welcome-back');
+    }
+
+    public function showLoginOld(): View
+    {
+        return view('patient.flow.login.login-old');
+    }
+
+    public function showWelcomeToRegain(Request $request): View
+    {
+        return view('patient.home', ['register' => $request->query('register', false)]);
     }
 
     public function registerFlow(): View

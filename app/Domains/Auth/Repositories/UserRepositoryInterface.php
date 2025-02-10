@@ -18,6 +18,8 @@ interface UserRepositoryInterface extends RepositoryInterface
 
     public function getById(string $id): ?User;
 
+    public function getByEmail(string $email): ?User;
+
     /**
      * @param string $roleId
      * @return User[]
