@@ -46,6 +46,21 @@ class PatientController extends Controller
         );
     }
 
+    public function showWelcomeBack(): View
+    {
+        return view('patient.flow.login.welcome-back');
+    }
+
+    public function showLoginOld(): View
+    {
+        return view('patient.flow.login.login-old');
+    }
+
+    public function showWelcomeToRegain(Request $request): View
+    {
+        return view('patient.home', ['register' => $request->query('register', false)]);
+    }
+
     public function registerFlow(): View
     {
         return view('patient.flow.register.index');

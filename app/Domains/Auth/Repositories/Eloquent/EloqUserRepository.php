@@ -53,6 +53,17 @@ class EloqUserRepository implements UserRepositoryInterface
         return ObjectSerializer::deserialize($user->toJson() ?? "{}", User::class, 'json');
     }
 
+    public function getByEmail(string $email): ?User
+    {
+        $user = $this->model->with(['roles'])->where('email',$email)->first();
+
+        if(!$user){
+            return null;
+        }
+
+        return ObjectSerializer::deserialize($user->toJson() ?? "{}", User::class, 'json');
+    }
+
     /**
      * @param string $roleId
      * @return User[]

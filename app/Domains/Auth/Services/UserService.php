@@ -44,6 +44,15 @@ class UserService
     }
 
     /**
+     * @param string $email
+     * @return ?User
+     */
+    public function getByEmail(string $email): ?User
+    {
+        return $this->repository->getByEmail($email);
+    }
+
+    /**
      * @param string $roleId
      * @return User[]
      */
