@@ -93,202 +93,14 @@
             z-index: 1;
         }
 
-        .login-container {
-            width: 100%;
-            max-width: 400px;
-            scale: 115%;
-            margin-top: 4rem;
-        }
-
         .form-group label {
             font-weight: normal;
             float: left;
             color: #fff;
         }
 
-        .form-control {
-            border-radius: 25px;
-            padding: 15px 15px;
-            border: 1px solid #fff;
-            background-color: transparent;
-            color: #fff;
-        }
-
-        .form-control::placeholder {
-            color: #c0c0c0;
-        }
-
-        .password-field {
-            position: relative;
-        }
-
-        .eye-icon {
-            position: absolute;
-            right: 15px;
-            top: 55%;
-            cursor: pointer;
-            color: #c0c0c0;
-        }
-
-        .form-check-label {
-            color: #c0c0c0;
-            cursor: pointer;
-            font-weight: 400 !important;
-            font-size: 15px;
-            margin-top: 0.05rem;
-        }
-
-        .form-check{
-            display: flex;
-            justify-content: normal;
-        }
-
-        .btn-custom {
-            background-color: #fff;
-            color: #333;
-            border-radius: 25px;
-            font-weight: bold;
-        }
-
-        .btn-custom:hover {
-            background-color: #e0e0e0;
-        }
-
-        .forgot-password {
-            font-size: 15px;
-            font-weight: 400;
-            line-height: 18.15px;
-            text-align: center;
-            text-underline-position: from-font;
-            text-decoration-skip-ink: none;
-            text-decoration: none;
-        }
-
-        .popup-text {
-            font-size: 15px;
-            font-weight: 400;
-            line-height: 25px;
-            text-align: center;
-            text-underline-position: from-font;
-            text-decoration-skip-ink: none;
-            width: 85%;
-        }
-
-        .forgot-password-container {
-            position: relative;
-        }
-
-        .forgot-password {
-            color: #fff;
-            font-size: 0.9rem;
-            text-decoration: none;
-            margin-top: 2px;
-        }
-
-        .forgot-password:hover {
-            text-decoration: none;
-            color: #c0c0c0;
-        }
-
-        .forgot-password-container {
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            margin: 15px;
-        }
-
-        .popup {
-            display: none;
-            position: absolute;
-            top: -50%;
-            left: 9.5%;
-            z-index: 1000 ! important;
-            background-color: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            padding: 10px;
-            width: 300px;
-            text-align: left;
-            color: black;
-        }
-
-        .popup-content {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background-color: #FEFEFE;
-        }
-
-        .popup-content a {
-            text-align: center;
-            text-decoration: none;
-        }
-
-        .popup-content a:hover {
-            text-decoration: underline;
-        }
-
-        .popup-content p {
-            text-align: center;
-        }
-
-        .close {
-            position: absolute;
-            top: 0;
-            right: 5px;
-            font-size: 20px;
-            cursor: pointer;
-            color: #0c0c0c;
-        }
-
         body > * {
             filter: none;
-        }
-
-        input[type="checkbox"] {
-            appearance: none;
-            width: 0.9rem;
-            height: 0.9rem;
-            border-radius: 100%;
-            position: relative;
-            cursor: pointer;
-            background-color: transparent;
-            border: 1px solid #c0c0c0;
-            transition: all 0.3s ease;
-        }
-
-        input[type="checkbox"]:hover,
-        label.toggle:hover + input[type="checkbox"] {
-            border-color: #555;
-        }
-
-        input[type="checkbox"]:checked {
-            background-color: #c0c0c0;
-            border-color: #c0c0c0;
-        }
-
-        input[type="checkbox"]:checked {
-            background-color: #c0c0c0;
-            color: #fff;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-        }
-
-        input[type="checkbox"]:checked {
-            background-color: #c0c0c0;
-            border-color: #c0c0c0;
-        }
-
-        .popup-mask {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 200;
         }
 
         @media (max-width: 1600px){
@@ -297,10 +109,6 @@
                 height: 550px;
             }
 
-            .login-container {
-                scale: 110%;
-                margin-top: 2rem;
-            }
         }
 
         @media (max-width: 1400px){
@@ -319,41 +127,6 @@
             .circle-video {
                 display: none;
             }
-        }
-
-        @media (max-width: 780px) {
-            .login-container {
-                padding: 2rem;
-            }
-
-            .popup {
-                top: 78.5%;
-            }
-        }
-
-        @media (max-width: 450px) {
-            .login-container {
-                scale: 100%;
-            }
-            .login-container {
-                padding: 1.5rem;
-            }
-
-            .popup {
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                position: fixed;
-            }
-
-            .forgot-password-container {
-                position: unset;
-            }
-
-            header {
-                padding: 1.5rem;
-            }
-
         }
     </style>
 </head>
