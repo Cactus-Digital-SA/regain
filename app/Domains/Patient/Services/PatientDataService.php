@@ -64,5 +64,8 @@ class PatientDataService
         return $this->repository->getTableColumnsNoRegion();
     }
 
-
+    public function emailExists(string $email): bool
+    {
+        return $this->repository->emailExists($email);
+    }
 }

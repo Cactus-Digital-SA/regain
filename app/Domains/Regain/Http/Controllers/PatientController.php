@@ -4,8 +4,8 @@ namespace App\Domains\Regain\Http\Controllers;
 
 use App\Domains\Auth\Models\RolesEnum;
 use App\Domains\Auth\Models\User;
-use App\Domains\Auth\Repositories\Eloquent\Models\User as EloquentUser;
 use App\Domains\Auth\Repositories\Eloquent\Models\Role;
+use App\Domains\Auth\Repositories\Eloquent\Models\User as EloquentUser;
 use App\Domains\Auth\Services\UserService;
 use App\Domains\Patient\Enums\StatusEnum;
 use App\Domains\Patient\Models\PatientData;
@@ -15,19 +15,16 @@ use App\Domains\Regain\Http\Requests\StorePatientRequest;
 use App\Domains\Region\Services\RegionService;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
+use App\Mail\RegainEmail;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-use Illuminate\View\View;
 use Nette\NotImplementedException;
 use Throwable;
-use Illuminate\Support\Facades\Log;
-
-use App\Mail\RegainEmail;
-use Illuminate\Support\Facades\Mail;
-
 
 class PatientController extends Controller
 {
@@ -40,12 +37,18 @@ class PatientController extends Controller
 
     }
 
+    /**
+     * @throws \JsonException
+     */
     public function patients()
     {
-        $columns = $this->patientDataService->getTableColumns();
-        $regions = $this->regionService->get();
+        $columns     = $this->patientDataService->getTableColumns();
+        $regions     = $this->regionService->get();
+        $regionsJson = json_encode(array_map(function ($region) {
+            return ['id' => $region->getId(), 'name' => $region->getName()];
+        }, $regions), JSON_THROW_ON_ERROR);
 
-        return view('organization.patients', compact('columns', 'regions'));
+        return view('organization.patients', compact('columns', 'regions', 'regionsJson'));
     }
 
     public function practitioners()
@@ -56,17 +59,16 @@ class PatientController extends Controller
         return view('organization.practitioners', compact('columns', 'regions'));
     }
 
-    public function createPatientPage(Request $request, int $page): View
+    public function emailExists(Request $request): JsonResponse
     {
-        $regions = $this->regionService->get();
+        $email = $request->input('email');
 
-        return match ($page) {
-            1 => view('organization.includes.create-patient-first')->with('regions', $regions),
-            2 => view('organization.includes.create-patient-second'),
-        };
+        return response()->json(
+            ["exists" => $this->patientDataService->emailExists($email)]
+        );
     }
 
-    public function storePatient(StorePatientRequest $request): View
+    public function storePatient(StorePatientRequest $request): JsonResponse
     {
         $password = Str::random(8); // random 8 char password
         $password = "9999";
@@ -93,8 +95,11 @@ class PatientController extends Controller
                     ->setAccessibleMobility($request->getMobility())
                     ->setStatus(StatusEnum::INACTIVE)
                     ->setIsMilitary($request->isMilitary())
-                    ->setMilitaryStatus($request->getMilitaryStatus())
                     ->setNotes($request->getNotes());
+
+                if ($model->isMilitary()) {
+                    $model->setMilitaryStatus($request->getMilitaryStatus());
+                }
 
                 $this->patientDataService->store($model);
 
@@ -104,14 +109,20 @@ class PatientController extends Controller
                 } catch (Throwable $e) {
                     Log::error($e->getMessage());
                 }
-
-                return view("organization.includes.patient-stored");
             }
         } catch (Throwable $e) {
-            return view('organization.includes.create-patient-first')->with('regions', $this->regionService->get());
+            // cleanup delete the user so they can try again
+            $this->userService->destroy($user->getId());
+
+            return response()->json([
+                "success" => false,
+                "message" => $e->getMessage(),
+            ]);
         }
 
-        return view('organization.includes.create-patient-first')->with('regions', $this->regionService->get());
+        return response()->json([
+            "success" => true
+        ]);
     }
 
     public function update(Request $request, string $patient): void

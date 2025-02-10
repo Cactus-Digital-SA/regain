@@ -50,7 +50,7 @@ Route::group([
 ], function () {
     Route::get('/home', [PatientController::class, 'handleLandingPageFlow'])->name('home'); //role patient doesnt work here. Needs auth, role patient middleware
 
-    Route::get('/my-regain' , function() {
+    Route::get('/my-regain', function () {
         return view("patient.my-regain");
     })->name('my-regain');
     Route::get('/ask', [PatientController::class, 'ask'])->name('ask');
@@ -84,15 +84,15 @@ Route::group([
 });
 
 Route::group([
-    'prefix'     => 'organization',
+    'prefix'     => 'organisation',
     'as'         => 'organization.',
     'middleware' => ['role.administrator', 'auth'],
 ], function () {
-
     Route::get('/', [RegainPatientController::class, 'patients'])->name('home');
     Route::get('/patients', [RegainPatientController::class, 'patients'])->name('patients');
     Route::post('/patients/store', [RegainPatientController::class, 'storePatient'])->name('patients.create');
     Route::get('/patients/destroy', [RegainPatientController::class, 'patientsDestroy'])->name('patients.destroy');
+    Route::post('/patients/email-exists', [RegainPatientController::class, 'emailExists'])->name('patients.emailExists');
     Route::post('/patients/table', [RegainPatientController::class, 'patientsDatatable'])->name('patients.datatable');
     Route::post('/patients/create-page/{page}', [RegainPatientController::class, 'createPatientPage'])->name('patients.create-page');
     Route::get('/practitioners', [RegainPatientController::class, 'practitioners'])->name('practitioners');
@@ -206,8 +206,6 @@ Route::get('/refresh-csrf', function () {
 //    Route::get('dashboard/login', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showLoginDashboard'])->name('login-dashboard');
 //    Route::get('email', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showEmail'])->name('email');
 //});
-
-
 
 // Email Testing
 //use App\Mail\RegainEmail;

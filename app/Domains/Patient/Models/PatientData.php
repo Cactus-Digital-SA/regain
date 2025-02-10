@@ -88,8 +88,7 @@ class PatientData extends CactusEntity
      * @JMS\Serializer\Annotation\SerializedName("military_status")
      * @JMS\Serializer\Annotation\Type("enum<'App\Domains\Patient\Enums\MilitaryStatusEnum'>")
      */
-    private ?MilitaryStatusEnum $militaryStatus;
-
+    private ?MilitaryStatusEnum $militaryStatus = null;
     private ?User $user;
 //    /**
 //     * @var ?Region $region
@@ -253,15 +252,19 @@ class PatientData extends CactusEntity
     public function setIsMilitary(bool $isMilitary): PatientData
     {
         $this->isMilitary = $isMilitary;
+
         return $this;
     }
+
     public function getMilitaryStatus(): ?MilitaryStatusEnum
     {
         return $this->militaryStatus;
     }
+
     public function setMilitaryStatus(?MilitaryStatusEnum $militaryStatus): PatientData
     {
         $this->militaryStatus = $militaryStatus;
+
         return $this;
     }
 

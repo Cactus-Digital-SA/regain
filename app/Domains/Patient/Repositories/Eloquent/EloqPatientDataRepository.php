@@ -62,7 +62,7 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
             'notes'               => $entity->getNotes(),
             'status'              => $entity->getStatus()->value,
             'is_military'         => $entity->isMilitary(),
-            'military_status'     => $entity->getMilitaryStatus()->value,
+            'military_status'     => $entity->getMilitaryStatus()?->value,
         ]);
 
         return ObjectSerializer::deserialize($patientData?->toJson() ?? "{}", PatientData::class, 'json');
@@ -150,7 +150,7 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
                              return $data?->practitioner()?->first()->name ?? "-";
                          })
                          ->editColumn('status', function ($data) {
-                             $status = $data?->status;
+                             $status     = $data?->status;
                              $labelClass = "";
                              switch ($status) {
                                  case StatusEnum::ALLOCATED:
@@ -231,5 +231,10 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
             'practitioner' => ['name' => 'Practitioner', 'table' => 'practitioner', 'searchable' => 'false', 'sortable' => 'true'],
             'status'       => ['name' => 'Status', 'table' => 'status', 'searchable' => 'false', 'sortable' => 'true'],
         ];
+    }
+
+    public function emailExists(string $email): bool
+    {
+        return User::where('email', $email)->exists();
     }
 }

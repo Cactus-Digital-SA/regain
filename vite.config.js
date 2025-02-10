@@ -1,7 +1,8 @@
-import { defineConfig } from 'vite';
+import {defineConfig} from 'vite';
 import laravel from 'laravel-vite-plugin';
+import vue from '@vitejs/plugin-vue'; // ✅ Added Vue Plugin
 import html from '@rollup/plugin-html';
-import { glob } from 'glob';
+import {glob} from 'glob';
 
 /**
  * Get Files from a directory
@@ -11,6 +12,7 @@ import { glob } from 'glob';
 function GetFilesArray(query) {
     return glob.sync(query);
 }
+
 /**
  * Js Files
  */
@@ -36,12 +38,12 @@ const LibsCssFiles = GetFilesArray('resources/assets/vendor/libs/**/*.css');
 // Processing Fonts Scss Files
 const FontsScssFiles = GetFilesArray('resources/assets/vendor/fonts/!(_)*.scss');
 
-
-// Processing Window Assignment for Libs like jKanban, pdfMake
+/**
+ * Processing Window Assignment for Libs like jKanban, pdfMake
+ */
 function libsWindowAssignment() {
     return {
         name: 'libsWindowAssignment',
-
         transform(src, id) {
             if (id.includes('jkanban.js')) {
                 return src.replace('this.jKanban', 'window.jKanban');
@@ -98,11 +100,16 @@ export default defineConfig({
                 'resources/css/app.scss',
                 'resources/css/palette-gradient.scss',
                 'resources/css/palette-variables.scss'
-
             ],
             refresh: true
         }),
+        vue(), // ✅ Added Vue Plugin
         html(),
-        libsWindowAssignment()
-    ]
+        libsWindowAssignment(),
+    ],
+    resolve: {
+        alias: {
+            vue: 'vue/dist/vue.esm-bundler.js', // ✅ Ensuring Vue alias is set correctly
+        },
+    },
 });

@@ -37,11 +37,13 @@
             e.preventDefault();
 
             // Before fetching, make sure the modal is hidden
-            modalContainer.innerHTML = ''; // Clear previous content
-            modal.hide(); // Hide modal initially
+            // modalContainer.innerHTML = ''; // Clear previous content
+            // modal.hide(); // Hide modal initially
 
             // Fetch the medical history and show the modal after content is updated
-            fetchPatientForm();
+            // fetchPatientForm();
+            
+            modal.show();
         });
     });
 

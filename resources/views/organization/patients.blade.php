@@ -2,6 +2,7 @@
 @php
     /**
     * @var Region[] $regions
+    * @var string $regionsJson
     */
 @endphp
         <!DOCTYPE html>
@@ -42,7 +43,7 @@
                         <div>
                             <div class="row">
                                 <div class="my-1 my-lg-5">
-                                    <a class="nav-link text-left" id="register"
+                                    <a class="nav-link text-left" id="register" onClick="resetPatientRegistrationForm()"
                                        type="button" style="color:#000; font-weight:bold;">
                                         Patient Registration
                                     </a>
@@ -73,12 +74,12 @@
                                             <i class="ti ti-user-screen me-2"></i> Practitioner Directory
                                         </a>
                                         <a class="nav-link text-left" id="v-pills-calendar-tab"
-                                            type="button"
+                                           type="button"
                                            aria-controls="v-pills-calendar">
                                             <i class="ti ti-calendar me-2"></i> Calendar
                                         </a>
                                         <a class="nav-link text-left" id="v-pills-settings-tab"
-                                            type="button"
+                                           type="button"
                                            aria-controls="v-pills-settings">
                                             <i class="ti ti-settings me-2"></i> Settings
                                         </a>
@@ -405,5 +406,9 @@
 
 </script>
 @include('organization.includes.organization-common-script')
+@vite(['resources/js/app.js'])
+<style>
+    @import "vue-select/dist/vue-select.css";
+</style>
 </body>
 </html>
