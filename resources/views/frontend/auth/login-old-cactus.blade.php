@@ -1,4 +1,4 @@
-@extends('frontend/layouts/app')
+@extends('frontend.layouts.app')
 
 @section('title', 'Login')
 
@@ -76,7 +76,7 @@
                                 <div class="input-group input-group-merge">
                                     <input type="password" id="password" class="form-control" name="password"
                                            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                           aria-describedby="password" />
+                                           aria-describedby="password"/>
                                     <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
                                 </div>
                             </div>
@@ -94,21 +94,21 @@
                             </div>
                         </form>
 
-    {{--                    <div class="divider my-4">--}}
-    {{--                        <div class="divider-text">Follow Us</div>--}}
-    {{--                    </div>--}}
+                        {{--                    <div class="divider my-4">--}}
+                        {{--                        <div class="divider-text">Follow Us</div>--}}
+                        {{--                    </div>--}}
 
-    {{--                    <div class="auth-footer-btn d-flex justify-content-center">--}}
-    {{--                        <a href="javascript:;" class="btn btn-icon btn-label-facebook me-3">--}}
-    {{--                            <i class="tf-icons fa-brands fa-facebook-f fs-5"></i>--}}
-    {{--                        </a>--}}
-    {{--                        <a href="javascript:;" class="btn btn-icon btn-label-google-plus me-3">--}}
-    {{--                            <i class="tf-icons fa-brands fa-google fs-5"></i>--}}
-    {{--                        </a>--}}
-    {{--                        <a href="javascript:;" class="btn btn-icon btn-label-twitter">--}}
-    {{--                            <i class="tf-icons fa-brands fa-twitter fs-5"></i>--}}
-    {{--                        </a>--}}
-    {{--                    </div>--}}
+                        {{--                    <div class="auth-footer-btn d-flex justify-content-center">--}}
+                        {{--                        <a href="javascript:;" class="btn btn-icon btn-label-facebook me-3">--}}
+                        {{--                            <i class="tf-icons fa-brands fa-facebook-f fs-5"></i>--}}
+                        {{--                        </a>--}}
+                        {{--                        <a href="javascript:;" class="btn btn-icon btn-label-google-plus me-3">--}}
+                        {{--                            <i class="tf-icons fa-brands fa-google fs-5"></i>--}}
+                        {{--                        </a>--}}
+                        {{--                        <a href="javascript:;" class="btn btn-icon btn-label-twitter">--}}
+                        {{--                            <i class="tf-icons fa-brands fa-twitter fs-5"></i>--}}
+                        {{--                        </a>--}}
+                        {{--                    </div>--}}
                     </div>
                 </div>
             </div>

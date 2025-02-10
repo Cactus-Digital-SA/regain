@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Regain Welcome</title>
+    <title>Regain Welcome Back</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     @vite(['resources/assets/vendor/fonts/tabler-icons.scss'])
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap"
+        rel="stylesheet">
     <style>
         body {
             background-color: #161B2C !important;
@@ -36,6 +39,16 @@
             width: 80%;
             margin-top: auto;
             margin-bottom: auto;
+        }
+
+        .welcome-back-text {
+            font-family: "Playfair Display", serif;
+            font-size: 50px;
+            font-weight: 600;
+            line-height: 50px;
+            text-align: center;
+            text-underline-position: from-font;
+            text-decoration-skip-ink: none;
         }
 
         .btn-custom-start {
@@ -369,11 +382,10 @@
                                 <img src="{{Vite::asset('resources/images/logo/regain-logo-white.svg')}}" alt="Logo"
                                      class="w-75">
                             </div>
+                            <h1 class="text-center welcome-back-text mt-4 py-5 text-nowrap">Welcome Back!</h1>
                         </div>
-                        <div class="col-12 px-2 d-flex justify-content-center align-items-center mt-4">
-                            @if(Auth::check())
-                                <a href="{{ route('patient.home', ['register' => true]) }}" type="button" class="btn btn-custom-start btn-block p-2">Start</a>
-                            @endif
+                        <div class="col-12 px-2 d-flex justify-content-center align-items-center">
+                            <a href="{{ route('patient-flow.login-old') }}" type="button" class="btn btn-custom-start btn-block p-2">Start</a>
                         </div>
                     </div>
                 </div>

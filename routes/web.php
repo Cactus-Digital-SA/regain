@@ -48,7 +48,7 @@ Route::group([
     'as'         => 'patient.',
     'middleware' => ['role.patient', 'auth'],
 ], function () {
-    Route::get('/', [PatientController::class, 'index'])->name('home');
+    Route::get('/', [PatientController::class, 'index'])->name('index');
     Route::get('/help-center', function () {
         return view('patient.help-center');
     })->name('help-center');
@@ -60,6 +60,9 @@ Route::group([
     })->name('regain-info');
     Route::post('/submit-answer', [PatientController::class, 'submitAnswer'])->name('submit-answer');
     Route::post('/submit-answers', [PatientController::class, 'submitAnswers'])->name('submit-answers');
+
+
+    Route::get('/home' , [PatientController::class, 'showWelcomeToRegain'])->name('home');
 });
 
 Route::group([
@@ -113,7 +116,15 @@ Route::group([
     'as'     => 'register.',
 ], function () {
     Route::get('/', [PatientController::class, 'registerFlow'])->name('index');
-    Route::get('/success', [PatientController::class, 'successFlow'])->name('index');
+    Route::get('/success', [PatientController::class, 'successFlow'])->name('success'); //role patient doesnt work here. Needs auth, role patient middleware
+});
+
+Route::group([
+    'prefix' => '',
+    'as'     => 'patient-flow.',
+], function () {
+Route::get('welcome-back' , [PatientController::class, 'showWelcomeBack'])->name('welcome-back');
+Route::get('login/old' , [PatientController::class, 'showLoginOld'])->name('login-old');
 });
 
 ////2fa fortify

@@ -386,7 +386,7 @@
         <img src="{{Vite::asset('resources/images/logo/regain-logo-white.svg')}}" alt="Regain Logo" class="regain-logo">
     </div>
     <div class="login-container" id="loginContainer" style="display:none; opacity: 0;">
-        <form method="POST" action="{{ route('login') }}">
+        <form method="POST" action="{{ route('login', ['register' => true]) }}">
             @csrf
             <div class="form-group">
                 <label for="email">User ID</label>
