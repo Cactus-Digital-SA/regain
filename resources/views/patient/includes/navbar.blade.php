@@ -123,4 +123,4 @@
 </script>
 
 
-
+@include('patient.includes.live-chat')
