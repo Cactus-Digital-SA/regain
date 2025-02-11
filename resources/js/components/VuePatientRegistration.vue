@@ -305,6 +305,7 @@ export default {
           errors.value.general = result.message || "An error occurred while processing your request.";
         } else {
           success.value = true;
+          initializeDT();
         }
       } catch (error) {
         console.error('Error:', error);
