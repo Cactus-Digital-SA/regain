@@ -36,6 +36,7 @@
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
+            margin-top: 0.1px;
         }
 
         .title-container {
@@ -57,7 +58,7 @@
         }
 
         .date {
-            font-size: 9pt;
+            font-size: 10pt;
             font-weight: 500;
             color: #000;
             white-space: nowrap;
@@ -65,7 +66,7 @@
             position: absolute;
             top: 0;
             right: 0;
-            margin-top: 3px;
+            margin-top: 0.1px;
         }
 
         .user-details {
@@ -79,19 +80,18 @@
         }
 
         .divider {
-            border-top: 1px solid #000;
+            border-top: 0.7px solid #dfe3ec;
             margin: 10px 0;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
             table-layout: fixed;
         }
 
         th, td {
-            border: 1px solid #ddd;
+            border: 0.7px solid #dfe3ec;
             padding: 8px;
             font-size: 9pt;
             word-wrap: break-word;
@@ -123,7 +123,7 @@
     <div class="title-container">
         <div class="main-title">Medical History Report</div>
     </div>
-    <div class="date">{{$result->getCompletedAt()->format("d/m/Y")}}</div>
+    <div class="date">{{$result->getCompletedAt()->format("d.m.Y")}}</div>
 </div>
 
 <div class="user-details">

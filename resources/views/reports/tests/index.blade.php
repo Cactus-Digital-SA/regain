@@ -32,10 +32,10 @@
         .logo {
             max-width: 100px;
             width: 100%;
-            {{--background-image: {{base64_encode(file_get_contents('./assets/img/logo/regainLogo.jpg'))}};--}}
-                        background-size: contain;
+            background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
+            margin-top: 0.1px;
         }
 
         .title-container {
@@ -45,12 +45,12 @@
             transform: translateX(-50%);
             text-align: center;
             flex: 1;
-            margin: 0 20px;
+            margin: 0.1px 20px;
         }
 
         .assessment-title {
+            font-family: Roboto, DejaVu Sans, sans-serif;
             font-size: 10pt;
-            font-weight: 500;
             color: #3c3c3c;
             text-align: center;
             margin: 0;
@@ -63,14 +63,14 @@
         }
 
         .date {
-            font-size: 11pt;
-            font-weight: 500;
+            font-size: 10pt;
             color: #3c3c3c;
             white-space: nowrap;
             text-align: right;
             position: absolute;
             top: 0;
             right: 0;
+            margin-top: 0.1px;
         }
 
         .user-details {
@@ -83,37 +83,12 @@
         }
 
         .divider {
-            border-top: 1px solid #000;
+            border-top: 0.7px solid #dfe3ec;
             margin: 10px 0;
         }
 
-        .overview {
-            margin-top: 20px;
-        }
-
-        .overview-group {
-            display: flex;
-            flex-direction: row;
-            justify-content: start;
-            align-content: center;
-            margin-bottom: 20px;
-        }
-
-        .overview-title {
-            font-size: 10pt;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            margin-right: 20px;
-            flex-direction: row;
-        }
-
-        .overview-bar-container {
-            padding-bottom: 5px;
-        }
-
         .overview-content {
-            margin: 30px 0 40px 0;
+            margin: 20px 0 30px 0;
             font-size: 9pt;
             text-align: justify;
             line-height: 1.2;
@@ -122,12 +97,12 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            /*margin-top: 20px;*/
             table-layout: fixed;
         }
 
         th, td {
-            border: 1px solid #ddd;
+            border: 0.7px solid #dfe3ec;
             padding: 8px;
             font-size: 9pt;
             word-wrap: break-word;
@@ -145,8 +120,12 @@
             background-color: #fff;
         }
 
+        .exclude {
+            all: unset;
+        }
+
         .title {
-            font-size: 9pt;
+            font-size: 8pt;
             font-weight: bold;
         }
 
@@ -176,39 +155,39 @@
         }
 
         .j-bar-4-1 {
-            background-image: url('data:image/jpeg;base64,{{ base64_encode(file_get_contents('./assets/img/four-bar-one.jpg')) }}');
+            background-image: url('data:image/jpeg;base64,{{ base64_encode(file_get_contents('./assets/img/four-bar-one.png')) }}');
             background-size: cover;
             background-color: transparent;
 
         }
 
         .j-bar-4-2 {
-            background-image: url('data:image/jpeg;base64,{{ base64_encode(file_get_contents('./assets/img/four-bar-two.jpg')) }}');
+            background-image: url('data:image/jpeg;base64,{{ base64_encode(file_get_contents('./assets/img/four-bar-two.png')) }}');
             background-size: cover;
         }
 
         .j-bar-4-3 {
-            background-image: url('data:image/jpeg;base64,{{ base64_encode(file_get_contents('./assets/img/four-bar-three.jpg')) }}');
+            background-image: url('data:image/jpeg;base64,{{ base64_encode(file_get_contents('./assets/img/four-bar-three.png')) }}');
             background-size: cover;
         }
 
         .j-bar-4-4 {
-            background-image: url('data:image/jpeg;base64,{{ base64_encode(file_get_contents('./assets/img/four-bar-four.jpg')) }}');
+            background-image: url('data:image/jpeg;base64,{{ base64_encode(file_get_contents('./assets/img/four-bar-four.png')) }}');
             background-size: cover;
         }
 
         .j-bar-3-1 {
-            background-image: url('data:image/jpeg;base64,{{ base64_encode(file_get_contents('./assets/img/three-bar-one.jpg')) }}');
+            background-image: url('data:image/jpeg;base64,{{ base64_encode(file_get_contents('./assets/img/three-bar-one.png')) }}');
             background-size: cover;
         }
 
         .j-bar-3-2 {
-            background-image: url('data:image/jpeg;base64,{{ base64_encode(file_get_contents('./assets/img/three-bar-two.jpg')) }}');
+            background-image: url('data:image/jpeg;base64,{{ base64_encode(file_get_contents('./assets/img/three-bar-two.png')) }}');
             background-size: cover;
         }
 
         .j-bar-3-3 {
-            background-image: url('data:image/jpeg;base64,{{ base64_encode(file_get_contents('./assets/img/three-bar-three.jpg')) }}');
+            background-image: url('data:image/jpeg;base64,{{ base64_encode(file_get_contents('./assets/img/three-bar-three.png')) }}');
             background-size: cover;
         }
     </style>
@@ -221,7 +200,7 @@
         <div class="assessment-title">Assessment Report:</div>
         <div class="main-title">{{$result->getTest()->getName()}}</div>
     </div>
-    <div class="date">{{$result->getCompletedAt()->format("d/m/Y")}}</div>
+    <div class="date">{{$result->getCompletedAt()->format("d.m.Y")}}</div>
 </div>
 
 <div class="user-details">
@@ -232,21 +211,24 @@
 <div class="divider"></div>
 
 <div class="overview">
-    <div class="overview-group">
-        <div class="overview-title">
-            {{$result->getTest()->getName()}}
+    <table class="exclude" style="text-wrap: nowrap; padding: 0; margin: 0; table-layout: auto;">
+        <tr class="exclude">
+            <td class="exclude" style="font-size: 10pt; font-weight: bold; padding-right: 20px; border: none !important; white-space: nowrap; width: 1%;">
+                {{$result->getTest()->getName()}}
+            </td>
             @php
                 $testColumns = $result->getTestResult()->getTestItems();
                 $testIndex = $result->getTestResult()->getTestIndex();
                 $testClassName = "j-bar-{$testColumns}-" . $testIndex;
             @endphp
-            <div class="bar-graph-{{ $testColumns }}">
-                <div class="{{ $testClassName }}" style="width: 24px; height: 22px; display: flex">
+            <td class="exclude" style="width: auto; border: none !important;">
+                <div class="bar-graph-{{ $testColumns }}" style="padding: 0 !important;">
+                    <div class="{{ $testClassName }}" style="width: 24px; height: 22px;"></div>
                 </div>
-            </div>
-        </div>
+            </td>
+        </tr>
+    </table>
 
-    </div>
     <div class="divider"></div>
     <div class="overview-content">
         {{ $result->getDescription() }}
@@ -268,9 +250,9 @@
                 }
             @endphp
             <tr>
-                <th>{{$result->getTest()->getName()}} Subscales</th>
+                <th style="text-align: left; background-color: #f0f1f5; font-weight: normal; font-size: 10pt!important; border-left: 0;">{{$result->getTest()->getName()}} Subscales</th>
                 @for ($i = 0; $i < $columns; $i++)
-                    <th>
+                    <th style=" background-color: #f0f1f5; border-right: 0;">
                         @php
                             $className = "j-bar-{$columns}-" . ($i + 1);
                         @endphp
@@ -285,12 +267,12 @@
             <tbody>
             @foreach ($result->getSubscaleResults() as $subscaleResult)
                 <tr>
-                    <td>
+                    <td style="border-left: 0;">
                         <div class="title">{{$subscaleResult->getSubscaleName()}}</div>
                         <div class="description">{{$subscaleResult->getDescription()}}</div>
                     </td>
                     @for ($i = 1; $i <= $columns; $i++)
-                        <td style="text-align: center;">
+                        <td style="text-align: center; border-right: 0;">
                             @if ($i === $subscaleResult->getSubscaleIndex())
                                 <span class="dot"></span>
                             @endif

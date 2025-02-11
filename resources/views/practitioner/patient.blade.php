@@ -222,7 +222,7 @@
                                         <div class="card medical-history-card w-100">
                                             <div class="card-body medical-history-card-body">
                                                 <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="d-flex flex-column align-items-start">
+                                                    <div class="d-flex flex-column flex-grow-1">
                                                         <span class="patient-profile-label" style="padding-bottom: 5px">Medical History</span>
                                                         <div class="d-flex flex-column" style="margin-top: 0;">
                                                             @if ($medicalHistoryCompleted !== null)
@@ -240,7 +240,7 @@
                                                             <div class="d-flex flex-column align-items-start mt-2">
                                                                 @if ($medicalHistoryCompleted !== null)
                                                                     <div class="d-flex w-100 justify-content-between">
-                                                                        <div class="d-flex flex-column">
+                                                                        <div class="d-flex flex-column ">
                                                                             <a href="{{route("practitioner.medical-history-report", [ "userId" => $patientData->getUser()->getId()])}}"
                                                                                class="mh-link"
                                                                                data-bs-toggle="modal"
