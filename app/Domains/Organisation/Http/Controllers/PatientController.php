@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\Regain\Http\Controllers;
+namespace App\Domains\Organisation\Http\Controllers;
 
 use App\Domains\Auth\Models\RolesEnum;
 use App\Domains\Auth\Models\User;
@@ -11,7 +11,7 @@ use App\Domains\Patient\Enums\StatusEnum;
 use App\Domains\Patient\Models\PatientData;
 use App\Domains\Patient\Services\PatientDataService;
 use App\Domains\Practitioner\Services\PractitionersService;
-use App\Domains\Regain\Http\Requests\StorePatientRequest;
+use App\Domains\Organisation\Http\Requests\StorePatientRequest;
 use App\Domains\Region\Services\RegionService;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
@@ -48,7 +48,7 @@ class PatientController extends Controller
             return ['id' => $region->getId(), 'name' => $region->getName()];
         }, $regions), JSON_THROW_ON_ERROR);
 
-        return view('organization.patients', compact('columns', 'regions', 'regionsJson'));
+        return view('organisation.patients', compact('columns', 'regions', 'regionsJson'));
     }
 
     public function practitioners()
@@ -56,7 +56,7 @@ class PatientController extends Controller
         $columns = $this->practitionersService->getTableColumns();
         $regions = $this->regionService->get();
 
-        return view('organization.practitioners', compact('columns', 'regions'));
+        return view('organisation.practitioners', compact('columns', 'regions'));
     }
 
     public function emailExists(Request $request): JsonResponse
@@ -152,5 +152,18 @@ class PatientController extends Controller
         $filters = Helpers::filters($request);
 
         return $this->practitionersService->dataTable(Auth::id(), $filters);
+    }
+
+    public function getPatientInfo(int $id): JsonResponse
+    {
+        $patientInfo = $this->patientDataService->getByUserId($id);
+
+        $data = $patientInfo->getValues();
+        $data['email'] = $patientInfo->getUser()->getEmail();
+        $data['fullName'] = $patientInfo->getUser()->getName();
+        $data['regionName'] = $patientInfo->getRegion()->getName();
+        $data['militaryStatus'] = $patientInfo->getMilitaryStatus()?->label() ?? "";
+
+        return response()->json($data);
     }
 }

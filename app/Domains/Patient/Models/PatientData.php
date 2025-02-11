@@ -5,6 +5,7 @@ namespace App\Domains\Patient\Models;
 use App\Domains\Auth\Models\User;
 use App\Domains\Patient\Enums\MilitaryStatusEnum;
 use App\Domains\Patient\Enums\StatusEnum;
+use App\Domains\Region\Models\Region;
 use App\Models\CactusEntity;
 use DateTime;
 use Illuminate\Http\Request;
@@ -76,7 +77,13 @@ class PatientData extends CactusEntity
      * @JMS\Serializer\Annotation\SerializedName("user")
      * @JMS\Serializer\Annotation\Type("App\Domains\Auth\Models\User")
      */
-
+    private ?User $user;
+    /**
+     * @var ?Region $user
+     * @JMS\Serializer\Annotation\SerializedName("region")
+     * @JMS\Serializer\Annotation\Type("App\Domains\Region\Models\Region")
+     */
+    private ?Region $region;
     /**
      * @var bool $isMilitary
      * @JMS\Serializer\Annotation\SerializedName("is_military")
@@ -89,7 +96,6 @@ class PatientData extends CactusEntity
      * @JMS\Serializer\Annotation\Type("enum<'App\Domains\Patient\Enums\MilitaryStatusEnum'>")
      */
     private ?MilitaryStatusEnum $militaryStatus = null;
-    private ?User $user;
 //    /**
 //     * @var ?Region $region
 //     * @JMS\Serializer\Annotation\SerializedName("residence_area")
@@ -277,6 +283,17 @@ class PatientData extends CactusEntity
     {
         $this->user = $user;
 
+        return $this;
+    }
+
+    public function getRegion(): ?Region
+    {
+        return $this->region;
+    }
+
+    public function setRegion(?Region $region): PatientData
+    {
+        $this->region = $region;
         return $this;
     }
 

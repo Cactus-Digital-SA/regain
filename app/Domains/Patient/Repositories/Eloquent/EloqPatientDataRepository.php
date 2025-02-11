@@ -34,14 +34,14 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
     {
         $patientData = $this->model::find($id);
 
-        $patientData->load('user');
+        $patientData->load(['user', 'region']);
 
         return ObjectSerializer::deserialize($patientData?->toJson() ?? "{}", PatientData::class, 'json');
     }
 
     public function getByUserId(string $userId): ?PatientData
     {
-        $patientData = $this->model::where('user_id', $userId)->with("user")->first();
+        $patientData = $this->model::where('user_id', $userId)->with(["user", "region"])->first();
         if ($patientData) {
             return ObjectSerializer::deserialize($patientData?->toJson() ?? "{}", PatientData::class, 'json');
         }
@@ -138,6 +138,10 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
                                  return '<a class="nav-link" href="' . $url . '">' . e($data->user->name) . '</a>';
                              }
 
+                             if ($user->isRegainUser()) {
+                                 return '<a class="nav-link view-patient-details" data-id="' . $data->user->id .  '" type="button" data-bs-toggle="modal" data-bs-target="#patientDetails">' . e($data->user->name) . '</a>';
+                             }
+
                              return e($data->user->name);
                          })
                          ->editColumn('region', function ($data) {
@@ -176,7 +180,7 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
                              return '<span class="' . $labelClass . '">' . $status?->label() . '</span>';
                          })
 //                         ->addColumn('actions', function ($data) use ($user) {
-//                             $deleteUrl = route('organization.patients.destroy', [
+//                             $deleteUrl = route('organisation.patients.destroy', [
 //                                 'patient' => $data->id,
 //                             ]);
 //

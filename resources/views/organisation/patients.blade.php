@@ -26,10 +26,10 @@
     @include('includes.datatable_styles')
     @include('includes.datatable_scripts')
 
-    @vite(['resources/css/organization-dashboard.css', 'resources/css/dashboard-common.css'])
+    @vite(['resources/css/organisation-dashboard.css', 'resources/css/dashboard-common.css'])
 </head>
 <body>
-@include('organization.includes.create-patient-common')
+@include('organisation.includes.create-patient-common')
 <div class="wrapper">
     <div class="container">
         <div class="row h-100 p-4">
@@ -58,7 +58,7 @@
                                     <div class="nav flex-column nav-pills nav-pills-custom" id="v-pills-tab"
                                          role="tablist"
                                          aria-orientation="vertical">
-                                        <a href="{{route("organization.patients")}}"
+                                        <a href="{{route("organisation.patients")}}"
                                            class="active nav-link text-left patient-directory-tab"
                                            id="v-pills-patient-directory-tab"
                                            type="button"
@@ -66,7 +66,7 @@
                                            aria-controls="v-pills-patient-directory" aria-selected="true">
                                             <i class="ti ti-man-filled me-2"></i> Patient Directory
                                         </a>
-                                        <a href="{{route("organization.practitioners")}}"
+                                        <a href="{{route("organisation.practitioners")}}"
                                            class="nav-link text-left practitioner-directory-tab"
                                            id="v-pills-practitioner-directory-tab"
                                            type="button" role="tab"
@@ -291,7 +291,16 @@
     </div>
 </div>
 
-@include('organization.includes.delete_modal')
+<div class="modal fade" id="patientDetails" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 60%; max-height: 100%">
+        <div id="patient-modal-content" class="modal-content p-3 p-md-5" style="background-color: rgba(255, 255, 255, 1);">
+            <div id="vue-patient-details">
+            </div>
+        </div>
+    </div>
+</div>
+
+@include('organisation.includes.delete_modal')
 
 <script>
     function initializeDT() {
@@ -317,7 +326,7 @@
                     searching: false,
                     serverMethod: 'post',
                     ajax: {
-                        url: "{{ route('organization.patients.datatable') }}",
+                        url: "{{ route('organisation.patients.datatable') }}",
                         headers: {
                             'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
                         },
@@ -404,11 +413,31 @@
         initializeDT()
     });
 
+    $(document).on("click", ".view-patient-details", function (e) {
+        e.preventDefault();
+
+        let patientId = e.target.dataset.id;
+
+        // Show the modal
+        let patientModal = new bootstrap.Modal(document.getElementById('patientDetails'));
+        window.fetchPatientData(patientId);
+        patientModal.show();
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        let closeModalBtns = document.querySelectorAll('[data-bs-dismiss="modal"]');
+
+        closeModalBtns.forEach(btn => {
+            btn.addEventListener("click", function () {
+                let modal = bootstrap.Modal.getInstance(document.getElementById("newPatientRegistration"));
+                if (modal) {
+                    modal.hide();
+                }
+            });
+        });
+    });
 </script>
-@include('organization.includes.organization-common-script')
+@include('organisation.includes.organisation-common-script')
 @vite(['resources/js/app.js'])
-<style>
-    @import "vue-select/dist/vue-select.css";
-</style>
 </body>
 </html>

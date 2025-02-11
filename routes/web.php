@@ -3,7 +3,7 @@
 use App\Domains\Auth\CustomLoginController;
 use App\Domains\Patient\Http\Controllers\PatientController;
 use App\Domains\Practitioner\Http\Controllers\PractitionerController;
-use App\Domains\Regain\Http\Controllers\PatientController as RegainPatientController;
+use App\Domains\Organisation\Http\Controllers\PatientController as RegainPatientController;
 use App\Domains\Reports\Http\Controllers\ReportsController;
 use App\Http\Controllers\LanguageController;
 use Illuminate\Support\Facades\Route;
@@ -85,11 +85,12 @@ Route::group([
 
 Route::group([
     'prefix'     => 'organisation',
-    'as'         => 'organization.',
+    'as'         => 'organisation.',
     'middleware' => ['role.administrator', 'auth'],
 ], function () {
     Route::get('/', [RegainPatientController::class, 'patients'])->name('home');
     Route::get('/patients', [RegainPatientController::class, 'patients'])->name('patients');
+    Route::get('/patients/{id}', [RegainPatientController::class, 'getPatientInfo'])->name('patient.info');
     Route::post('/patients/store', [RegainPatientController::class, 'storePatient'])->name('patients.create');
     Route::get('/patients/destroy', [RegainPatientController::class, 'patientsDestroy'])->name('patients.destroy');
     Route::post('/patients/email-exists', [RegainPatientController::class, 'emailExists'])->name('patients.emailExists');
@@ -104,9 +105,9 @@ Route::middleware(['guest'])->group(function () {
         return view('frontend.auth.login-practitioner');
     })->name('practitioner.login');
 
-    Route::get('/organization/login', function () {
-        return view('frontend.auth.login-organization');
-    })->name('organization.login');
+    Route::get('/organisation/login', function () {
+        return view('frontend.auth.login-organisation');
+    })->name('organisation.login');
 
     Route::get('/', function () {
         return view('frontend.auth.login-patient');

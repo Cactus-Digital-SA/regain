@@ -90,7 +90,7 @@ export default defineConfig({
                 ...LibsCssFiles,
                 ...FontsScssFiles,
                 'resources/css/patient-index.css',
-                'resources/css/organization-dashboard.css',
+                'resources/css/organisation-dashboard.css',
                 'resources/css/dashboard-common.css',
                 'resources/css/practitioner-dashboard.css',
                 'resources/css/export-assessment-report.css',

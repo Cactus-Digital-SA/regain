@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\Regain\Http\Requests;
+namespace App\Domains\Organisation\Http\Requests;
 
 use App\Domains\Auth\Repositories\Eloquent\Models\User;
 use App\Domains\Patient\Enums\MilitaryStatusEnum;

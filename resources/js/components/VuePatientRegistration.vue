@@ -316,7 +316,6 @@ export default {
     };
 
     const resetForm = () => {
-      console.log("resetting form");
       success.value = false;
       currentPage.value = 1; // Reset back to Step 1
       Object.assign(formData.value, initialFormData);

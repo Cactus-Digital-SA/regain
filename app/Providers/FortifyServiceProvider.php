@@ -50,12 +50,12 @@ class FortifyServiceProvider extends ServiceProvider
             $intendedUrl = parse_url(session()?->get("url.intended"), PHP_URL_PATH);
             $routeName   = request()->route()?->getName();
 
-            if ($routeName !== "organization.login" && str_starts_with($intendedUrl, "/practitioner")) {
+            if ($routeName !== "practitioner.login" && str_starts_with($intendedUrl, "/practitioner")) {
                 return redirect()->route("practitioner.login");
             }
 
-            if ($routeName !== "organization.login" && str_starts_with($intendedUrl, "/organization")) {
-                return redirect()->route("organization.login");
+            if ($routeName !== "organisation.login" && str_starts_with($intendedUrl, "/organisation")) {
+                return redirect()->route("organisation.login");
             }
 
             // Default view

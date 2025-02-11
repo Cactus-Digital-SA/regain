@@ -18,11 +18,11 @@
 
     @include('includes.datatable_styles')
     @include('includes.datatable_scripts')
-    @vite(['resources/css/organization-dashboard.css', 'resources/css/dashboard-common.css'])
+    @vite(['resources/css/organisation-dashboard.css', 'resources/css/dashboard-common.css'])
 </head>
 <body>
 @include('backend.components.delete_modal')
-@include('organization.includes.create-patient-common')
+@include('organisation.includes.create-patient-common')
 <div class="wrapper">
     <div class="container">
         <div class="row h-100 p-4">
@@ -51,14 +51,14 @@
                                     <div class="nav flex-column nav-pills nav-pills-custom" id="v-pills-tab"
                                          role="tablist"
                                          aria-orientation="vertical">
-                                        <a href="{{route("organization.patients")}}"
+                                        <a href="{{route("organisation.patients")}}"
                                            class="nav-link text-left patient-directory-tab"
                                            id="v-pills-patient-directory-tab" type="button"
                                            role="tab"
                                            aria-controls="v-pills-patient-directory" aria-selected="false">
                                             <i class="ti ti-man-filled me-2"></i> Patient Directory
                                         </a>
-                                        <a href="{{route("organization.practitioners")}}"
+                                        <a href="{{route("organisation.practitioners")}}"
                                            class="active nav-link text-left practitioner-directory-tab"
                                            id="v-pills-practitioner-directory-tab"
                                            type="button" role="tab"
@@ -302,7 +302,7 @@
                     searching: false,
                     serverMethod: 'post',
                     ajax: {
-                        url: "{{ route('organization.practitioners.datatable') }}",
+                        url: "{{ route('organisation.practitioners.datatable') }}",
                         headers: {
                             'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
                         },
@@ -386,6 +386,6 @@
         }
     });
 </script>
-@include('organization.includes.organization-common-script')
+@include('organisation.includes.organisation-common-script')
 </body>
 </html>
