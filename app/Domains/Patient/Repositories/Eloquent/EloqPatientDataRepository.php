@@ -139,7 +139,7 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
                              }
 
                              if ($user->isRegainUser()) {
-                                 return '<a class="nav-link view-patient-details" data-id="' . $data->user->id .  '" type="button" data-bs-toggle="modal" data-bs-target="#patientDetails">' . e($data->user->name) . '</a>';
+                                 return '<a class="nav-link view-patient-details" onClick="resetPatientData()" data-id="' . $data->user->id .  '" type="button" data-bs-toggle="modal" data-bs-target="#patientDetails">' . e($data->user->name) . '</a>';
                              }
 
                              return e($data->user->name);
