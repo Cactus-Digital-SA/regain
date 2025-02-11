@@ -97,6 +97,7 @@ export default defineConfig({
                 'resources/css/navbar-front.css',
                 'resources/css/front-main.css',
                 'resources/css/help-info-pages.css',
+                'resources/css/my-regain.css',
                 'resources/css/app.scss',
                 'resources/css/palette-gradient.scss',
                 'resources/css/palette-variables.scss'
