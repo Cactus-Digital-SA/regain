@@ -35,10 +35,14 @@ class PatientController extends Controller
         $presenter = $this->questionsService->fetchQuestionsAlt(Auth::id(), 10);
 
         $questions = $presenter->getQuestions();
-        if (count($questions) > 0 && $questions[0]->getId() >= 41) {
-            return view('patient.ask-alt')->with(
-                ["presenter" => $presenter]
-            );
+        if (count($questions) > 0) {
+            $questionId = $questions[0]->getId();
+
+            if ($questionId >= 31 && $questionId <= 70) {
+                return view('patient.ask-alt')->with(["presenter" => $presenter]);
+            } elseif ($questionId > 70) {
+                return view('patient.ask-alt-second')->with(["presenter" => $presenter]);
+            }
         }
 
         return view('patient.ask')->with(

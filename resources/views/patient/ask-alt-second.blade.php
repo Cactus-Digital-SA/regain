@@ -6,17 +6,130 @@
     $previousInstruction = "";
 @endphp
 
-        <!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Question</title>
+    <title>Questions</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<style>
+    input[type="checkbox"] {
+        display: none;
+    }
+    .dob-container-questions {
+        display: inline-block;
+        border-radius: 4rem;
+        flex-direction: column;
+        margin: auto;
+        min-width: 70rem;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 30px;
+        box-shadow: 0 4px 4px 0 #00000040;
+        height: auto;
+        max-height: none;
+        width: auto;
+    }
 
+    .question-single {
+        margin-bottom: 40px;
+    }
+
+    .question-single:last-child {
+        margin-bottom: 0;
+    }
+
+    input[type="radio"] {
+        display: none;
+    }
+
+    .grid-layout-second {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        gap: 0;
+    }
+
+    .grid-layout-second li {
+        list-style: none;
+        flex: 1; /* Makes each <li> take an equal portion of space */
+        text-align: center;
+    }
+
+    label.toggle {
+        cursor: pointer;
+        background-color: #f0f0f0;
+        padding: 5px;
+        border: 1px solid rgba(159, 159, 159, 1);
+        border-radius: 0 !important;
+        font-size: 15px;
+        font-weight: 400;
+        text-align: center;
+        transition: all 0.3s ease;
+        width: 100%;
+        height: 50px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .grid-layout-second li:first-child label.toggle{
+        border-top-left-radius: 0.4rem !important;
+        border-bottom-left-radius: 0.4rem !important;
+    }
+
+    .grid-layout-second li:last-child label.toggle{
+        border-top-right-radius: 0.4rem !important;
+        border-bottom-right-radius: 0.4rem !important;
+    }
+
+    label.toggle:hover {
+        background-color: #e0e0e0;
+    }
+
+    input[type="radio"]:checked + label.toggle {
+        background-color: rgba(10, 19, 58, 1);
+        color: #fff;
+        border-color: rgba(10, 19, 58, 1);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .question-span {
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 22px;
+        text-align: left;
+        text-underline-position: from-font;
+        text-decoration-skip-ink: none;
+    }
+
+    @media (max-width: 990px) {
+        .grid-layout-second {
+            grid-template-columns: 1fr;
+            gap: 0.5rem;
+            justify-items: unset;
+        }
+
+        label.toggle {
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .dob-container-questions {
+            margin: auto;
+        }
+
+        .text-heading > a {
+            display: none !important;
+        }
+    }
+</style>
 </head>
 <body>
 
@@ -38,22 +151,22 @@
         </div>
     @else
         @foreach ($presenter->getQuestions() as $question)
-            <div class="container px-3 py-2 {{$question->isHiddenBecauseOfRequired() ? "hidden" : ""}}"
+            <div class=" container px-3 py-2 {{$question->isHiddenBecauseOfRequired() ? "hidden" : ""}}"
                  data-hide="{{$question->isHiddenBecauseOfRequired() ? "true" : "false"}}">
                 <form
-                        id="input-form_{{$question->getId()}}"
-                        class="collect-question"
-                        data-question-id="{{$question->getId()}}"
-                        data-condition-question-id="{{$question->getRequiredQuestionId()}}"
-                        data-condition-required-response-ids="[{{implode(", ", $question->getRequiredQuestionResponseIds())}}]"
-                        @if ($question->isSelectMultiple())
-                            data-max-selections="{{count($question->getResponses())}}"
-                        @else
-                            data-max-selections="1"
-                        @endif
+                    id="input-form_{{$question->getId()}}"
+                    class="collect-question"
+                    data-question-id="{{$question->getId()}}"
+                    data-condition-question-id="{{$question->getRequiredQuestionId()}}"
+                    data-condition-required-response-ids="[{{implode(", ", $question->getRequiredQuestionResponseIds())}}]"
+                    @if ($question->isSelectMultiple())
+                        data-max-selections="{{count($question->getResponses())}}"
+                    @else
+                        data-max-selections="1"
+                    @endif
                 >
                     @csrf
-                    <div class="question mb-5">
+                    <div class="question mb-5 question-single">
                         <span class="question-span">{{$question->getTitle()}}
                             @if ($question->getInstruction()->getContent() !== $previousInstruction)
                                 ({{$question->getInstruction()->getContent()}})
@@ -61,16 +174,16 @@
                             @endif
                         </span>
                         @if ($question->getId() !== 11)
-                            <ul class="list-unstyled grid-layout mt-3">
+                            <ul class="list-unstyled grid-layout-second mt-3">
                                 @foreach ($question->getResponses() as $response)
                                     <li>
                                         <input
-                                                type="checkbox"
-                                                class="select-response radio-label round"
-                                                data-question-id="{{$question->getId()}}"
-                                                data-response-id="{{$response->getId()}}"
-                                                id="response-{{$question->getId()}}-{{$response->getId()}}"
-                                                name="response-{{$question->getId()}}[]">
+                                            type="checkbox"
+                                            class="select-response radio-label round"
+                                            data-question-id="{{$question->getId()}}"
+                                            data-response-id="{{$response->getId()}}"
+                                            id="response-{{$question->getId()}}-{{$response->getId()}}"
+                                            name="response-{{$question->getId()}}[]">
                                         <label for="response-{{$question->getId()}}-{{$response->getId()}}" class="toggle">
                                             <span class="radio-label round">{{ $response->getTitle() }}</span>
                                         </label>

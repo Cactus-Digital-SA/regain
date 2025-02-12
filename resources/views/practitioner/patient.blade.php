@@ -380,9 +380,13 @@
             // Fetch the medical history and show the modal after content is updated
             fetchMedicalHistory(userId);
         });
+
+        modalContainer.on('hidden.bs.modal', function () {
+            window.location.reload(); //TODO Check if it works!!
+        });
+
     });
 </script>
-
 <script>
     function bootModal() {
         const nextButton = document.getElementById('next-button');

@@ -79,11 +79,6 @@
             font-weight: 500;
         }
 
-        .divider {
-            border-top: 0.7px solid #dfe3ec;
-            margin: 10px 0;
-        }
-
         table {
             width: 100%;
             border-collapse: collapse;
@@ -131,7 +126,6 @@
     <p>#{{$result->getPatientData()->getUser()->getId()}}</p>
     <p>D.O.B. {{$result->getPatientData()->getBirthday()->format("d/m/Y")}}</p>
 </div>
-<div class="divider"></div>
 
 @if (count($result->getQuestionAnswers()) > 0)
     <div>
