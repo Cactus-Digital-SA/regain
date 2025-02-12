@@ -13,12 +13,12 @@ body {
 
 .col-md-30 {
     flex: 0 0 auto;
-    width: 30%;
+    width: 27%;
 }
 
 .col-md-70 {
     flex: 0 0 auto;
-    width: 70%;
+    width: 73%;
 }
 
 .basic-wrapper {
@@ -147,6 +147,79 @@ body {
     line-height: 18.15px;
     letter-spacing: 0;
     background: transparent;
+}
+
+.main-btn-purple {
+    background: #757CA0;
+    border: 2px solid #757CA0;
+    width: 100%;
+    opacity: 0.85;
+    height: auto;
+    gap: 10px;
+    border-radius: 9px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    line-height: 18.15px;
+    color: white;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0;
+}
+
+.red-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #FF0000;
+}
+
+.mini-card-title {
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 15px;
+    letter-spacing: 0;
+}
+
+.mini-card-title:not(.appointment-title) {
+    opacity: 50%;
+}
+
+.mini-card {
+    width: 361px;
+    height: 186px;
+    top: 160px;
+    left: 753px;
+    border-radius: 24px;
+    padding: 16px;
+    gap: 16px;
+    border: 1px solid rgba(219, 209, 199, 1)
+}
+
+.date, .hour {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 29.05px;
+    letter-spacing: 0;
+}
+
+.module-3-sub-title {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 29.05px;
+    letter-spacing: 0;
+
+}
+
+.progress-bar {
+    width: 54px;
+    height: 9px;
+    border-radius: 8px;
+    gap: 10px;
+    background: #6473D4;;
+}
+
+.bg-light-purple {
+    background: #DDDEF1;
 }
 
 .footer {
