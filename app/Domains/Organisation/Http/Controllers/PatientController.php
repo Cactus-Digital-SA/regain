@@ -71,7 +71,6 @@ class PatientController extends Controller
     public function storePatient(StorePatientRequest $request): JsonResponse
     {
         $password = Str::random(8); // random 8 char password
-        $password = "9999";
 
         $userModel = (new User())
             ->setName($request->getName())

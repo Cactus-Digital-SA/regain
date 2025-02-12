@@ -3,8 +3,9 @@
 namespace App\Domains\References\Models;
 
 use App\Models\CactusEntity;
+use JsonSerializable;
 
-class Reference extends CactusEntity
+class Reference extends CactusEntity implements JsonSerializable
 {
     /**
      * @var int $id
@@ -197,5 +198,10 @@ class Reference extends CactusEntity
         $this->groupName = $groupName;
 
         return $this;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return $this->getValues();
     }
 }

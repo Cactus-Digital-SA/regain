@@ -548,5 +548,19 @@
     </div>
 </div>
 
+<div class="modal fade" id="scientificDetailsModal" tabindex="-10" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 60%;">
+        <div class="modal-content p-3 p-md-5">
+            <div id="vue-scientific-references"></div>
+        </div>
+    </div>
+</div>
+
+@vite(['resources/js/app.js'])
+<script>
+    function triggerReferencesModal(e) {
+        showReferences(e.dataset.id, e.dataset.references)
+    }
+</script>
 </body>
 </html>

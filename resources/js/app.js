@@ -9,6 +9,7 @@ import.meta.glob([
 import {createApp} from 'vue';
 import VuePatientRegistration from './components/VuePatientRegistration.vue';
 import VuePatientDetails from './components/VuePatientDetails.vue';
+import ScientificDetails from './components/ScientificDetails.vue';
 
 // Function to mount Vue only if the modal exists
 document.addEventListener('DOMContentLoaded', () => {
@@ -20,9 +21,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const patientDetails = document.getElementById('vue-patient-details');
-    if (patientRegistration) {
+    if (patientDetails) {
         const app =
             createApp(VuePatientDetails);
         app.mount('#vue-patient-details');
+    }
+
+    const scientificReferences = document.getElementById('vue-scientific-references');
+    if (scientificReferences) {
+        const app =
+            createApp(ScientificDetails);
+        app.mount('#vue-scientific-references');
     }
 });
