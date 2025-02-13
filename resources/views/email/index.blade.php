@@ -84,15 +84,15 @@
                     <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0">
                         <tr>
                             <!-- First Contact -->
-                            <td style="text-align: left; padding: 10px; width: 50%;">
+                            <td style="text-align: left; padding: 10px; width: 50%; vertical-align: top">
                                 <strong style="font-size: 17px; font-weight: 700;">Lifeline Ukraine:</strong><br>
                                 <small style="font-size: 14px; color: #6c757d;">Available 24/7</small><br>
                                 <span style="font-size: 18px; font-weight: 700;">7333</span>
                             </td>
 
                             <!-- Second Contact -->
-                            <td style="text-align: left; padding: 10px; width: 50%;">
-                                <strong style="font-size: 17px; font-weight: 700;">Stavropyghion-058:</strong><br>
+                            <td style="text-align: left; padding: 10px; width: 50%;  vertical-align: top">
+                                <strong style="font-size: 17px; font-weight: 700;">Telephone of confidence<br/>Stavropyghion-058:</strong><br>
                                 <small style="font-size: 14px; color: #6c757d;">Available: 12am - 11pm</small><br>
                                 <span style="font-size: 18px; font-weight: 700;">058</span>
                             </td>
@@ -100,14 +100,14 @@
 
                         <tr>
                             <!-- Third Contact -->
-                            <td style="text-align: left; padding: 10px; width: 50%;">
+                            <td style="text-align: left; padding: 10px; width: 50%;  vertical-align: top">
                                 <strong style="font-size: 17px; font-weight: 700;">OCTS:</strong><br>
                                 <small style="font-size: 14px; color: #6c757d;">Mon - Fri: 10am - 8am</small><br>
                                 <span style="font-size: 18px; font-weight: 700;">0487 327715</span>
                             </td>
 
                             <!-- Fourth Contact -->
-                            <td style="text-align: left; padding: 10px; width: 50%;">
+                            <td style="text-align: left; padding: 10px; width: 50%;  vertical-align: top">
                                 <strong style="font-size: 17px; font-weight: 700;">Spirit:</strong><br>
                                 <small style="font-size: 14px; color: #6c757d;">Available 24/7</small><br>
                                 <span style="font-size: 18px; font-weight: 700;">0800 333 161</span>

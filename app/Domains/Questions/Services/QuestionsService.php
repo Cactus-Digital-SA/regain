@@ -144,18 +144,14 @@ readonly class QuestionsService
             }
 
             if (
-                $question->subscale !== null
+                $question->subscale !== null &&
+                $question->subscale->required_questions > 0
             ) {
                 $subscaleQuestions = $question->subscale->questions;
                 $requiredCount     = $question->subscale->required_questions;
-
-                $shuffledSubscaleIQuestions = $subscaleQuestions->shuffle();
-                if ($question->subscale->required_questions > 0) {
-                    $shuffledSubscaleIQuestions   = $shuffledSubscaleIQuestions->take($requiredCount);
-                }
-
-                // $sortedQuestions   = $randomQuestions->sortBy('id');
-                foreach ($shuffledSubscaleIQuestions as $sortedQuestion) {
+                $randomQuestions   = $subscaleQuestions->shuffle()->take($requiredCount);
+                $sortedQuestions   = $randomQuestions->sortBy('id');
+                foreach ($sortedQuestions as $sortedQuestion) {
                     $userQuestions[] = $sortedQuestion->id;
                 }
                 $randomSubscalesProcessed[$question->subscale_id] = true;

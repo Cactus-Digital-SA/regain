@@ -7,7 +7,6 @@ use App\Domains\Organisation\Http\Controllers\PatientController as RegainPatient
 use App\Domains\Reports\Http\Controllers\ReportsController;
 use App\Http\Controllers\LanguageController;
 use Illuminate\Support\Facades\Route;
-use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -233,6 +232,8 @@ Route::get('/refresh-csrf', function () {
 //        'name' => 'Georgia',
 //        'email' => 'giannakos@cactusweb.gr'
 //    ];
+//
+//    $user = "test";
 //
 //    // Simulated password
 //    $password = '12345678georgia';

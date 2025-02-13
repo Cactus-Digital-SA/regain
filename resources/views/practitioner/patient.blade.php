@@ -247,7 +247,7 @@
                                                                                data-bs-target="#medicalHistoryResult">
                                                                                 <i class="ti ti-eye"></i> View
                                                                             </a>
-                                                                            <a href="{{route("practitioner.medical-history-report-download", ["userId" => $patientData->getUser()->getId()] )}}"
+                                                                            <a target="_blank" href="{{route("practitioner.medical-history-report-download", ["userId" => $patientData->getUser()->getId()] )}}"
                                                                                class="mh-link mt-1">
                                                                                 <i class="ti ti-download"></i> Download
                                                                             </a>
@@ -381,8 +381,8 @@
             fetchMedicalHistory(userId);
         });
 
-        modalContainer.on('hidden.bs.modal', function () {
-            window.location.reload(); //TODO Check if it works!!
+        $('#medicalHistory').on('hidden.bs.modal', function () {
+            window.location.reload();
         });
 
     });

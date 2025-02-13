@@ -215,11 +215,11 @@ class PractitionerController extends Controller
 
         $filePath = "reports/{$uuid}.pdf";
 
-        $pdf = PDF::loadView('reports.medicalHistory.index', ['result' => $result]);
+        $pdf = PDF::loadView('reports.medicalHistory.pdf', ['result' => $result]);
 
         Storage::put($filePath, $pdf->output());
 
-        return response()->file(storage_path("app/$filePath"), [
+        return response()->download(storage_path("app/$filePath"), [
             'Content-Type' => 'application/pdf',
         ]);
     }
