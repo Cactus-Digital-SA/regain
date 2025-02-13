@@ -156,7 +156,7 @@
                                 <div class="col-35">
                                     <div class="card" style="border-radius: 20px">
                                         <div class="card-body px-xl-5 px-2">
-                                            <h5 class="card-title mb-0" style="color: rgba(40, 199, 111, 1)">74%</h5>
+                                            <h5 class="card-title mb-0" style="color: rgba(40, 199, 111, 1)">{{$capacity}}%</h5>
                                             <span class="card-subtitle text-muted">Capacity</span>
                                         </div>
                                     </div>

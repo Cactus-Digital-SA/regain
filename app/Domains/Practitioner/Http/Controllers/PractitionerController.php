@@ -79,9 +79,9 @@ class PractitionerController extends Controller
         $practitioner = $this->practitionerService->getByUserId((string)Auth::id());
         $patientData  = $this->patientDataService->getByUserId((string)$userId);
 
-        $medicalHistoryCompleted = $this->userQuestionnaireService->getMedicalHistoryCompletedAtForUser(Auth::id(), $userId);
-        $medicalHistoryPresenter = [];
-        $medicalHistoryPresenter['details'] = [];
+        $medicalHistoryCompleted               = $this->userQuestionnaireService->getMedicalHistoryCompletedAtForUser(Auth::id(), $userId);
+        $medicalHistoryPresenter               = [];
+        $medicalHistoryPresenter['details']    = [];
         $medicalHistoryPresenter['medication'] = [];
 
         if ($medicalHistoryCompleted !== null) {
@@ -111,7 +111,7 @@ class PractitionerController extends Controller
                 }
 
                 if ("What is the name of the OTC medication?" === $answer->getQuestionText()) {
-                    $medicalHistoryPresenter['medication'] = explode(", ", $answer->getAnswerText());
+                    $medicalHistoryPresenter['medication'] = explode(" ", $answer->getAnswerText());
                 }
             }
 

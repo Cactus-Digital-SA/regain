@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->foreignId('for_user_id')->nullable()->references('id')->on('users')->onDelete('cascade');
             $table->text('generated_questions');
             $table->boolean('completed')->default(false);
-            $table->unique(['user_id', 'questionnaire_flow_type', 'for_user_id']);
+            $table->unique(['user_id', 'questionnaire_flow_type', 'for_user_id'], "unique_user_questionnaire_flow");
 
             $table->timestamps();
         });

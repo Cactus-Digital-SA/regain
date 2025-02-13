@@ -77,6 +77,16 @@ readonly class EloqPatientAssignmentRepository implements PatientAssignmentRepos
         return ObjectSerializer::deserialize($patientData?->toJson() ?? "{}", PatientAssignment::class, 'json');
     }
 
+    /**
+     * @return PatientAssignment[]
+     */
+    public function getAllocatedPatients(): array
+    {
+        $model = $this->model::all();
+
+        return ObjectSerializer::deserialize($model?->toJson() ?? "{}", "array<" . PatientAssignment::class . ">", 'json');
+    }
+
     public function get(): ?array
     {
         throw new NotImplementedException();

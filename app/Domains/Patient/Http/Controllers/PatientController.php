@@ -38,16 +38,16 @@ class PatientController extends Controller
         if (count($questions) > 0) {
             $questionId = $questions[0]->getId();
 
-            if ($questionId >= 31 && $questionId <= 70) {
-                return view('patient.ask-alt')->with(["presenter" => $presenter]);
-            } elseif ($questionId > 70) {
-                return view('patient.ask-alt-second')->with(["presenter" => $presenter]);
+            if ($questionId >= 42) {
+                // Determine which view to use based on question ID
+                $useAltSecond = (floor(($questionId - 42) / 20) % 2 === 0);
+
+                return view($useAltSecond ? 'patient.ask-alt-second' : 'patient.ask-alt')
+                    ->with(["presenter" => $presenter]);
             }
         }
 
-        return view('patient.ask')->with(
-            ["presenter" => $presenter]
-        );
+        return view('patient.ask')->with(["presenter" => $presenter]);
     }
 
     public function registerFlow(): View
@@ -62,7 +62,7 @@ class PatientController extends Controller
 
     public function handleLandingPageFlow(Request $request): View
     {
-        $referer = request()->headers->get('referer');
+        $referer     = request()->headers->get('referer');
         $refererPath = $referer ? parse_url($referer, PHP_URL_PATH) : null;
 
         if ($refererPath === "/register") {

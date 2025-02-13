@@ -44,4 +44,9 @@ interface PatientAssignmentRepositoryInterface extends RepositoryInterface
      * @return array
      */
     public function getTableColumns(): array;
+
+    /**
+     * @return PatientAssignment[]
+     */
+    public function getAllocatedPatients(): array;
 }

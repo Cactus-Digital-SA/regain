@@ -10,6 +10,7 @@ use App\Domains\Auth\Services\UserService;
 use App\Domains\Patient\Enums\StatusEnum;
 use App\Domains\Patient\Models\PatientData;
 use App\Domains\Patient\Services\PatientDataService;
+use App\Domains\PatientAssignments\Services\PatientAssignmentService;
 use App\Domains\Practitioner\Services\PractitionersService;
 use App\Domains\Organisation\Http\Requests\StorePatientRequest;
 use App\Domains\Region\Services\RegionService;
@@ -33,6 +34,7 @@ class PatientController extends Controller
         private readonly UserService $userService,
         private readonly PractitionersService $practitionersService,
         private readonly RegionService $regionService,
+        private readonly PatientAssignmentService $patientAssignmentService,
     ) {
 
     }
@@ -53,10 +55,17 @@ class PatientController extends Controller
 
     public function practitioners()
     {
-        $columns = $this->practitionersService->getTableColumns();
-        $regions = $this->regionService->get();
+        $columns     = $this->practitionersService->getTableColumns();
+        $regions     = $this->regionService->get();
+        $regionsJson = json_encode(array_map(function ($region) {
+            return ['id' => $region->getId(), 'name' => $region->getName()];
+        }, $regions), JSON_THROW_ON_ERROR);
 
-        return view('organisation.practitioners', compact('columns', 'regions'));
+        $allocatedPatients = $this->patientAssignmentService->getAllocatedPatients();
+
+        $capacity = (int)(((71 + count($allocatedPatients)) / 273) * 100);
+
+        return view('organisation.practitioners', compact('columns', 'regions', 'regionsJson', 'capacity'));
     }
 
     public function emailExists(Request $request): JsonResponse
@@ -157,10 +166,10 @@ class PatientController extends Controller
     {
         $patientInfo = $this->patientDataService->getByUserId($id);
 
-        $data = $patientInfo->getValues();
-        $data['email'] = $patientInfo->getUser()->getEmail();
-        $data['fullName'] = $patientInfo->getUser()->getName();
-        $data['regionName'] = $patientInfo->getRegion()->getName();
+        $data                   = $patientInfo->getValues();
+        $data['email']          = $patientInfo->getUser()->getEmail();
+        $data['fullName']       = $patientInfo->getUser()->getName();
+        $data['regionName']     = $patientInfo->getRegion()->getName();
         $data['militaryStatus'] = $patientInfo->getMilitaryStatus()?->label() ?? "";
 
         return response()->json($data);
