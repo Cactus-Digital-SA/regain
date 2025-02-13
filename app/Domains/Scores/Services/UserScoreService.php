@@ -44,19 +44,20 @@ class UserScoreService
                                ->toArray();
 
         $userResponsesScoreSum = UserResponse::query()
+                                             ->where('user_id', '=', $userId)
                                              ->whereIn('question_id', $questionIds)
                                              ->sum('score');
 
         $affectedModels = UserTestScore::query()
-                                           ->upsert(
-                                               [
-                                                   'user_id'     => $userId,
-                                                   'test_id'     => $testId,
-                                                   'score'       => $userResponsesScoreSum,
-                                               ],
-                                               ['user_id', 'test_id'],
-                                               ['score']
-                                           );
+                                       ->upsert(
+                                           [
+                                               'user_id' => $userId,
+                                               'test_id' => $testId,
+                                               'score'   => $userResponsesScoreSum,
+                                           ],
+                                           ['user_id', 'test_id'],
+                                           ['score']
+                                       );
 
         return $affectedModels > 0
             ? (int)$userResponsesScoreSum
