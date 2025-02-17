@@ -1,4 +1,11 @@
-<!DOCTYPE html>
+@php
+    /**
+     * @var App\Domains\Questions\Models\QuestionsPresenter[] $presenter
+     * @var string $previousInstruction;
+     */
+    $previousInstruction = "";
+@endphp
+    <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -133,7 +140,12 @@
                     @csrf
                     <div class="question" style="margin-bottom: 5rem">
                         <div class="question-span-div">
-                            <span class="question-span">{{$question->getTitle()}} ({{$question->getInstruction()->getContent()}})</span>
+                            <span class="question-span">{{$question->getTitle()}}
+                                @if ($question->getInstruction()->getContent() !== $previousInstruction)
+                                ({{$question->getInstruction()->getContent()}})
+                                    @php $previousInstruction = $question->getInstruction()->getContent(); @endphp
+                                @endif
+                            </span>
                         </div>
                         <div class="slider" id="slider-{{ $index }}"></div>
                         <ul class="list-unstyled mt-3 checkbox-list hidden">
