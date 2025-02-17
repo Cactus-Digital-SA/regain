@@ -5,10 +5,10 @@ namespace App\Domains\References\Repositories\Eloquent;
 use App\Domains\References\Models\Reference;
 use App\Domains\References\Repositories\Eloquent\Models\Reference as EloqReference;
 use App\Domains\References\Repositories\ReferenceRepositoryInterface;
-use App\Domains\Responses\Models\Response;
 use App\Facades\ObjectSerializer;
 use App\Models\CactusEntity;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 use Nette\NotImplementedException;
 
 class EloqReferenceRepository implements ReferenceRepositoryInterface
@@ -67,7 +67,41 @@ class EloqReferenceRepository implements ReferenceRepositoryInterface
             ->where('group', $group)
             ->get();
 
-        return ObjectSerializer::deserialize($reference->toJson() ?? "{}", 'array<' . Response::class . '>', 'json');
+        return ObjectSerializer::deserialize($reference->toJson() ?? "{}", 'array<' . Reference::class . '>', 'json');
+    }
+
+    /**
+     * @param int $group
+     * @return Reference[]
+     */
+    public function getByGroup(int $group): array
+    {
+        //dd($type, $group);
+        $reference = $this->model
+            ->where('group', $group)
+            ->get();
+
+        return ObjectSerializer::deserialize($reference->toJson() ?? "{}", 'array<' . Reference::class . '>', 'json');
+    }
+
+    /**
+     * @param int $testId
+     * @return Reference[]
+     */
+    public function getByTestId(int $testId): array
+    {
+        $groupResult = DB::select("
+            SELECT `group` FROM `references`
+            LEFT JOIN question_reference ON question_reference.reference_id = `references`.`id`
+            LEFT JOIN questions ON questions.id = question_reference.question_id
+            WHERE questions.test_id = ? GROUP BY `group`;", [$testId]);
+
+        $groupValue = $groupResult[0]->group ?? 0;
+        if ($groupValue > 0) {
+            return $this->getByGroup($groupResult[0]->group);
+        }
+
+        return [];
     }
 
     public function get(): ?array

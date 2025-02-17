@@ -97,7 +97,7 @@ class CreateQuestionFromJob implements ShouldQueue
         if ($test == 'Professional Sector') {
             $responses = [];
             foreach ($row as $key => $value) {
-                if (str_contains($key, 'response') && !empty($value)) {
+                if (str_contains($key, 'response') && !empty($value) && $value !== '-') {
                     $responses[] = ['value' => (string)$value, 'type' => 3, 'sort' => null];
                 }
             }

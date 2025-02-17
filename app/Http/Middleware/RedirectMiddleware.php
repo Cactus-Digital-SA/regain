@@ -36,8 +36,8 @@ class RedirectMiddleware
             }
 
             if (auth()->user()->isRegainUser()) {
-                if (!$request->routeIs('organization.*')) {
-                    return redirect()->route('organization.home');
+                if (!$request->routeIs('organisation.*')) {
+                    return redirect()->route('organisation.home');
                 }
 
                 return $next($request);

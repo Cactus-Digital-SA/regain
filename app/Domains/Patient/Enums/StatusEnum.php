@@ -2,11 +2,14 @@
 
 namespace App\Domains\Patient\Enums;
 
-enum StatusEnum : string
+enum StatusEnum : int
 {
-    case INACTIVE = 'Inactive';
-    case PROCESSING = 'Processing';
-    case ALLOCATED = 'Allocated';
+    case INACTIVE = 1;
+    case PROCESSING = 2;
+    case ALLOCATED = 3;
+    case WAITLIST_URGENT = 4;
+    case WAITLIST = 5;
+    case GUIDED = 6;
 
     public function label(): string
     {
@@ -14,6 +17,9 @@ enum StatusEnum : string
             self::INACTIVE => 'Inactive',
             self::PROCESSING => 'Processing',
             self::ALLOCATED => 'Allocated',
+            self::WAITLIST_URGENT => 'Waitlist',
+            self::WAITLIST => 'Waitlist',
+            self::GUIDED => 'Guided',
         };
     }
 

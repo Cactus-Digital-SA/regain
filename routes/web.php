@@ -3,11 +3,10 @@
 use App\Domains\Auth\CustomLoginController;
 use App\Domains\Patient\Http\Controllers\PatientController;
 use App\Domains\Practitioner\Http\Controllers\PractitionerController;
-use App\Domains\Regain\Http\Controllers\PatientController as RegainPatientController;
+use App\Domains\Organisation\Http\Controllers\PatientController as RegainPatientController;
 use App\Domains\Reports\Http\Controllers\ReportsController;
 use App\Http\Controllers\LanguageController;
 use Illuminate\Support\Facades\Route;
-use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,7 +47,12 @@ Route::group([
     'as'         => 'patient.',
     'middleware' => ['role.patient', 'auth'],
 ], function () {
-    Route::get('/', [PatientController::class, 'index'])->name('home');
+    Route::get('/home', [PatientController::class, 'handleLandingPageFlow'])->name('home'); //role patient doesnt work here. Needs auth, role patient middleware
+
+    Route::get('/my-regain', function () {
+        return view("patient.my-regain");
+    })->name('my-regain');
+    Route::get('/ask', [PatientController::class, 'ask'])->name('ask');
     Route::get('/help-center', function () {
         return view('patient.help-center');
     })->name('help-center');
@@ -79,15 +83,16 @@ Route::group([
 });
 
 Route::group([
-    'prefix'     => 'organization',
-    'as'         => 'organization.',
+    'prefix'     => 'organisation',
+    'as'         => 'organisation.',
     'middleware' => ['role.administrator', 'auth'],
 ], function () {
-
     Route::get('/', [RegainPatientController::class, 'patients'])->name('home');
     Route::get('/patients', [RegainPatientController::class, 'patients'])->name('patients');
+    Route::get('/patients/{id}', [RegainPatientController::class, 'getPatientInfo'])->name('patient.info');
     Route::post('/patients/store', [RegainPatientController::class, 'storePatient'])->name('patients.create');
     Route::get('/patients/destroy', [RegainPatientController::class, 'patientsDestroy'])->name('patients.destroy');
+    Route::post('/patients/email-exists', [RegainPatientController::class, 'emailExists'])->name('patients.emailExists');
     Route::post('/patients/table', [RegainPatientController::class, 'patientsDatatable'])->name('patients.datatable');
     Route::post('/patients/create-page/{page}', [RegainPatientController::class, 'createPatientPage'])->name('patients.create-page');
     Route::get('/practitioners', [RegainPatientController::class, 'practitioners'])->name('practitioners');
@@ -99,10 +104,28 @@ Route::middleware(['guest'])->group(function () {
         return view('frontend.auth.login-practitioner');
     })->name('practitioner.login');
 
-    Route::get('/organization/login', function () {
-        return view('frontend.auth.login-organization');
-    })->name('organization.login');
+    Route::get('/organisation/login', function () {
+        return view('frontend.auth.login-organisation');
+    })->name('organisation.login');
+
+    Route::get('/', function () {
+        return view('frontend.auth.login-patient');
+    })->name('patient.login');
+
+    Route::get('/register', [PatientController::class, 'registerFlow'])->name('registerFlow');
 });
+
+Route::get('/refresh-csrf', function () {
+    return response()->json(['token' => csrf_token()]);
+});
+
+//Route::group([
+//    'prefix' => '',
+//    'as'     => 'patient-flow.',
+//], function () {
+//Route::get('welcome-back' , [PatientController::class, 'showWelcomeBack'])->name('welcome-back');
+//Route::get('login/old' , [PatientController::class, 'showLoginOld'])->name('login-old');
+//});
 
 ////2fa fortify
 //Route::post('/2fa-confirm', [TwoFactorAuthController::class, 'confirm'])->name('fortify.two-factor.confirm');
@@ -172,6 +195,8 @@ Route::middleware(['guest'])->group(function () {
 //    Route::get('flow/welcome-back', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showFlowWelcomeBack'])->name('welcome-back-flow');
 //    Route::get('flow/login-video', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showFlowLoginVideo'])->name('login-video-flow');
 //
+//    Route::get('questions/welcome-to-regain' , [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showWelcomeToRegain'])->name('welcome-to-regain');
+//
 ////    Dashboards
 //    Route::get('organization/dashboard', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showOrganizationDashboard'])->name('organization-dashboard');
 //    Route::get('practitioner/dashboard', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showPractitionerDashboard'])->name('practitioner-dashboard');
@@ -182,6 +207,7 @@ Route::middleware(['guest'])->group(function () {
 //    Route::get('email', [\App\Domains\MockFront\Http\Controllers\MockFrontController::class, 'showEmail'])->name('email');
 //});
 
+// Email Testing
 //use App\Mail\RegainEmail;
 //use Illuminate\Support\Facades\Mail;
 //Route::get('/test-email', function () {
@@ -206,6 +232,8 @@ Route::middleware(['guest'])->group(function () {
 //        'name' => 'Georgia',
 //        'email' => 'giannakos@cactusweb.gr'
 //    ];
+//
+//    $user = "test";
 //
 //    // Simulated password
 //    $password = '12345678georgia';

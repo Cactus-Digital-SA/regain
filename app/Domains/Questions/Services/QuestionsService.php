@@ -370,7 +370,7 @@ readonly class QuestionsService
             $answer = (new MedicalHistoryQuestionAnswer())
                 ->setQuestionText($question->getTitle());
 
-            if ($response->question_response_id) {
+            if ($response?->question_response_id) {
                 $questionResponse = QuestionResponse::where([
                         'id' => $response->question_response_id,
                     ]
@@ -379,9 +379,7 @@ readonly class QuestionsService
                     $questionResponse->response->title
                 );
             } else {
-                $answer->setAnswerText(
-                    $response->text ?? ""
-                );
+                continue;
             }
 
             $result->addQuestionAnswer($answer);

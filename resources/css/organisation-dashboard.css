@@ -1,0 +1,64 @@
+/*for organization dt*/
+body {
+    background-color: rgba(80, 78, 132, 1) !important;
+}
+
+/*dt filters*/
+.filters-container {
+    background-color: #f7f7fb;
+    padding: 1rem;
+    border-radius: 20px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.filter-input {
+    border: 1px solid #d7dae0;
+    background-color: rgba(255, 255, 255, 1);
+    outline: none;
+    width: 220px;
+}
+
+.search-icon i {
+    color: #1f1f2d;
+}
+
+.dropdown-container {
+    position: relative;
+}
+
+.filter-dropdown-btn {
+    border: 1px solid #d7dae0;
+    background-color: rgba(255, 255, 255, 1);
+    padding: 0.5rem 1.5rem;
+    color: #1f1f2d;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.filter-dropdown-btn:hover {
+    background-color: #e6e9ee;
+}
+
+.dropdown-container .dropdown-menu {
+    border-radius: 0.5rem;
+    border: 1px solid #d7dae0;
+
+}
+
+.dropdown-menu {
+    overflow-y: auto;
+    max-height: 300px;
+}
+
+.dropdown-container .dropdown-menu .dropdown-item {
+    color: #1f1f2d;
+}
+
+.scrollable-select {
+    max-height: 200px; /* Set a fixed height */
+    overflow-y: auto; /* Enable vertical scrolling */
+}

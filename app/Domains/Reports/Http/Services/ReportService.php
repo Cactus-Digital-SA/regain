@@ -3,6 +3,7 @@
 namespace App\Domains\Reports\Http\Services;
 
 use App\Domains\QuestionnaireFlow\Constants\QuestionnaireFlowType;
+use App\Domains\References\Services\ReferenceService;
 use App\Domains\Reports\Dtos\PatientReport\ReportTestResult;
 use App\Domains\Reports\Http\Presenters\FlowPresenter;
 use App\Domains\Reports\Http\Presenters\FlowsPresenter;
@@ -14,6 +15,7 @@ use App\Domains\Thresholds\Services\ThresholdService;
 use App\Domains\UserQuestionnaire\Services\UserQuestionnaireService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
+use JMS\Serializer\SerializerBuilder;
 use Ramsey\Uuid\Uuid;
 
 readonly class ReportService
@@ -21,6 +23,7 @@ readonly class ReportService
     public function __construct(
         private UserQuestionnaireService $userQuestionnaireService,
         private ThresholdService $thresholdService,
+        private ReferenceService $referenceService,
     ) {
     }
 
@@ -51,15 +54,18 @@ readonly class ReportService
                                                 ->where('test_id', $test->id)
                                                 ->get("updated_at")->first()?->updated_at;
 
-                    $flowPresenter
-                        ->addTest(
-                            $testPresenter
-                                ->setId($test->id)
-                                ->setName($test->name)
-                                ->setCompletedAt($completedAt)
-                        );
+                    $testPresenter
+                        ->setId($test->id)
+                        ->setName($test->name)
+                        ->setScientificReference($this->referenceService->getByTestId($test->id))
+                        ->setCompletedAt($completedAt);
+
+                    $flowPresenter->addTest($testPresenter);
+
+                    $test = json_encode($testPresenter);
                 }
             }
+
             $presenter->addFlow($flowPresenter);
         }
 

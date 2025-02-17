@@ -78,6 +78,48 @@ class PractitionerController extends Controller
 
         $practitioner = $this->practitionerService->getByUserId((string)Auth::id());
         $patientData  = $this->patientDataService->getByUserId((string)$userId);
+
+        $medicalHistoryCompleted               = $this->userQuestionnaireService->getMedicalHistoryCompletedAtForUser(Auth::id(), $userId);
+        $medicalHistoryPresenter               = [];
+        $medicalHistoryPresenter['details']    = [];
+        $medicalHistoryPresenter['medication'] = [];
+
+        if ($medicalHistoryCompleted !== null) {
+            $medicalHistoryResult = $this->questionsService->getMedicalHistoryReportForPatient(Auth::id(), $userId);
+
+            if ($patientData->getAccessibleMobility()) {
+                $medicalHistoryPresenter['details'][] = "Accessible Mobility";
+            }
+
+            foreach ($medicalHistoryResult->getQuestionAnswers() as $answer) {
+                if (str_contains($answer->getQuestionText(), "penicillin")) {
+                    if ($answer->getAnswerText() === "Yes") {
+                        $medicalHistoryPresenter['details'][] = "Penicillin";
+                    }
+                }
+
+                if (str_contains($answer->getQuestionText(), "HIV")) {
+                    if ($answer->getAnswerText() === "Yes") {
+                        $medicalHistoryPresenter['details'][] = "HIV";
+                    }
+                }
+
+                if (str_contains($answer->getQuestionText(), "anaphylaxis")) {
+                    if ($answer->getAnswerText() === "Yes") {
+                        $medicalHistoryPresenter['details'][] = "anaphylaxis";
+                    }
+                }
+
+                if ("What is the name of the OTC medication?" === $answer->getQuestionText()) {
+                    $medicalHistoryPresenter['medication'] = explode(" ", $answer->getAnswerText());
+                }
+            }
+
+            if (empty($medicalHistoryPresenter['details'])) {
+                $medicalHistoryPresenter['details'] = ["-"];
+            }
+        }
+
         if ($patientData === null) {
             return redirect()->route('practitioner.patients');
         }
@@ -94,6 +136,7 @@ class PractitionerController extends Controller
             ->with('patientData', $patientData)
             ->with('medicalHistoryCompleted', $medicalHistoryCompleted)
             ->with('medicalHistoryResult', $medicalHistoryResult)
+            ->with('medicalHistoryPresenter', $medicalHistoryPresenter)
             ->with('presenter', $presenter);
     }
 
@@ -172,11 +215,11 @@ class PractitionerController extends Controller
 
         $filePath = "reports/{$uuid}.pdf";
 
-        $pdf = PDF::loadView('reports.medicalHistory.index', ['result' => $result]);
+        $pdf = PDF::loadView('reports.medicalHistory.pdf', ['result' => $result]);
 
         Storage::put($filePath, $pdf->output());
 
-        return response()->file(storage_path("app/$filePath"), [
+        return response()->download(storage_path("app/$filePath"), [
             'Content-Type' => 'application/pdf',
         ]);
     }

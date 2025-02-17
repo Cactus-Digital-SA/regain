@@ -30,27 +30,17 @@
                 <div class="page-content">
                     <h3 class="page-sub-title">About Us</h3>
                     <p>
-                        We are working on ways to use AI to revolutionise the field of mental health treatment and
-                        subsequent rehabilitation, including addressing mental health disorders that are often resistant
-                        to
-                        traditional treatments, such as PTSD, depression, and anxiety.
-                        <br>
-                        <br>
-                        The interdisciplinary team behind Regain includes academics and professors from the UK and the
-                        EU
-                        working within developmental psychology and human behaviour alongside scientists, experienced
-                        clinical psychologists and psychiatrists who specialise in PTSD, trauma management and
-                        addressing
-                        mental health disorders. The team are supported by content creators, bioinformaticians, AI
-                        specialists and mathematicians alongside strategists versed in implementing healthcare solutions
-                        including large scale community screening programmes.
+                        We are continuously working on ways to use AI to holistically revolutionise the field of mental health
+                        treatment and subsequent rehabilitation, including addressing disorders that are often resistant to
+                        traditional treatments, such as PTSD, depression and anxiety.<br /><br />
+                        The interdisciplinary team behind Regain includes academics and professors from the EU and UK
+                        working within developmental psychology and human behaviour alongside scientists, psychiatrists and
+                        experienced clinical psychologists specialising in PTSD, trauma management and addressing mental
+                        health disorders. The team is supported by content creators, AI specialists, bioinformaticians and
+                        strategists versed in implementing healthcare solutions including large scale remote screening
+                        programmes.
                     </p>
                     <h3 class="page-sub-title mt-4">Contact</h3>
-                    <p class="">
-                        Regain™<br>
-                        Becket House, 36 Old Jewry London, EC2R 8DD<br>
-                        Registered in Greece: GEMI 160675506000
-                    </p>
                     <p class="text-decoration-underline">info@regain.world</p>
                 </div>
             </div>
@@ -61,16 +51,5 @@
     <button type="button" class="btn btn-link">Privacy Settings</button>
     <button type="button" class="btn btn-link">Privacy Policy</button>
 </div>
-<script type="text/javascript">
-    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
-    (function () {
-        var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
-        s1.async = true;
-        s1.src = 'https://embed.tawk.to/67a3c0203a842732607a2e2e/1ijbqd090';
-        s1.charset = 'UTF-8';
-        s1.setAttribute('crossorigin', '*');
-        s0.parentNode.insertBefore(s1, s0);
-    })();
-</script>
 </body>
 </html>

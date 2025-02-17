@@ -34,14 +34,14 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
     {
         $patientData = $this->model::find($id);
 
-        $patientData->load('user');
+        $patientData->load(['user', 'region']);
 
         return ObjectSerializer::deserialize($patientData?->toJson() ?? "{}", PatientData::class, 'json');
     }
 
     public function getByUserId(string $userId): ?PatientData
     {
-        $patientData = $this->model::where('user_id', $userId)->with("user")->first();
+        $patientData = $this->model::where('user_id', $userId)->with(["user", "region"])->first();
         if ($patientData) {
             return ObjectSerializer::deserialize($patientData?->toJson() ?? "{}", PatientData::class, 'json');
         }
@@ -60,6 +60,9 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
             'secondary_phone'     => $entity->getSecondaryPhone(),
             'accessible_mobility' => $entity->getAccessibleMobility(),
             'notes'               => $entity->getNotes(),
+            'status'              => $entity->getStatus()->value,
+            'is_military'         => $entity->isMilitary(),
+            'military_status'     => $entity->getMilitaryStatus()?->value,
         ]);
 
         return ObjectSerializer::deserialize($patientData?->toJson() ?? "{}", PatientData::class, 'json');
@@ -135,6 +138,10 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
                                  return '<a class="nav-link" href="' . $url . '">' . e($data->user->name) . '</a>';
                              }
 
+                             if ($user->isRegainUser()) {
+                                 return '<a class="nav-link view-patient-details" onClick="resetPatientData()" data-id="' . $data->user->id .  '" type="button" data-bs-toggle="modal" data-bs-target="#patientDetails">' . e($data->user->name) . '</a>';
+                             }
+
                              return e($data->user->name);
                          })
                          ->editColumn('region', function ($data) {
@@ -147,26 +154,33 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
                              return $data?->practitioner()?->first()->name ?? "-";
                          })
                          ->editColumn('status', function ($data) {
-                             $statusValue = $data?->status?->value ?? ' - ';
-                             switch ($statusValue) {
-                                 case 'Allocated':
+                             $status     = $data?->status;
+                             $labelClass = "";
+                             switch ($status) {
+                                 case StatusEnum::ALLOCATED:
                                      $labelClass = 'status-pill active';
                                      break;
-                                 case 'Processing':
+                                 case StatusEnum::PROCESSING:
                                      $labelClass = 'status-pill processing';
                                      break;
-                                 case 'Inactive':
+                                 case StatusEnum::INACTIVE:
                                      $labelClass = 'status-pill default';
                                      break;
-                                 default:
+                                 case StatusEnum::WAITLIST:
                                      $labelClass = 'status-pill warning';
+                                     break;
+                                 case StatusEnum::WAITLIST_URGENT:
+                                     $labelClass = 'status-pill danger';
+                                     break;
+                                 case StatusEnum::GUIDED:
+                                     $labelClass = 'status-pill guided';
                                      break;
                              }
 
-                             return '<span class="' . $labelClass . '">' . e($statusValue) . '</span>';
+                             return '<span class="' . $labelClass . '">' . $status?->label() . '</span>';
                          })
 //                         ->addColumn('actions', function ($data) use ($user) {
-//                             $deleteUrl = route('organization.patients.destroy', [
+//                             $deleteUrl = route('organisation.patients.destroy', [
 //                                 'patient' => $data->id,
 //                             ]);
 //
@@ -221,5 +235,10 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
             'practitioner' => ['name' => 'Practitioner', 'table' => 'practitioner', 'searchable' => 'false', 'sortable' => 'true'],
             'status'       => ['name' => 'Status', 'table' => 'status', 'searchable' => 'false', 'sortable' => 'true'],
         ];
+    }
+
+    public function emailExists(string $email): bool
+    {
+        return User::where('email', $email)->exists();
     }
 }

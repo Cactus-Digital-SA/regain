@@ -18,11 +18,11 @@
 
     @include('includes.datatable_styles')
     @include('includes.datatable_scripts')
-    @vite(['resources/css/organization-dashboard.css', 'resources/css/dashboard-common.css'])
+    @vite(['resources/css/organisation-dashboard.css', 'resources/css/dashboard-common.css'])
 </head>
 <body>
-@include('frontend.content.mock.dashboards.organization.includes.new-patient-registration-modal')
-@include('frontend.content.mock.dashboards.organization.includes.new-patient-registration-second-modal')
+@include('frontend.content.mock.dashboards.organisation.includes.new-patient-registration-modal')
+@include('frontend.content.mock.dashboards.organisation.includes.new-patient-registration-second-modal')
 
 @include('frontend.content.mock.dashboards.includes.success-modal-regain')
 @include('backend.components.delete_modal')

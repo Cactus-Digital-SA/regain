@@ -155,11 +155,11 @@ readonly class ReportsController
 
         // Check if the file already exists
         $filePath = $this->reportService->getFilePath(Auth::id(), $userId, $testId);
-//        if (($filePath !== null) && Storage::exists($filePath)) {
-//            return response()->download(storage_path("app/$filePath"), "report.pdf", [
-//                'Content-Type' => 'application/pdf',
-//            ]);
-//        }
+        if (($filePath !== null) && Storage::exists($filePath)) {
+            return response()->download(storage_path("app/$filePath"), "report.pdf", [
+                'Content-Type' => 'application/pdf',
+            ]);
+        }
 
         $result = new ReportTestResult();
 
@@ -265,7 +265,8 @@ readonly class ReportsController
                 'messages' => [
                     [
                         'role' => 'system', 'content' =>
-                        'I will provide a JSON object containing test results, including the overall test result and subscale results. The JSON follows this structure:
+                        'I will provide a JSON object containing test results, including the overall test result and
+                        subscale results. The JSON follows this structure:
 
 {
   "testResult": {
@@ -288,7 +289,7 @@ readonly class ReportsController
   ]
 }
 
-Next is the json i want you to respond with: 
+Next is the json i want you to respond with:
 
 {
   "test_explanation": "",
@@ -310,12 +311,12 @@ Next is the json i want you to respond with:
 
 Your task:
 - Fill in the **explanation** fields for all relevant entries.
-- For **test_explanation**, provide a **3-4 sentence explanation** describing what the test evaluates and its relevance.
-- For each **subscales.explanation**, provide a **1-sentence summary** explaining what that subscale measures.
-- The descriptions should be written in a **clear, professional** manner, as if by a **general practitioner** providing a brief evaluation.
+- For **test_explanation**, provide a **3-4 sentence overall assessment** of the patient condition based on both the test result and each of its subscales.
+- For each **subscales.explanation**, provide a **1-2-sentence summary** going into more detail about what each subscale means for this patient.
+- The descriptions should be written in a **clear, professional** manner, as if by a **general practitioner** providing a brief but informed evaluation.
 - Respond **ONLY** with a valid JSON object, with no additional text.
 
-Ensure the response is **properly formatted JSON** to allow for automated parsing.'
+Ensure the response is **properly formatted JSON** to allow for automated parsing. This is extremely important since your output will be parsed by json_decode'
                     ],
                     ['role' => 'user', 'content' => 'Here is the json results: ' . $jsonResults],
                 ],
@@ -332,7 +333,7 @@ Ensure the response is **properly formatted JSON** to allow for automated parsin
             $subscaleResult->setDescription($description ?? "");
         }
 
-        // return view("reports.tests.index")->with(['result' => $result]);
+//        return view("reports.tests.index")->with(['result' => $result]);
         return $this->downloadPDF($result);
     }
 

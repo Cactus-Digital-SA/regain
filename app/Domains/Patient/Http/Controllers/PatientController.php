@@ -11,6 +11,7 @@ use App\Domains\UserResponse\Services\UserResponseService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
@@ -29,20 +30,50 @@ class PatientController extends Controller
     /**
      * @return View
      */
-    public function index(): View
+    public function ask(): View
     {
         $presenter = $this->questionsService->fetchQuestionsAlt(Auth::id(), 10);
 
         $questions = $presenter->getQuestions();
-        if (count($questions) > 0 && $questions[0]->getId() >= 41) {
-            return view('patient.index-alt')->with(
-                ["presenter" => $presenter]
-            );
+        if (count($questions) > 0) {
+            $questionId = $questions[0]->getId();
+
+            if ($questionId >= 42) {
+                // Determine which view to use based on question ID
+                $useAltSecond = (floor(($questionId - 42) / 20) % 2 === 0);
+
+                return view($useAltSecond ? 'patient.ask-alt-second' : 'patient.ask-alt')
+                    ->with(["presenter" => $presenter]);
+            }
         }
 
-        return view('patient.index')->with(
-            ["presenter" => $presenter]
-        );
+        return view('patient.ask')->with(["presenter" => $presenter]);
+    }
+
+    public function registerFlow(): View
+    {
+        return view('patient.flow.register.index');
+    }
+
+    public function registerSuccess(): View
+    {
+        return view('patient.flow.register.success');
+    }
+
+    public function handleLandingPageFlow(Request $request): View
+    {
+        $referer     = request()->headers->get('referer');
+        $refererPath = $referer ? parse_url($referer, PHP_URL_PATH) : null;
+
+        if ($refererPath === "/register") {
+            return view('patient.flow.register.success');
+        }
+
+        if ($request->get("register")) {
+            return view('patient.home', ["back" => false]);
+        }
+
+        return view('patient.home', ["back" => true]);
     }
 
     public function submitAnswers(SubmitUserResponsesRequest $request): JsonResponse

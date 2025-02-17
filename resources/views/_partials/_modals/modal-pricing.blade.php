@@ -103,7 +103,7 @@
                     <img src="{{asset('assets/img/illustrations/page-pricing-enterprise.png')}}" alt="Enterprise Image" height="140">
                   </div>
                   <h3 class="card-title text-center text-capitalize mb-1">Enterprise</h3>
-                  <p class="text-center">Solution for big organizations</p>
+                  <p class="text-center">Solution for big organisations</p>
 
                   <div class="text-center h-px-100">
                     <div class="d-flex justify-content-center">

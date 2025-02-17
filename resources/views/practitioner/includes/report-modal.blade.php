@@ -84,7 +84,16 @@
                                                 <i class="ti ti-download"></i>
                                             </a>
                                         </td>
-                                        <td class="text-center"><i class="ti ti-eye"></i> View</td>
+                                        <td class="text-center">
+                                            @if (count($test->getScientificReference()) > 0)
+                                            <a role="button"
+                                               data-id="{{ $flow->getFlowType() }}"
+                                               onClick="triggerReferencesModal(this)"
+                                               data-references="{{ json_encode($test->getScientificReference()) }}"
+                                               data-bs-toggle="modal"
+                                               data-bs-target="#scientificDetailsModal"
+                                            ><i class="ti ti-eye"></i> View </a></td>
+                                           @endif
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -99,7 +108,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-next">Start Module 2</button>
+{{--                <button type="button" class="btn btn-next">Start Module 2</button>--}}
             </div>
         </div>
     </div>

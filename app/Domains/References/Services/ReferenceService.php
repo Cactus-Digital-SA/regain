@@ -47,4 +47,22 @@ class ReferenceService
     {
         return $this->repository->getByGroupAndType($group, $type);
     }
+
+    /**
+     * @param int $group
+     * @return Reference[]
+     */
+    public function getByGroup(int $group): array
+    {
+        return $this->repository->getByGroup($group);
+    }
+
+    /**
+     * @param int $testId
+     * @return Reference[]
+     */
+    public function getByTestId(int $testId): array
+    {
+        return $this->repository->getByTestId($testId);
+    }
 }

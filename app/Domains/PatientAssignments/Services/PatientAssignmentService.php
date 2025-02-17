@@ -40,4 +40,12 @@ readonly class PatientAssignmentService
     {
         $this->repository->assignPatientByRegion($patientUserId);
     }
+
+    /**
+     * @return PatientAssignment[]
+     */
+    public function getAllocatedPatients(): array
+    {
+        return $this->repository->getAllocatedPatients();
+    }
 }

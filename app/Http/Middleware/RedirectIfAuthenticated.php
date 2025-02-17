@@ -19,15 +19,15 @@ class RedirectIfAuthenticated
     {
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                if ($request->is('organization') || $request->is('organization/*')) {
-                    return redirect()->route('organization.login');
+                if ($request->is('organisation') || $request->is('organisation/*')) {
+                    return redirect()->route('organisation.login');
                 }
 
                 if ($request->is('practitioner') || $request->is('practitioner/*')) {
                     return redirect()->route('practitioner.login');
                 }
 
-                return redirect('/home');
+                return redirect(route("patient.home", ["back" => false]));
             }
         }
 

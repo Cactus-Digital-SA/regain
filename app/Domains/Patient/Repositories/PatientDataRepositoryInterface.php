@@ -60,4 +60,6 @@ interface PatientDataRepositoryInterface extends RepositoryInterface
     public function getByUserId(string $userId): ?PatientData;
 
     public function updateStatus(string $userId, StatusEnum $status): void;
+
+    public function emailExists(string $email): bool;
 }

@@ -62,6 +62,7 @@ class EloqSubscaleRepository implements SubscaleRepositoryInterface
 
     private function getRequiredQuestions(int $testId): ?int
     {
+        // TODO: required_questions needs a better solution
         return match ($testId) {
             12      => 5,
             16      => 4,

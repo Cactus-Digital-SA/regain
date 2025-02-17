@@ -17,6 +17,6 @@ class PractitionerMedicalType extends Model
 
     public function practitioners(): HasMany
     {
-        return $this->hasMany(Practitioner::class, 'medical_type_category_id', 'type_id');
+        return $this->hasMany(Practitioner::class, 'medical_type_id', 'type_id');
     }
 }

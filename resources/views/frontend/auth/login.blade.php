@@ -361,5 +361,12 @@
 
     window.addEventListener('resize', toggleMaskOnResize);
 </script>
+<script>
+    setInterval(() => {
+        fetch('/refresh-csrf').then(response => response.json()).then(data => {
+            document.querySelector('input[name="_token"]').value = data.token;
+        });
+    }, 120000); // Refresh every 10 minutes
+</script>
 </body>
 </html>

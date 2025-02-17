@@ -128,10 +128,10 @@ class MockFrontController extends  Controller
         ]);
     }
 
-    public function showOrganizationDashboard(): View
+    public function showOrganisationDashboard(): View
     {
         $columns = $this->patientDataService->getTableColumns();
-        return view('frontend.content.mock.dashboards.organization.index')->with('columns', $columns);
+        return view('frontend.content.mock.dashboards.organisation.index')->with('columns', $columns);
     }
 
     public function showPractitionerDashboard(): View

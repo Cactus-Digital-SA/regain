@@ -38,12 +38,11 @@
                 <h1 style="font-size: 32px; font-weight: 700; margin-bottom: 50px;">Hello</h1>
                 <p style="font-size: 18px; font-weight: 400; line-height: 1.5; margin-bottom: 50px;">
                     Following your registration with the <strong>Ministry of Regain</strong>, please click below to
-                    download
-                    the <strong>Regain App</strong> and start your journey using the login details below.
+                    access the <strong>Regain App</strong> and start your journey using the login details below.
                 </p>
 
                 <!-- Download Button -->
-                <a href="https://platform.regain.world"
+                <a href="https://platform.regain.world/register"
                    style="display: inline-block; width: 250px; padding: 15px; background-color: #0A133A; color: white; text-decoration: none; font-size: 16px; font-weight: 600; border-radius: 30px; text-align: center;">
                     Click Here
                 </a>
@@ -51,7 +50,7 @@
                 <!-- Login Details -->
                 <div style="margin-top: 50px; width: 100%">
                     <div style="margin-bottom: 10px;">
-                        <label style="font-size: 14px; font-weight: 600;">Username:</label>
+                        <label style="font-size: 14px; font-weight: 600;">User ID:</label>
                         <div
                             style="display: inline-block; background: #ffffff; border: 1px solid #d9d9d9; padding: 10px 15px; border-radius: 10px; font-size: 14px; font-weight: 500; text-align: center; width: 200px">
                             {{ $userName }}
@@ -81,19 +80,19 @@
                 </p>
 
                 <!-- Contact List -->
-                <div style="display: block; margin-left: 100px;">
+                <div style="display: block; margin-left: auto;">
                     <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0">
                         <tr>
                             <!-- First Contact -->
-                            <td style="text-align: left; padding: 10px; width: 50%;">
+                            <td style="text-align: left; padding: 10px; width: 50%; vertical-align: top">
                                 <strong style="font-size: 17px; font-weight: 700;">Lifeline Ukraine:</strong><br>
                                 <small style="font-size: 14px; color: #6c757d;">Available 24/7</small><br>
                                 <span style="font-size: 18px; font-weight: 700;">7333</span>
                             </td>
 
                             <!-- Second Contact -->
-                            <td style="text-align: left; padding: 10px; width: 50%;">
-                                <strong style="font-size: 17px; font-weight: 700;">Stavropyghion-058:</strong><br>
+                            <td style="text-align: left; padding: 10px; width: 50%;  vertical-align: top">
+                                <strong style="font-size: 17px; font-weight: 700;">Telephone of confidence<br/>Stavropyghion-058:</strong><br>
                                 <small style="font-size: 14px; color: #6c757d;">Available: 12am - 11pm</small><br>
                                 <span style="font-size: 18px; font-weight: 700;">058</span>
                             </td>
@@ -101,14 +100,14 @@
 
                         <tr>
                             <!-- Third Contact -->
-                            <td style="text-align: left; padding: 10px; width: 50%;">
+                            <td style="text-align: left; padding: 10px; width: 50%;  vertical-align: top">
                                 <strong style="font-size: 17px; font-weight: 700;">OCTS:</strong><br>
                                 <small style="font-size: 14px; color: #6c757d;">Mon - Fri: 10am - 8am</small><br>
                                 <span style="font-size: 18px; font-weight: 700;">0487 327715</span>
                             </td>
 
                             <!-- Fourth Contact -->
-                            <td style="text-align: left; padding: 10px; width: 50%;">
+                            <td style="text-align: left; padding: 10px; width: 50%;  vertical-align: top">
                                 <strong style="font-size: 17px; font-weight: 700;">Spirit:</strong><br>
                                 <small style="font-size: 14px; color: #6c757d;">Available 24/7</small><br>
                                 <span style="font-size: 18px; font-weight: 700;">0800 333 161</span>
@@ -120,11 +119,7 @@
 
                     <tr>
                         <td style="text-align: center; padding: 10px; width: 100%">
-                            <small
-                                style="display:block; font-size: 12px; font-weight: 400; color: #0A133A; margin: 40px 0 5px 0;">&copy;
-                                2024 Regain<sup>&trade;</sup> - Genecode DX Limited</small>
-                            <small style="display:block; font-size: 12px; font-weight: 400; color: #0A133A; margin: 0;">Created
-                                and Developed by Cactus Digital Growth</small>
+                            <small style="display:block; font-size: 12px; font-weight: 400; color: #0A133A; margin: 40px 0 5px 0;">&copy;2024 Regain<sup>&trade;</sup></small>
                         </td>
                     </tr>
                 </table>

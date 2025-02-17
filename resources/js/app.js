@@ -5,3 +5,32 @@ import.meta.glob([
     // '../assets/json/**',
     '../assets/vendor/fonts/**'
 ]);
+
+import {createApp} from 'vue';
+import VuePatientRegistration from './components/VuePatientRegistration.vue';
+import VuePatientDetails from './components/VuePatientDetails.vue';
+import ScientificDetails from './components/ScientificDetails.vue';
+
+// Function to mount Vue only if the modal exists
+document.addEventListener('DOMContentLoaded', () => {
+    const patientRegistration = document.getElementById('vue-register-app');
+    if (patientRegistration) {
+        const app =
+            createApp(VuePatientRegistration);
+        app.mount('#vue-register-app');
+    }
+
+    const patientDetails = document.getElementById('vue-patient-details');
+    if (patientDetails) {
+        const app =
+            createApp(VuePatientDetails);
+        app.mount('#vue-patient-details');
+    }
+
+    const scientificReferences = document.getElementById('vue-scientific-references');
+    if (scientificReferences) {
+        const app =
+            createApp(ScientificDetails);
+        app.mount('#vue-scientific-references');
+    }
+});
