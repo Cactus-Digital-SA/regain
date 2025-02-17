@@ -64,8 +64,8 @@
                             <div class="contact-info-value">{{ $patientData->getPrimaryPhone() }}</div>
                         </div>
                         <div class="contact-info-item">
-                            <div class="contact-info-label">Secondary Phone Number</div>
-                            <div class="contact-info-value">{{ $patientData->getSecondaryPhone() ?? "-" }}</div>
+                            <div class="contact-info-label">Postal Code</div>
+                            <div class="contact-info-value">{{ $patientData->getPostCode() ?? "-" }}</div>
                         </div>
                     </div>
                     <div class="details-button-container">
