@@ -5,6 +5,7 @@ namespace App\Domains\Patient\Services;
 use App\Domains\Patient\Enums\StatusEnum;
 use App\Domains\Patient\Models\PatientData;
 use App\Domains\Patient\Repositories\PatientDataRepositoryInterface;
+use App\Domains\Practitioner\Models\Practitioner;
 use App\Models\CactusEntity;
 use Illuminate\Http\JsonResponse;
 
@@ -67,5 +68,10 @@ class PatientDataService
     public function emailExists(string $email): bool
     {
         return $this->repository->emailExists($email);
+    }
+
+    public function getAllocatedPractitioner(string $userId): ?Practitioner
+    {
+        return $this->repository->getAllocatedPractitioner($userId);
     }
 }

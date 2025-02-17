@@ -7,7 +7,10 @@ use App\Domains\Patient\Enums\StatusEnum;
 use App\Domains\Patient\Models\PatientData;
 use App\Domains\Patient\Repositories\Eloquent\Models\PatientData as EloqPatientData;
 use App\Domains\Patient\Repositories\PatientDataRepositoryInterface;
+use App\Domains\PatientAssignments\Repositories\Models\PatientAssignment;
 use App\Domains\PatientAssignments\Services\PatientAssignmentService;
+use App\Domains\Practitioner\Models\Practitioner;
+use App\Domains\Practitioner\Repositories\Eloquent\PractitionerRepository;
 use App\Facades\ObjectSerializer;
 use App\Models\CactusEntity;
 use Illuminate\Http\JsonResponse;
@@ -19,7 +22,8 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
 {
     public function __construct(
         protected readonly Models\PatientData $model,
-        protected readonly PatientAssignmentService $patientAssignmentService
+        protected readonly PatientAssignmentService $patientAssignmentService,
+        protected readonly PractitionerRepository $practitionerRepository,
     ) {
     }
 
@@ -240,5 +244,14 @@ class EloqPatientDataRepository implements PatientDataRepositoryInterface
     public function emailExists(string $email): bool
     {
         return User::where('email', $email)->exists();
+    }
+
+    public function getAllocatedPractitioner(string $userId): ?Practitioner
+    {
+        $practitionerUser = $this->patientAssignmentService->getByPatientUserId($userId);
+
+        return empty($practitionerUser) ?
+            null :
+            $this->practitionerRepository->getByUserId($practitionerUser->getPractitionerUserId());
     }
 }

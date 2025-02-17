@@ -1,3 +1,9 @@
+@php
+    /**
+     * @var App\Domains\Patient\Models\PatientData $patientData
+     * @var App\Domains\Practitioner\Models\Practitioner $practitioner
+     */
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,22 +33,22 @@
                             <img src="{{ Vite::asset('resources/images/profile-image-girl.svg') }}" alt="Profile Image">
                         </div>
                         <div class="profile-name-id text-left ms-3">
-                            <div class="profile-name">User</div>
-                            <div class="profile-id">#123</div>
+                            <div class="profile-name">{{ $patientData->getUser()->getName()  }}</div>
+                            <div class="profile-id">User Id: #{{ $patientData->getUserId() }}</div>
                         </div>
                     </div>
                     <div class="profile-info">
                         <div class="profile-info-item">
                             <div class="profile-info-label">Date of Birth</div>
-                            <div class="profile-info-value">16 / 01 / 1989</div>
+                            <div class="profile-info-value">{{ $patientData->getBirthday()->format('d/m/Y') }}</div>
                         </div>
                         <div class="profile-info-item">
                             <div class="profile-info-label">Registration Date</div>
-                            <div class="profile-info-value">02/10/2024</div>
+                            <div class="profile-info-value">{{ $patientData->getUser()->getCreatedAt()->format('d/m/Y') }}</div>
                         </div>
                         <div class="profile-info-item">
                             <div class="profile-info-label">Region</div>
-                            <div class="profile-info-value">Cherkaska oblast</div>
+                            <div class="profile-info-value">{{ $patientData->getRegion()->getName() }}</div>
                         </div>
                     </div>
                     <div class="contact-info">
@@ -50,16 +56,16 @@
                             Contact Details
                         </div>
                         <div class="contact-info-item">
-                            <div class="contact-info-label">Date of Birth</div>
-                            <div class="contact-info-value">16 / 01 / 1989</div>
+                            <div class="contact-info-label">E-mail</div>
+                            <div class="contact-info-value">{{ $patientData->getUser()->getEmail() }}</div>
                         </div>
                         <div class="contact-info-item">
-                            <div class="contact-info-label">Registration Date</div>
-                            <div class="contact-info-value">02/10/2024</div>
+                            <div class="contact-info-label">Primary Phone Number</div>
+                            <div class="contact-info-value">{{ $patientData->getPrimaryPhone() }}</div>
                         </div>
                         <div class="contact-info-item">
-                            <div class="contact-info-label">Region</div>
-                            <div class="contact-info-value">Cherkaska oblast</div>
+                            <div class="contact-info-label">Secondary Phone Number</div>
+                            <div class="contact-info-value">{{ $patientData->getSecondaryPhone() ?? "-" }}</div>
                         </div>
                     </div>
                     <div class="details-button-container">
@@ -115,7 +121,13 @@
                                 </div>
                                 <div class="contact-info-item">
                                     <div class="contact-info-label">Practitioner:</div>
-                                    <div class="contact-info-value">Dr. Natalya Schevchenko</div>
+                                    <div class="contact-info-value">
+                                        @if (empty($practitioner))
+                                            -
+                                        @else
+                                            Dr. {{ $practitioner->getName() }}
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                         </div>

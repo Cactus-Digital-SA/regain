@@ -7,6 +7,7 @@ use App\Domains\Auth\Models\RolesEnum;
 use App\Domains\Auth\Models\User;
 use App\Domains\Patient\Enums\StatusEnum;
 use App\Domains\Patient\Models\PatientData;
+use App\Domains\Practitioner\Models\Practitioner;
 use App\Models\CactusEntity;
 use App\Repositories\RepositoryInterface;
 use Cassandra\Custom;
@@ -62,4 +63,6 @@ interface PatientDataRepositoryInterface extends RepositoryInterface
     public function updateStatus(string $userId, StatusEnum $status): void;
 
     public function emailExists(string $email): bool;
+
+    public function getAllocatedPractitioner(string $userId): ?Practitioner;
 }
