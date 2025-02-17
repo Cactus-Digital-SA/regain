@@ -6,10 +6,10 @@ use App\Domains\Patient\Repositories\Eloquent\Models\PatientData;
 use App\Domains\PatientAssignments\Models\PatientAssignment;
 use App\Domains\PatientAssignments\Repositories\Models\PatientAssignment as EloqModel;
 use App\Domains\Practitioner\Repositories\Eloquent\Models\Practitioner;
+use App\Facades\ObjectSerializer;
 use App\Models\CactusEntity;
 use Illuminate\Http\JsonResponse;
 use Nette\NotImplementedException;
-use ObjectSerializer;
 
 readonly class EloqPatientAssignmentRepository implements PatientAssignmentRepositoryInterface
 {
@@ -52,7 +52,7 @@ readonly class EloqPatientAssignmentRepository implements PatientAssignmentRepos
             return ObjectSerializer::deserialize($model?->toJson() ?? "{}", "<" . PatientAssignment::class . ">", 'json');
         }
 
-        return [];
+        return null;
     }
 
     public function assignPatientByRegion(string $patientUserId): void

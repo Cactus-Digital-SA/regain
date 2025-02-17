@@ -4,13 +4,13 @@ declare(strict_types = 1);
 
 namespace App\Domains\Patient\Http\Controllers;
 
+use App\Domains\Patient\Services\PatientDataService;
+use App\Domains\Practitioner\Services\PractitionersService;
 use App\Domains\Questions\Services\QuestionsService;
-use App\Domains\UserResponse\Http\Requests\SubmitUserResponseRequest;
 use App\Domains\UserResponse\Http\Requests\SubmitUserResponsesRequest;
 use App\Domains\UserResponse\Services\UserResponseService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -24,6 +24,7 @@ class PatientController extends Controller
     public function __construct(
         private readonly QuestionsService $questionsService,
         private readonly UserResponseService $responseService,
+        private readonly PatientDataService $patientDataService,
     ) {
     }
 
@@ -74,6 +75,15 @@ class PatientController extends Controller
         }
 
         return view('patient.home', ["back" => true]);
+    }
+
+    public function getMyRegain(): View
+    {
+        $patientData = $this->patientDataService->getByUserId((string)Auth::id());
+        $practitioner = $this->patientDataService->getAllocatedPractitioner((string)Auth::id());
+
+
+        return view('patient.my-regain', compact('patientData', 'practitioner'));
     }
 
     public function submitAnswers(SubmitUserResponsesRequest $request): JsonResponse
