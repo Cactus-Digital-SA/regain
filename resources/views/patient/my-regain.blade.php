@@ -125,7 +125,7 @@
                                         @if (empty($practitioner))
                                             -
                                         @else
-                                            Dr. {{ $practitioner->getName() }}
+                                            Dr. {{ $practitioner->getUser()->getName() }}
                                         @endif
                                     </div>
                                 </div>

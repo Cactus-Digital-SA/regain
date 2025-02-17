@@ -2,7 +2,7 @@
 
 <div class="header">
     <div class="logo">
-        <img src="{{ Vite::asset('resources/images/logo/regain-logo.svg') }}" alt="Regain Logo" class="logo-image">
+        <a href="/home"><img src="{{ Vite::asset('resources/images/logo/regain-logo.svg') }}" alt="Regain Logo" class="logo-image"></a>
     </div>
     <div class="menu">
         <a href="{{route('patient.regain-info')}}" style="margin: auto"> Regain</a>
