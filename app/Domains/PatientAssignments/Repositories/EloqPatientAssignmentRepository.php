@@ -49,7 +49,7 @@ readonly class EloqPatientAssignmentRepository implements PatientAssignmentRepos
     {
         $model = $this->model::where('patient_user_id', $userId)->with("patientUser", "practitionerUser")->first();
         if ($model) {
-            return ObjectSerializer::deserialize($model?->toJson() ?? "{}", "<" . PatientAssignment::class . ">", 'json');
+            return ObjectSerializer::deserialize($model?->toJson() ?? "{}", PatientAssignment::class, 'json');
         }
 
         return null;

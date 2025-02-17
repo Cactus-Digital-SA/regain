@@ -82,7 +82,6 @@ class PatientController extends Controller
         $patientData = $this->patientDataService->getByUserId((string)Auth::id());
         $practitioner = $this->patientDataService->getAllocatedPractitioner((string)Auth::id());
 
-
         return view('patient.my-regain', compact('patientData', 'practitioner'));
     }
 
