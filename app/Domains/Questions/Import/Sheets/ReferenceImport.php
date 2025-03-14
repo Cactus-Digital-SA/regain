@@ -11,10 +11,8 @@ use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-
 class ReferenceImport implements ToCollection, WithHeadingRow
 {
-
     /**
      * @param Collection $collection
      * @return void
@@ -24,18 +22,19 @@ class ReferenceImport implements ToCollection, WithHeadingRow
         $referenceService = new ReferenceService(new EloqReferenceRepository(new EloqReference()));
         try {
             foreach ($collection as $row) {
-                $group = (int)Helpers::extractIntegerFromString($row['group']);
+                $group     = (int)Helpers::extractIntegerFromString($row['group']);
                 $reference = $row['reference'];
-                $link = !empty($row['link']) ? $row['link'] : '' ;
-                $name = !empty($row['name']) ? $row['name'] : '' ;
+                if ($reference === null) {
+                    continue;
+                }
+                $link = !empty($row['link']) ? $row['link'] : '';
+                $name = !empty($row['name']) ? $row['name'] : '';
 
-                $referenceService->findOrCreate($reference, 'Scientific Reference', $group,$link, $name);
-
+                $referenceService->findOrCreate($reference, 'Scientific Reference', $group, $link, $name);
             }
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             Log::error($exception->getMessage());
         }
-
     }
 
     public function headingRow(): int
