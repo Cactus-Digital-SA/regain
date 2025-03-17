@@ -12,11 +12,11 @@
                         <div class="col-md-6">
                             <h5 class="text-dark fw-bold">Basic Information</h5>
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item"><strong>Name:</strong> {{ patientData.fullName }}</li>
-                                <li class="list-group-item"><strong>Email:</strong> {{ patientData.email }}</li>
-                                <li class="list-group-item"><strong>Birthday:</strong> {{ formatDate(patientData.birthday.date) }}</li>
-                                <li class="list-group-item"><strong>Post Code:</strong> {{ patientData.post_code }}</li>
-                                <li class="list-group-item"><strong>Region:</strong> {{ patientData.regionName }}</li>
+                                <li class="list-group-item" style="margin-left: -15px"><strong>Name:</strong> {{ patientData.fullName }}</li>
+                                <li class="list-group-item" style="margin-left: -15px"><strong>Email:</strong> {{ patientData.email }}</li>
+                                <li class="list-group-item" style="margin-left: -15px"><strong>Birthday:</strong> {{ formatDate(patientData.birthday.date) }}</li>
+                                <li class="list-group-item" style="margin-left: -15px"><strong>Post Code:</strong> {{ patientData.post_code }}</li>
+                                <li class="list-group-item" style="margin-left: -15px"><strong>Region:</strong> {{ patientData.regionName }}</li>
                             </ul>
                         </div>
 
@@ -24,18 +24,18 @@
                         <div class="col-md-6">
                             <h5 class="text-dark fw-bold">Contact Details</h5>
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item"><strong>Primary Phone:</strong> {{ patientData.primaryPhone }}</li>
-                                <li class="list-group-item"><strong>Secondary Phone:</strong> {{ patientData.secondaryPhone || "N/A" }}</li>
-                                <li class="list-group-item"><strong>Accessible Mobility:</strong> {{ patientData.accessibleMobility ? "Yes" : "No" }}</li>
-                                <li class="list-group-item"><strong>Is Military:</strong> {{ patientData.isMilitary ? "Yes" : "No" }}</li>
-                                <li v-if="patientData.isMilitary" class="list-group-item"><strong>Military Status:</strong> {{ patientData.militaryStatus }}</li>
+                                <li class="list-group-item" style="margin-left: -15px"><strong>Primary Phone:</strong> {{ patientData.primaryPhone }}</li>
+                                <li class="list-group-item" style="margin-left: -15px"><strong>Secondary Phone:</strong> {{ patientData.secondaryPhone || "N/A" }}</li>
+                                <li class="list-group-item" style="margin-left: -15px"><strong>Accessible Mobility:</strong> {{ patientData.accessibleMobility ? "Yes" : "No" }}</li>
+                                <li class="list-group-item" style="margin-left: -15px"><strong>Military:</strong> {{ patientData.isMilitary ? "Yes" : "No" }}</li>
+                                <li v-if="patientData.isMilitary" class="list-group-item" style="margin-left: -15px"><strong>Military Status:</strong> {{ patientData.militaryStatus }}</li>
                             </ul>
                         </div>
                     </div>
 
                     <!-- Additional Details -->
                     <div class="mt-3">
-                        <h5 class="text-dark fw-bold">Other Information</h5>
+                        <h5 class="text-dark fw-bold">Notes</h5>
                         <p class="text-muted">{{ patientData.notes || "No additional notes available." }}</p>
                     </div>
                 </div>

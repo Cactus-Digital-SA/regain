@@ -321,7 +321,6 @@
                         {data: 'registered', name: 'users.created_at', searchable: false, orderable: true},
                         {data: 'region', name: 'region', searchable: false, orderable: true},
                         {data: 'patients', name: 'Patients', searchable: false, orderable: true},
-                        {data: 'email', name: 'Email', searchable: true, orderable: false},
                         {data: 'status', name: 'Status', searchable: false, orderable: true},
                     ],
                     columnDefs: [],

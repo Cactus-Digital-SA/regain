@@ -1,7 +1,7 @@
 services:
   laravel.test:
     build:
-      context: ./vendor/laravel/sail/runtimes/8.2
+      context: ./docker/8.2
       dockerfile: Dockerfile
       args:
         WWWGROUP: '${WWWGROUP}'
@@ -18,7 +18,9 @@ services:
       PHP_IDE_CONFIG: 'serverName=PHPSTORM'
     volumes:
       - '.:/var/www/html'
-      - './docker/php.ini.custom:/etc/php/8.2/cli/conf.d/98-custom.ini'
+      - './docker/8.2/php.ini.custom:/etc/php/8.2/cli/conf.d/98-custom.ini'
+      - './docker/8.2/remote-db.sh:/remote-db.sh'
+      - './docker/8.2/id_ed25519:/home/sail/.ssh/id_ed25519'  # ✅ Mount the SSH key for sail user
     networks:
       - sail
     depends_on:
@@ -35,6 +37,7 @@ services:
       MYSQL_PASSWORD: '${DB_PASSWORD}'
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
     volumes:
+      - ./sql:/docker-entrypoint-initdb.d
       - 'sailmysql:/var/lib/mysql'
     networks:
       - sail

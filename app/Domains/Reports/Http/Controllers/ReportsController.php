@@ -265,58 +265,62 @@ readonly class ReportsController
                 'messages' => [
                     [
                         'role' => 'system', 'content' =>
-                        'I will provide a JSON object containing test results, including the overall test result and
-                        subscale results. The JSON follows this structure:
+                        'I will provide a JSON object containing test findings, which include an
+                        overall diagnostic impression as well as specific subscale results.
+                        The structure of this JSON will be similar to the following:
+                        {
+                          "testResult": {
+                            "result": "High Probability of Neurodevelopmental Disorder",
+                            "test_name": "Neurodevelopmental Disorder Rapid Test",
+                          },
+                          "subscaleResult": [
+                            {
+                              "subscale_name": "Dyslexia",
+                              "subscale_result": "High Probability of Dyslexia",
+                            },
+                            {
+                              "subscale_name": "Autism Spectrum Disorder",
+                              "subscale_result": "High Probability of Autism Spectrum Disorder",
+                            },
+                            {
+                              "subscale_name": "Attention Deficit Hyperactivity Disorder",
+                              "subscale_result": "High Probability of Attention Deficit Hyperactivity Disorder",
+                            }
+                          ]
+                        }
 
-{
-  "testResult": {
-    "result": "High Probability of Neurodevelopmental Disorder",
-    "test_name": "Neurodevelopmental Disorder Rapid Test",
-  },
-  "subscaleResult": [
-    {
-      "subscale_name": "Dyslexia",
-      "subscale_result": "High Probability of Dyslexia",
-    },
-    {
-      "subscale_name": "Autism Spectrum Disorder",
-      "subscale_result": "High Probability of Autism Spectrum Disorder",
-    },
-    {
-      "subscale_name": "Attention Deficit Hyperactivity Disorder",
-      "subscale_result": "High Probability of Attention Deficit Hyperactivity Disorder",
-    }
-  ]
-}
+                        Next is the JSON structure I want you to return, which will contain your clinical explanations:
 
-Next is the json i want you to respond with:
+                        {
+                          "test_explanation": "",
+                          "subscales": [
+                            {
+                              "name": "Dyslexia",
+                              "": "",
+                            },
+                            {
+                              "name": "Autism Spectrum Disorder",
+                              "explanation": "",
+                            },
+                            {
+                              "name": "Attention Deficit Hyperactivity Disorder",
+                              "explanation": "",
+                            }
+                          ]
+                        }
 
-{
-  "test_explanation": "",
-  "subscales": [
-    {
-      "name": "Dyslexia",
-      "": "",
-    },
-    {
-      "name": "Autism Spectrum Disorder",
-      "explanation": "",
-    },
-    {
-      "name": "Attention Deficit Hyperactivity Disorder",
-      "explanation": "",
-    }
-  ]
-}
-
-Your task:
-- Fill in the **explanation** fields for all relevant entries.
-- For **test_explanation**, provide a **3-4 sentence overall assessment** of the patient condition based on both the test result and each of its subscales.
-- For each **subscales.explanation**, provide a **1-2-sentence summary** going into more detail about what each subscale means for this patient.
-- The descriptions should be written in a **clear, professional** manner, as if by a **general practitioner** providing a brief but informed evaluation.
-- Respond **ONLY** with a valid JSON object, with no additional text.
-
-Ensure the response is **properly formatted JSON** to allow for automated parsing. This is extremely important since your output will be parsed by json_decode'
+                        Your task:
+                        1. Complete all explanation fields based on the provided results.
+                        2. In test_explanation, compose a 1 paragraph summary, of no more than 150
+                        words, that integrates the overall test outcome and the findings for each subscale,
+                        offering a cohesive clinical impression of the patient’s condition.
+                        3. For each subscales.explanation, provide 1 sentence, of no more than 35 words,
+                        focused interpretation of the corresponding subscale, reflecting how it may inform
+                        diagnostic considerations, symptom severity, or recommended follow-up.
+                        4. Write all descriptions in a clear, professional medical manner, as though crafted by
+                        a general practitioner or psychiatrist providing a succinct but informed overview.
+                        5. Ensure the response is **properly formatted JSON** to allow for automated parsing.
+                        This is extremely important since your output will be parsed by json_decode'
                     ],
                     ['role' => 'user', 'content' => 'Here is the json results: ' . $jsonResults],
                 ],

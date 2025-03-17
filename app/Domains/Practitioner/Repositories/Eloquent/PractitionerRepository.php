@@ -91,12 +91,6 @@ class PractitionerRepository implements PractitionerRepositoryInterface
                 'searchable' => 'false',
                 'sortable'   => 'true'
             ],
-            'email'       => [
-                'name'       => 'Email',
-                'table'      => 'email',
-                'searchable' => 'true',
-                'sortable'   => 'false'
-            ],
             'status'      => [
                 'name'       => 'Status',
                 'table'      => 'status',
@@ -139,9 +133,6 @@ class PractitionerRepository implements PractitionerRepositoryInterface
                          })
                          ->editColumn('patients', function ($data) {
                              return $data?->patients?->count();
-                         })
-                         ->editColumn('email', function ($data) {
-                             return $data?->user->email ?? ' - ';
                          })
                          ->editColumn('status', function ($data) {
                              $statusValue = $data->status;

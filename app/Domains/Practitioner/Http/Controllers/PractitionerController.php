@@ -104,9 +104,9 @@ class PractitionerController extends Controller
                     }
                 }
 
-                if (str_contains($answer->getQuestionText(), "anaphylaxis")) {
+                if (str_contains($answer->getQuestionText(), "Anaphylaxis")) {
                     if ($answer->getAnswerText() === "Yes") {
-                        $medicalHistoryPresenter['details'][] = "anaphylaxis";
+                        $medicalHistoryPresenter['details'][] = "Anaphylaxis";
                     }
                 }
 
