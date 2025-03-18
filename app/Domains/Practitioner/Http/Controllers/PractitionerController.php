@@ -20,6 +20,7 @@ use App\Http\Controllers\Controller;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -92,26 +93,48 @@ class PractitionerController extends Controller
             }
 
             foreach ($medicalHistoryResult->getQuestionAnswers() as $answer) {
-                if (str_contains($answer->getQuestionText(), "penicillin")) {
+                if (str_contains(mb_strtoupper($answer->getQuestionText()), "PENICILLIN")) {
                     if ($answer->getAnswerText() === "Yes") {
                         $medicalHistoryPresenter['details'][] = "Penicillin";
                     }
                 }
 
-                if (str_contains($answer->getQuestionText(), "HIV")) {
+                if (str_contains(mb_strtoupper($answer->getQuestionText()), "HIV")) {
                     if ($answer->getAnswerText() === "Yes") {
                         $medicalHistoryPresenter['details'][] = "HIV";
                     }
                 }
 
-                if (str_contains($answer->getQuestionText(), "Anaphylaxis")) {
+                if (str_contains(mb_strtoupper($answer->getQuestionText()), "ANAPHYLAXIS")) {
                     if ($answer->getAnswerText() === "Yes") {
                         $medicalHistoryPresenter['details'][] = "Anaphylaxis";
                     }
                 }
 
+                if (str_contains(mb_strtoupper($answer->getQuestionText()), "DYSPHAGIA")) {
+                    if ($answer->getAnswerText() === "Yes") {
+                        $medicalHistoryPresenter['details'][] = "Dysphagia";
+                    }
+                }
+
+                if (str_contains(mb_strtoupper($answer->getQuestionText()), "SYNCOPE")) {
+                    if ($answer->getAnswerText() === "Yes") {
+                        $medicalHistoryPresenter['details'][] = "Syncope";
+                    }
+                }
+
+                if (str_contains(mb_strtoupper($answer->getQuestionText()) , "GAD")) {
+                    if ($answer->getAnswerText() === "Yes") {
+                        $medicalHistoryPresenter['details'][] = "GAD";
+                    }
+                }
+
                 if ("What is the name of the OTC medication?" === $answer->getQuestionText()) {
-                    $medicalHistoryPresenter['medication'] = explode(" ", $answer->getAnswerText());
+                    $medicalHistoryPresenter['medication'] =
+                        array_map(
+                            'ucfirst',
+                            explode(" ", $answer->getAnswerText())
+                        );
                 }
             }
 
@@ -130,6 +153,8 @@ class PractitionerController extends Controller
             $this->questionsService->getMedicalHistoryReportForPatient(Auth::id(), $userId) :
             null;
 
+        $nextAppointmentDate = Carbon::now()->addDays(14);
+
         return view('practitioner.patient')
             ->with('columns', [])
             ->with('practitioner', $practitioner)
@@ -137,6 +162,7 @@ class PractitionerController extends Controller
             ->with('medicalHistoryCompleted', $medicalHistoryCompleted)
             ->with('medicalHistoryResult', $medicalHistoryResult)
             ->with('medicalHistoryPresenter', $medicalHistoryPresenter)
+            ->with('nextAppointmentDate', $nextAppointmentDate)
             ->with('presenter', $presenter);
     }
 
@@ -219,7 +245,7 @@ class PractitionerController extends Controller
 
         Storage::put($filePath, $pdf->output());
 
-        return response()->download(storage_path("app/$filePath"), [
+        return response()->download(storage_path("app/$filePath"), "medical_history_report.pdf", [
             'Content-Type' => 'application/pdf',
         ]);
     }

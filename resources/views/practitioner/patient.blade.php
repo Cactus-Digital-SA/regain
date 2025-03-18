@@ -285,7 +285,7 @@
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <div class="appointment-info">
                                                         <span class="card-label mb-2" style="padding-bottom: 8px">Appointment</span>
-                                                        <div class="appointment-date">19/11/2024</div>
+                                                        <div class="appointment-date">{{ $nextAppointmentDate->format("d/m/Y") }}</div>
                                                         <div class="appointment-subtext">Next Appointment</div>
                                                     </div>
                                                     <div class="appointment-actions d-flex flex-column me-2" style="width: 40%">
