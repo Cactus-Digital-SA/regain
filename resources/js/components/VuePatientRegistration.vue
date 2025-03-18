@@ -195,7 +195,7 @@ export default {
       const email = formData.value.email.trim();
 
       // Regular expression to check email format
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
       // Check if email is empty
       if (!email) {
