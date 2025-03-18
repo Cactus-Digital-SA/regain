@@ -12,10 +12,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Question</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" defer></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
 </head>
 <body>
 
@@ -54,10 +55,12 @@
                     @csrf
                     <div class="question mb-5">
                         <span class="question-span">{{$question->getTitle()}}
-                            @if ($question->getInstruction()->getContent() !== $previousInstruction)
-                                ({{$question->getInstruction()->getContent()}})
-                                @php $previousInstruction = $question->getInstruction()->getContent(); @endphp
-                            @endif
+                            <i class="bi bi-info-circle" data-bs-toggle="tooltip"
+                               title="{{$question->getInstruction()->getContent()}}"></i>
+{{--                            @if ($question->getInstruction()->getContent() !== $previousInstruction)--}}
+{{--                                ({{$question->getInstruction()->getContent()}})--}}
+{{--                                @php $previousInstruction = $question->getInstruction()->getContent(); @endphp--}}
+{{--                            @endif--}}
                         </span>
                         @if ($question->getId() !== 11)
                             <ul class="list-unstyled grid-layout mt-3">
@@ -268,6 +271,13 @@
 
         // Initialize the "Next" button state
         updateNextButtonState();
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
     });
 </script>
 </body>

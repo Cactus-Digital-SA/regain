@@ -11,7 +11,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Questions</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" defer></script>
     <link href="https://cdn.jsdelivr.net/npm/nouislider@15.7.0/dist/nouislider.min.css" rel="stylesheet">
     <style>
         .slider {
@@ -141,10 +143,12 @@
                     <div class="question" style="margin-bottom: 5rem">
                         <div class="question-span-div">
                             <span class="question-span">{{$question->getTitle()}}
-                                @if ($question->getInstruction()->getContent() !== $previousInstruction)
-                                ({{$question->getInstruction()->getContent()}})
-                                    @php $previousInstruction = $question->getInstruction()->getContent(); @endphp
-                                @endif
+                                <i class="bi bi-info-circle" data-bs-toggle="tooltip"
+                                   title="{{$question->getInstruction()->getContent()}}"></i>
+{{--                                @if ($question->getInstruction()->getContent() !== $previousInstruction)--}}
+{{--                                ({{$question->getInstruction()->getContent()}})--}}
+{{--                                    @php $previousInstruction = $question->getInstruction()->getContent(); @endphp--}}
+{{--                                @endif--}}
                             </span>
                         </div>
                         <div class="slider" id="slider-{{ $index }}"></div>
@@ -412,6 +416,13 @@
 
         // Initialize the "Next" button state
         updateNextButtonState();
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
     });
 </script>
 </body>
