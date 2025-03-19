@@ -30,7 +30,7 @@
                     <div class="profile-title text-left">Profile</div>
                     <div class="profile-avatar-name d-flex align-items-center">
                         <div class="profile-image">
-                            <img src="{{ Vite::asset('resources/images/profile-image-girl.svg') }}" alt="Profile Image">
+                            <img src="{{ Vite::asset('resources/images/circle-icons/circle-user-general.svg') }}" alt="Profile Image">
                         </div>
                         <div class="profile-name-id text-left ms-3">
                             <div class="profile-name">{{ $patientData->getUser()->getName()  }}</div>
