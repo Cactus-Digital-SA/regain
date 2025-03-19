@@ -83,7 +83,9 @@
                                 <span class="opacity-50">Next Appointment</span> <span class="text-large" style="font-size: 30px; color: rgba(255, 0, 0, 1); opacity: 100%!important">•</span>
                             </div>
                             <div class="row" style="margin-top: 10px">
-                                <span class="col-6 date"><i class="ti ti-calendar"></i> 02/10/2020 </span>
+                                <span class="col-6 date"><i class="ti ti-calendar"></i> {{
+                                    $nextAppointmentDate->format("d/m/Y")
+                                  }} </span>
                                 <span class="col-6 hour"><i class="ti ti-clock"></i> 17:20 </span>
                             </div>
                             <div class="d-flex" style="margin-top: auto">
@@ -92,18 +94,18 @@
                         </div>
                         <div class="mini-card d-flex flex-column" style="border: 1px solid #0A133A !important;">
                             <span class="mini-card-title">My Regain Progress</span>
-                            <span class="module-3-sub-title"><i class="ti ti-pencil me-1"></i>Module 3</span>
+                            <span class="module-3-sub-title"><i class="ti ti-pencil me-1"></i>Pre-Assessment</span>
                             <div>
                                 <div class="progress-container row d-flex align-items-center justify-content-center" style="gap: 10px">
                                     <div class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 16%"></div>
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 16%"></div>
+                                    <div class="progress-bar bg-light-purple" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 16%"></div>
                                     <div class="progress-bar bg-light-purple" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 16%"></div>
                                     <div class="progress-bar bg-light-purple" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 16%"></div>
                                     <div class="progress-bar bg-light-purple" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 16%"></div>
                                 </div>
                             </div>
                             <div class="d-flex" style="margin-top: auto">
-                                <button type="button" class="main-btn-purple">Start Module 3</button>
+                                <button type="button" class="main-btn-purple">Start Module 1</button>
                             </div>
                         </div>
                         <div class="mini-card">

@@ -230,7 +230,7 @@
                                                                     <strong>Date of Medical
                                                                         History:</strong> {{$medicalHistoryCompleted->format("d/m/Y")}}
                                                                     <span
-                                                                        class="mh-self-filled text-nowrap">(filled)</span>
+                                                                        class="mh-self-filled text-nowrap">(Completed)</span>
                                                                 </p>
                                                             @else
                                                                 <p class="mh-date">

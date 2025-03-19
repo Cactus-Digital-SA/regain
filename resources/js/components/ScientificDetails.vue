@@ -2,7 +2,7 @@
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center border-0 text-center mb-3">
         <h3 class="text-center flex-grow-1" style="color: rgba(10, 19, 58, 1); font-weight: 700; font-size:1.4rem; margin-bottom: 0 !important">
-            Regain Reports
+            Scientific References
         </h3>
         <button type="button" class="btn-close btn-pinned btn-right me-3" :data-bs-target="'#flow-' + id" data-bs-toggle="modal" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>

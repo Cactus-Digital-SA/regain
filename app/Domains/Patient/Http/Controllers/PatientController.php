@@ -10,6 +10,7 @@ use App\Domains\Questions\Services\QuestionsService;
 use App\Domains\UserResponse\Http\Requests\SubmitUserResponsesRequest;
 use App\Domains\UserResponse\Services\UserResponseService;
 use App\Http\Controllers\Controller;
+use Carbon\CarbonImmutable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -81,8 +82,11 @@ class PatientController extends Controller
     {
         $patientData = $this->patientDataService->getByUserId((string)Auth::id());
         $practitioner = $this->patientDataService->getAllocatedPractitioner((string)Auth::id());
+        $nextAppointmentDate = CarbonImmutable::now()->addWeeks(2);
 
-        return view('patient.my-regain', compact('patientData', 'practitioner'));
+        return view('patient.my-regain', compact([
+            'patientData', 'practitioner', 'nextAppointmentDate'
+        ]));
     }
 
     public function submitAnswers(SubmitUserResponsesRequest $request): JsonResponse
