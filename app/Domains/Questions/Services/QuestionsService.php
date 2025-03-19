@@ -370,14 +370,19 @@ readonly class QuestionsService
             $answer = (new MedicalHistoryQuestionAnswer())
                 ->setQuestionText($question->getTitle());
 
-            if ($response?->question_response_id) {
-                $questionResponse = QuestionResponse::where([
-                        'id' => $response->question_response_id,
-                    ]
-                )->first();
-                $answer->setAnswerText(
-                    $questionResponse->response->title
-                );
+            if ($response) {
+                if ($response?->question_response_id) {
+                    $questionResponse = QuestionResponse::where([
+                            'id' => $response->question_response_id,
+                        ]
+                    )->first();
+                    $answer->setAnswerText(
+                        $questionResponse->response->title
+                    );
+                }
+                else {
+                    $answer->setAnswerText($response->text);
+                }
             } else {
                 continue;
             }
