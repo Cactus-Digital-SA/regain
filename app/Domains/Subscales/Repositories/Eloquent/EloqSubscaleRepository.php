@@ -64,10 +64,10 @@ class EloqSubscaleRepository implements SubscaleRepositoryInterface
     {
         // TODO: required_questions needs a better solution
         return match ($testId) {
-            12      => 5,
-            16      => 4,
-            17, 18  => 2,
-            20, 21  => 3,
+            12          => 5,
+            16          => 4,
+            17, 18, 21  => 2,
+            20          => 3,
             default => null
         };
     }
