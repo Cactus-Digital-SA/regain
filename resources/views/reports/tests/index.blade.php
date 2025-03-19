@@ -205,7 +205,7 @@
 
 <div class="user-details">
     <p><strong>{{$result->getUser()->getName()}}</strong></p>
-    <p>#{{$result->getUser()->getId()}}</p>
+    <p>Patient #{{$result->getUser()->getId()}}</p>
     <p>D.O.B. {{$result->getPatientData()->getBirthday()->format("d/m/Y")}}</p>
 </div>
 <div class="divider"></div>

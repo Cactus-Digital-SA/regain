@@ -261,7 +261,7 @@ readonly class ReportsController
 
         $response = $this->openAIClient->chat()->create(
             [
-                'model'    => 'gpt-4',
+                'model'    => 'o1',
                 'messages' => [
                     [
                         'role' => 'system', 'content' =>
@@ -319,8 +319,7 @@ readonly class ReportsController
                         diagnostic considerations, symptom severity, or recommended follow-up.
                         4. Write all descriptions in a clear, professional medical manner, as though crafted by
                         a general practitioner or psychiatrist providing a succinct but informed overview.
-                        5. Ensure the response is **properly formatted JSON** to allow for automated parsing.
-                        This is extremely important since your output will be parsed by json_decode'
+                        5. Ensure the response only contains **properly formatted JSON** to allow for automated parsing and no other text before or after the opening and closing JSON object braces'
                     ],
                     ['role' => 'user', 'content' => 'Here is the json results: ' . $jsonResults],
                 ],
