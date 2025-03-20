@@ -12,7 +12,7 @@
     <style>
         @page {
             size: A4;
-            margin: 1in;
+            margin: 1.2cm;
         }
 
         body {
