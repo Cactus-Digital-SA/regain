@@ -261,7 +261,7 @@ readonly class ReportsController
 
         $response = $this->openAIClient->chat()->create(
             [
-                'model'    => 'o1',
+                'model'    => 'gpt-4o-mini-2024-07-18',
                 'messages' => [
                     [
                         'role' => 'system', 'content' =>
@@ -329,11 +329,13 @@ readonly class ReportsController
         $result->setDescription($response->choices[0]->message->content);
 
         $openAIResult = json_decode($response->choices[0]->message->content, true, 512, JSON_THROW_ON_ERROR);
-        $result->setDescription($openAIResult["test_explanation"]);
+
+        $explanation = mb_convert_encoding($openAIResult["test_explanation"], 'UTF-8', 'auto');
+        $result->setDescription($explanation);
 
         foreach ($result->getSubscaleResults() as $subscaleResult) {
             $description = $this->getSubscaleExplanation($openAIResult, trim($subscaleResult->getSubscaleName()));
-            $subscaleResult->setDescription($description ?? "");
+            $subscaleResult->setDescription(mb_convert_encoding($description ?? "", 'UTF-8', 'auto'));
         }
 
 //        return view("reports.tests.index")->with(['result' => $result]);
