@@ -176,7 +176,7 @@ class PractitionerController extends Controller
             throw new AuthorizationException("User ID $forUserId is not authorized to access this report.");
         }
 
-        $presenter = $this->questionsService->fetchMedicalHistoryQuestions(Auth::id(), $forUserId);
+        $presenter = $this->questionsService->fetchMedicalHistoryQuestions(Auth::id(), $forUserId, 4);
 
         return $presenter->isCompleted() ?
             view('practitioner.includes.medical-history-completed')->with('presenter', $presenter) :

@@ -2,6 +2,7 @@
     /**
      * @var App\Domains\Patient\Models\PatientData $patientData
      * @var App\Domains\Practitioner\Models\Practitioner $practitioner
+     * @var string $skillsReportFile
      */
 @endphp
 <!DOCTYPE html>
@@ -109,7 +110,13 @@
                             </div>
                         </div>
                         <div class="mini-card">
-                            <span class="mini-card-title">My Treatment Progress</span>
+                            <span class="mini-card-title">
+                                My Treatment Progress
+                                @if (!empty($skillsReportFile))
+                                    <br />
+                                    <a target="_blank" href="{{ route("patient.skills-report") }}">Download Skills Improvement plan</a>
+                                @endif
+                            </span>
 
                         </div>
                     </div>

@@ -10,6 +10,7 @@ class ReportFile extends Model
         'practitioner_user_id',
         'patient_user_id',
         'test_id',
-        'uuid'
+        'uuid',
+        'report_type',
     ];
 }

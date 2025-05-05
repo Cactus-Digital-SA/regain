@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('report_files', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('practitioner_user_id')->references('id')->on('users')->cascadeOnDelete();
+            $table->foreignId('practitioner_user_id')->nullable()->references('id')->on('users')->cascadeOnDelete();
             $table->foreignId('patient_user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->foreignId('test_id')->references('id')->on('tests')->cascadeOnDelete();
             $table->string('uuid');

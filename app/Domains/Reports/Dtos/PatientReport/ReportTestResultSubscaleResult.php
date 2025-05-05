@@ -10,6 +10,7 @@ class ReportTestResultSubscaleResult
     private string $subscaleName;
     private int $subscaleItems;
     private int $subscaleIndex = 0;
+    private ?ReportTrainingProgram $trainingProgram = null;
 
     public function getResultLabel(): string
     {
@@ -80,6 +81,17 @@ class ReportTestResultSubscaleResult
     {
         $this->description = $description;
 
+        return $this;
+    }
+
+    public function getTrainingProgram(): ?ReportTrainingProgram
+    {
+        return $this->trainingProgram;
+    }
+
+    public function setTrainingProgram(?ReportTrainingProgram $trainingProgram): ReportTestResultSubscaleResult
+    {
+        $this->trainingProgram = $trainingProgram;
         return $this;
     }
 }

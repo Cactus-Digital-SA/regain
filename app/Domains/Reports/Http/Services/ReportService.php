@@ -4,6 +4,7 @@ namespace App\Domains\Reports\Http\Services;
 
 use App\Domains\QuestionnaireFlow\Constants\QuestionnaireFlowType;
 use App\Domains\References\Services\ReferenceService;
+use App\Domains\Reports\Constants\ReportTypes;
 use App\Domains\Reports\Dtos\PatientReport\ReportTestResult;
 use App\Domains\Reports\Http\Presenters\FlowPresenter;
 use App\Domains\Reports\Http\Presenters\FlowsPresenter;
@@ -80,20 +81,25 @@ readonly class ReportService
         };
     }
 
-    public function storeFile(ReportTestResult $result, int $practitionerUserId): string
+    public function storeFile(ReportTestResult $result, int $practitionerUserId, ?ReportTypes $reportType = ReportTypes::TEST): string
     {
         $uuid = Uuid::uuid4()->toString();
 
         ReportFile::create([
-            "practitioner_user_id" => $practitionerUserId,
+            "practitioner_user_id" => $practitionerUserId === 0 ? null : $practitionerUserId,
             "patient_user_id"      => $result->getPatientData()->getUserId(),
             "test_id"              => $result->getTest()->getId(),
             "uuid"                 => $uuid,
+            "report_type"          => $reportType,
         ]);
 
         $filePath = "reports/{$uuid}.pdf";
 
-        $pdf = PDF::loadView('reports.tests.index', ['result' => $result]);
+        $pdf = PDF::loadView(
+            $reportType === ReportTypes::TEST ?
+                "reports.tests.index" :
+                "reports.skills.index",
+            ['result' => $result]);
 
         Storage::put($filePath, $pdf->output());
 
@@ -103,12 +109,14 @@ readonly class ReportService
     public function getFilePath(
         int $practitionerUserId,
         int $patientUserId,
-        int $testId
+        int $testId,
+        ?ReportTypes $reportType = ReportTypes::TEST
     ): ?string {
         $file = ReportFile::where([
-            "practitioner_user_id" => $practitionerUserId,
+            "practitioner_user_id" => $practitionerUserId === 0 ? null : $practitionerUserId,
             "patient_user_id"      => $patientUserId,
             "test_id"              => $testId,
+            "report_type"          => $reportType,
         ])->first();
 
         return $file ?

@@ -1,4 +1,4 @@
-max_execution_time=9000
+max_execution_time=20000
 
 [xdebug]
 xdebug.start_with_request=debug

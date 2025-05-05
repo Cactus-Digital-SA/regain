@@ -50,6 +50,7 @@ Route::group([
     Route::get('/home', [PatientController::class, 'handleLandingPageFlow'])->name('home'); //role patient doesnt work here. Needs auth, role patient middleware
 
     Route::get('/my-regain', [PatientController::class, 'getMyRegain'])->name('my-regain');
+    Route::get('/skills-report', [PatientController::class, 'downloadSkillsReport'])->name('skills-report');
     Route::get('/ask', [PatientController::class, 'ask'])->name('ask');
     Route::get('/help-center', function () {
         return view('patient.help-center');

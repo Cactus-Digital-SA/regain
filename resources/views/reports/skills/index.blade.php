@@ -147,55 +147,19 @@
             page-break-inside: avoid;
         }
 
-        .bar-graph-3 {
-            padding-left: 20px;
+        .hourly-suggestions {
+            font-size: 8pt;
         }
 
-        .bar-graph-4 {
-            padding-left: 10px;
-        }
-
-        .j-bar-4-1 {
-            background-image: url('data:image/jpeg;base64,{{ base64_encode(file_get_contents('./assets/img/four-bar-one.png')) }}');
-            background-size: cover;
-            background-color: transparent;
-
-        }
-
-        .j-bar-4-2 {
-            background-image: url('data:image/jpeg;base64,{{ base64_encode(file_get_contents('./assets/img/four-bar-two.png')) }}');
-            background-size: cover;
-        }
-
-        .j-bar-4-3 {
-            background-image: url('data:image/jpeg;base64,{{ base64_encode(file_get_contents('./assets/img/four-bar-three.png')) }}');
-            background-size: cover;
-        }
-
-        .j-bar-4-4 {
-            background-image: url('data:image/jpeg;base64,{{ base64_encode(file_get_contents('./assets/img/four-bar-four.png')) }}');
-            background-size: cover;
-        }
-
-        .j-bar-3-1 {
-            background-image: url('data:image/jpeg;base64,{{ base64_encode(file_get_contents('./assets/img/three-bar-one.png')) }}');
-            background-size: cover;
-        }
-
-        .j-bar-3-2 {
-            background-image: url('data:image/jpeg;base64,{{ base64_encode(file_get_contents('./assets/img/three-bar-two.png')) }}');
-            background-size: cover;
-        }
-
-        .j-bar-3-3 {
-            background-image: url('data:image/jpeg;base64,{{ base64_encode(file_get_contents('./assets/img/three-bar-three.png')) }}');
-            background-size: cover;
+        .subscale-heading {
+            font-size: 8pt;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 <div class="header">
-    <img src="data:image/jpeg;base64,{{ base64_encode(file_get_contents('./assets/img/logo/regainLogo.jpg')) }}"
+    <img src="data:image/jpeg;base64,{{ base64_encode(file_get_contents(public_path() . '/assets/img/logo/regainLogo.jpg')) }}"
          alt="Logo" class="logo">
     <div class="title-container">
         <div class="assessment-title">Assessment Report:</div>
@@ -217,16 +181,6 @@
             <td class="exclude" style="font-size: 10pt; font-weight: bold; padding-right: 20px; border: none !important; white-space: nowrap; width: 1%;">
                 {{$result->getTest()->getName()}}
             </td>
-            @php
-                $testColumns = $result->getTestResult()->getTestItems();
-                $testIndex = $result->getTestResult()->getTestIndex();
-                $testClassName = "j-bar-{$testColumns}-" . $testIndex;
-            @endphp
-            <td class="exclude" style="width: auto; border: none !important;">
-                <div class="bar-graph-{{ $testColumns }}" style="padding: 0 !important;">
-                    <div class="{{ $testClassName }}" style="width: 24px; height: 22px;"></div>
-                </div>
-            </td>
         </tr>
     </table>
 
@@ -236,54 +190,20 @@
     </div>
 </div>
 @if (count($result->getSubscaleResults()) > 0)
-    <div>
-        <table>
-            <thead>
-            @php
-                $columns = $result->getSubscaleItems();
-                $fills = [];
-                for ($i = 0; $i < $columns; $i++) {
-                    $columnFills = [];
-                    for ($j = 0; $j < $columns; $j++) {
-                        $columnFills[] = $j <= $i ? '#333' : '#fff';
-                    }
-                    $fills[] = $columnFills;
-                }
-            @endphp
-            <tr>
-                <th style="text-align: left; background-color: #f0f1f5; font-weight: normal; font-size: 10pt!important; border-left: 0;">{{$result->getTest()->getName()}} Subscales</th>
-                @for ($i = 0; $i < $columns; $i++)
-                    <th style=" background-color: #f0f1f5; border-right: 0;">
-                        @php
-                            $className = "j-bar-{$columns}-" . ($i + 1);
-                        @endphp
-                        <div class="bar-graph-{{ $columns }}">
-                            <div class="{{ $className }}" style="width: 24px; height: 22px; display: flex">
-                            </div>
-                        </div>
-                    </th>
-                @endfor
-            </tr>
-            </thead>
-            <tbody>
-            @foreach ($result->getSubscaleResults() as $subscaleResult)
-                <tr>
-                    <td style="border-left: 0;">
-                        <div class="title">{{$subscaleResult->getSubscaleName()}}</div>
-                        <div class="description">{{$subscaleResult->getDescription()}}</div>
-                    </td>
-                    @for ($i = 1; $i <= $columns; $i++)
-                        <td style="text-align: center; border-right: 0;">
-                            @if ($i === $subscaleResult->getSubscaleIndex())
-                                <span class="dot"></span>
-                            @endif
-                        </td>
-                    @endfor
-                </tr>
+    @foreach ($result->getSubscaleResults() as $subscaleResult)
+    <div class="divider"></div>
+        <div class="subscale-heading">
+            {{ $subscaleResult->getSubscaleName() }}
+        </div>
+        <div class="hourly-suggestions">
+            <ul>
+            @foreach ($subscaleResult->getTrainingProgram()->getHourlyTask() as $hourlyTask)
+                <li>{{ $hourlyTask }}</li>
             @endforeach
-            </tbody>
-        </table>
-    </div>
+            </ul>
+        </div>
+    <div>
+    @endforeach
 @endif
 </body>
 </html>

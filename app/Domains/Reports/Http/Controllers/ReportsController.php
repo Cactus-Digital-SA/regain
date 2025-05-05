@@ -16,11 +16,11 @@ use App\Domains\Reports\Http\Services\ReportService;
 use App\Domains\Tests\Services\TestService;
 use App\Domains\Thresholds\Models\Constants\ThresholdDisplayType;
 use App\Domains\Thresholds\Repositories\Eloquent\Models\Threshold;
-use App\Domains\Thresholds\Repositories\Eloquent\Models\ThresholdTestLimit;
 use App\Domains\Thresholds\Services\ThresholdService;
 use App\Domains\UserQuestionnaire\Services\UserQuestionnaireService;
 use App\Domains\UserResponse\Repositories\Eloquent\Models\UserResponse;
-use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
+use Carbon\CarbonInterval;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,16 +33,17 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 readonly class ReportsController
 {
     public function __construct(
-        private ThresholdService $thresholdService,
-        private TestService $testService,
+        private ThresholdService         $thresholdService,
+        private TestService              $testService,
         private PatientAssignmentService $patientAssignmentService,
-        private UserService $userService,
-        private PatientDataService $patientDataService,
-        private Client $openAIClient,
-        private ReportService $reportService,
+        private UserService              $userService,
+        private PatientDataService       $patientDataService,
+        private Client                   $openAIClient,
+        private ReportService            $reportService,
         private UserQuestionnaireService $userQuestionnaireService,
         private QuestionnaireFlowService $questionnaireFlowService,
-    ) {
+    )
+    {
     }
 
     public function report(ReportRequest $request): View
@@ -63,12 +64,12 @@ readonly class ReportsController
 
             if ($threshold->getDisplayType() === ThresholdDisplayType::DISPLAY) {
                 $responses = UserResponse::join('question_response', 'question_response.id', '=', 'user_responses.question_response_id')
-                                         ->join('responses', 'question_response.response_id', '=', 'responses.id')
-                                         ->join('questions', 'questions.id', '=', 'user_responses.question_id')
-                                         ->where('user_responses.user_id', $form->getUserId())  // Filter by user_id
-                                         ->whereBetween('user_responses.question_id', [$threshold->getQuestionStart(), $threshold->getQuestionEnd()])  // Filter question_id between 14 and 16
-                                         ->select(['questions.title as question_title', 'responses.title as response_title'])  // Select desired columns
-                                         ->get();
+                    ->join('responses', 'question_response.response_id', '=', 'responses.id')
+                    ->join('questions', 'questions.id', '=', 'user_responses.question_id')
+                    ->where('user_responses.user_id', $form->getUserId())  // Filter by user_id
+                    ->whereBetween('user_responses.question_id', [$threshold->getQuestionStart(), $threshold->getQuestionEnd()])  // Filter question_id between 14 and 16
+                    ->select(['questions.title as question_title', 'responses.title as response_title'])  // Select desired columns
+                    ->get();
 
                 foreach ($responses as $response) {
                     $testResult->addPlainResponse((new ReportPlainResponse())
@@ -93,6 +94,14 @@ readonly class ReportsController
                         ->setResultLabel($totalScoreResult[0]->label)
                         ->setResultNotes($totalScoreResult[0]->notes ?? "")
                         ->setScore($totalScoreResult[0]->user_score ?? 0)
+                        ->setAlternatePrompt(false)
+                    );
+                } else {
+                    $testResult->setTestResult((new ReportTestResultTotalResult())
+                        ->setResultLabel("")
+                        ->setResultNotes("")
+                        ->setScore(0)
+                        ->setAlternatePrompt(true)
                     );
                 }
 
@@ -101,7 +110,7 @@ readonly class ReportsController
                     if (count($subscales) > 0) {
                         $subscaleResults = [];
                         foreach ($subscales as $subscale) {
-                            $subscalesList  = DB::select("
+                            $subscalesList = DB::select("
         SELECT
             ROW_NUMBER() OVER (ORDER BY threshold_subscale_limits.low) AS row_index,
             threshold_subscale_limits.*,
@@ -144,9 +153,9 @@ readonly class ReportsController
             throw new AuthorizationException("Threshold for test $testId not found.");
         }
 
-        $test                = $this->testService->getById((int)$testId);
-        $assignedPatients    = $this->patientAssignmentService->getByPractitionerUserId(Auth::id());
-        $practitionerUserIds = array_map(static fn ($user) => $user->getPatientUserId(), $assignedPatients);
+        $test = $this->testService->getById((int)$testId);
+        $assignedPatients = $this->patientAssignmentService->getByPractitionerUserId(Auth::id());
+        $practitionerUserIds = array_map(static fn($user) => $user->getPatientUserId(), $assignedPatients);
 
         // Check if $userId is in the list of practitioner user IDs
         if (!in_array((int)$userId, $practitionerUserIds, true)) {
@@ -164,23 +173,23 @@ readonly class ReportsController
         $result = new ReportTestResult();
 
         $testThresholds = Threshold::where("test_id", $testId)
-                                   ->with('testLimits')
-                                   ->first()
-                                   ?->testLimits()
-                                   ->pluck('label')
-                                   ->toArray();
+            ->with('testLimits')
+            ->first()
+            ?->testLimits()
+            ->pluck('label')
+            ->toArray();
         // get test thresholds
         $test->setThresholds($testThresholds);
         $result->setTest($test);
 
         if ($threshold->getDisplayType() === ThresholdDisplayType::DISPLAY) {
             $responses = UserResponse::join('question_response', 'question_response.id', '=', 'user_responses.question_response_id')
-                                     ->join('responses', 'question_response.response_id', '=', 'responses.id')
-                                     ->join('questions', 'questions.id', '=', 'user_responses.question_id')
-                                     ->where('user_responses.user_id', $userId)  // Filter by user_id
-                                     ->whereBetween('user_responses.question_id', [$threshold->getQuestionStart(), $threshold->getQuestionEnd()])  // Filter question_id between 14 and 16
-                                     ->select(['questions.title as question_title', 'responses.title as response_title'])  // Select desired columns
-                                     ->get();
+                ->join('responses', 'question_response.response_id', '=', 'responses.id')
+                ->join('questions', 'questions.id', '=', 'user_responses.question_id')
+                ->where('user_responses.user_id', $userId)  // Filter by user_id
+                ->whereBetween('user_responses.question_id', [$threshold->getQuestionStart(), $threshold->getQuestionEnd()])  // Filter question_id between 14 and 16
+                ->select(['questions.title as question_title', 'responses.title as response_title'])  // Select desired columns
+                ->get();
 
             foreach ($responses as $response) {
                 $result->addPlainResponse((new ReportPlainResponse())
@@ -200,24 +209,37 @@ readonly class ReportsController
             if (count($totalScoreResult) > 0) {
                 $testResult = new ReportTestResultTotalResult();
 
+                $found = false;
                 foreach ($totalScoreResult as $scoreResult) {
                     if ($scoreResult->user_score >= $scoreResult->low && $scoreResult->user_score <= $scoreResult->high) {
                         $testResult->setResultLabel($scoreResult->label)
-                                   ->setResultNotes($scoreResult->notes ?? "")
-                                   ->setScore($scoreResult->user_score ?? 0)
-                                   ->setTestIndex($scoreResult->row_index)
-                                   ->setTestItems(count($totalScoreResult));
-                        $result->setTestResult($testResult);
+                            ->setResultNotes($scoreResult->notes ?? "")
+                            ->setScore($scoreResult->user_score ?? 0)
+                            ->setTestIndex($scoreResult->row_index)
+                            ->setTestItems(count($totalScoreResult))
+                            ->setAlternatePrompt(false);
+                        $found = true;
                     }
                 }
+
+                if (!$found) {
+                    $testResult = (new ReportTestResultTotalResult())
+                        ->setResultLabel("")
+                        ->setResultNotes("")
+                        ->setScore(0)
+                        ->setTestIndex(0)
+                        ->setTestItems(0)
+                        ->setAlternatePrompt(true);
+                }
             }
+            $result->setTestResult($testResult);
 
             if ($threshold->getDisplayType() === ThresholdDisplayType::SUBSCALE_SCORE) {
                 $subscales = $test->getSubscales();
                 if (count($subscales) > 0) {
                     $subscaleResults = [];
                     foreach ($subscales as $subscale) {
-                        $subscalesList  = DB::select("
+                        $subscalesList = DB::select("
         SELECT
             ROW_NUMBER() OVER (ORDER BY threshold_subscale_limits.low) AS row_index,
             threshold_subscale_limits.*,
@@ -259,13 +281,59 @@ readonly class ReportsController
             )
         );
 
-        $response = $this->openAIClient->chat()->create(
-            [
-                'model'    => 'gpt-4o-mini-2024-07-18',
-                'messages' => [
-                    [
-                        'role' => 'system', 'content' =>
-                        'I will provide a JSON object containing test findings, which include an
+        if ($result->getTestResult()->getAlternatePrompt()) {
+            $prompt = '
+            You are a psychiatric evaluator analyzing a Personality Assessment.
+            The test consists of five subscales: ';
+
+            foreach ($result->getSubscaleResults() as $subscaleResult) {
+                $prompt .= "-" . $subscaleResult->getSubscaleName() . '\n';
+            }
+
+            $prompt .= '
+            I will provide a JSON object like this:
+            {
+              "testResult": {
+                "result": "",
+                "test_name": "' . $test->getName() . '",
+              },
+              "subscaleResult": [
+                   {
+                      "subscale_name": "Sample subscale",
+                      "subscale_result": "probability of subscale",
+                   }
+               ]
+            }
+
+            Your task:
+            1 . In test_explanation, compose a 1 paragraph summary, of no more than 250
+                words, that integrates the overall test outcome and the findings for each subscale,
+                offering a cohesive clinical impression of the patient’s condition. In order to do this
+                make use of each of the subscale results
+            2. For each subscales.explanation, provide 1 sentence, of no more than 35 words,
+              focused interpretation of the corresponding subscale, reflecting how it may inform
+              diagnostic considerations, symptom severity, or recommended follow-up.
+             3. Write all descriptions in a clear, professional medical manner, as though crafted by
+             a general practitioner or psychiatrist providing a succinct but informed overview.
+
+            Respond with a valid JSON object, formatted like this filling the test_explanation
+            for the test and the explanation field for each of the included subscales:
+            {
+              "test_explanation": "<200–250 word medical summary>",
+              "subscales": [
+                {
+                  "name": "sample subscale",
+                  "explanation": ""
+                }
+              ]
+            }
+
+            Ensure the response only contains **properly formatted JSON** to allow for
+            automated parsing and no other text before or after the opening and closing
+            JSON object braces';
+        } else {
+            $prompt =
+                'I will provide a JSON object containing test findings, which include an
                         overall diagnostic impression as well as specific subscale results.
                         The structure of this JSON will be similar to the following:
                         {
@@ -319,7 +387,16 @@ readonly class ReportsController
                         diagnostic considerations, symptom severity, or recommended follow-up.
                         4. Write all descriptions in a clear, professional medical manner, as though crafted by
                         a general practitioner or psychiatrist providing a succinct but informed overview.
-                        5. Ensure the response only contains **properly formatted JSON** to allow for automated parsing and no other text before or after the opening and closing JSON object braces'
+                        5. Ensure the response only contains **properly formatted JSON** to allow for automated
+                        parsing and no other text before or after the opening and closing JSON object braces';
+        }
+
+        $response = $this->openAIClient->chat()->create(
+            [
+                'model' => 'gpt-4o-mini-2024-07-18',
+                'messages' => [
+                    [
+                        'role' => 'system', 'content' => $prompt
                     ],
                     ['role' => 'user', 'content' => 'Here is the json results: ' . $jsonResults],
                 ],
@@ -342,36 +419,28 @@ readonly class ReportsController
         return $this->downloadPDF($result);
     }
 
+
     /**
      * @throws \JsonException
      */
     private function formatResultsAsJson(ReportTestResult $result): string
     {
-        $data                                    = [];
-        $data["testResult"]                      = [];
-        $data["testResult"]["result"]            = $result->getTestResult()?->getResultLabel();
-        $data["testResult"]["test_name"]         = $result->getTest()?->getName();
+        $data = [];
+        $data["testResult"] = [];
+        $data["testResult"]["result"] = $result->getTestResult()?->getResultLabel();
+        $data["testResult"]["test_name"] = $result->getTest()?->getName();
         $data["testResult"]["short_description"] = "";
 
         $data["subscaleResult"] = [];
         foreach ($result->getSubscaleResults() as $subscaleResult) {
-            $subscaleData                      = [];
-            $subscaleData["subscale_name"]     = trim($subscaleResult->getSubscaleName());
-            $subscaleData["subscale_result"]   = trim($subscaleResult->getResultLabel());
+            $subscaleData = [];
+            $subscaleData["subscale_name"] = trim($subscaleResult->getSubscaleName());
+            $subscaleData["subscale_result"] = trim($subscaleResult->getResultLabel());
             $subscaleData["short_description"] = "";
-            $data["subscaleResult"][]          = $subscaleData;
+            $data["subscaleResult"][] = $subscaleData;
         }
 
         return json_encode($data, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE);
-    }
-
-    private function downloadPDF(ReportTestResult $result): BinaryFileResponse
-    {
-        $path = $this->reportService->storeFile($result, Auth::id());
-
-        return response()->download(storage_path("app/$path"), "report.pdf", [
-            'Content-Type' => 'application/pdf',
-        ]);
     }
 
     private function getSubscaleExplanation(array $openAIResult, string $searchName): ?string
@@ -384,4 +453,235 @@ readonly class ReportsController
 
         return null; // Return null if the subscale is not found
     }
+
+    public function downloadReport(string $path): BinaryFileResponse
+    {
+        return response()->download(storage_path("app/$path"), "report.pdf", [
+            'Content-Type' => 'application/pdf',
+        ]);
+    }
+
+    private function downloadPDF(ReportTestResult $result): BinaryFileResponse
+    {
+        $path = $this->reportService->storeFile($result, Auth::id());
+
+        return $this->downloadReport($path);
+    }
+
+    public function skillsReport(Request $request, ?string $testId = "21"): void
+    {
+        $userId = Auth::id();
+
+        if (empty($userId)) {
+            throw new AuthorizationException();
+        }
+
+        $threshold = $this->thresholdService->getThresholdByTest($testId);
+
+        if ($threshold === null) {
+            throw new AuthorizationException("Threshold for test $testId not found.");
+        }
+
+        $test = $this->testService->getById($testId);
+
+        // Check if the file already exists
+//         $filePath = $this->reportService->getFilePath(Auth::id(), $userId, $testId);
+//        if (($filePath !== null) && Storage::exists($filePath)) {
+//            return response()->download(storage_path("app/$filePath"), "report.pdf", [
+//                'Content-Type' => 'application/pdf',
+//            ]);
+//        }
+
+        $result = new ReportTestResult();
+
+        $testThresholds = Threshold::where("test_id", $testId)
+            ->with('testLimits')
+            ->first()
+            ?->testLimits()
+            ->pluck('label')
+            ->toArray();
+        // get test thresholds
+        $test->setThresholds($testThresholds);
+        $result->setTest($test);
+
+        $totalScoreResult = DB::select("SELECT
+            ROW_NUMBER() OVER (ORDER BY threshold_test_limits.low) AS row_index,
+            threshold_test_limits.*,
+            (SELECT score FROM user_test_scores WHERE user_id = ? AND test_id = ?) AS user_score
+        FROM threshold_test_limits
+        INNER JOIN thresholds ON thresholds.id = threshold_test_limits.threshold_id
+        WHERE thresholds.test_id = ?
+                 ", [$userId, $testId, $testId]);
+        if (count($totalScoreResult) > 0) {
+            $testResult = new ReportTestResultTotalResult();
+
+            $found = false;
+            foreach ($totalScoreResult as $scoreResult) {
+                if ($scoreResult->user_score >= $scoreResult->low && $scoreResult->user_score <= $scoreResult->high) {
+                    $testResult->setResultLabel($scoreResult->label)
+                        ->setResultNotes($scoreResult->notes ?? "")
+                        ->setScore($scoreResult->user_score ?? 0)
+                        ->setTestIndex($scoreResult->row_index)
+                        ->setTestItems(count($totalScoreResult))
+                        ->setAlternatePrompt(false);
+                    $found = true;
+                }
+            }
+
+            if (!$found) {
+                $testResult = (new ReportTestResultTotalResult())
+                    ->setResultLabel("")
+                    ->setResultNotes("")
+                    ->setScore(0)
+                    ->setTestIndex(0)
+                    ->setTestItems(0)
+                    ->setAlternatePrompt(true);
+            }
+        }
+        $result->setTestResult($testResult);
+
+        if ($threshold->getDisplayType() === ThresholdDisplayType::SUBSCALE_SCORE) {
+            $subscales = $test->getSubscales();
+            if (count($subscales) > 0) {
+                $subscaleResults = [];
+                foreach ($subscales as $subscale) {
+                    $subscalesList = DB::select("
+        SELECT
+            ROW_NUMBER() OVER (ORDER BY threshold_subscale_limits.low) AS row_index,
+            threshold_subscale_limits.*,
+            (SELECT score FROM user_subscale_scores WHERE user_id = ? AND subscale_id = ?) AS user_score
+        FROM threshold_subscale_limits
+        INNER JOIN thresholds ON thresholds.id = threshold_subscale_limits.threshold_id
+        WHERE thresholds.test_id = ? AND threshold_subscale_limits.subscale_id = ?",
+                        [ $userId, $subscale->getId(), $test->getId(), $subscale->getId() ]);
+                    $subscaleResult = new ReportTestResultSubscaleResult();
+                    $result->setSubscaleItems(count($subscalesList));
+                    $subscaleResult->setSubscaleName($subscale->getName());
+                    foreach ($subscalesList as $subscaleListItem) {
+                        if (
+                            $subscaleListItem->user_score >= $subscaleListItem->low &&
+                            $subscaleListItem->user_score <= $subscaleListItem->high
+                        ) {
+                            $subscaleResult->setResultLabel($subscaleListItem->label);
+                            $subscaleResult->setResultNotes($subscaleListItem->notes ?? "");
+                            $subscaleResult->setSubscaleIndex($subscaleListItem->row_index);
+                        }
+                    }
+                    $subscaleResults[] = $subscaleResult;
+                }
+                $result->setSubscaleResults($subscaleResults);
+            }
+        }
+
+
+        $result->setUser($this->userService->getById($userId));
+        $result->setPatientData($this->patientDataService->getByUserId($userId));
+
+        $jsonResults = $this->formatResultsAsJson($result);
+
+//        $sanitizeResults = implode("\n", array_map(static function ($item) {
+//            return "test subscale: " . $item->getSubscaleName() . " result: " . $item->getResultLabel();
+//        }, $result->getSubscaleResults()));
+
+        $result->setCompletedAt(
+            $this->userQuestionnaireService->getCompletedAtForUser(
+                $userId,
+                null,
+                $this->questionnaireFlowService->getFlowByCategory($test->getCategory()->getId())
+            )
+        );
+
+        $prompt = '
+
+            You are a soft skills training expert. You will receive a JSON object containing the overall test result and
+            results for each soft skill subscale. Your task is to generate training recommendations for each soft skill area.
+
+            The input JSON will look like this:
+
+            {
+                "testResult": {
+                    "result": "",
+                    "test_name": "' . $test->getName() . '"
+            },
+            "subscaleResult": [
+                {
+                    "subscale_name": "Sample subscale 1",
+                    "subscale_result": "Probability of sample subscale (low, medium, high)",
+                },
+                {
+                    "subscale_name": "Sample subscale 2",
+                    "subscale_result": "Probability of sample subscale (low, medium, high)",
+                },
+            ]
+        }
+
+        Your task:
+            - Provide a "test_explanation" field: a short (3–4 sentence) professional summary based on the overall soft skills profile.
+            - For each subscale with a result of "Low" or "Medium", provide one self-directed training program:
+            - Total Duration: 56 hours
+            - The training program should be presented as a structured schedule with one clearly defined activity per hour.
+            - Activities must be:
+                - Clear, instructional, and focused on self-practice
+                - Realistic for individuals to follow without external help
+                - Varied across the duration (e.g., reflection, journaling, practical tasks, analysis, challenges, role-play, reading)
+                - The language must be formal, coaching-oriented, and professional.
+
+        Output format:
+        {
+          "test_explanation": "",
+          "subscales": [
+            {
+              "name": "Communication Skills",
+              "explanation": "",
+              "training_program": {
+                "hours": 56,
+                "description_per_hour": ["", "", "..."]
+              }
+            },
+            {
+              "name": "Empathy and Perspective-Taking",
+              "explanation": "",
+              "training_program": {
+                "hours": 56,
+                "description_per_hour": ["", "", "..."]
+              }
+            }
+          ]
+        }
+
+        ❗Only generate training programs for subscales that are rated "Low" or "Medium". Skip subscales marked with "High" probability.
+
+        ❗ Ensure the response only contains **properly formatted JSON** to allow for
+         automated parsing and no other text before or after the opening and closing JSON object braces';
+
+
+        $startTime = Carbon::now();
+        $response = $this->openAIClient->chat()->create(
+            [
+                'model' => 'o3-mini-2025-01-31',
+                'messages' => [
+                    [
+                        'role' => 'system',
+                        'content' => $prompt
+                    ],
+                    [
+                        'role' => 'user',
+                        'content' => 'Here is the json results: ' . $jsonResults],
+                ],
+            ]
+        );
+
+        $result->setDescription($response->choices[0]->message->content);
+
+        $openAIResult = json_decode($response->choices[0]->message->content, true, 512, JSON_THROW_ON_ERROR);
+
+        $explanation = mb_convert_encoding($openAIResult["test_explanation"], 'UTF-8', 'auto');
+        $result->setDescription($explanation);
+
+        return;
+        // return view("reports.tests.index")->with(['result' => $result]);
+
+        // return $this->downloadPDF($result);
+    }
+
 }

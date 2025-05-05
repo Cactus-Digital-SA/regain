@@ -9,6 +9,7 @@ class ReportTestResultTotalResult
     private int $score;
     private int $testItems;
     private int $testIndex;
+    private bool $alternatePrompt = false;
 
     public function getResultLabel(): string
     {
@@ -67,6 +68,17 @@ class ReportTestResultTotalResult
     {
         $this->testIndex = $testIndex;
 
+        return $this;
+    }
+
+    public function getAlternatePrompt(): bool
+    {
+        return $this->alternatePrompt;
+    }
+
+    public function setAlternatePrompt(bool $alternatePrompt): ReportTestResultTotalResult
+    {
+        $this->alternatePrompt = $alternatePrompt;
         return $this;
     }
 }

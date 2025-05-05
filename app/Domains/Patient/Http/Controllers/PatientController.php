@@ -6,7 +6,11 @@ namespace App\Domains\Patient\Http\Controllers;
 
 use App\Domains\Patient\Services\PatientDataService;
 use App\Domains\Practitioner\Services\PractitionersService;
+use App\Domains\QuestionnaireFlow\Constants\QuestionnaireFlowType;
 use App\Domains\Questions\Services\QuestionsService;
+use App\Domains\Reports\Constants\ReportTypes;
+use App\Domains\Reports\Http\Services\ReportService;
+use App\Domains\Reports\Jobs\CreateSkillsReport;
 use App\Domains\UserResponse\Http\Requests\SubmitUserResponsesRequest;
 use App\Domains\UserResponse\Services\UserResponseService;
 use App\Http\Controllers\Controller;
@@ -15,7 +19,9 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class PatientController extends Controller
 {
@@ -26,6 +32,7 @@ class PatientController extends Controller
         private readonly QuestionsService $questionsService,
         private readonly UserResponseService $responseService,
         private readonly PatientDataService $patientDataService,
+        private readonly ReportService $reportService,
     ) {
     }
 
@@ -46,6 +53,15 @@ class PatientController extends Controller
 
                 return view($useAltSecond ? 'patient.ask-alt-second' : 'patient.ask-alt')
                     ->with(["presenter" => $presenter]);
+            }
+        }
+
+        if (
+            $presenter->getType() === QuestionnaireFlowType::SKILLS &&
+            $presenter->isCompleted()
+        ) {
+            if (!$this->reportService->getFilePath(0, Auth::id(), 21, ReportTypes::SKILL)) {
+                CreateSkillsReport::dispatch(Auth::id());
             }
         }
 
@@ -83,10 +99,29 @@ class PatientController extends Controller
         $patientData = $this->patientDataService->getByUserId((string)Auth::id());
         $practitioner = $this->patientDataService->getAllocatedPractitioner((string)Auth::id());
         $nextAppointmentDate = CarbonImmutable::now()->addWeeks(2);
+        $skillsReportFile = $this->reportService->getFilePath(
+            0,
+            Auth::id(),
+            21,
+            ReportTypes::SKILL);
 
         return view('patient.my-regain', compact([
-            'patientData', 'practitioner', 'nextAppointmentDate'
+            'patientData', 'practitioner', 'nextAppointmentDate', 'skillsReportFile'
         ]));
+    }
+
+    public function downloadSkillsReport(): BinaryFileResponse
+    {
+        $path = $this->reportService->getFilePath(
+            0,
+            Auth::id(),
+            21,
+            ReportTypes::SKILL
+        );
+
+        return response()->download(storage_path("app/$path"), "report.pdf", [
+            'Content-Type' => 'application/pdf',
+        ]);
     }
 
     public function submitAnswers(SubmitUserResponsesRequest $request): JsonResponse
