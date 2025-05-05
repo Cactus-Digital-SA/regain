@@ -191,18 +191,20 @@
 </div>
 @if (count($result->getSubscaleResults()) > 0)
     @foreach ($result->getSubscaleResults() as $subscaleResult)
-    <div class="divider"></div>
-        <div class="subscale-heading">
-            {{ $subscaleResult->getSubscaleName() }}
-        </div>
-        <div class="hourly-suggestions">
-            <ul>
-            @foreach ($subscaleResult->getTrainingProgram()->getHourlyTask() as $hourlyTask)
-                <li>{{ $hourlyTask }}</li>
-            @endforeach
-            </ul>
-        </div>
-    <div>
+        @if ($subscaleResult->getTrainingProgram() && method_exists($subscaleResult->getTrainingProgram(), 'getHourlyTask'))
+            <div class="divider"></div>
+            <div class="subscale-heading">
+                {{ $subscaleResult->getSubscaleName() }}
+            </div>
+            <div class="hourly-suggestions">
+                <ul>
+                    @foreach ($subscaleResult->getTrainingProgram()->getHourlyTask() as $hourlyTask)
+                        <li>{{ $hourlyTask }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            <div>
+        @endif
     @endforeach
 @endif
 </body>

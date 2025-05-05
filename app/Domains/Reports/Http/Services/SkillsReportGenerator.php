@@ -19,6 +19,7 @@ use Carbon\Carbon;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use OpenAI\Client;
 
@@ -237,10 +238,14 @@ class SkillsReportGenerator
         $result->setDescription($explanation);
 
         foreach ($result->getSubscaleResults() as $subscaleResult) {
+            $program = $this->getSubscaleTrainingProgram($openAIResult, trim($subscaleResult->getSubscaleName()));
+            if (!array_key_exists("hours", $program)) {
+                continue;
+            }
+
             $description = $this->getSubscaleExplanation($openAIResult, trim($subscaleResult->getSubscaleName()));
             $subscaleResult->setDescription(mb_convert_encoding($description ?? "", 'UTF-8', 'auto'));
 
-            $program = $this->getSubscaleTrainingProgram($openAIResult, trim($subscaleResult->getSubscaleName()));
             $trainingProgram = new ReportTrainingProgram();
             $trainingProgram->setHours($program["hours"]);
             $trainingProgram->setHourlyTask($program["description_per_hour"]);
