@@ -386,5 +386,6 @@
     });
 </script>
 @include('organisation.includes.organisation-common-script')
+@vite(['resources/js/app.js'])
 </body>
 </html>
